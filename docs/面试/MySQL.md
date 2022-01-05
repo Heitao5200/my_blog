@@ -28,3 +28,4 @@
 8. `INSTR(str,substr)`函数用于返回子串 substr 在字符串 str 中第一次出现的索引位置，没有找到子串时返回 0
 9. `REPLACE(str,from_str,to_str)`函数用于将字符串 str 中所有的 from_str 替换为 to_str，返回替换后的字符串
 
+参考资料：https://zhuanlan.zhihu.com/p/59838091
