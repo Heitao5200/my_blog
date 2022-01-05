@@ -1,12 +1,11 @@
-![logo](https://docsify.js.org/_media/icon.svg)
 
-# 我的博客
+<!-- _coverpage.md -->
 
-> 我爱学习
+<img src="./cover/cover.JPG" width = "800" height = "400" alt="logo" align=center />
 
-*  机器学习
-*  推荐系统
- 
+# 黑桃的博客
 
-[GitHub](https://github.com/heitao5200/my_blog.git)
-[Get Started](#quick-start)
+
+[GitHub](https://github.com/heitao5200/my_blog/)
+[Get Started](README)
+
