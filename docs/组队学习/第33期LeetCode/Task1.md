@@ -132,8 +132,87 @@
   
 - 第 02 天课程题目列表：
   - [0328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/)
+  
+    ```
+    class Solution(object):
+        def oddEvenList(self, head):
+            """
+            :type head: ListNode
+            :rtype: ListNode
+            """
+            if not head:
+                return head
+            evenHead = head.next
+            odd,even = head,evenHead
+            while even and even.next:
+                odd.next = even.next
+                odd = odd.next
+    
+                even.next = odd.next
+                even = even.next
+            odd.next = evenHead
+            return head
+    ```
+  
+    ![image-20220111214208656](img/Task1/image-20220111214208656-1908530.png)
+  
   - [0234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+  
+    ```
+    class Solution(object):
+        def isPalindrome(self, head):
+            """
+            :type head: ListNode
+            :rtype: bool
+            """
+            vals = []
+            current_node = head
+            while current_node is not None:
+                vals.append(current_node.val)
+                current_node = current_node.next
+            return vals == vals[::-1]
+    ```
+  
+    ![image-20220111221750555](img/Task1/image-20220111221750555-1910671.png)
+  
   - [0138. 复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+  
+    ```
+    class Solution(object):
+        def copyRandomList(self, head):
+            """
+            :type head: Node
+            :rtype: Node
+            """
+            if not head:
+                return None
+            p = head
+            # 第一步，在每个原节点后面创建一个新节点
+            # 1->1'->2->2'->3->3'
+            while p:
+                new_node = Node(p.val,None,None)
+                new_node.next = p.next
+                p.next = new_node
+                p = new_node.next
+            p = head
+            # 第二步，设置新节点的随机节点
+            while p:
+                if p.random:
+                    p.next.random = p.random.next
+                p = p.next.next
+            # 第三步，将两个链表分离
+            p = head
+            dummy = Node(-1,None,None)
+            cur = dummy
+            while p:
+                cur.next = p.next
+                cur = cur.next
+                p.next = cur.next
+                p = p.next
+            return dummy.next
+    ```
+  
+    ![image-20220111223525534](img/Task1/image-20220111223525534-1911726.png)
   
 - [更多链表基础题目](https://github.com/itcharge/LeetCode-Py/blob/main/Contents/02.Linked-List/01.Linked-List-Basic/10.Linked-List-Basic-List.md)
 
