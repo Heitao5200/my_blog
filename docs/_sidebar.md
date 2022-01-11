@@ -4,13 +4,18 @@
 
 * 组队学习
     * 第32期推荐系统
-        * [Task0 推荐系统部署安装](第32期推荐系统/Task0.md)
-        * [Task1 熟悉新闻推荐系统基本流程](第32期推荐系统/Task1.md)
-        * [Task2 数据库的基本使用](第32期推荐系统/Task2.md)
-        * [Task3 离线物料系统的构建](第32期推荐系统/Task3.md)
-        * [Task4 前后端基础及交互](第32期推荐系统/Task4.md)
-        * [Task5 推荐流程的构建](第32期推荐系统/Task5.md)
-
+        * [Task0 推荐系统部署安装](组队学习/第32期推荐系统/Task0.md)
+        * [Task1 熟悉新闻推荐系统基本流程](组队学习/第32期推荐系统/Task1.md)
+        * [Task2 数据库的基本使用](组队学习/第32期推荐系统/Task2.md)
+        * [Task3 离线物料系统的构建](组队学习/第32期推荐系统/Task3.md)
+        * [Task4 前后端基础及交互](组队学习/第32期推荐系统/Task4.md)
+        * [Task5 推荐流程的构建](组队学习/第32期推荐系统/Task5.md)
+    * 第33期LeetCode
+        * [Task1 链表](组队学习/第33期LeetCode/Task1.md)
+        * [Task2  ](组队学习/第33期LeetCode/Task2.md)
+        * [Task3  ](组队学习/第33期LeetCode/Task3.md)
+        * [Task4  ](组队学习/第33期LeetCode/Task4.md)
+        * [Task5  ](组队学习/第33期LeetCode/Task5.md)
 * 数据库 
     * [MySQL](面试/MySQL面试题.md)
 
@@ -37,9 +42,8 @@
 
 * 其它 
     * [其它](面试)
- 
-    
 
+    
 
 
 
