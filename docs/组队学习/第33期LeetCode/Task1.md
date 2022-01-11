@@ -1,0 +1,158 @@
+
+### Task 01：链表（4 天）
+
+#### 01-01 链表基础知识（2 天）
+
+- 第 01 ~ 02 天学习内容：
+  - [链表基础知识](https://github.com/itcharge/LeetCode-Py/blob/main/Contents/02.Linked-List/01.Linked-List-Basic/01.Linked-List-Basic.md)
+  
+- 第 01 天课程题目列表：
+  - [x] [0707. 设计链表](https://leetcode-cn.com/problems/design-linked-list/)
+  
+    ```
+    class MyLinkedList(object):
+    
+        def __init__(self):
+            self.size =  0
+            self.head = ListNode(0)
+    
+    
+        def get(self, index):
+            """
+            :type index: int
+            :rtype: int
+            """
+            if index <0 or index >= self.size:
+                return -1
+            curr = self.head
+            for _ in range(index +1):
+                curr = curr.next
+            return curr.val
+    
+        def addAtHead(self, val):
+            """
+            :type val: int
+            :rtype: None
+            """
+            self.addAtIndex(0,val)
+    
+        def addAtTail(self, val):
+            """
+            :type val: int
+            :rtype: None
+            """
+            self.addAtIndex(self.size, val)
+     
+    
+        def addAtIndex(self, index, val):
+            """
+            :type index: int
+            :type val: int
+            :rtype: None
+            """
+            if index > self.size:
+                return
+            if index < 0:
+                index = 0
+            self.size += 1
+            pred = self.head
+            for _ in range(index):
+                pred = pred.next
+            to_add = ListNode(val)
+            to_add.next = pred.next
+            pred.next = to_add
+    
+        def deleteAtIndex(self, index):
+            """
+            :type index: int
+            :rtype: None
+            """
+            if index <0 or index >= self.size:
+                return 
+            self.size -=1
+            pred = self.head
+            for _ in range(index):
+                pred = pred.next
+            pred.next = pred.next.next
+    
+      
+     
+    ```
+  
+    ![image-20220110211918897](img/Task1链表/image-20220110211918897-1820762.png)
+  
+  - [x] [0206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/)
+  
+    ```
+    class Solution(object):
+    	def reverseList(self, head):
+    		"""
+    		:type head: ListNode
+    		:rtype: ListNode
+    		"""
+    		# 申请两个节点，pre和 cur，pre指向None
+    		pre = None
+    		cur = head
+    		while cur:
+    			tmp = cur.next# 记录当前节点的下一个节点
+    			cur.next = pre# 然后将当前节点指向pre
+    			pre = cur# pre和cur节点都前进一位
+    			cur = tmp
+    		return pre
+    ```
+  
+    ![image-20220110211940491](img/Task1链表/image-20220110211940491-1820782.png)
+  
+  - [x] [0203. 移除链表元素](https://leetcode-cn.com/problems/remove-linked-list-elements/)
+  
+    ```
+    class Solution(object):
+        def removeElements(self, head, val):
+            """
+            :type head: ListNode
+            :type val: int
+            :rtype: ListNode
+            """
+            while head and head.val == val:
+                head = head.next
+            pre, cur = head, head
+            while cur:
+                if cur.val == val:
+                    pre.next = cur.next
+                else:
+                    pre = cur
+                cur = cur.next
+                
+            return head
+    ```
+  
+    
+  
+    ![image-20220110211954761](img/Task1链表/image-20220110211954761-1820795.png)
+  
+- 第 02 天课程题目列表：
+  - [0328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/)
+  - [0234. 回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
+  - [0138. 复制带随机指针的链表](https://leetcode-cn.com/problems/copy-list-with-random-pointer/)
+  
+- [更多链表基础题目](https://github.com/itcharge/LeetCode-Py/blob/main/Contents/02.Linked-List/01.Linked-List-Basic/10.Linked-List-Basic-List.md)
+
+#### 01-02 链表排序（1 天）
+
+- 第 03 天学习内容：
+  - [链表排序](https://github.com/itcharge/LeetCode-Py/blob/main/Contents/02.Linked-List/02.Linked-List-Sort/01.Linked-List-Sort.md)
+- 第 03 天课程题目：
+  - [0148. 排序链表](https://leetcode-cn.com/problems/sort-list/)
+  - [0021. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+  - [0147. 对链表进行插入排序](https://leetcode-cn.com/problems/insertion-sort-list/)
+- [更多链表排序题目](https://github.com/itcharge/LeetCode-Py/blob/main/Contents/02.Linked-List/02.Linked-List-Sort/10.Linked-List-Sort-List.md)
+
+#### 01-03 链表双指针（1 天）
+
+- 第 04 天学习内容：
+  - [链表双指针](https://github.com/itcharge/LeetCode-Py/blob/main/Contents/02.Linked-List/03.Linked-List-Two-Pointers/01.Linked-List-Two-Pointers.md)
+- 第 04 天课程题目：
+  - [0141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+  - [0142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+  - [0019. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+- [更多链表双指针题目](https://github.com/itcharge/LeetCode-Py/blob/main/Contents/02.Linked-List/03.Linked-List-Two-Pointers/10.Linked-List-Two-Pointers-List.md)
