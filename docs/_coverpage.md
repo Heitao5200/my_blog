@@ -1,7 +1,8 @@
 
 <!-- _coverpage.md -->
+![](cover/cover2.jpg)
 
-<img src="./cover/cover.JPG" width = "800" height = "400" alt="logo" align=center />
+[comment]: <> (<img src="cover/cover2.jpg" width = "800" height = "400" alt="logo" align=center />)
 
 # 黑桃的博客
 
