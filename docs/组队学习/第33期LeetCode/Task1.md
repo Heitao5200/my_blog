@@ -79,7 +79,7 @@
      
     ```
   
-    ![image-20220110211918897](img/Task1链表/image-20220110211918897-1820762.png)
+    ![image-20220110211918897](img/Task1/image-20220110211918897-1820762.png)
   
   - [x] [0206. 反转链表](https://leetcode-cn.com/problems/reverse-linked-list/)
   
@@ -101,7 +101,7 @@
     		return pre
     ```
   
-    ![image-20220110211940491](img/Task1链表/image-20220110211940491-1820782.png)
+    ![image-20220110211940491](img/Task1/image-20220110211940491-1820782.png)
   
   - [x] [0203. 移除链表元素](https://leetcode-cn.com/problems/remove-linked-list-elements/)
   
@@ -128,7 +128,7 @@
   
     
   
-    ![image-20220110211954761](img/Task1链表/image-20220110211954761-1820795.png)
+    ![image-20220110211954761](img/Task1/image-20220110211954761-1820795.png)
   
 - 第 02 天课程题目列表：
   - [0328. 奇偶链表](https://leetcode-cn.com/problems/odd-even-linked-list/)
