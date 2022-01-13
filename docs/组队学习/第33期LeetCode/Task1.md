@@ -333,8 +333,77 @@
 
 - 第 04 天学习内容：
   - [链表双指针](https://github.com/itcharge/LeetCode-Py/blob/main/Contents/02.Linked-List/03.Linked-List-Two-Pointers/01.Linked-List-Two-Pointers.md)
+  
 - 第 04 天课程题目：
   - [0141. 环形链表](https://leetcode-cn.com/problems/linked-list-cycle/)
+  
+    ```python
+    class Solution(object):
+        def hasCycle(self, head):
+            """
+            :type head: ListNode
+            :rtype: bool
+            """
+            seen = set()
+            while head:
+                if head in seen:
+                    return True
+                seen.add(head)
+                head = head.next
+            return False
+    ```
+  
+    ![image-20220113215016101](img/Task1/image-20220113215016101-2081817.png)
+  
   - [0142. 环形链表 II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+  
+    ```python
+    class Solution(object):
+        def detectCycle(self, head):
+            fast,slow = head,head
+            while True:
+                if not (fast and fast.next):
+                    return 
+                fast = fast.next.next
+                slow = slow.next
+                if fast == slow:
+                    break
+            fast = head
+            while fast!= slow:
+                fast,slow = fast.next,slow.next
+            return fast
+    ```
+  
+    ![image-20220113220107906](img/Task1/image-20220113220107906-2082469.png)
+  
   - [0019. 删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+  
+    ```python
+    class Solution(object):
+        def removeNthFromEnd(self, head, n):
+            """
+            :type head: ListNode
+            :type n: int
+            :rtype: ListNode
+            """
+            dummy = ListNode()
+            dummy.next = head
+            length = self.get_length(head)
+            cur = dummy
+            for i in range(1,length-n+1):
+                cur = cur.next
+            cur.next = cur.next.next
+            return dummy.next
+    
+        def get_length(self,head):
+            length = 0
+            while head:
+                length +=1
+                head = head.next
+            return length
+     
+    ```
+  
+    ![image-20220113220858876](img/Task1/image-20220113220858876-2082940.png)
+  
 - [更多链表双指针题目](https://github.com/itcharge/LeetCode-Py/blob/main/Contents/02.Linked-List/03.Linked-List-Two-Pointers/10.Linked-List-Two-Pointers-List.md)
