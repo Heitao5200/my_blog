@@ -12,7 +12,7 @@
         * [Task5 推荐流程的构建](组队学习/第32期推荐系统/Task5.md)
     * 第33期LeetCode
         * [Task1 链表](组队学习/第33期LeetCode/Task1.md)
-        * [Task2  ](组队学习/第33期LeetCode/Task2.md)
+        * [Task2 堆栈与深度优先搜索 ](组队学习/第33期LeetCode/Task2.md)
         * [Task3  ](组队学习/第33期LeetCode/Task3.md)
         * [Task4  ](组队学习/第33期LeetCode/Task4.md)
         * [Task5  ](组队学习/第33期LeetCode/Task5.md)
@@ -47,6 +47,7 @@
     * [滑动窗口](面试/LeetCode/滑动窗口.md)
     * [动态规划](面试/LeetCode/动态规划.md)
     * [二叉树](面试/LeetCode/二叉树.md)
+    * [背包](面试/LeetCode/背包.md)
 
 * 其它 
     * [其它](面试)
