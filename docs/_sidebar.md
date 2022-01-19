@@ -17,40 +17,40 @@
         * [Task4  ](组队学习/第33期LeetCode/Task4.md)
         * [Task5  ](组队学习/第33期LeetCode/Task5.md)
 * 数据库 
-    * [MySQL](面试/MySQL面试题.md)
+    * [MySQL](学习/MySQL学习.md)
 
 * 机器学习
 
 * 深度学习
-    * [LSTM](面试/RNN面试题.md)
-    * [TabNet](面试/TabNet面试题.md)
-    * [激活函数](面试/激活函数面试题.md)
+    * [LSTM](学习/RNN学习.md)
+    * [TabNet](学习/TabNet学习.md)
+    * [激活函数](学习/激活函数学习.md)
 
 * 自然语言处理
-    * [Transformer](面试/Transformer面试题.md)
-    * [BERT](面试/BERT面试题.md)
+    * [Transformer](学习/Transformer学习.md)
+    * [BERT](学习/BERT学习.md)
 
 * 风控算法
-    * [风控](面试/风控相关面试题.md)
+    * [风控](学习/风控相关学习.md)
 
 * 时间序列算法
-    * [时间序列](面试/时间序列面试题.md)
+    * [时间序列](学习/时间序列学习.md)
 
 * 大数据
-    * [HIVE](面试/HIVE面试题.md) 
-    * [SPARK](面试/Spark面试题.md)
+    * [HIVE](学习/HIVE学习.md) 
+    * [SPARK](学习/Spark学习.md)
 
 * LeetCode
-    * [数组](面试/LeetCode/数组.md)
-    * [链表](面试/LeetCode/链表.md)
-    * [栈](面试/LeetCode/栈.md)
-    * [滑动窗口](面试/LeetCode/滑动窗口.md)
-    * [动态规划](面试/LeetCode/动态规划.md)
-    * [二叉树](面试/LeetCode/二叉树.md)
-    * [背包](面试/LeetCode/背包.md)
+    * [数组](学习/LeetCode/数组.md)
+    * [链表](学习/LeetCode/链表.md)
+    * [栈](学习/LeetCode/栈.md)
+    * [滑动窗口](学习/LeetCode/滑动窗口.md)
+    * [动态规划](学习/LeetCode/动态规划.md)
+    * [二叉树](学习/LeetCode/二叉树.md)
+    * [背包](学习/LeetCode/背包.md)
 
 * 其它 
-    * [其它](面试)
+    * [其它](学习)
 
     
 
