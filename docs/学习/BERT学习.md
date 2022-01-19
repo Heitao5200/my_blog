@@ -11,7 +11,7 @@ BERT 相较于原来的 RNN、LSTM 可以做到并发执行，同时提取词在
 
 BERT网络结构整体上就是由多层的Transformer Encoder堆叠所形成
 
-<img src="img/BERT面试题/210823090221616959.jpg" alt="img" style="zoom:50%;" />
+<img src="img/BERT学习/210823090221616959.jpg" alt="img" style="zoom:50%;" />
 
 ## **BERT 的输入和输出分别是什么？**
 
@@ -23,7 +23,7 @@ BERT网络结构整体上就是由多层的Transformer Encoder堆叠所形成
 
 - 位置向量(英文中对应的是 Position Embeddings)：由于出现在文本不同位置的字/词所携带的语义信息存在差异（比如：“我爱你”和“你爱我”），因此，BERT 模型对不同位置的字/词分别附加一个不同的向量以作区分
 
-  ![图片](img/BERT面试题/640-20220104144135312.png)
+  ![图片](img/BERT学习/640-20220104144135312.png)
 
 输出：
 
@@ -35,7 +35,7 @@ BERT网络结构整体上就是由多层的Transformer Encoder堆叠所形成
 
 **BERT只使用了Transformer的Encoder模块**，原论文中，作者分别用12层和24层Transformer Encoder组装了两套BERT模型，分别是：
 
-![image-20211101145141135](img/BERT面试题/image-20211101145141135-1278598.png)
+![image-20211101145141135](img/BERT学习/image-20211101145141135-1278598.png)
 
 其中层的数量(即，Transformer Encoder块的数量)为 L，隐藏层的维度为H，自注意头的个数为A  。在所有例子中，我们将前馈/过滤器(Transformer Encoder端的feed-forward层)的维度设置为4H  ，即当H=768 时是 3072；当H=1024  是4096  。
 
