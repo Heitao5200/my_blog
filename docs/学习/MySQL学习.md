@@ -29,3 +29,16 @@
 9. `REPLACE(str,from_str,to_str)`函数用于将字符串 str 中所有的 from_str 替换为 to_str，返回替换后的字符串
 
 参考资料：https://zhuanlan.zhihu.com/p/59838091
+
+## 窗口函数使用
+
+```
+代码
+SELECT
+  *,
+  RANK() over(ORDER BY 金额 DESC) as RANK排名,
+  dense_rank() over(ORDER BY 金额 DESC) as dense_rank排名,
+  row_number() over(ORDER BY 金额 DESC) as row_number排名
+FROM
+  测试表; 
+```

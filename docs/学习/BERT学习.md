@@ -23,7 +23,7 @@ BERT网络结构整体上就是由多层的Transformer Encoder堆叠所形成
 
 - 位置向量(英文中对应的是 Position Embeddings)：由于出现在文本不同位置的字/词所携带的语义信息存在差异（比如：“我爱你”和“你爱我”），因此，BERT 模型对不同位置的字/词分别附加一个不同的向量以作区分
 
-  ![图片](img/BERT面试题/640-20220104144135312)
+  ![图片](img/BERT面试题/640-20220104144135312.png)
 
 输出：
 
@@ -31,7 +31,7 @@ BERT网络结构整体上就是由多层的Transformer Encoder堆叠所形成
 
 
 
-## **BERT是怎么用Transformer的？**
+## BERT是怎么用Transformer的？
 
 **BERT只使用了Transformer的Encoder模块**，原论文中，作者分别用12层和24层Transformer Encoder组装了两套BERT模型，分别是：
 
