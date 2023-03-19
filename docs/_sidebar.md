@@ -16,6 +16,9 @@
         * [Task3  ](组队学习/第33期LeetCode/Task3.md)
         * [Task4  ](组队学习/第33期LeetCode/Task4.md)
         * [Task5  ](组队学习/第33期LeetCode/Task5.md)
+    * Open_Learning_Camp-动手学习深度学习
+        * [Task1 初识深度学习](组队学习/第33期LeetCode/Task1 初识深度学习.md)
+        * 
 * 数据库 
     * [MySQL](学习/MySQL学习.md)
 
