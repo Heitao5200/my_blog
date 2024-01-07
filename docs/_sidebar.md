@@ -19,6 +19,9 @@
     * Open_Learning_Camp-动手学习深度学习
         * [Task1 初识深度学习](组队学习/第33期LeetCode/Task1 初识深度学习.md)
         * [Task2 预备知识](组队学习/第33期LeetCode/Task2 预备知识.md)
+    * 大模型实战
+        * [Task1 书生•浦语大模型系列 ](组队学习/大模型实战/Task1.md)
+    
 * 数据库 
     * [MySQL](学习/MySQL学习.md)
 
