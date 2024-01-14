@@ -157,6 +157,223 @@ LMDeploy 使用 MIT HAN LAB 开源的**AWQ** 算法，量化为 4bit 模型
 
 ## 动手实践
 
+### 创建环境
+
+````
+conda create -n lmdeploy --clone /share/conda_envs/internlm-base
+conda env list
+conda activate lmdeploy
+pip install packaging
+# 使用 flash_attn 的预编译包解决安装过慢问题
+pip install /root/share/wheels/flash_attn-2.4.2+cu118torch2.0cxx11abiTRUE-cp310-cp310-linux_x86_64.whl
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple 'lmdeploy[all]==v0.1.0'
+````
+
+### 服务部署
+
+![image-20240114210001988](img/TASK5//image-20240114210001988.png)
+
+我们把从架构上把整个服务流程分成下面几个模块。
+
+- 模型推理/服务。主要提供模型本身的推理，一般来说可以和具体业务解耦，专注模型推理本身性能的优化。可以以模块、API等多种方式提供。
+- Client。可以理解为前端，与用户交互的地方。
+- API Server。一般作为前端的后端，提供与产品和服务相关的数据和功能支持。
+
+值得说明的是，以上的划分是一个相对完整的模型，但在实际中这并不是绝对的。比如可以把“模型推理”和“API Server”合并，有的甚至是三个流程打包在一起提供服务。
+
+### 模型转换
+
+TurboMind 推理模型需要先将模型转化为 TurboMind 的格式，目前支持在线转换和离线转换两种形式。
+
+- 在线转换可以直接加载 Huggingface 模型，
+
+- 离线转换需需要先保存模型再加载。
+
+#### 在线转换
+
+lmdeploy 支持直接读取 Huggingface 模型权重，目前共支持三种类型：
+
+- 在 huggingface.co 上面通过 lmdeploy 量化的模型，如 [llama2-70b-4bit](https://huggingface.co/lmdeploy/llama2-chat-70b-4bit), [internlm-chat-20b-4bit](https://huggingface.co/internlm/internlm-chat-20b-4bit)
+- huggingface.co 上面其他 LM 模型，如 Qwen/Qwen-7B-Chat
+
+````
+# 需要能访问 Huggingface 的网络环境
+lmdeploy chat turbomind internlm/internlm-chat-20b-4bit --model-name internlm-chat-20b
+lmdeploy chat turbomind Qwen/Qwen-7B-Chat --model-name qwen-7b
+````
+
+直接启动本地的 Huggingface 模型，如下所示。
+
+```bash
+lmdeploy chat turbomind /share/temp/model_repos/internlm-chat-7b/  --model-name internlm-chat-7b
+```
+
+![image-20240114211611876](img/TASK5//image-20240114211611876.png)
+
+
+
+#### 离线转换
+
+离线转换需要在启动服务之前，将模型转为 lmdeploy TurboMind  的格式，如下所示。
+
+```bash
+# 转换模型（FastTransformer格式） TurboMind
+lmdeploy convert internlm-chat-7b /path/to/internlm-chat-7b
+```
+
+这里我们使用官方提供的模型文件，就在用户根目录执行，如下所示。
+
+```bash
+lmdeploy convert internlm-chat-7b  /root/share/temp/model_repos/internlm-chat-7b/
+```
+
+![image-20240114212958089](img/TASK5//image-20240114212958089.png)
+
+`weights` 和 `tokenizer` 目录分别放的是拆分后的参数和 Tokenizer。如果我们进一步查看 `weights` 的目录，就会发现参数是按层和模块拆开的，如下图所示。
+
+<img src="img/TASK5//image-20240114213117891.png" alt="image-20240114213117891" style="zoom:25%;" />
+
+每一份参数第一个 0 表示“层”的索引，后面的那个0表示 Tensor 并行的索引，因为我们只有一张卡，所以被拆分成 1 份。如果有两张卡可以用来推理，则会生成0和1两份，也就是说，会把同一个参数拆成两份。比如 `layers.0.attention.w_qkv.0.weight` 会变成 `layers.0.attention.w_qkv.0.weight` 和 `layers.0.attention.w_qkv.1.weight`。执行 `lmdeploy convert` 命令时，可以通过 `--tp` 指定（tp 表示 tensor parallel），该参数默认值为1（也就是一张卡）。
+
+**关于Tensor并行**
+
+Tensor并行一般分为行并行或列并行，原理如下图所示。
+
+![](img/TASK5/6.png)
+
+<p align="center">列并行<p>
+
+
+![](img/TASK5/7.png)
+
+<p align="center">行并行<p>
+
+
+简单来说，就是把一个大的张量（参数）分到多张卡上，分别计算各部分的结果，然后再同步汇总。
+
+#### TurboMind 推理+命令行本地对话
+
+这里支持多种方式运行，比如Turbomind、PyTorch、DeepSpeed。但 PyTorch 和 DeepSpeed 调用的其实都是 Huggingface 的 Transformers 包，PyTorch表示原生的 Transformer 包，DeepSpeed 表示使用了 DeepSpeed 作为推理框架。Pytorch/DeepSpeed 目前功能都比较弱，不具备生产能力，不推荐使用。
+
+
+
+````
+lmdeploy chat turbomind ./workspace
+````
+
+![image-20240114221237188](img/TASK5//image-20240114221237188.png)
+
+
+
+#### TurboMind推理+API服务
+
+”模型推理/服务“目前提供了 Turbomind 和 TritonServer 两种服务化方式。此时，Server 是 TurboMind 或 TritonServer，API Server 可以提供对外的 API 服务。我们推荐使用 TurboMind，TritonServer 使用方式详见《附录1》。
+
+````
+lmdeploy serve api_server ./workspace \
+	--server_name 0.0.0.0 \
+	--server_port 23333 \
+	--instance_num 64 \
+	--tp 1
+# server_name ——服务地址
+# server_port——端口
+# tp——Tensor 并行
+# instance_num——实例数，可以理解成 Batch 的大小
+
+
+````
+
+![image-20240114222141173](img/TASK5//image-20240114222141173.png)
+
+本地开启端口映射
+
+````
+ssh -CNg -L 23333:127.0.0.1:23333 root@ssh.intern-ai.org.cn -p  35155
+````
+
+![image-20240114222010069](img/TASK5//image-20240114222010069.png)
+
+````
+curl -X 'POST'  'http://localhost:23333/v1/chat/completions'   -H 'accept:application/json'  -H 'Content-Type:application/json' -d '{
+  "model": "internlm-chat-7b",
+  "messages": "写一首春天的诗",
+  "temperature": 0.7,
+  "top_p": 1,
+  "n": 1,
+  "max_tokens": 512,
+  "stop": false,
+  "stream": false,
+  "presence_penalty": 0,
+  "frequency_penalty": 0,
+  "user": "string",
+  "repetition_penalty": 1,
+  "renew_session": false,
+  "ignore_eos": false
+}'
+````
+
+![image-20240114225511734](img/TASK5//image-20240114225511734.png)
+
+### 网页 Demo 演示
+
+这一部分主要是将 Gradio 作为前端 Demo 演示。在上一节的基础上，我们不执行后面的 `api_client` 或 `triton_client`，而是执行 `gradio`。
+
+````
+ssh -CNg -L 6006:127.0.0.1:6006 root@ssh.intern-ai.org.cn -p 35155
+
+````
+
+#### TurboMind 服务作为后端
+
+API Server 的启动和上一节一样，这里直接启动作为前端的 Gradio。
+
+
+
+
+
+#### TurboMind 服务作为后端
+
+![image-20240114230817661](img/TASK5//image-20240114230817661.png)
+
+![image-20240114231932600](img/TASK5//image-20240114231932600.png)
+
+#### TurboMind 推理 + Python 代码集成
+
+
+
+```python
+from lmdeploy import turbomind as tm
+
+# load model
+model_path = "/root/share/temp/model_repos/internlm-chat-7b/"
+tm_model = tm.TurboMind.from_pretrained(model_path, model_name='internlm-chat-20b')
+generator = tm_model.create_instance()
+
+# process query
+query = "你好啊兄嘚"
+prompt = tm_model.model.get_prompt(query)
+input_ids = tm_model.tokenizer.encode(prompt)
+
+# inference
+for outputs in generator.stream_infer(
+        session_id=0,
+        input_ids=[input_ids]):
+    res, tokens = outputs[0]
+
+response = tm_model.tokenizer.decode(res.tolist())
+print(response)
+```
+
+在上面的代码中，我们首先加载模型，然后构造输入，最后执行推理。
+
+加载模型可以显式指定模型路径，也可以直接指定 Huggingface 的 repo_id，还可以使用上面生成过的 `workspace`。这里的 `tm.TurboMind` 其实是对 C++ TurboMind 的封装。
+
+
+
+![image-20240114232617596](img/TASK5//image-20240114232617596.png)
+
+
+
 
 
 参考资料：
