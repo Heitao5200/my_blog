@@ -1,7 +1,5 @@
 ## RAG文本抽取
 
-
-
 文件解析过程在RAG中的位置如图1所示
 
 <img src="img/Task29探索RAG-PDF解析/640-20240403160816673" alt="Image" style="zoom:50%;" />
