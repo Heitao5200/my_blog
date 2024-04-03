@@ -48,10 +48,6 @@
 - 强调了工具的选择应基于实现正确想法的需求，而不是依赖特定工具。
 - 讨论了RAG中表格处理的关键技术和现有解决方案，并提出了一个有效的解决方案。
 
-## 参考文献
-- 文章提供了多个参考文献链接，涉及多模态LLM、表格检测模型、端到端模型、开源解决方案等。
-
-
 
 ## 参考资料
 [https://mp.weixin.qq.com/s/xrda9oe6esT81c2p2oanVA](https://mp.weixin.qq.com/s/xrda9oe6esT81c2p2oanVA)
