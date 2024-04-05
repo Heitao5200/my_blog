@@ -13,7 +13,7 @@
 
 ### 基于Embedding的方法
 
-splitter.get_nodes_from_documents函数的主要过程
+splitter.get_nodes_from_documents函数的主要过程如图2所示
 
 <img src="img/Task30探索RAG语义分块策略/640-20240404130729688" alt="Image" style="zoom:25%;" />
 
