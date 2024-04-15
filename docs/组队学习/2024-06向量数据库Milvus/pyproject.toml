@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "2024-06向量数据库milvus"
+version = "0.1.0"
+description = ""
+authors = ["Heitao5200 <810217789@qq.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10.13"
+pandas = "^2.2.2"
+pymilvus = "^2.4.0"
+pymilvus-orm = "0.0.1"
+jupyter-nbextensions-configurator = "^0.6.3"
+pyzmq = "^25.1.2"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[[tool.poetry.source]]
+name = "aliyun-source"
+url = "http://mirrors.aliyun.com/pypi/simple/"
+priority = "primary"
