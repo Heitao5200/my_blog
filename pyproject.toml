@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "my-blog"
+version = "0.1.0"
+description = ""
+authors = ["heitao"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^2.2.2"
+pymilvus = "^2.4.0"
+pymilvus-orm = "0.0.1"
+jupyter-nbextensions-configurator = "^0.6.3"
+pyzmq = "^25.1.2"
+jupyter = "^1.0.0"
+lab = "^8.1"
+sentence-transformers = "^2.7.0"
+torch = "2.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+
+[[tool.poetry.source]]
+name = "aliyun-source"
+url = "http://mirrors.aliyun.com/pypi/simple/"
+priority = "primary"
