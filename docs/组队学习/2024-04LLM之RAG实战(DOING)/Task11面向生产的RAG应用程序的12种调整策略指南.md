@@ -64,14 +64,4 @@
 - 上下文数量是超参数，影响性能。
 
 ## 参考文献
-0. https://mp.weixin.qq.com/s/inUs__3fGFkXPT-Ge5wSmw
-1. [LangChain文档转换器](https://python.langchain.com/docs/modules/data_connection/document_transformers/)
-2. [MTEB排行榜](https://huggingface.co/spaces/mteb/leaderboard)
-3. [Facebook Faiss](https://github.com/facebookresearch/faiss)
-4. [Spotify Annoy](https://github.com/spotify/annoy)
-5. [Google ScaNN](https://github.com/google-research/google-research/tree/master/scann)
-6. [HNSWLIB](https://github.com/nmslib/hnswlib)
-7. [Weaviate博客](https://weaviate.io/blog/rag-evaluation?source=post_page-----7ca646833439--------------------------------#indexing-knobs)
-8. [GPT-Index查询转换](https://gpt-index.readthedocs.io/en/v0.6.9/how_to/query/query_transformations.html)
-9. [混合搜索改进](https://towardsdatascience.com/improving-retrieval-performance-in-rag-pipelines-with-hybrid-search-c75203c2f2f5?source=post_page-----7ca646833439--------------------------------)
-10. [Cohere重新排序模型](https://cohere.com/rerank?ref=txt.cohere.com&_hstc=14363112.8fc20f6b1a1ad8c0f80dcfed3741d271.1697800567394.1701091033915.1701173515537.7&_hssc=14363112.1.1701173515537&_hsfp=3638092843)
+[LLM之RAG理论（十一）| 面向生产的RAG应用程序的12种调整策略指南](https://mp.weixin.qq.com/s/inUs__3fGFkXPT-Ge5wSmw)
