@@ -51,3 +51,32 @@
 - **语义理解**
   - 系统需要具备强大的语义理解能力，以便从文本、图像和其他模态中提取深层次的意义，并将其与问题相关联。
 
+## 读取数据
+
+```
+
+import base64
+from io import BytesIO
+from PIL import Image
+import os
+
+jpg_path = "/Users/heitao/DataSet/doing/image/"
+img_datas = {}
+for root,_,files in os.walk(jpg_path):
+    for file in files:
+        if file.endswith(".jpg"):
+            # img = cv2.imread(os.path.join(root,file))
+            with open(os.path.join(root,file),"rb") as f:
+                # b64encode是编码，b64decode是解码
+                base64_data = base64.b64encode(f.read())
+            img_data = BytesIO(base64.b64decode(base64_data))
+            img_datas[file] = img_data
+            # img = Image.open(img_data)
+            # img.show()
+            # break
+def convert_to_jpg(img_data):
+    img = Image.open(img_data)
+    img.show()
+convert_to_jpg(img_datas['fmwnwvuaxjsdoorrcrau.jpg'])
+```
+
