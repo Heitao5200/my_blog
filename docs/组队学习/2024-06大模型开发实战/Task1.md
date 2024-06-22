@@ -131,3 +131,8 @@ LLM 通常指包含**数百亿（或更多）参数的语言模型**，它们在
 - 验证迭代，根据找到的 Bad Case 不断迭代
 - 前后端搭建(Gradio 和 Streamlit 或者Dify,FastGPT)
 - 体验优化，记录 Bad Case 与用户负反馈，再针对性进行优化
+
+
+
+
+
