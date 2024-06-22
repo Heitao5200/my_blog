@@ -1,34 +1,14 @@
 ## 使用LLM API开发应用
 
-
-
-## 基本概念
-
-### Prompt
-
-### Temperature
-
-### System Prompt
-
-## LLM API
-
-### 使用 ChatGPT
-
-
-
-### 使用文心一言
-
-### 使用讯飞星火
-
-### 使用智谱 GLM
+相关api调用见[code](./code/Task2.ipynb)
 
 ## Prompt Engineering
 
 ### Prompt Engineering 的意义
 
-### Prompt 设计的原则及使用技巧
 
-## OPENAI六大提高性能的策略
+
+## OPENAI六大提高Prompt 性能的策略
 
 ### 策略一:清晰地表达指令
 
@@ -100,3 +80,7 @@ GPT 模型可以自信地编造虚假的答案,尤其是在被问到深奥的话
 | 1%           | ~10000              |
 
 模型输出的评估可以由计算机、人类或两者的组合来完成。计算机可以用客观标准(如只有单一正确答案的问题)自动进行测评,也可以用其他模型查询对一些主观或模糊标准进行测评。[OpenAI Evals](https://github.com/openai/evals)是一个开源软件框架,提供了创建自动化测评的工具。
+
+## 如何使用高效提问
+
+![image-20240622154104526](img/Task2//image-20240622154104526.png)
