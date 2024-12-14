@@ -18,8 +18,8 @@
   <img src="img/Task01RAG为什么需要重排序/64c11410e63e1d7a7e7b535afc3d1633.png" alt="img" style="zoom: 33%;" />
 
   给定一个查询，用所有检索到的文档对其进行编码。然后按降序排序。得分高的认为是最相关的文件。
-
-  <img src="img/Task01RAG为什么需要重排序/8bfbd34381f06cf77b2d5f218a1d03de.png" alt="img" style="zoom:33%;" />
+  ![](img/Task01RAG为什么需要重排序/8bfbd34381f06cf77b2d5f218a1d03de.png)
+  <img src="img/Task01RAG为什么需要重排序/8bfbd34381f06cf77b2d5f218a1d03de.png" />
 
 ### **重排序器的优势**
 
