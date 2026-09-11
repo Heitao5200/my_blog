@@ -16,6 +16,86 @@
 <body>
   <div id="app"></div>
   <script>
+    // 公式渲染。
+    //
+    // 为什么不直接用 docsify-katex：它 2022 年后停止维护，且依赖 marked 的
+    // extensions API —— 而 docsify 内置的 marked 是老版本，use() 只处理
+    // renderer/tokenizer/walkTokens，不支持 extensions，所以插件静默失效。
+    //
+    // 这里改用两步走，不依赖 marked 内部：
+    //   beforeEach —— 解析前把公式替换成占位符。公式里的 _ 和 * 会被 markdown
+    //                 当成强调语法（例如 _\text{a} ... _\text{b} 会生成 <em>，
+    //                 把公式文本切成多个节点），先藏起来就不会被碰。
+    //   doneEach  —— 页面渲染完后在 DOM 里把占位符换回 KaTeX 的输出。
+    var MATH_OPEN = '\uE000';
+    var MATH_CLOSE = '\uE001';
+
+    function mathPlugin(hook) {
+      var spans = [];
+
+      hook.beforeEach(function (markdown) {
+        spans = [];
+        function stash(tex, display) {
+          spans.push({ tex: tex.trim(), display: display });
+          return MATH_OPEN + (spans.length - 1) + MATH_CLOSE;
+        }
+        // 代码块和行内代码原样保留，不碰里面的 $
+        var parts = markdown.split(/(```[\s\S]*?```|~~~[\s\S]*?~~~|`[^`\n]*`)/);
+        for (var i = 0; i < parts.length; i += 2) {
+          parts[i] = parts[i]
+            .replace(/\$\$([\s\S]+?)\$\$/g, function (m, t) { return stash(t, true); })
+            .replace(/\\\[([\s\S]+?)\\\]/g, function (m, t) { return stash(t, true); })
+            .replace(/\$([^\$\n]+?)\$/g, function (m, t) { return stash(t, false); })
+            .replace(/\\\(([\s\S]+?)\\\)/g, function (m, t) { return stash(t, false); });
+        }
+        return parts.join('');
+      });
+
+      hook.doneEach(function () {
+        var root = document.querySelector('.markdown-section');
+        if (!root || !spans.length || typeof katex === 'undefined') return;
+
+        var re = new RegExp(MATH_OPEN + '(\\d+)' + MATH_CLOSE, 'g');
+        var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+        var targets = [];
+        var node;
+        while ((node = walker.nextNode())) {
+          if (node.nodeValue.indexOf(MATH_OPEN) !== -1) targets.push(node);
+        }
+
+        targets.forEach(function (textNode) {
+          var text = textNode.nodeValue;
+          var frag = document.createDocumentFragment();
+          var last = 0;
+          var m;
+          re.lastIndex = 0;
+          while ((m = re.exec(text)) !== null) {
+            if (m.index > last) {
+              frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+            }
+            var item = spans[Number(m[1])];
+            var holder = document.createElement('span');
+            if (item) {
+              try {
+                holder.innerHTML = katex.renderToString(item.tex, {
+                  displayMode: item.display,
+                  throwOnError: false
+                });
+              } catch (e) {
+                holder.textContent = item.tex;
+              }
+            }
+            frag.appendChild(holder);
+            last = re.lastIndex;
+          }
+          if (last < text.length) {
+            frag.appendChild(document.createTextNode(text.slice(last)));
+          }
+          textNode.parentNode.replaceChild(frag, textNode);
+        });
+      });
+    }
+
     window.$docsify = {
       name: '黑桃学习之路',
       repo: 'https://github.com/Heitao5200/my_blog/',
@@ -44,7 +124,8 @@
         color: 'rgb(90,90,90)',
         language: 'chinese',
         isExpected: true
-      }
+      },
+      plugins: [mathPlugin]
     }
   </script>
 
@@ -56,9 +137,8 @@
   <script src="//cdn.jsdelivr.net/npm/prismjs@1.30.0/components/prism-python.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-pagination@2.10.1/dist/docsify-pagination.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@3.0.2"></script>
-  <!-- KaTeX JS：docsify-katex 调用全局 katex.renderToString()，缺了它公式会显示成原始 $...$ -->
+  <!-- KaTeX：只用到 CSS 与 renderToString，渲染时机由上面的 mathPlugin 控制 -->
   <script src="//cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify-katex@2.0.2/dist/docsify-katex.js"></script>
   <!-- sidebar collapse -->
   <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse@1.3.5/dist/docsify-sidebar-collapse.min.js"></script>
   <!-- search -->
