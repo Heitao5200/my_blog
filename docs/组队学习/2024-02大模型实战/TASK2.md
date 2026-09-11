@@ -474,7 +474,7 @@ python examples/web_demo.py  --folder /root/model/Shanghai_AI_Laboratory/internl
 
 
 
-[简洁而优雅地展示你的算法和数据——streamlit教程（一） 原理介绍与布局控制 - 锦恢的文章 - 知乎](
+[简洁而优雅地展示你的算法和数据——streamlit教程（一） 原理介绍与布局控制 - 锦恢的文章 - 知乎](https://zhuanlan.zhihu.com/p/670124993)
 
 ## 模型下载
 
