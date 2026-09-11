@@ -231,7 +231,7 @@ lmdeploy convert internlm-chat-7b  /root/share/temp/model_repos/internlm-chat-7b
 
 `weights` 和 `tokenizer` 目录分别放的是拆分后的参数和 Tokenizer。如果我们进一步查看 `weights` 的目录，就会发现参数是按层和模块拆开的，如下图所示。
 
-<img src="img/TASK5//image-20240114213117891.png" alt="image-20240114213117891" style="zoom:25%;" />
+![image-20240114213117891](img/TASK5/image-20240114213117891.png)
 
 每一份参数第一个 0 表示“层”的索引，后面的那个0表示 Tensor 并行的索引，因为我们只有一张卡，所以被拆分成 1 份。如果有两张卡可以用来推理，则会生成0和1两份，也就是说，会把同一个参数拆成两份。比如 `layers.0.attention.w_qkv.0.weight` 会变成 `layers.0.attention.w_qkv.0.weight` 和 `layers.0.attention.w_qkv.1.weight`。执行 `lmdeploy convert` 命令时，可以通过 `--tp` 指定（tp 表示 tensor parallel），该参数默认值为1（也就是一张卡）。
 

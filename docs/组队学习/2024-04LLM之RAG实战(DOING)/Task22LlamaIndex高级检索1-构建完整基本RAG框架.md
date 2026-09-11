@@ -13,15 +13,15 @@
 
 #### **父文档检索**
 
- 首先检索与查询最相关的较小数据段，然后将相关的较大的父数据块作为上下文传递给LLM（大型语言模型）	<img src="img/Task22LlamaIndex高级检索1-构建完整基本RAG框架/640" alt="Image" style="zoom:50%;" />
+ 首先检索与查询最相关的较小数据段，然后将相关的较大的父数据块作为上下文传递给LLM（大型语言模型）	![Image](img/Task22LlamaIndex高级检索1-构建完整基本RAG框架/640)
 
 #### **句子窗口检索**
 
 句子窗口检索首先检索与回答查询最相关的特定句子，然后返回该句子上下文几个句子来为LLM提供更多的上下文作为其响应的基础。
 
-<img src="img/Task22LlamaIndex高级检索1-构建完整基本RAG框架/640-20240416075934887" alt="Image" style="zoom:44%;" />
+![Image](img/Task22LlamaIndex高级检索1-构建完整基本RAG框架/640-20240416075934887)
 
-<img src="img/Task22LlamaIndex高级检索1-构建完整基本RAG框架/640-20240416075942812" alt="Image" style="zoom:70%;" />
+![Image](img/Task22LlamaIndex高级检索1-构建完整基本RAG框架/640-20240416075942812)
 
 
 

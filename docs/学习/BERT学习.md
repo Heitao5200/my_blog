@@ -11,7 +11,7 @@ BERT 相较于原来的 RNN、LSTM 可以做到并发执行，同时提取词在
 
 BERT网络结构整体上就是由多层的Transformer Encoder堆叠所形成
 
-<img src="img/BERT学习/210823090221616959.jpg" alt="img" style="zoom:50%;" />
+![img](img/BERT学习/210823090221616959.jpg)
 
 ## **BERT 的输入和输出分别是什么？**
 

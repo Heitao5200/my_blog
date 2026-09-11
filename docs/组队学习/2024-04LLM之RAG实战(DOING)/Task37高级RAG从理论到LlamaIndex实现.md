@@ -1,6 +1,6 @@
 ## **高级RAG**
 
-<img src="img/Task37高级RAG从理论到LlamaIndex实现/640-20240405205452398" alt="Image" style="zoom: 25%;" />
+![Image](img/Task37高级RAG从理论到LlamaIndex实现/640-20240405205452398)
 
 ### **预检索优化**
 

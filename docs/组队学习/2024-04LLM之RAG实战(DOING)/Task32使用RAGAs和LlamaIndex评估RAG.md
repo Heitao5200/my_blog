@@ -2,7 +2,7 @@
 
 RAG的有效性可以通过测量这些三元组之间的相关性来评估
 
-<img src="img/Task32使用RAGAs和LlamaIndex评估RAG/640" alt="Image" style="zoom:50%;" />
+![Image](img/Task32使用RAGAs和LlamaIndex评估RAG/640)
 
 
 

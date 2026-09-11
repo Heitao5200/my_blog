@@ -15,11 +15,11 @@
 
 - 交叉编码器cross-encoder是一种深度神经网络，它将两个输入序列作为单个输入处理。允许模型直接比较和对比输入，以更综合和细致的方式理解它们的关系。
 
-  <img src="img/Task01RAG为什么需要重排序/64c11410e63e1d7a7e7b535afc3d1633.png" alt="img" style="zoom: 33%;" />
+  ![img](img/Task01RAG为什么需要重排序/64c11410e63e1d7a7e7b535afc3d1633.png)
 
   给定一个查询，用所有检索到的文档对其进行编码。然后按降序排序。得分高的认为是最相关的文件。
   ![](img/Task01RAG为什么需要重排序/8bfbd34381f06cf77b2d5f218a1d03de.png)
-  <img src="img/Task01RAG为什么需要重排序/8bfbd34381f06cf77b2d5f218a1d03de.png" />
+  ![](img/Task01RAG为什么需要重排序/8bfbd34381f06cf77b2d5f218a1d03de.png)
 
 ### **重排序器的优势**
 

@@ -15,7 +15,7 @@
 
 splitter.get_nodes_from_documents函数的主要过程
 
-<img src="img/Task30探索RAG语义分块策略/640-20240404130729688.png" alt="Image" style="zoom:25%;" />
+![Image](img/Task30探索RAG语义分块策略/640-20240404130729688.png)
 
 - 使用LlamaIndex和Langchain提供的语义分块器，基于滑动窗口计算句子之间的相似度。
 - 通过安装特定版本的LlamaIndex来访问语义分块器。
