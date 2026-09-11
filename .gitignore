@@ -39,3 +39,8 @@ docs/组队学习/.DS_Store
 .ipynb_checkpoints/
 __pycache__/
 *.pyc
+
+# 环境变量文件（含凭据，禁止提交）
+.env
+.env.*
+*.env
