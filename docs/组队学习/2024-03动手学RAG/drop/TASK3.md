@@ -14,7 +14,7 @@
 
 在线评测地址：https://competition.coggle.club/
 
-![img](img/TASK3/O1CN01Y8GZyc275GPXkHBxX_!!6000000007745-0-tps-311-386.jpg)
+![img](../img/TASK3/O1CN01Y8GZyc275GPXkHBxX_!!6000000007745-0-tps-311-386.jpg)
 
 ```
 问题1：怎么打开危险警告灯？

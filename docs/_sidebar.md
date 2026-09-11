@@ -18,6 +18,7 @@
         * [Task4](组队学习/第33期LeetCode/Task4.md)
         * [Task5](组队学习/第33期LeetCode/Task5.md)
     * Open_Learning_Camp-动手学习深度学习
+        * [课程总览](组队学习/Open_Learning_Camp-动手学习深度学习/README.md)
         * [Task1 初识深度学习](组队学习/Open_Learning_Camp-动手学习深度学习/Task1%20初识深度学习.md)
         * [Task2 预备知识](组队学习/Open_Learning_Camp-动手学习深度学习/Task2%20预备知识.md)
     * 2024-01 大模型理论基础
@@ -36,7 +37,14 @@
         * [FASTGPT](组队学习/2024-02大模型实战/FASTGPT.md)
     * 2024-03 动手学 RAG
         * [TASK1](组队学习/2024-03动手学RAG/TASK1.md)
+        * [TASK2](组队学习/2024-03动手学RAG/drop/TASK2.md)
+        * [TASK3](组队学习/2024-03动手学RAG/drop/TASK3.md)
+        * [TASK4](组队学习/2024-03动手学RAG/drop/TASK4.md)
+        * [TASK5](组队学习/2024-03动手学RAG/drop/TASK5.md)
+        * [TASK6](组队学习/2024-03动手学RAG/drop/TASK6.md)
+        * [TASK8](组队学习/2024-03动手学RAG/drop/TASK8.md)
     * 2024-03 多智能体实战
+        * [本期说明](组队学习/2024-03多智能体实战/README.md)
         * [TASK1](组队学习/2024-03多智能体实战/TASK1.md)
         * [TASK2](组队学习/2024-03多智能体实战/TASK2.md)
     * 2024-04 LLM 之 RAG 实战

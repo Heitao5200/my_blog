@@ -210,4 +210,4 @@ print(response.choices[0].message)
 
 使用ChatGLM进行embedding
 
-![image-20240130222715164](img/TASK2//image-20240130222715164.png)
+![image-20240130222715164](../img/TASK2/image-20240130222715164.png)
