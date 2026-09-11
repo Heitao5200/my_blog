@@ -1,6 +1,6 @@
 # Task3 离线物料系统的构建
 
-![news-rec-sys-function-diagram](img/Task3 离线物料系统的构建/news-rec-sys-function-diagram.png)
+![news-rec-sys-function-diagram](img/Task3%20离线物料系统的构建/news-rec-sys-function-diagram.png)
 
 offline部分主要是基于前面存储好的物料画像和用户画像进行离线计算， 为每个用户提供一个热门页列表和推荐页列表并进行缓存， 方便online服务的列表获取。 所以下面主要帮大家梳理这两个列表的生成以及缓存到redis的流程。
 

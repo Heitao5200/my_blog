@@ -5,7 +5,8 @@
 * 组队学习
     * 第32期推荐系统
         * [Task0 推荐系统部署安装](组队学习/第32期推荐系统/Task0.md)
-        * [Task1 熟悉新闻推荐系统基本流程](组队学习/第32期推荐系统/Task1.md)
+        <!-- Task1.md 尚未编写，补上后取消注释 -->
+        <!-- * [Task1 熟悉新闻推荐系统基本流程](组队学习/第32期推荐系统/Task1.md) -->
         * [Task2 数据库的基本使用](组队学习/第32期推荐系统/Task2.md)
         * [Task3 离线物料系统的构建](组队学习/第32期推荐系统/Task3.md)
         * [Task4 前后端基础及交互](组队学习/第32期推荐系统/Task4.md)
@@ -17,10 +18,10 @@
         * [Task4  ](组队学习/第33期LeetCode/Task4.md)
         * [Task5  ](组队学习/第33期LeetCode/Task5.md)
     * Open_Learning_Camp-动手学习深度学习
-        * [Task1 初识深度学习](组队学习/第33期LeetCode/Task1 初识深度学习.md)
-        * [Task2 预备知识](组队学习/第33期LeetCode/Task2 预备知识.md)
+        * [Task1 初识深度学习](组队学习/Open_Learning_Camp-动手学习深度学习/Task1%20初识深度学习.md)
+        * [Task2 预备知识](组队学习/Open_Learning_Camp-动手学习深度学习/Task2%20预备知识.md)
     * 大模型实战
-        * [Task1 书生•浦语大模型系列 ](组队学习/大模型实战/Task1.md)
+        * [Task1 书生•浦语大模型系列 ](组队学习/2024-02大模型实战/TASK1.md)
     
 * 数据库 
     * [MySQL](学习/MySQL学习.md)

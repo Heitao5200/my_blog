@@ -28,7 +28,7 @@
 
 Anaconda 的安装有两种方式，这里仅介绍一种最直观的- macOS graphical install。[https://www.anaconda.com/products/individual](https://link.zhihu.com/?target=https%3A//www.anaconda.com/products/individual)里，Anaconda Installers的位置，选择Python 3.7 下方的“64-Bit Graphical Installer (442)”。下载好
 
-![img](img/Task1 初识深度学习/v2-1d1f3c716c096442bcdcaaeeccbafb49_r.jpg)
+![img](img/Task1%20初识深度学习/v2-1d1f3c716c096442bcdcaaeeccbafb49_r.jpg)
 
 pkg 安装包后点击进入，按下一步完成安装即可。默认安装地点为~/opt。想用command line install 的，请自行参考：[https://docs.anaconda.com/anaco](https://link.zhihu.com/?target=https%3A//docs.anaconda.com/anaconda/install/mac-os/)
 
@@ -41,11 +41,11 @@ python --version
 jupyter notebook
 ```
 
-![img](img/Task1 初识深度学习/v2-195e6c3c0c055a1878fe85b5205bf05a_r.jpg)
+![img](img/Task1%20初识深度学习/v2-195e6c3c0c055a1878fe85b5205bf05a_r.jpg)
 
 在网页右上角点击Quit，或返回Terminal，command + c，退出notebook。
 
-![img](img/Task1 初识深度学习/v2-66a1279de279bb49a1ef7848870318ff_b.jpg)
+![img](img/Task1%20初识深度学习/v2-66a1279de279bb49a1ef7848870318ff_b.jpg)
 
 
 
@@ -81,7 +81,7 @@ conda deactivate
 
 进入[https://pytorch.org/](https://link.zhihu.com/?target=https%3A//pytorch.org/) 可以看到
 
-![img](img/Task1 初识深度学习/v2-0fa5a4d5669c1d7916714f5d332744b9_b.jpg)
+![img](img/Task1%20初识深度学习/v2-0fa5a4d5669c1d7916714f5d332744b9_b.jpg)
 
 pytorch 官网显示当前设备应该用的下载语句。此情况，我的是
 
@@ -106,7 +106,7 @@ print(torchvision.__version__)
 
 如果import 和输出正常，配置就完成了！输入
 
-![img](img/Task1 初识深度学习/v2-69e6acf801cbb381c09d8aeda9838e4a_b.jpg)
+![img](img/Task1%20初识深度学习/v2-69e6acf801cbb381c09d8aeda9838e4a_b.jpg)
 
 ```text
 quit()
