@@ -3,6 +3,21 @@
 * [首页](README)
 
 * 组队学习
+    * 2026-09 Hello-Agents 进阶
+        * [学习总览](组队学习/2026-09hello-agents进阶/README.md)
+        * [怎么学习](组队学习/2026-09hello-agents进阶/怎么学习.md)
+        * [学习思考笔记模板](组队学习/2026-09hello-agents进阶/学习思考笔记模板.md)
+        * [Task00](组队学习/2026-09hello-agents进阶/任务笔记/Task00.md)
+        * [Task01](组队学习/2026-09hello-agents进阶/任务笔记/Task01.md)
+        * [Task02](组队学习/2026-09hello-agents进阶/任务笔记/Task02.md)
+        * [Task03](组队学习/2026-09hello-agents进阶/任务笔记/Task03.md)
+        * [Task04](组队学习/2026-09hello-agents进阶/任务笔记/Task04.md)
+        * [Task05](组队学习/2026-09hello-agents进阶/任务笔记/Task05.md)
+        * [Task06](组队学习/2026-09hello-agents进阶/任务笔记/Task06.md)
+        * [Task07](组队学习/2026-09hello-agents进阶/任务笔记/Task07.md)
+        * [NotebookLM学习指南](组队学习/2026-09hello-agents进阶/学习资源/NotebookLM学习指南.md)
+        * [闪卡](组队学习/2026-09hello-agents进阶/学习资源/闪卡.md)
+        * [测验题](组队学习/2026-09hello-agents进阶/学习资源/测验题.md)
     * 第32期推荐系统
         * [Task0](组队学习/第32期推荐系统/Task0.md)
         <!-- Task1.md 尚未编写，补上后取消注释 -->

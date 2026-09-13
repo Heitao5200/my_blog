@@ -1,0 +1,837 @@
+{
+  "title": "智能体测验",
+  "questions": [
+    {
+      "question": "[Task00] 在配置 Extra07 环境时，如果运行脚本提示 `TAVILY_API_KEY 未在 .env 文件中配置`，最直接的排错检查点是？",
+      "answerOptions": [
+        {
+          "text": "重新安装 tavily-python 库",
+          "isCorrect": false,
+          "rationale": "这属于环境依赖问题而非配置缺失问题，库已安装但无法获取密钥是配置层面的错误。"
+        },
+        {
+          "text": "修改 API_KEY 为 OpenAI 的密钥",
+          "isCorrect": false,
+          "rationale": "Tavily 是搜索工具，OpenAI 密钥无法替代其搜索功能。"
+        },
+        {
+          "text": "更换 Python 版本至 3.12",
+          "isCorrect": false,
+          "rationale": "Python 版本与环境变量的读取逻辑无关，且 3.10+ 即可满足要求。"
+        },
+        {
+          "text": "检查 .env 文件是否位于项目根目录且变量名拼写正确",
+          "isCorrect": true,
+          "rationale": "检查代码实际加载的.env路径、变量拼写和是否调用加载函数；项目根目录只是该教程的约定，文件存在不代表已经加载。"
+        }
+      ],
+      "hint": "注意区分环境变量存储位置与代码逻辑的关系。"
+    },
+    {
+      "question": "[Task00] 在运行 `FirstAgentTest.py` 过程中，观察到的 ReAct 模式循环逻辑中，`Observation` 阶段的数据通常来源于？",
+      "answerOptions": [
+        {
+          "text": "工具函数的执行返回结果",
+          "isCorrect": true,
+          "rationale": "ReAct 模式中，观察（Observation）是模型对工具执行结果的反馈接收。"
+        },
+        {
+          "text": "用户第二次输入的提示词",
+          "isCorrect": false,
+          "rationale": "观察是自动化循环的一部分，不需要用户在循环中重复输入。"
+        },
+        {
+          "text": "System Prompt 中的预设指令",
+          "isCorrect": false,
+          "rationale": "系统提示词设定规则，不提供具体的工具运行证据。"
+        },
+        {
+          "text": "模型内部的训练数据",
+          "isCorrect": false,
+          "rationale": "模型内部知识属于推理依据，而非在特定步骤下通过 Action 产生的外部反馈。"
+        }
+      ],
+      "hint": "思考智能体是如何通过“手脚”与外部世界交互的。"
+    },
+    {
+      "question": "[Task00] 根据教程“前言”部分，Hello-Agents 项目的核心目标是让学习者完成什么样的转变？",
+      "answerOptions": [
+        {
+          "text": "从闭源模型用户转变为本地部署专家",
+          "isCorrect": false,
+          "rationale": "本地部署仅是手段之一，构建智能体系统才是核心能力。"
+        },
+        {
+          "text": "从大语言模型的“使用者”转变为“构建者”",
+          "isCorrect": true,
+          "rationale": "教程强调不仅是调用接口，更要理解底层范式和架构设计。"
+        },
+        {
+          "text": "从 Python 初学者转变为算法工程师",
+          "isCorrect": false,
+          "rationale": "本项目侧重于应用与构建，而非深厚的模型算法训练背景。"
+        },
+        {
+          "text": "从手动操作转变为全自动化 prompt 编写者",
+          "isCorrect": false,
+          "rationale": "智能体系统涉及工具、记忆等多个组件，不局限于 prompt 编写。"
+        }
+      ],
+      "hint": "关注教程开头对学习者角色的定义。"
+    },
+    {
+      "question": "[Task00] LLM请求连接超时，在以下选项中，哪项最有助于定位网络连接问题？",
+      "answerOptions": [
+        {
+          "text": "模型名称是否拼写为 gpt-4",
+          "isCorrect": false,
+          "rationale": "模型名称错误通常返回 404 或 400 错误，而非连接超时。"
+        },
+        {
+          "text": "检查实际使用的Base URL、网络可达性与代理配置",
+          "isCorrect": true,
+          "rationale": "超时应先检查请求地址及网络路径；不能只凭超时断定某一个配置有误。"
+        },
+        {
+          "text": "是否安装了 openai 库 1.0 以下版本",
+          "isCorrect": false,
+          "rationale": "版本低可能导致接口不兼容，但通常不会表现为 URL 级别的超时。"
+        },
+        {
+          "text": "电脑是否已经安装了 Git",
+          "isCorrect": false,
+          "rationale": "Git 用于代码管理，与 API 运行时的网络请求无关。"
+        }
+      ],
+      "hint": "检查网络连接最基础的配置项。"
+    },
+    {
+      "question": "[Task01] 在第四章实现的 ReAct 范式中，`Thought` 字段的主要作用是？",
+      "answerOptions": [
+        {
+          "text": "用于存储之前所有步骤的 Observation",
+          "isCorrect": false,
+          "rationale": "历史记录（History）负责存储上下文，Thought 是针对当前状态的新思考。"
+        },
+        {
+          "text": "输出当前步骤的分析文本，辅助选择下一步行动",
+          "isCorrect": true,
+          "rationale": "这是教程的文本式ReAct约定；输出的Thought不等于可完整观察模型内部计算过程。"
+        },
+        {
+          "text": "强制模型必须调用外部工具",
+          "isCorrect": false,
+          "rationale": "Thought 是分析过程，它可能决定调用工具，也可能决定直接回答。"
+        },
+        {
+          "text": "作为最终答案直接返回给用户",
+          "isCorrect": false,
+          "rationale": "最终答案应通过 Finish 行动输出，Thought 是中间思考。"
+        }
+      ],
+      "hint": "联系人类解决问题时“先想后做”的逻辑。"
+    },
+    {
+      "question": "[Task01] Plan-and-Solve 范式相较于 ReAct 范式，在处理复杂任务时的显著特征是？",
+      "answerOptions": [
+        {
+          "text": "主要依靠自我反思机制来纠正逻辑错误",
+          "isCorrect": false,
+          "rationale": "这是 Reflection 范式的特征。"
+        },
+        {
+          "text": "不需要调用任何外部工具即可完成任务",
+          "isCorrect": false,
+          "rationale": "两种范式都可以使用工具，区别在于任务组织的流程结构。"
+        },
+        {
+          "text": "每一轮行动后都会根据观察结果实时修改计划",
+          "isCorrect": false,
+          "rationale": "这是 ReAct 的特征，Plan-and-Solve 默认执行预设的静态计划。"
+        },
+        {
+          "text": "先生成完整的步骤清单，再由执行器逐一运行",
+          "isCorrect": true,
+          "rationale": "这体现了“先谋后动”的策略，增强了处理长路径任务的稳定性。"
+        }
+      ],
+      "hint": "关注任务被分解和执行的时序关系。"
+    },
+    {
+      "question": "[Task01] 在 Reflection 范式的实现中，如果模型在反思阶段返回“无需改进”，程序会发生什么？",
+      "answerOptions": [
+        {
+          "text": "跳出循环并返回当前的执行结果",
+          "isCorrect": true,
+          "rationale": "这是示例代码的停止条件，表示反思器判断无需改进；不代表结果已经通过独立验证。"
+        },
+        {
+          "text": "强制要求评审员再次寻找算法瓶颈",
+          "isCorrect": false,
+          "rationale": "评审员的判断应被尊重以作为终止信号。"
+        },
+        {
+          "text": "将代码发送至工具执行器运行测试",
+          "isCorrect": false,
+          "rationale": "程序逻辑是根据文本反馈决定是否终止，而非动态运行代码。"
+        },
+        {
+          "text": "清空记忆模块并重新开始初始尝试",
+          "isCorrect": false,
+          "rationale": "这将导致死循环，而非完成任务。"
+        }
+      ],
+      "hint": "考虑循环终止的逻辑触发点。"
+    },
+    {
+      "question": "[Task01] 在编写 ReAct 提示词模板时，如果未明确规定 `Action` 必须使用 `{{tool_name}}[{{tool_input}}]` 格式，可能导致的直接后果是？",
+      "answerOptions": [
+        {
+          "text": "API 调用的 Token 消耗会呈几何倍数增长",
+          "isCorrect": false,
+          "rationale": "解析失败通常直接导致任务中断，不会增加 Token 消耗。"
+        },
+        {
+          "text": "大语言模型会拒绝回答任何问题",
+          "isCorrect": false,
+          "rationale": "模型通常会尝试生成内容，只是生成的内容无法被代码自动化处理。"
+        },
+        {
+          "text": "正则表达式解析器无法正确提取工具名和参数",
+          "isCorrect": true,
+          "rationale": "代码依赖特定的结构化格式进行字符串解析，格式不符会导致提取失败。"
+        },
+        {
+          "text": "工具执行器会自动尝试所有的可用工具",
+          "isCorrect": false,
+          "rationale": "执行器需要明确的指令，不会盲目尝试。"
+        }
+      ],
+      "hint": "解析文本与后端代码执行的桥梁是什么？"
+    },
+    {
+      "question": "[Task02] 第七章中，HelloAgents 框架使用 `abc` 模块定义 `Agent` 基类的主要目的是？",
+      "answerOptions": [
+        {
+          "text": "防止用户直接修改 `_history` 私有变量",
+          "isCorrect": false,
+          "rationale": "Python 无法真正禁止私有变量访问，abc 解决的是接口定义问题。"
+        },
+        {
+          "text": "自动实现所有模型的流式输出逻辑",
+          "isCorrect": false,
+          "rationale": "流式逻辑通常在 LLM 类中实现，基类只负责定义结构。"
+        },
+        {
+          "text": "减少 Python 代码的内存占用量",
+          "isCorrect": false,
+          "rationale": "抽象基类是软件设计模式，而非性能优化手段。"
+        },
+        {
+          "text": "强制所有子类实现统一的 `run` 接口，保证扩展性",
+          "isCorrect": true,
+          "rationale": "通过抽象基类规范化子类行为是框架设计的核心，确保不同范式互换使用。"
+        }
+      ],
+      "hint": "思考“接口统一”在框架中的价值。"
+    },
+    {
+      "question": "[Task02] 在 `HelloAgents` 框架的 `Config` 类设计中，`from_env()` 方法的优先级逻辑通常是？",
+      "answerOptions": [
+        {
+          "text": "必须先读取 .env 文件，否则报错退出",
+          "isCorrect": false,
+          "rationale": "通常会设置默认值作为兜底，增加系统的鲁棒性。"
+        },
+        {
+          "text": "环境变量会覆盖代码中的默认配置",
+          "isCorrect": true,
+          "rationale": "这允许在不修改代码的情况下通过外部配置适配不同环境。"
+        },
+        {
+          "text": "由 LLM 根据当前网络状况动态决定",
+          "isCorrect": false,
+          "rationale": "配置属于静态规则，不受模型运行时决策影响。"
+        },
+        {
+          "text": "硬编码的参数拥有最高优先级",
+          "isCorrect": false,
+          "rationale": "在灵活的框架设计中，外部配置（如环境变量）通常优先。"
+        }
+      ],
+      "hint": "考虑部署到不同服务器时如何快速切换配置。"
+    },
+    {
+      "question": "[Task02] 相比于 LangChain 等成熟框架，教程中提到“亲手造轮子”构建 HelloAgents 的主要优势在于？",
+      "answerOptions": [
+        {
+          "text": "获得比商业框架更丰富的功能组件",
+          "isCorrect": false,
+          "rationale": "自建框架在早期功能上通常少于成熟的商业框架。"
+        },
+        {
+          "text": "完全消除大语言模型的“幻觉”问题",
+          "isCorrect": false,
+          "rationale": "幻觉源于模型本身，框架只能通过流程优化来减轻，无法消除。"
+        },
+        {
+          "text": "降低黑盒化程度，深度理解 Agent 内部工作机制",
+          "isCorrect": true,
+          "rationale": "框架使用者往往难知其所以然，自行构建能看清每一步逻辑。"
+        },
+        {
+          "text": "直接使用可视化界面进行智能体编排",
+          "isCorrect": false,
+          "rationale": "HelloAgents 侧重代码构建，而非图形化拖拽。"
+        }
+      ],
+      "hint": "关注 7.1.1 节关于“从使用者到构建者”的论述。"
+    },
+    {
+      "question": "[Task02] 在框架化的 `ReActAgent` 实现中，`max_steps` 参数的作用类似于？",
+      "answerOptions": [
+        {
+          "text": "死循环的安全阀，限制循环执行次数",
+          "isCorrect": true,
+          "rationale": "防止模型在无法得出结论时无限调用工具消耗 Token。"
+        },
+        {
+          "text": "设定记忆系统中消息保留的行数",
+          "isCorrect": false,
+          "rationale": "记忆容量由 MemoryConfig 中的相关参数设定。"
+        },
+        {
+          "text": "定义工具箱中可以容纳的工具上限",
+          "isCorrect": false,
+          "rationale": "工具箱上限通常由 ToolRegistry 控制。"
+        },
+        {
+          "text": "控制单次 LLM 生成的最大 Token 数",
+          "isCorrect": false,
+          "rationale": "该功能由 LLM 实例的配置参数控制。"
+        }
+      ],
+      "hint": "思考在“思考-行动-观察”循环中如何防止失控。"
+    },
+    {
+      "question": "[Task03] 在第八章设计的记忆系统中，专门用于存储“抽象概念、规则和知识”的模块是？",
+      "answerOptions": [
+        {
+          "text": "语义记忆 (Semantic Memory)",
+          "isCorrect": true,
+          "rationale": "语义记忆处理结构化的事实和抽象知识，常结合图数据库实现。"
+        },
+        {
+          "text": "情景记忆 (Episodic Memory)",
+          "isCorrect": false,
+          "rationale": "情景记忆按时间序列记录具体发生的事件。"
+        },
+        {
+          "text": "工作记忆 (Working Memory)",
+          "isCorrect": false,
+          "rationale": "工作记忆负责处理当前任务的临时上下文，有 TTL 清理机制。"
+        },
+        {
+          "text": "感知记忆 (Perceptual Memory)",
+          "isCorrect": false,
+          "rationale": "感知记忆侧重于多模态数据和环境特征的记录。"
+        }
+      ],
+      "hint": "根据认知科学对长期记忆的分类进行区分。"
+    },
+    {
+      "question": "[Task03] 第八章RAG管道使用哪个组件，将其支持的文档格式转换为Markdown？",
+      "answerOptions": [
+        {
+          "text": "Qdrant",
+          "isCorrect": false,
+          "rationale": "Qdrant 是向量数据库，负责存储和搜索向量，不负责解析文档。"
+        },
+        {
+          "text": "DashScope",
+          "isCorrect": false,
+          "rationale": "DashScope 通常提供 Embedding 或模型服务，而非本地文档转换。"
+        },
+        {
+          "text": "Neo4j",
+          "isCorrect": false,
+          "rationale": "Neo4j 是图数据库，用于管理实体间的关系。"
+        },
+        {
+          "text": "MarkItDown",
+          "isCorrect": true,
+          "rationale": "教材使用MarkItDown作为文档转换环节。格式支持、图片处理和依赖条件有限制，转换后仍要检查文本质量。"
+        }
+      ],
+      "hint": "回顾 8.3.4 节关于“多模态文档载入”的描述。"
+    },
+    {
+      "question": "[Task03] 文档助手给出了错误答案，排查时最应该先查看什么？",
+      "answerOptions": [
+        {
+          "text": "立即换成更大的模型",
+          "isCorrect": false,
+          "rationale": "如果依据没有被检索出来，单纯换模型未必解决问题。"
+        },
+        {
+          "text": "实际检索片段及传入模型的上下文",
+          "isCorrect": true,
+          "rationale": "先区分检索缺失和生成不忠实，才能决定修改检索还是提示与生成环节。"
+        },
+        {
+          "text": "把所有文档不加筛选地塞进上下文",
+          "isCorrect": false,
+          "rationale": "这可能增加噪声并超过预算。"
+        },
+        {
+          "text": "只看最终答案字数",
+          "isCorrect": false,
+          "rationale": "字数不能说明检索是否命中。"
+        }
+      ],
+      "hint": "把“找到资料”和“根据资料回答”分开检查。"
+    },
+    {
+      "question": "[Task03] 用户的问题在知识库中没有依据，文档助手怎样回答更合适？",
+      "answerOptions": [
+        {
+          "text": "把最相似片段强行解释为答案",
+          "isCorrect": false,
+          "rationale": "相似不等于支持。"
+        },
+        {
+          "text": "说明资料不足，并请用户补充资料或澄清问题",
+          "isCorrect": true,
+          "rationale": "检索到相似文本不等于找到了能支持结论的证据。"
+        },
+        {
+          "text": "编造一个看起来可信的来源",
+          "isCorrect": false,
+          "rationale": "虚构来源无法弥补证据缺失。"
+        },
+        {
+          "text": "反复重复用户问题直到得到答案",
+          "isCorrect": false,
+          "rationale": "重复不能增加知识库中不存在的依据。"
+        }
+      ],
+      "hint": "区分语义相似与事实支持。"
+    },
+    {
+      "question": "[Task04] 什么是“上下文腐蚀” (Context Rot)？",
+      "answerOptions": [
+        {
+          "text": "本地存储的历史记录文件由于编码问题变乱码",
+          "isCorrect": false,
+          "rationale": "这属于物理存储错误，不属于上下文工程范畴。"
+        },
+        {
+          "text": "系统由于 Token 余额不足导致请求被切断",
+          "isCorrect": false,
+          "rationale": "这是配额管理问题。"
+        },
+        {
+          "text": "上下文增长时，模型准确利用其中信息的能力可能下降",
+          "isCorrect": true,
+          "rationale": "第九章讨论长上下文中的信息利用退化；“迷失在中间”是相关现象，不能把两者简单等同。"
+        },
+        {
+          "text": "大模型由于长时间不更新导致内置知识过时",
+          "isCorrect": false,
+          "rationale": "这被称为模型知识陈旧，而非上下文腐蚀。"
+        }
+      ],
+      "hint": "关注模型处理超长文本时的注意力衰减现象。"
+    },
+    {
+      "question": "[Task04] 在上下文构建流水线 GSSC 中，“Select”阶段的主要任务是？",
+      "answerOptions": [
+        {
+          "text": "将不同来源的原始数据聚集成一个待处理池",
+          "isCorrect": false,
+          "rationale": "这是 Gather 阶段的任务。"
+        },
+        {
+          "text": "调用大模型对长文本进行摘要总结以减少 Token 占用",
+          "isCorrect": false,
+          "rationale": "这是 Compress 阶段的任务。"
+        },
+        {
+          "text": "根据相关性和新近性对收集到的信息进行评分和筛选",
+          "isCorrect": true,
+          "rationale": "这是为了在有限的 Token 预算内选出最高质量的信号。"
+        },
+        {
+          "text": "使用 XML 或 Markdown 标签对选中的内容进行排版",
+          "isCorrect": false,
+          "rationale": "这是 Structure 阶段的任务。"
+        }
+      ],
+      "hint": "区分“收集”与“精选”两个动作。"
+    },
+    {
+      "question": "[Task04] 针对长时程任务，NoteTool 的核心价值在于？",
+      "answerOptions": [
+        {
+          "text": "在上下文窗口外提供持久化的结构化记录，防止信息遗忘",
+          "isCorrect": true,
+          "rationale": "它是智能体的“外部大脑”，能记录任务进度、结论和阻塞项。"
+        },
+        {
+          "text": "通过终端命令实时监控电脑 CPU 占用情况",
+          "isCorrect": false,
+          "rationale": "这是监控工具或 TerminalTool 的可能用法，而非 NoteTool 核心功能。"
+        },
+        {
+          "text": "自动将所有的对话历史加密上传至云端",
+          "isCorrect": false,
+          "rationale": "NoteTool 侧重于结构化记录而非自动备份加密。"
+        },
+        {
+          "text": "替代 LLM 的推理功能以节省 API 成本",
+          "isCorrect": false,
+          "rationale": "工具是辅助工具，不具备推理能力。"
+        }
+      ],
+      "hint": "考虑智能体如何处理跨度数小时甚至数天的任务。"
+    },
+    {
+      "question": "[Task04] 在 `ContextBuilder` 的实现中，通过 `try-except` 包裹每个外部数据源的调用是为了？",
+      "answerOptions": [
+        {
+          "text": "提高容错性，确保单个数据源失败不阻塞整体流程",
+          "isCorrect": true,
+          "rationale": "上下文构建可能涉及多个 API，隔离故障是工程化的表现。"
+        },
+        {
+          "text": "强制 LLM 在获取不到信息时进行“幻觉”生成",
+          "isCorrect": false,
+          "rationale": "目标是获取准确信息，而非鼓励幻觉。"
+        },
+        {
+          "text": "防止用户看到任何错误日志信息",
+          "isCorrect": false,
+          "rationale": "容错是为了功能连续性，通常仍会内部记录日志。"
+        },
+        {
+          "text": "加速信息收集过程，实现异步并行调用",
+          "isCorrect": false,
+          "rationale": "容错处理与并发调用是两个不同维度的概念。"
+        }
+      ],
+      "hint": "关注 9.3.4 节关于设计考虑的论述。"
+    },
+    {
+      "question": "[Task05] MCP (Model Context Protocol) 被形象地比喻为智能体的“USB-C”，这主要是因为它？",
+      "answerOptions": [
+        {
+          "text": "只允许基于 Anthropic Claude 模型的智能体使用",
+          "isCorrect": false,
+          "rationale": "它是开放标准，旨在支持各种 LLM 平台。"
+        },
+        {
+          "text": "能够让智能体通过物理接口连接外部硬盘",
+          "isCorrect": false,
+          "rationale": "这是软件协议，而非硬件连接线。"
+        },
+        {
+          "text": "大幅提升了数据在本地传输的物理速度",
+          "isCorrect": false,
+          "rationale": "它是应用层协议，不改变底层物理传输速度。"
+        },
+        {
+          "text": "统一了智能体与各种外部工具和资源的通信接口",
+          "isCorrect": true,
+          "rationale": "无论什么服务，只要符合协议，即可被支持协议的客户端使用。"
+        }
+      ],
+      "hint": "思考标准化的本质作用。"
+    },
+    {
+      "question": "[Task05] 在 MCP 架构中，负责直接与外部 API 或文件系统交互，执行具体操作的是？",
+      "answerOptions": [
+        {
+          "text": "Host (宿主层)",
+          "isCorrect": false,
+          "rationale": "Host 是用户界面，如 Claude Desktop。"
+        },
+        {
+          "text": "LLM (模型层)",
+          "isCorrect": false,
+          "rationale": "模型负责推理和决策，决定调用哪个工具。"
+        },
+        {
+          "text": "Client (客户端层)",
+          "isCorrect": false,
+          "rationale": "Client 负责管理连接和协议解析，不执行底层业务逻辑。"
+        },
+        {
+          "text": "Server (服务器层)",
+          "isCorrect": true,
+          "rationale": "Server 层封装了具体的逻辑，如查询数据库或发送邮件。"
+        }
+      ],
+      "hint": "回顾 10.2.1 节的三层架构分工。"
+    },
+    {
+      "question": "[Task05] MCP客户端已经成功列出工具，接下来怎样证明工具实际可用？",
+      "answerOptions": [
+        {
+          "text": "只让模型解释工具名字",
+          "isCorrect": false,
+          "rationale": "解释名称无法验证运行结果。"
+        },
+        {
+          "text": "看到服务器启动就认定完成",
+          "isCorrect": false,
+          "rationale": "启动不等于连接、发现和调用都成功。"
+        },
+        {
+          "text": "调用一个工具，并检查参数、执行结果和错误反馈",
+          "isCorrect": true,
+          "rationale": "工具发现成功只证明能获取定义，不证明具体业务操作已经成功。"
+        },
+        {
+          "text": "只保存工具列表截图",
+          "isCorrect": false,
+          "rationale": "这还没有执行工具。"
+        }
+      ],
+      "hint": "分清启动、发现与调用三个阶段。"
+    },
+    {
+      "question": "[Task05] 当 LLM 接收到 MCP 传输的工具列表时，它如何决定调用哪个工具？",
+      "answerOptions": [
+        {
+          "text": "通过比对工具的源代码逻辑来判断功能",
+          "isCorrect": false,
+          "rationale": "模型只能看到工具的描述和参数定义，看不到底层源码。"
+        },
+        {
+          "text": "基于工具的自然语言描述和当前对话上下文进行推理",
+          "isCorrect": true,
+          "rationale": "模型结合工具名称、描述、参数定义和当前任务选择工具；描述并非唯一依据，调用还受实际权限与运行条件限制。"
+        },
+        {
+          "text": "按照工具在列表中出现的物理顺序依次尝试",
+          "isCorrect": false,
+          "rationale": "模型具备逻辑判断能力，不会盲目轮询。"
+        },
+        {
+          "text": "根据各个工具的 API 调用价格自动选择最便宜的",
+          "isCorrect": false,
+          "rationale": "模型无法实时知晓各个工具的内部运行成本。"
+        }
+      ],
+      "hint": "关注 10.2.1 (4) 节关于“工具发现与推理”的流程。"
+    },
+    {
+      "question": "[Task06] 在第十四章的“深度研究助手”项目中，研究流程被分为哪三个阶段？",
+      "answerOptions": [
+        {
+          "text": "初始化 (Init)、巡逻 (Patrol)、交互 (Interact)",
+          "isCorrect": false,
+          "rationale": "这是赛博小镇 NPC 的逻辑。"
+        },
+        {
+          "text": "规划 (Planning)、执行 (Execution)、报告 (Reporting)",
+          "isCorrect": true,
+          "rationale": "这是典型的 TODO 驱动研究工作流，确立了线性协作模式。"
+        },
+        {
+          "text": "思考 (Thought)、行动 (Action)、观察 (Observation)",
+          "isCorrect": false,
+          "rationale": "这是 ReAct 单个步骤的内部循环，而非整个项目的阶段。"
+        },
+        {
+          "text": "搜索 (Search)、存储 (Store)、对话 (Chat)",
+          "isCorrect": false,
+          "rationale": "这是 RAG 的基本环节，不代表该项目完整的研究流程。"
+        }
+      ],
+      "hint": "回顾 14.2.1 节关于“三要素”和“三阶段”的论述。"
+    },
+    {
+      "question": "[Task06] 深度研究助手生成了多个子任务，哪种现象最说明规划需要改进？",
+      "answerOptions": [
+        {
+          "text": "任务使用了简短标题",
+          "isCorrect": false,
+          "rationale": "标题长短不是判断规划质量的核心。"
+        },
+        {
+          "text": "任务采用列表表示",
+          "isCorrect": false,
+          "rationale": "列表是组织任务的一种正常方式。"
+        },
+        {
+          "text": "子任务数量不是固定的五个",
+          "isCorrect": false,
+          "rationale": "合理数量应随问题复杂度变化。"
+        },
+        {
+          "text": "子任务大量重复，而且没有覆盖问题的重要方面",
+          "isCorrect": true,
+          "rationale": "规划质量取决于覆盖、去重和可执行性，不能只看数量。"
+        }
+      ],
+      "hint": "关注任务是否各有用途。"
+    },
+    {
+      "question": "[Task06] 多智能体系统相比单体智能体在处理“旅行规划”任务时的优势在于？",
+      "answerOptions": [
+        {
+          "text": "显著减少与大语言模型通信的总 Token 消耗",
+          "isCorrect": false,
+          "rationale": "多 Agent 通常涉及更多交互，Token 消耗往往更高。"
+        },
+        {
+          "text": "可以直接跳过环境配置，在任何电脑上运行",
+          "isCorrect": false,
+          "rationale": "多 Agent 同样需要依赖底层环境和 API 配置。"
+        },
+        {
+          "text": "可以实现关注点分离，每个 Agent 专注特定领域的工具调用",
+          "isCorrect": true,
+          "rationale": "如景点专家只管搜景点，减少了单个 Agent 处理复杂逻辑的压力。"
+        },
+        {
+          "text": "不需要使用 `ToolExecutor` 即可直接控制硬件",
+          "isCorrect": false,
+          "rationale": "Agent 仍然需要通过工具系统与外部世界交互。"
+        }
+      ],
+      "hint": "关注 13.3.1 节关于“分工协作”的描述。"
+    },
+    {
+      "question": "[Task06] 在深度研究助手的代码实现中，`PlanningService` 提取 JSON 列表时通常使用什么手段应对模型输出的杂质文本？",
+      "answerOptions": [
+        {
+          "text": "直接通过 `int()` 函数进行类型转换",
+          "isCorrect": false,
+          "rationale": "JSON 解析应使用 `json.loads` 或 `ast.literal_eval`。"
+        },
+        {
+          "text": "强制模型必须一次性输出完毕，不使用流式响应",
+          "isCorrect": false,
+          "rationale": "这不能解决输出文本中包含解释性语句的问题。"
+        },
+        {
+          "text": "使用正则表达式匹配 `[` 和 `]` 之间的内容",
+          "isCorrect": true,
+          "rationale": "教材示例用正则提取JSON片段，再解析和验证字段；这不是对任意输出都可靠的通用解析器，应保留失败处理。"
+        },
+        {
+          "text": "要求用户手动删除响应中的额外文本",
+          "isCorrect": false,
+          "rationale": "目标是自动化流程，不应引入手动操作。"
+        }
+      ],
+      "hint": "查看 14.5.1 节关于 `_extract_tasks` 的代码实现。"
+    },
+    {
+      "question": "[Task07] 在进行毕业设计选题时，下列哪项不符合教程推荐的选题原则？",
+      "answerOptions": [
+        {
+          "text": "解决工作或学习中的具体效率痛点",
+          "isCorrect": false,
+          "rationale": "实用性项目更具展示价值。"
+        },
+        {
+          "text": "在有限的时间和资源内可以完成",
+          "isCorrect": false,
+          "rationale": "可行性是项目成功的保障。"
+        },
+        {
+          "text": "追求极致的理论创新，忽略实际应用场景",
+          "isCorrect": true,
+          "rationale": "教程强调实用性，要求解决真实问题而非“为了技术而技术”。"
+        },
+        {
+          "text": "能够清晰地展示对框架核心组件的应用能力",
+          "isCorrect": false,
+          "rationale": "这是毕业设计检验学习成果的核心目的。"
+        }
+      ],
+      "hint": "关注 16.2.1 节关于“选题原则”的论述。"
+    },
+    {
+      "question": "[Task07] 提交毕业设计 PR (Pull Request) 时，项目目录命名的标准化格式是？",
+      "answerOptions": [
+        {
+          "text": "Task07-Final-Project",
+          "isCorrect": false,
+          "rationale": "这种命名缺乏个人标识度，不符合开源协作规范。"
+        },
+        {
+          "text": "Agent-Framework-V1.0",
+          "isCorrect": false,
+          "rationale": "这描述的是内容而非提交者身份。"
+        },
+        {
+          "text": "随机生成的 8 位字符 ID",
+          "isCorrect": false,
+          "rationale": "不具备可读性。"
+        },
+        {
+          "text": "{GitHub用户名}-{项目名称}",
+          "isCorrect": true,
+          "rationale": "这是 16.1.2 节明确规定的命名规范，方便管理和识别。"
+        }
+      ],
+      "hint": "寻找 16.1.2 节中关于“项目命名”的具体要求。"
+    },
+    {
+      "question": "[Task07] 毕业设计项目中，`README.md` 文件的核心作用不包括？",
+      "answerOptions": [
+        {
+          "text": "介绍项目背景、功能及使用方法",
+          "isCorrect": false,
+          "rationale": "这是文档的最基本职责。"
+        },
+        {
+          "text": "展示项目的运行截图或设计思路",
+          "isCorrect": false,
+          "rationale": "辅助读者直观理解项目效果。"
+        },
+        {
+          "text": "列出运行项目所需的环境配置步骤",
+          "isCorrect": false,
+          "rationale": "方便他人复现你的项目。"
+        },
+        {
+          "text": "作为主要的 Python 执行逻辑入口文件",
+          "isCorrect": true,
+          "rationale": "README 是文档说明文件，执行入口通常是 .py 或 .ipynb 文件。"
+        }
+      ],
+      "hint": "区分“文档”与“代码”的不同职能。"
+    },
+    {
+      "question": "[Task07] 为便于别人复现毕业设计，应该如何记录Python第三方依赖？",
+      "answerOptions": [
+        {
+          "text": "仅在代码注释中随缘提到所需库名",
+          "isCorrect": false,
+          "rationale": "不够工程化，难以自动化安装。"
+        },
+        {
+          "text": "将所有依赖库的源代码打包进项目文件夹",
+          "isCorrect": false,
+          "rationale": "这会导致仓库体积臃肿，不符合现代软件开发规范。"
+        },
+        {
+          "text": "提供完整的 requirements.txt 列表",
+          "isCorrect": true,
+          "rationale": "标准化依赖管理是开源项目的基本要求。"
+        },
+        {
+          "text": "要求用户必须自行搜索并安装所有库",
+          "isCorrect": false,
+          "rationale": "这会极大增加他人使用项目的难度。"
+        }
+      ],
+      "hint": "查看 16.1.2 节对“项目内容”的清单要求。"
+    }
+  ]
+}

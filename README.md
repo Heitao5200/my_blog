@@ -31,6 +31,8 @@ my_blog/
 
 ## 内容进度
 
+新增：[2026-09 Hello-Agents 进阶学习计划、思考笔记与题库](docs/组队学习/2026-09hello-agents进阶/README.md)（学习准备阶段）。
+
 ### 组队学习（Datawhale 各期）
 
 | 期次 | 笔记 | Task 编号 | 备注 |

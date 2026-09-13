@@ -1,0 +1,301 @@
+{
+  "notebook_id": "3880b09d-cd9d-4f19-b4cc-567bae9966cc",
+  "source_note": "用户本地教材快照；仅任务范围；代码未执行；示例凭据已过滤。",
+  "sources": [
+    {
+      "task": "Task00",
+      "source_id": "5de64ef5-b7be-45ac-8d4d-5b8409d6070c",
+      "status": "ready",
+      "files": [
+        {
+          "path": "docs/前言.md",
+          "sha256": "276eafcd8ae5732dc61add104724789b3802073efb9d2ce5b44014b539250856"
+        },
+        {
+          "path": "Extra-Chapter/Extra07-环境配置.md",
+          "sha256": "45ea568d4915a5b89c4e5e94a258be96ebf7741caf7bb3880f7b3b72d05d5f43"
+        }
+      ],
+      "uploaded_text_sha256": "44ac4b32b5f4612e2a551aed56cdaeaeae4783ed93e40a7e3c2c7d1294056101"
+    },
+    {
+      "task": "Task01",
+      "source_id": "16458538-57e9-4bd1-8415-70e6bdfeab6b",
+      "status": "ready",
+      "files": [
+        {
+          "path": "docs/chapter4/第四章 智能体经典范式构建.md",
+          "sha256": "3f02e84fcf75c76caef3eaca5b91765251d1d8afbbf0f6dc750abcd25eff1ef1"
+        },
+        {
+          "path": "code/chapter4/Plan_and_solve.py",
+          "sha256": "10fd51c28749e51e61a1c4ce6f1b7be54ffce2d8055206c47ea6e60909d402c8"
+        },
+        {
+          "path": "code/chapter4/ReAct.py",
+          "sha256": "bf792fddcd8f9f8d1dccc15b147fe1ceb61cd590721adb82c8ff591c7692ea74"
+        },
+        {
+          "path": "code/chapter4/Reflection.py",
+          "sha256": "62125344082f4b8fb7cf590ac1dd37a00136cc8e776ede19630b889380623cba"
+        },
+        {
+          "path": "code/chapter4/llm_client.py",
+          "sha256": "c8c308ec0d9bb883dc487ed8ec6392a2b2e9dcd246ad2e346b83c7750295186b"
+        },
+        {
+          "path": "code/chapter4/tools.py",
+          "sha256": "8b7b10c4713b7d3e2e6236076faf3859720dbc82e5c06a83e6cc777ebe09780f"
+        }
+      ],
+      "uploaded_text_sha256": "da10317552811001cd37ceb80a125f5ae74d8c03733601c71210fe2c671db56f"
+    },
+    {
+      "task": "Task02",
+      "source_id": "b4e369af-5d9c-43a5-a3b7-1a5547c648bb",
+      "status": "ready",
+      "files": [
+        {
+          "path": "docs/chapter7/第七章 构建你的Agent框架.md",
+          "sha256": "4e3953750d723086620c036e8419766e879787ffba8c3d52801519f76d750fd2"
+        },
+        {
+          "path": "code/chapter7/my_advanced_search.py",
+          "sha256": "8f58052629ddf16c2cb99f8cb672f862c36a2a9e30f9c1dab838ffaa25a5f13c"
+        },
+        {
+          "path": "code/chapter7/my_calculator_tool.py",
+          "sha256": "e036bf0433f3b7a4529b5192aac8ebb8eb773219286766b1efe44580e84e29f5"
+        },
+        {
+          "path": "code/chapter7/my_llm.py",
+          "sha256": "b3ae4a678d0446ea9000d450548f08812250613d4c68a489f07d1acba3ca4f52"
+        },
+        {
+          "path": "code/chapter7/my_main.py",
+          "sha256": "73429970db9bb23bd94957aeff8bda6cce42b66b048512c6258f44aa0c7e84b4"
+        },
+        {
+          "path": "code/chapter7/my_react_agent.py",
+          "sha256": "5504ad2fa9d830ef66ab39c690fe0a1b32f72fe85207b3223f3897e81506b7f7"
+        },
+        {
+          "path": "code/chapter7/my_simple_agent.py",
+          "sha256": "367788346966ac2d55563d22857dc80ae679c595687b0549f7070677dd040482"
+        },
+        {
+          "path": "code/chapter7/test_advanced_search.py",
+          "sha256": "212609f31ef904a7a3f1c71877b2ac6ca5decf67a4d2dd61db4cf9983b9d6fad"
+        },
+        {
+          "path": "code/chapter7/test_my_calculator.py",
+          "sha256": "8fe41ca40468191f1ee79cd226077f8556960a6075c949ae2d684d201f1e9885"
+        },
+        {
+          "path": "code/chapter7/test_plan_solve_agent.py",
+          "sha256": "2cf1ebe9dc9642464e1ff1c99170ab85fa816acf931333dab6400d4ff61b682d"
+        },
+        {
+          "path": "code/chapter7/test_react_agent.py",
+          "sha256": "0122c0f7f724605a2f9388c7d13d1502ec85af24178c8583a33da3839655c659"
+        },
+        {
+          "path": "code/chapter7/test_reflection_agent.py",
+          "sha256": "6f6ef0332e8675163c5f66bf44afe8d90069f6ec396e44754832c048230990da"
+        },
+        {
+          "path": "code/chapter7/test_simple_agent.py",
+          "sha256": "65e7b15723db7f536d4cf907709197cb6f73ab897e5c17059a9ead66218262f5"
+        }
+      ],
+      "uploaded_text_sha256": "b554ebbc060ba06877b14dd56744dc9836a411f6de77a694e842751d3a2c35da"
+    },
+    {
+      "task": "Task03",
+      "source_id": "70a42bf4-f131-402f-9d0e-24b5d6ab6b0f",
+      "status": "ready",
+      "files": [
+        {
+          "path": "docs/chapter8/第八章 记忆与检索.md",
+          "sha256": "7882c2d11eb67382a29ef6fb72369d776ba56a9fd357896a836b7833472ecff8"
+        },
+        {
+          "path": "code/chapter8/01_MemoryTool_Basic_Operations.py",
+          "sha256": "ecc91f92297f103f924a49b5e8a2c0a5fd1286aac47edb01711371405eb23c27"
+        },
+        {
+          "path": "code/chapter8/02_MemoryTool_Architecture.py",
+          "sha256": "a44ee350b63708ad0bfb944c07c8c3061a6003e52be65cd81e66308e396bceeb"
+        },
+        {
+          "path": "code/chapter8/03_WorkingMemory_Implementation.py",
+          "sha256": "93162462702d12f79a8f48077544b8b85a54e9a5173dc6f4b82742f878f0bb3a"
+        },
+        {
+          "path": "code/chapter8/04_RAGTool_MarkItDown_Pipeline.py",
+          "sha256": "33bfac56cb17815171143fe2a6ad735893ad9b1024081ccb8bd3095bced0ab27"
+        },
+        {
+          "path": "code/chapter8/05_RAGTool_Advanced_Search.py",
+          "sha256": "67ce09acac9554e19d05ffc0d275f44832e80c3efd89b128e0fd34a8bf7ec4e4"
+        },
+        {
+          "path": "code/chapter8/06_Memory_Consolidation_Demo.py",
+          "sha256": "cf0740764e92d72c43be34a71e568fd2bb0a78ded40bb9eb583c765abf31973c"
+        },
+        {
+          "path": "code/chapter8/07_RAGTool_Intelligent_QA.py",
+          "sha256": "9e5493f1786994530442dcaa5034243fcc1296c308ac521889d4dce3f9626da6"
+        },
+        {
+          "path": "code/chapter8/08_Agent_Tool_Integration.py",
+          "sha256": "fadb9440899084d3cf0721f011034dad6a0b520ce4171b5d18ebba9c2ff76a13"
+        },
+        {
+          "path": "code/chapter8/09_Memory_Types_Deep_Dive.py",
+          "sha256": "f3c115252c9f6eb80c814902d97c3106df46d55b4415975c8939a78df456d557"
+        },
+        {
+          "path": "code/chapter8/10_RAG_Pipeline_Complete.py",
+          "sha256": "ac1b3a5f8d406501e11fe218de08f35272e8dd232bcb73749aee897704718a98"
+        },
+        {
+          "path": "code/chapter8/11_Q&A_Assistant.py",
+          "sha256": "83c43afd22c35d6cf906a27556cb6158a57776ebaa959ecc4869e2f0aea0829c"
+        }
+      ],
+      "uploaded_text_sha256": "07ee1bdc81cb6b45a954222d9c3957b25d5b9f6cfecaca87da1a19d27fe8abfe"
+    },
+    {
+      "task": "Task04",
+      "source_id": "533e9ce5-ce08-4981-9870-509d8fcbd1d3",
+      "status": "ready",
+      "files": [
+        {
+          "path": "docs/chapter9/第九章 上下文工程.md",
+          "sha256": "e19d020341763b796add06562bf17779efa68c79fb6cb30d8281061a3dab1b06"
+        },
+        {
+          "path": "code/chapter9/01_context_builder_basic.py",
+          "sha256": "3ada3eecbda66c7bef3e549b47b24b133e1b29f253a983604d5266665e1ca608"
+        },
+        {
+          "path": "code/chapter9/02_context_builder_with_agent.py",
+          "sha256": "3738de2e4ac4250bd73d94eddc8e2c3882d017ce6162c407e82745165a5a84f3"
+        },
+        {
+          "path": "code/chapter9/03_note_tool_operations.py",
+          "sha256": "da6586a41c7aa203c0877195712ee65ab96339654d57bb223edeeab0e49a1802"
+        },
+        {
+          "path": "code/chapter9/04_note_tool_integration.py",
+          "sha256": "fb7f2da66aeec2ac630eff7f34281d668779ffcbc90c6f320a7e19ea409732ce"
+        },
+        {
+          "path": "code/chapter9/05_terminal_tool_examples.py",
+          "sha256": "cccc7e977510898126810dfd04dade58be1cae24c0deba34af558f9470328281"
+        },
+        {
+          "path": "code/chapter9/06_three_day_workflow.py",
+          "sha256": "65371dd59c26a1446de39fc5a8d9c537df873d3e66c814fcf5b970f2f4cb637c"
+        },
+        {
+          "path": "code/chapter9/codebase_maintainer.py",
+          "sha256": "51ba860e37ebc5a340df041507af313a8b906342b092060b25a5180442fb1ddc"
+        },
+        {
+          "path": "code/chapter9/README.md",
+          "sha256": "73648d831d7a42d038b2a4d7c295ea0e50241636c564ee1b6041542e7f94ad63"
+        }
+      ],
+      "uploaded_text_sha256": "3a396362bf58548680dd1e2d5c993f52ca7e3ba32ed09394c0ddda1cbd27ae2f"
+    },
+    {
+      "task": "Task05",
+      "source_id": "f017f22c-ab9c-4367-a326-5747deedf379",
+      "status": "ready",
+      "files": [
+        {
+          "path": "docs/chapter10/第十章 智能体通信协议.md",
+          "sha256": "44352af2257757cd6625d5935f6e1d11cfe9ba4dc29d3fe67244624d63f57c59"
+        },
+        {
+          "path": "code/chapter10/01_TestConnect.py",
+          "sha256": "0545a0a5c71d9277ef7cdf238fedfa821b7049f5e25e76fa91607d401d6c864f"
+        },
+        {
+          "path": "code/chapter10/02_Connect2MCP.py",
+          "sha256": "524639ee949f33aa5832f8da9cf45dfe8b360e36fa153eb0d630bd201bf8a829"
+        },
+        {
+          "path": "code/chapter10/03_GitHubMCP.py",
+          "sha256": "f74c08e774836842b9138334e7703480eb5bfe3947a2b4f3e06dca1f757247e2"
+        },
+        {
+          "path": "code/chapter10/04_MCPTransport.py",
+          "sha256": "6a52fe7bb048360df88d11453c356a185a53ea0e8998436f1601315d493d7649"
+        },
+        {
+          "path": "code/chapter10/05_UseMCPToolInAgent.py",
+          "sha256": "5b4c8b6b6be208575f97dbb96da886d72adebf9f374cb5a8a2dd5d7c4a21e8be"
+        },
+        {
+          "path": "code/chapter10/14_test_weather_server.py",
+          "sha256": "1b4ea532d10423640e39dd05beb568c7b3a9f89469debe48cf9eca77d184e25b"
+        },
+        {
+          "path": "code/chapter10/14_weather_agent.py",
+          "sha256": "a4f290e614073a0947fce10d7bb5e080bc4f3b2c4674cd661474147d88b26ada"
+        },
+        {
+          "path": "code/chapter10/14_weather_mcp_server.py",
+          "sha256": "65627a0bab11abacdc8cbc14a554845d21f43e9dc4e91319ac7cb073410c1c1f"
+        },
+        {
+          "path": "code/chapter10/my_mcp_server.py",
+          "sha256": "b5926dd8ce11427da3b5302a08a73d56aef3927844086462b126853ecd4d960b"
+        }
+      ],
+      "uploaded_text_sha256": "594da3ff6986aed9c828395db387857cf6436e58474480ccc7edda6f5a39fc27"
+    },
+    {
+      "task": "Task06",
+      "source_id": "889702c7-4060-445f-87c8-f98edee430fe",
+      "status": "ready",
+      "files": [
+        {
+          "path": "docs/chapter13/第十三章 智能旅行助手.md",
+          "sha256": "bd5d7b365faabc174616adc2635b9985182f9df168f460ff924c280e95361bc3"
+        },
+        {
+          "path": "docs/chapter14/第十四章 自动化深度研究智能体.md",
+          "sha256": "a6ceef0555715f3870f097fcf812496862a28d4a1ad1ce6cbfa05c2989692bbf"
+        },
+        {
+          "path": "docs/chapter15/第十五章 构建赛博小镇.md",
+          "sha256": "569d7e5ea2e08480f98b56cd1ab1db11c3b601cdb4e226422bfe6c0008b27a52"
+        }
+      ],
+      "uploaded_text_sha256": "eb7a41c75429db06f98f15987c5e7336e7ff237702914c9065d98cc9dace1435"
+    },
+    {
+      "task": "Task07",
+      "source_id": "eb79cf3b-15e8-439f-bb22-e7bc64b8ae97",
+      "status": "ready",
+      "files": [
+        {
+          "path": "docs/chapter16/第十六章 毕业设计.md",
+          "sha256": "67ab4ffa675c82e84f74e94ecdb49c00e2fdce7ce20cd64962cd0cc5070676d7"
+        }
+      ],
+      "uploaded_text_sha256": "0e7f7960fb132bd376fd10e1f33fd73341cca9260d610c9ca254d5de2e3876f2"
+    },
+    {
+      "task": "学习约束",
+      "source_id": "b24f7f1d-1377-4855-9429-af984d9fc75f",
+      "status": "ready",
+      "files": [],
+      "uploaded_text_sha256": "f834be14ec2d8f398cd925e3726dacb56cf948c957b8c1a7c7d53b510b652a1a"
+    }
+  ]
+}
