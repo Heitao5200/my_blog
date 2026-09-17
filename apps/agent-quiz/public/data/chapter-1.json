@@ -1,0 +1,1262 @@
+{
+  "id": 1,
+  "title": "第一章 初识智能体",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第一章 初识智能体",
+    "path": "docs/chapter1/第一章 初识智能体.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md",
+    "sha256": "64476b6c48d89730a238161342b8cfa398f8ca036405d0b7afc68f64c6b76ac4",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "b367e665-a6ac-4c9b-b4d5-f308b3194f31",
+    "artifactId": "4c125951-3cb3-4ece-af23-6d22887bd184"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch01-o01",
+        "title": "识别智能体与环境交互的必要构成",
+        "sections": [
+          "1.1 什么是智能体？",
+          "1.1.1 传统视角下的智能体",
+          "1.1.2 大语言模型驱动的新范式"
+        ],
+        "reason": "建立主体、感知、行动和目标的边界，避免把模型或算力直接等同智能体。"
+      },
+      {
+        "id": "ch01-o02",
+        "title": "用互补维度分类智能体",
+        "sections": [
+          "1.1.3 智能体的类型",
+          "1.1.1 传统视角下的智能体",
+          "1.1.3 智能体的类型"
+        ],
+        "reason": "架构、时间反应和协作方式是不同维度，不应相互排斥。"
+      },
+      {
+        "id": "ch01-o03",
+        "title": "描述任务环境与Agent Loop",
+        "sections": [
+          "1.2.1 任务环境定义",
+          "1.2.2 智能体的运行机制",
+          "1.2.3 智能体的感知与行动"
+        ],
+        "reason": "环境约束决定闭环所需的信息与行动，而非只决定提示词。"
+      },
+      {
+        "id": "ch01-o04",
+        "title": "读懂旅行助手的工具执行过程",
+        "sections": [
+          "1.3.1 准备工作",
+          "1.3.3 执行行动循环",
+          "1.3.4 运行案例分析"
+        ],
+        "reason": "从案例理解结果回传和终止，不能将自然语言意图当执行成功。"
+      },
+      {
+        "id": "ch01-o05",
+        "title": "依据自主程度选择人机协作形式",
+        "sections": [
+          "1.4.1 作为开发者工具的智能体",
+          "1.4.2 作为自主协作者的智能体",
+          "1.4.2 作为自主协作者的智能体"
+        ],
+        "reason": "识别高层目标委托与逐步辅助的责任分工，避开产品名称记忆。"
+      },
+      {
+        "id": "ch01-o06",
+        "title": "权衡Workflow与Agent的控制方式",
+        "sections": [
+          "1.4.3 Workflow 和 Agent 的差异",
+          "1.4.3 Workflow 和 Agent 的差异",
+          "1.4.3 Workflow 和 Agent 的差异"
+        ],
+        "reason": "可预测流程与动态决策各有适用条件，不将自由度当质量。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch01-q01",
+        "type": "single",
+        "objectiveId": "ch01-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "1.1 什么是智能体？",
+        "purpose": "辨认传感器、执行器、环境和目标在数字助手中的对应物。"
+      },
+      {
+        "id": "ch01-q02",
+        "type": "single",
+        "objectiveId": "ch01-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "1.1.1 传统视角下的智能体",
+        "purpose": "分析反射智能体为何仅凭当前感知无法处理需要历史状态的任务。"
+      },
+      {
+        "id": "ch01-q03",
+        "type": "single",
+        "objectiveId": "ch01-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "1.1.3 智能体的类型",
+        "purpose": "区分内部架构分类与学习这一可跨类别的能力。"
+      },
+      {
+        "id": "ch01-q04",
+        "type": "single",
+        "objectiveId": "ch01-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "1.1.1 传统视角下的智能体",
+        "purpose": "解释内部模型如何补充当前观察不足，以及目标和效用如何改变决策依据。"
+      },
+      {
+        "id": "ch01-q05",
+        "type": "single",
+        "objectiveId": "ch01-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "1.2.1 任务环境定义",
+        "purpose": "将旅行助手任务映射到PEAS四个组成，不考英文拼写。"
+      },
+      {
+        "id": "ch01-q06",
+        "type": "single",
+        "objectiveId": "ch01-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "1.2.2 智能体的运行机制",
+        "purpose": "追踪感知、决策、行动、反馈如何形成下一轮依据。"
+      },
+      {
+        "id": "ch01-q07",
+        "type": "single",
+        "objectiveId": "ch01-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "1.3.1 准备工作",
+        "purpose": "辨认天气查询与景点检索在任务中的不同职责。"
+      },
+      {
+        "id": "ch01-q08",
+        "type": "single",
+        "objectiveId": "ch01-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "1.3.3 执行行动循环",
+        "purpose": "沿主循环追踪Action解析、工具查找、结果加入历史和最终回答分支。"
+      },
+      {
+        "id": "ch01-q09",
+        "type": "single",
+        "objectiveId": "ch01-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "1.4.1 作为开发者工具的智能体",
+        "purpose": "给出开发者逐步审阅修改的场景，识别辅助工具模式。"
+      },
+      {
+        "id": "ch01-q10",
+        "type": "single",
+        "objectiveId": "ch01-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "1.4.2 作为自主协作者的智能体",
+        "purpose": "分析目标委托减少人工逐步指令后为何仍需规划、执行与结果检查。"
+      },
+      {
+        "id": "ch01-q11",
+        "type": "single",
+        "objectiveId": "ch01-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "1.4.3 Workflow 和 Agent 的差异",
+        "purpose": "识别固定步骤业务使用Workflow的可控性收益。"
+      },
+      {
+        "id": "ch01-q12",
+        "type": "single",
+        "objectiveId": "ch01-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "1.4.3 Workflow 和 Agent 的差异",
+        "purpose": "比较预先编排和运行时决定下一步两种控制逻辑。"
+      },
+      {
+        "id": "ch01-q13",
+        "type": "multiple",
+        "objectiveId": "ch01-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "1.1.2 大语言模型驱动的新范式",
+        "purpose": "比较显式规则与LLM驱动决策的知识来源和适用边界，避免称所有传统系统均无学习能力。"
+      },
+      {
+        "id": "ch01-q14",
+        "type": "multiple",
+        "objectiveId": "ch01-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "1.1.3 智能体的类型",
+        "purpose": "对一个兼具学习、规划和多角色协作的案例选择可同时成立的分类。"
+      },
+      {
+        "id": "ch01-q15",
+        "type": "multiple",
+        "objectiveId": "ch01-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "1.2.3 智能体的感知与行动",
+        "purpose": "区分模型产生Action文本、执行器实际执行、工具返回Observation三种事件。"
+      },
+      {
+        "id": "ch01-q16",
+        "type": "multiple",
+        "objectiveId": "ch01-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "1.3.4 运行案例分析",
+        "purpose": "在先查天气再推荐景点的轨迹中识别缺失Observation或越过工具执行的错误。"
+      },
+      {
+        "id": "ch01-q17",
+        "type": "multiple",
+        "objectiveId": "ch01-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "1.4.2 作为自主协作者的智能体",
+        "purpose": "为需专业分工的任务选择角色协作或单体循环，说明任务结构依据。"
+      },
+      {
+        "id": "ch01-q18",
+        "type": "multiple",
+        "objectiveId": "ch01-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "1.4.3 Workflow 和 Agent 的差异",
+        "purpose": "在稳定审批步骤与开放信息探索混合的任务中选择可预测性、灵活性和成本的合理取舍。"
+      },
+      {
+        "id": "ch01-q19",
+        "type": "reflection",
+        "objectiveId": "ch01-o03",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "1.2.1 任务环境定义",
+        "purpose": "为一个自选生活任务建立PEAS，并画出一次行动改变环境后的反馈闭环；明确无法直接观察的信息。"
+      },
+      {
+        "id": "ch01-q20",
+        "type": "reflection",
+        "objectiveId": "ch01-o06",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "1.4.3 Workflow 和 Agent 的差异",
+        "purpose": "把旅行助手拆成固定流程和需要自主决策的部分，解释何时终止、何时由用户补充信息及如何验证工具结果。"
+      }
+    ],
+    "notes": "强调定义、分类、任务环境、闭环和协作模式；安装命令、API品牌、产品最新能力不作考点。图中独有信息没有文字佐证时不得造引文。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:37:16.993138+00:00",
+    "notes": [
+      "逐题核对20题题干、选项、答案、逐项解释和思考参考答案，依据锁定的本地课件作语义编辑；此为代理编辑核验，不是人工课堂效度评价或课程示例运行证明。",
+      "修正AlphaGo分类题无依据的隐藏状态结论、简单反射题多解风险、失败必然性与Workflow成功保证；将表格依赖改为PEAS原理应用；按原文保留HTML标记并补齐连续引文。",
+      "保留NotebookLM来源ID、源文件哈希、题目ID与蓝图配额；所有证据改用对应课件连续片段与原始来源URL。思考题仅含自查要点。",
+      "AGENT_QUIZ_REPO=/Users/heitao/Colab/my_blog python3 apps/agent-quiz/scripts/validate_bank.py --chapters 1,2,3,4,7：100题，0 errors。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch01-q01",
+      "stem": "在构建一个基于大语言模型的数字助手时，如果该助手通过调用 GitHub API 获取代码库的提交记录，并根据逻辑决定是否发送提醒邮件给开发者。根据 1.1 节对智能体基本要素的定义，下列描述正确的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "GitHub API 返回的 JSON 数据流属于执行器（Actuators）"
+        },
+        {
+          "id": "b",
+          "text": "发送提醒邮件的 SMTP 服务调用属于传感器（Sensors）"
+        },
+        {
+          "id": "c",
+          "text": "GitHub API 返回的数据流是智能体感知能力的延伸，属于传感器（Sensors）"
+        },
+        {
+          "id": "d",
+          "text": "该数字助手不具备物理实体，因此不符合智能体的基本要素"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "根据教材 1.1 节的定义，智能体通过传感器感知环境。在数字化场景中，传感器不仅限于物理设备（如摄像头），API 返回的数据流同样被定义为感知能力的延伸。而执行器则是对环境施加影响的手段，如调用服务发送邮件。此外，智能体既可以是物理实体，也可以是虚拟工具。",
+      "optionExplanations": {
+        "a": "错误，API 返回数据是感知的输入流，对应传感器功能，而非执行器。",
+        "b": "错误，发送邮件是改变环境状态的行动，由执行器（虚拟工具调用）完成。",
+        "c": "正确，教材明确指出 API 返回的数据流是其感知能力的延伸。",
+        "d": "错误，教材 1.1 节指出执行器可以是物理设备，也可以是虚拟工具，数字助手符合定义。"
+      },
+      "evidence": [
+        {
+          "section": "1.1 什么是智能体？",
+          "quote": "这个定义包含了智能体存在的四个基本要素。环境是智能体所处的外部世界。对于自动驾驶汽车，环境是动态变化的道路交通；对于一个交易算法，环境则是瞬息万变的金融市场。智能体并非与环境隔离，它通过其传感器持续地感知环境状态。摄像头、麦克风、雷达或各类<strong>应用程序编程接口（Application Programming Interface, API）</strong>返回的数据流，都是其感知能力的延伸。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "测试学生将传统传感器/执行器概念迁移至数字化/虚拟化 API 环境的能力。",
+        "misconception": "误认为传感器仅指物理硬件设备。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch01-q02",
+      "stem": "经典的自动恒温器被归类为“简单反射智能体（Simple Reflex Agent）”。根据 1.1.1 节的分析，这类智能体在处理复杂任务时的核心局限性在于：",
+      "options": [
+        {
+          "id": "a",
+          "text": "无法感知当前环境的瞬时状态"
+        },
+        {
+          "id": "b",
+          "text": "完全依赖当前感知，不具备理解上下文或记忆的能力"
+        },
+        {
+          "id": "c",
+          "text": "计算开销过大，导致在高动态环境下响应延迟"
+        },
+        {
+          "id": "d",
+          "text": "因为引入了复杂的长期规划，无法执行简单条件规则"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "简单反射智能体（Simple Reflex Agent）的决策逻辑仅由“条件-动作”规则驱动。教材指出，这种智能体完全依赖当前瞬时的感知输入，没有内部状态来存储历史信息，因此无法处理需要长时上下文或预测未来的复杂任务。",
+      "optionExplanations": {
+        "a": "错误，简单反射智能体正是通过感知当前瞬时状态来触发规则的。",
+        "b": "正确，原文指出其“不具备记忆或预测能力...无法应对需要理解上下文的复杂任务”。",
+        "c": "错误，教材提到简单反射智能体“可靠且高效”，通常计算开销极低。",
+        "d": "错误，简单反射智能体按条件动作规则响应，并没有这种长期规划机制。"
+      },
+      "evidence": [
+        {
+          "section": "1.1.1 传统视角下的智能体",
+          "quote": "这种智能体完全依赖于当前的感知输入，不具备记忆或预测能力。它像一种数字化的本能，可靠且高效，但也因此无法应对需要理解上下文的复杂任务。它的局限性引出了一个关键问题：如果环境的当前状态不足以作为决策的全部依据，智能体该怎么办？",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "深度考察对反射式架构逻辑边界的理解。",
+        "misconception": "忽略“当前感知”与“历史上下文”之间的区别。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q03",
+      "stem": "在 1.1.3 节关于智能体类型的分类中，教材提到“学习能力（Learning capability）”与内部决策架构（如反应式、基于目标等）的关系是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "学习能力是基于模型的反射智能体所特有的属性"
+        },
+        {
+          "id": "b",
+          "text": "学习能力是一种元能力，可以赋予不同层级的决策架构以实现自我改进"
+        },
+        {
+          "id": "c",
+          "text": "拥有学习能力的智能体不再需要内部决策架构中的性能元件"
+        },
+        {
+          "id": "d",
+          "text": "学习能力在 1.1.3 节中仅被定义为神经网络的预训练过程"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "教材 1.1.3 节明确将学习能力定义为一种“元能力（meta-capability）”。这意味着学习能力不是一个孤立的分类，而是可以叠加在反应式、模型式、基于目标或基于效用等任何决策架构之上的增强插件，使其能够通过经验进行自我演进。",
+      "optionExplanations": {
+        "a": "错误，教材指出它可以赋予“上述所有类型”。",
+        "b": "正确，符合原文对学习型智能体作为元能力的定义。",
+        "c": "错误，学习型智能体包含性能元件（即原有决策架构）和学习元件，缺一不可。",
+        "d": "错误，此处是在通用智能体分类语境下讨论，而非仅指 LLM 的预训练。"
+      },
+      "evidence": [
+        {
+          "section": "1.1.3 智能体的类型",
+          "quote": "第一种分类维度是依据智能体内部决策架构的复杂程度，这个视角在《Artificial Intelligence: A Modern Approach》中系统性地提出<sup>[1]</sup>。正如 1.1.1 节所述，传统智能体的演进路径本身就构成了最经典的分类阶梯，它涵盖了从简单的<strong>反应式</strong>智能体，到引入内部模型的<strong>模型式</strong>智能体，再到更具前瞻性的<strong>基于目标</strong>和<strong>基于效用</strong>的智能体。此外，<strong>学习能力</strong>则是一种可赋予上述所有类型的元能力，使其能通过经验自我改进。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨析分类体系中的横向维度与纵向元能力的关系。",
+        "misconception": "认为学习型智能体是独立于反应式/模型式之外的另一种排他性架构。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch01-q04",
+      "stem": "一个基于效用的智能体（Utility-Based Agent）在解决导航问题时，与基于目标的智能体（Goal-Based Agent）的主要区别在于：",
+      "options": [
+        {
+          "id": "a",
+          "text": "基于效用的智能体不需要通过搜索算法进行规划"
+        },
+        {
+          "id": "b",
+          "text": "基于目标的智能体无法考量未来的行动序列对环境的影响"
+        },
+        {
+          "id": "c",
+          "text": "基于效用的智能体能在多个冲突目标（如时长、成本、安全性）之间进行权衡"
+        },
+        {
+          "id": "d",
+          "text": "基于目标的智能体使用效用值来代表最终状态的满意度"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "基于目标的智能体关注“如何到达目的地”，通过规划达成特定状态。而基于效用的智能体更进一步，它通过效用函数为不同状态赋予满意度值。这使其能够在多个可能冲突的目标（如最短距离 vs 最低油耗）中寻找最优的权衡，决策更具理性选择特征。",
+      "optionExplanations": {
+        "a": "错误，两者通常都需要对未来可能性进行搜索和规划。",
+        "b": "错误，教材指出基于目标的智能体核心能力就在于对未来的考量与规划。",
+        "c": "正确，原文强调基于效用的智能体学会在冲突目标间权衡，最大化期望效用。",
+        "d": "错误，效用值是效用智能体的核心，目标智能体只判断是否达成目标（Binary）。"
+      },
+      "evidence": [
+        {
+          "section": "1.1.1 传统视角下的智能体",
+          "quote": "更进一步，现实世界的目标往往不是单一的。我们不仅希望到达公司，还希望时间最短、路程最省油并且避开拥堵。当多个目标需要权衡时，<strong>基于效用的智能体（Utility-Based Agent）</strong>便随之出现。它为每一个可能的世界状态都赋予一个效用值，这个值代表了满意度的高低。智能体的核心目标不再是简单地达成某个特定状态，而是最大化期望效用。它需要回答一个更复杂的问题：“哪种行为能为我带来最满意的结果？”。这种架构让智能体学会在相互冲突的目标之间进行权衡，使其决策更接近人类的理性选择。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察学生对两种高级智能体决策逻辑差异的敏锐度。",
+        "misconception": "混淆“达成目标”与“最优达成”之间的逻辑差异。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q05",
+      "stem": "按 PEAS 模型为软件旅行助手设计任务环境，下列对应关系中错误的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "P（Performance）：涉及推荐的准确性、预订成功率及用户满意度"
+        },
+        {
+          "id": "b",
+          "text": "E（Environment）：包括互联网环境、航司/酒店系统以及用户的个性化偏好"
+        },
+        {
+          "id": "c",
+          "text": "A（Actuators）：包含网络搜索接口、订单提交 API 以及屏幕反馈信息"
+        },
+        {
+          "id": "d",
+          "text": "S（Sensors）：专指智能手机中的 GPS 芯片、陀螺仪以及物理压力传感器"
+        }
+      ],
+      "answerIds": [
+        "d"
+      ],
+      "explanation": "PEAS 包括性能度量、环境、执行器和传感器。软件助手可以通过 API 返回数据与用户文本感知环境；不能把传感器限定为物理芯片。其余选项是这一模型在旅行场景中的合理应用示例。",
+      "optionExplanations": {
+        "a": "正确，推荐准确性和用户满意度可用作此方案的性能指标。",
+        "b": "正确，航司酒店系统和用户偏好属于任务需要考虑的环境信息。",
+        "c": "正确，执行器是智能体对环境施加影响的手段，如 API 调用。",
+        "d": "错误，1.1节说明软件API返回的数据也具有传感器作用，不能专指物理芯片。"
+      },
+      "evidence": [
+        {
+          "section": "1.2.1 任务环境定义",
+          "quote": "要理解智能体的运作，我们必须先理解它所处的<strong>任务环境</strong>。在人工智能领域，通常使用<strong>PEAS 模型</strong>来精确描述一个任务环境，即分析其<strong>性能度量(Performance)、环境(Environment)、执行器(Actuators)和传感器(Sensors)</strong> 。以上文提到的智能旅行助手为例，下表 1.2 展示了如何运用 PEAS 模型对其任务环境进行规约。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "1.1 什么是智能体？",
+          "quote": "这个定义包含了智能体存在的四个基本要素。环境是智能体所处的外部世界。对于自动驾驶汽车，环境是动态变化的道路交通；对于一个交易算法，环境则是瞬息万变的金融市场。智能体并非与环境隔离，它通过其传感器持续地感知环境状态。摄像头、麦克风、雷达或各类<strong>应用程序编程接口（Application Programming Interface, API）</strong>返回的数据流，都是其感知能力的延伸。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "测试 PEAS 模型在具体数字应用场景下的落地分析能力。",
+        "misconception": "受“传感器”字面意思误导，将其局限于物理硬件。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch01-q06",
+      "stem": "在 1.2.2 节定义的“智能体循环（Agent Loop）”中，“观察（Observation）”扮演的核心角色是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "循环的静态终止状态，代表任务的最终交付"
+        },
+        {
+          "id": "b",
+          "text": "既是当前行动的反馈结果，也是下一轮循环中“思考”的输入"
+        },
+        {
+          "id": "c",
+          "text": "智能体内部存储的、与当前感知无关的长期背景知识"
+        },
+        {
+          "id": "d",
+          "text": "预先由工程师编写好的、用于指导工具选择的专家规则"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "Agent Loop 是一个动态交互闭环。根据教材图 1.5 和 1.2.2 节描述，行动会引起环境状态变化并产生观察。观察被感知系统捕获后，作为下一轮思考（规划与工具选择）的依据。它起到承上启下的枢纽作用。",
+      "optionExplanations": {
+        "a": "错误，观察是循环过程中的一个环节，并非仅代表终点。",
+        "b": "正确，它是上一轮行动的结果反馈，并驱动下一轮的感知与思考。",
+        "c": "错误，长期背景知识属于“记忆”或模型内部参数，非瞬时观察。",
+        "d": "错误，规则属于决策机制，而观察是来自环境的实时反馈。"
+      },
+      "evidence": [
+        {
+          "section": "1.2.2 智能体的运行机制",
+          "quote": "行动并非循环的终点。智能体的行动会引起<strong>环境 (Environment)</strong> 的<strong>状态变化 (State Change)</strong>，环境随即会产生一个新的<strong>观察 (Observation)</strong> 作为结果反馈。这个新的观察又会在下一轮循环中被智能体的感知系统捕获，形成一个持续的“感知-思考-行动-观察”的闭环。智能体正是通过不断重复这一循环，逐步推进任务，从初始状态向目标状态演进。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察对智能体动力学闭环特征的理解。",
+        "misconception": "认为观察只是单向的输出结果，忽略了其作为下一轮输入的循环意义。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q07",
+      "stem": "在 1.3.1 节的“智能旅行助手”代码实现中，关于 `get_weather` 与 `get_attraction` 工具的职责逻辑，描述正确的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "两者功能独立，智能体可以在首个循环中随机选择任意一个执行"
+        },
+        {
+          "id": "b",
+          "text": "任务存在逻辑依赖，智能体需通过 `get_weather` 获取观察后再决定景点推荐"
+        },
+        {
+          "id": "c",
+          "text": "`get_attraction` 内部已经封装了实时天气获取逻辑，因此 `get_weather` 是冗余的"
+        },
+        {
+          "id": "d",
+          "text": "若 `get_weather` 返回异常，代码中的智能体会自动跳过感知直接进行行动建议"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "在 1.3 节的动手实践中，任务被定义为“根据天气推荐景点”。这建立了清晰的逻辑链条：必须先感知天气（Observation），将此作为输入来引导下一步的决策。这体现了智能体的任务分解与逻辑规划能力。",
+      "optionExplanations": {
+        "a": "错误，随机执行将无法满足“根据天气推荐”的逻辑需求。",
+        "b": "正确，原文指出“它需要先调用天气查询工具，并将获得的观察结果作为下一步的依据”。",
+        "c": "错误，代码中定义了两个职责分离的独立工具函数。",
+        "d": "错误，示例没有定义遇到天气异常就自动跳过的固定分支，错误反馈仍会进入后续上下文。"
+      },
+      "evidence": [
+        {
+          "section": "1.3 动手体验：5 分钟实现第一个智能体",
+          "quote": "在本案例中，我们的目标是构建一个能处理分步任务的智能旅行助手。需要解决的用户任务定义为：\"你好，请帮我查询一下今天北京的天气，然后根据天气推荐一个合适的旅游景点。\"要完成这个任务，智能体必须展现出清晰的逻辑规划能力。它需要先调用天气查询工具，并将获得的观察结果作为下一步的依据。在下一轮循环中，它再调用景点推荐工具，从而得出最终建议。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "通过代码案例考察对任务分解及工具链上下文依赖的掌握。",
+        "misconception": "低估多步任务中“观察结果”对后续“工具参数选择”的控制作用。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch01-q08",
+      "stem": "根据 1.3.3 节的代码逻辑，当解析器通过正则表达式捕获到智能体输出 `Action: Finish[最终答案]` 时，程序是如何处理的？",
+      "options": [
+        {
+          "id": "a",
+          "text": "将其视为一种特殊工具，并尝试在 `available_tools` 字典中进行查找"
+        },
+        {
+          "id": "b",
+          "text": "提取括号内的内容作为观察（Observation）并启动第 6 次循环"
+        },
+        {
+          "id": "c",
+          "text": "通过 `re.match` 提取方括号内的内容，打印答案并执行 `break` 终止主循环"
+        },
+        {
+          "id": "d",
+          "text": "忽略此输出，并要求模型重新按照 `Thought-Action` 格式回复"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "根据 1.3.3 节的代码实现，`Finish` 是终止指令。代码逻辑使用 `if action_str.startswith(\"Finish\")` 进行分支判断，并通过正则表达式 `re.match(r\"Finish\\[(.*)\\]\", action_str)` 提取结果，随后使用 `break` 退出 `for i in range(5)` 的循环。",
+      "optionExplanations": {
+        "a": "错误，代码通过 `startswith` 单独处理，并未进入工具调用分支。",
+        "b": "错误，`break` 会立即终止循环，不再继续。",
+        "c": "正确，详细符合 1.3.3 节的代码实现路径和正则解析逻辑。",
+        "d": "错误，这是正常的任务完成路径，而非错误路径。"
+      },
+      "evidence": [
+        {
+          "section": "1.3.3 执行行动循环",
+          "quote": "action_match = re.search(r\"Action: (.*)\", llm_output, re.DOTALL)\n    if not action_match:\n        observation = \"错误: 未能解析到 Action 字段。请确保你的回复严格遵循 'Thought: ... Action: ...' 的格式。\"\n        observation_str = f\"Observation: {observation}\"\n        print(f\"{observation_str}\\n\" + \"=\"*40)\n        prompt_history.append(observation_str)\n        continue\n    action_str = action_match.group(1).strip()\n\n    if action_str.startswith(\"Finish\"):\n        final_answer = re.match(r\"Finish\\[(.*)\\]\", action_str).group(1)\n        print(f\"任务完成，最终答案: {final_answer}\")\n        break",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "精确考查对智能体交互协议中“终止语”解析实现的理解。",
+        "misconception": "误认为所有 Action 都对应外部 API 工具。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q09",
+      "stem": "在 1.4.1 节描述的“作为开发者工具的智能体”模式中，Cursor 被称为“AI 原生代码编辑器”，其主要特点是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "它仅提供代码自动补全，不具备对话式编程能力"
+        },
+        {
+          "id": "b",
+          "text": "它在设计之初就将 AI 交互作为核心，并强调对整个代码库上下文的理解"
+        },
+        {
+          "id": "c",
+          "text": "它完全取代了开发者的角色，实现了全权委托式开发"
+        },
+        {
+          "id": "d",
+          "text": "它主要运行在命令行终端，通过无交互模式处理自动化脚本"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "教材指出 Cursor 与 GitHub Copilot 等插件不同，它是一个 AI 原生编辑器。它的核心优势在于将 AI 交互深度整合进编辑器的底层设计，使其能更好地理解整个代码库的语义，辅助进行重构和调试，而非简单的补全工具。",
+      "optionExplanations": {
+        "a": "错误，它具备顶级的生成与聊天能力。",
+        "b": "正确，符合原文对 Cursor “AI 原生”和“代码库上下文”特点的描述。",
+        "c": "错误，该模式属于“开发者工具”，旨在增强而非取代开发者。",
+        "d": "错误，这是对 Claude Code 终端特性的描述，而非 Cursor。"
+      },
+      "evidence": [
+        {
+          "section": "1.4.1 作为开发者工具的智能体",
+          "quote": "Cursor 则选择了一条更具整合性的路径，它本身就是一个 AI 原生的代码编辑器。它并非在现有编辑器上增加 AI 功能，而是在设计之初就将 AI 交互作为核心。除了具备顶级的代码生成和聊天能力外，它更强调让 AI 理解整个代码库的上下文，从而实现更深层次的问答、重构和调试。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "区分 AI 编程辅助工具的不同形态及其核心产品定位。",
+        "misconception": "混淆“AI 插件”与“AI 原生编辑器”在上下文处理深度上的差异。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch01-q10",
+      "stem": "根据 1.4.2 节，在“作为自主协作者”模式下，人类与 AI 关系转变为“目标-委托”的标志是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "人类需要为 AI 编写更详细的代码 SOP 以规范其行为"
+        },
+        {
+          "id": "b",
+          "text": "AI 不再被动执行具体指令，而是作为主动的目标追求者"
+        },
+        {
+          "id": "c",
+          "text": "智能体不再需要内部的“规划-执行”循环"
+        },
+        {
+          "id": "d",
+          "text": "人机交互界面从对话框转变为纯碎的代码配置文件"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "自主协作者模式（Autonomous Collaborator）与助手模式的关键区别在于自主性。用户只需提供高层级目标，由智能体独立完成规划、推理与交付。这种转变意味着智能体从被动工具演化为能够理解并追求目标的主动实体。",
+      "optionExplanations": {
+        "a": "错误，虽然 MetaGPT 等使用 SOP，但核心转变在于委托而非编写 SOP。",
+        "b": "正确，符合原文对从助手到协作者、从命令执行到目标委托转变的定义。",
+        "c": "错误，自主性正来源于其内部的“思考-规划-执行-反思”闭环。",
+        "d": "错误，教材未提及交互界面向纯配置文件的转变。"
+      },
+      "evidence": [
+        {
+          "section": "1.4.2 作为自主协作者的智能体",
+          "quote": "与作为工具辅助人类不同，第二种交互模式将智能体的自动化程度提升到了一个全新的层次，自主协作者。在这种模式下，我们不再是手把手地指导 AI 完成每一步，而是将一个高层级的目标委托给它。智能体会像一个真正的项目成员一样，独立地进行规划、推理、执行和反思，直到最终交付成果。这种从助手到协作者的转变，使得 LLM 智能体更深的进入了大众的视野。它标志着我们与 AI 的关系从“命令-执行”演变为“目标-委托”。智能体不再是被动的工具，而是主动的目标追求者。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察学生对智能体从“工具”到“实体”角色演变的认知。",
+        "misconception": "误认为“自主协作”仅仅是更复杂的指令集编写。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q11",
+      "stem": "根据 1.4.3 节的论述，在费用报销审批等固定业务场景中，Workflow 优于 Agent 的核心原因是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "Workflow 能够动态适应天气等环境因素的变化"
+        },
+        {
+          "id": "b",
+          "text": "Workflow 具有精确、静态和预先定义的确定性，符合合规性要求"
+        },
+        {
+          "id": "c",
+          "text": "Workflow 能够自主生成新的审批节点，无需人工干预"
+        },
+        {
+          "id": "d",
+          "text": "Agent 无法处理带有金额阈值的逻辑判断"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "Workflow 擅长处理结构化、逻辑固定的任务。由于其步骤和条件是预先定义的，能提供极高的可预测性和审计性，这对于涉及财务、合规等需要“确定性结果”的场景至关重要。Agent 虽然灵活，但在这些场景下其不可控性反而成为劣势。",
+      "optionExplanations": {
+        "a": "错误，这是 Agent 处理模糊/动态环境的强项。",
+        "b": "正确，原文指出其本质是精确、静态流程图，适用于每一步都被精确设定的场景。",
+        "c": "错误，Workflow 是静态的，无法自主生成节点。",
+        "d": "错误，模型可以处理金额逻辑；固定流程的优势在于预先定义和可核查，不是Agent没有判断能力。"
+      },
+      "evidence": [
+        {
+          "section": "1.4.3 Workflow 和 Agent 的差异",
+          "quote": "如图 1.6 所示，工作流是一种传统的自动化范式，其核心是<strong>对一系列任务或步骤进行预先定义的、结构化的编排</strong>。它本质上是一个精确的、静态的流程图，规定了在何种条件下、以何种顺序执行哪些操作。一个典型的案例：某企业的费用报销审批流程。员工提交报销单（触发）-> 如果金额小于 500 元，直接由部门经理审批 -> 如果金额大于 500 元，先由部门经理审批，再流转至财务总监审批 -> 审批通过后，通知财务部打款。整个过程的每一步、每一个判断条件都被精确地预先设定。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "培养学生在工程实践中根据任务属性进行技术选型的能力。",
+        "misconception": "迷信 Agent 的“先进性”，认为其在所有场景下均优于 Workflow。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch01-q12",
+      "stem": "对比 1.4.3 节中两种模式处理逻辑的差异，当环境出现“未预料的雨天”时，Agent 相比 Workflow 的表现是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "由于没有预设 `if-else` 规则，Agent 会因为解析错误而崩溃"
+        },
+        {
+          "id": "b",
+          "text": "Agent 能够基于 LLM 的推理能力动态推荐室内场所，体现了灵活性"
+        },
+        {
+          "id": "c",
+          "text": "Agent 会忽略天气信息，强制执行预先设定的“故宫游览”计划"
+        },
+        {
+          "id": "d",
+          "text": "Agent 会要求开发者立即更新其内部的静态流程图"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "Agent 的核心价值在于基于实时信息进行动态推理。与 Workflow 需要预先穷举所有 `if` 条件不同，Agent 利用大语言模型的知识，能够理解“雨天”与“室内活动”的逻辑关联，从而在未预置规则的情况下做出合理决策。",
+      "optionExplanations": {
+        "a": "错误，Agent 正是为了处理这种非预设情况而设计的。",
+        "b": "正确，符合教材中对 Agent “动态推理和决策能力”核心价值的描述。",
+        "c": "错误，忽略天气不符合题干中根据实时信息调整建议的要求；Workflow也可以预设天气分支。",
+        "d": "错误，Agent 的优势就在于无需开发者频繁手动更新逻辑规则。"
+      },
+      "evidence": [
+        {
+          "section": "1.4.3 Workflow 和 Agent 的差异",
+          "quote": "在这个过程中，没有任何写死的`if天气=晴天 then 推荐颐和园`的规则。如果天气是“雨天”，Agent 会自主推理并推荐国家博物馆、首都博物馆等室内场所。<strong>这种基于实时信息进行动态推理和决策的能力，正是 Agent 的核心价值所在。</strong>",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "强调 LLM 赋能智能体带来的“逻辑灵活性”与“传统硬编码”的区别。",
+        "misconception": "误认为智能体内部也是靠复杂的硬编码条件支撑的。"
+      },
+      "type": "single",
+      "objectiveId": "ch01-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q13",
+      "stem": "结合表 1.1 及相关内容，LLM 驱动的智能体相比传统智能体在“知识来源”与“指令处理”上的主要特征包括：（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "知识来源于海量数据的预训练，拥有隐式的世界模型"
+        },
+        {
+          "id": "b",
+          "text": "指令处理上表现为确定且有严格边界的逻辑解析"
+        },
+        {
+          "id": "c",
+          "text": "能够处理高层级、模糊且充满上下文信息的自然语言指令"
+        },
+        {
+          "id": "d",
+          "text": "其行为模式完全由工程师通过显式编程定义"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c"
+      ],
+      "explanation": "教材 1.1.2 节指出，传统智能体依赖显式编程，边界确定；而 LLM 智能体通过预训练获得隐式世界模型，这种本质差异使其能理解自然语言中的模糊性和上下文，实现更通用的任务处理。",
+      "optionExplanations": {
+        "a": "正确，符合表 1.1 对 LLM 智能体知识来源的描述。",
+        "b": "错误，这是传统智能体在指令处理上的特征。",
+        "c": "正确，教材 1.1.2 节明确提到其可以直接处理高层级模糊指令。",
+        "d": "错误，这是传统智能体的核心引擎特征。"
+      },
+      "evidence": [
+        {
+          "section": "1.1.2 大语言模型驱动的新范式",
+          "quote": "这种转变，可以从两者在核心引擎、知识来源、交互方式等多个维度的对比中清晰地看出，如表 1.1 所示。简而言之，传统智能体的能力源于工程师的显式编程与知识构建，其行为模式是确定且有边界的；而 LLM 智能体则通过在海量数据上的预训练，获得了隐式的世界模型与强大的涌现能力，使其能够以更灵活、更通用的方式应对复杂任务。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "1.1.2 大语言模型驱动的新范式",
+          "quote": "这种差异使得 LLM 智能体可以直接处理高层级、模糊且充满上下文信息的自然语言指令。让我们以一个“智能旅行助手”为例来说明。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "综合对比新旧智能体范式的核心特征。",
+        "misconception": "将传统专家系统的特征混淆为现代智能体的特征。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch01-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q14",
+      "stem": "一个像课件所述 AlphaGo Zero 那样通过强化学习改进策略的下棋智能体，若同时在落子前评估未来棋路，按本章分类可判断哪些特性（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "属于学习型智能体（Learning Agent），通过强化学习自我进化"
+        },
+        {
+          "id": "b",
+          "text": "属于规划式智能体（Deliberative Agent），会预想并评估未来棋路"
+        },
+        {
+          "id": "c",
+          "text": "属于简单反射智能体（Simple Reflex Agent），仅根据当前棋盘进行即时反馈"
+        },
+        {
+          "id": "d",
+          "text": "仅凭它善于下棋，就能断定其感知环境必定不完全可观察"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b"
+      ],
+      "explanation": "强化学习支持学习型分类；题干明确给出的未来棋路评估符合规划式分类。学习能力与决策方式是互补维度，不能由下棋能力推出环境不可完全观察。",
+      "optionExplanations": {
+        "a": "正确，教材 1.1.1 节明确将其列为学习型智能体的里程碑成就。",
+        "b": "正确，题干明确包含行动前评估未来方案，符合课件规划式定义。",
+        "c": "错误，本题明确包括学习和预测，不是仅依当前输入匹配规则。",
+        "d": "错误，这一结论不能从题干推出。"
+      },
+      "evidence": [
+        {
+          "section": "1.1.1 传统视角下的智能体",
+          "quote": "想象一个学习下棋的 AI。它开始时可能只是随机落子，当它最终赢下一局时，系统会给予它一个正向的奖励。通过大量的自我对弈，学习元件会逐渐发现哪些棋路更有可能导向最终的胜利。AlphaGo Zero 是这一理念的一个里程碑式的成就。它在围棋这一复杂博弈中，通过强化学习发现了许多超越人类既有知识的有效策略。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "1.1.3 智能体的类型",
+          "quote": "与反应式智能体相对，规划式（或称审议式）智能体在行动前会进行复杂的思考和规划。它们不会立即对感知做出反应，而是会先利用其内部的世界模型，系统地探索未来的各种可能性，评估不同行动序列的后果，以期找到一条能够达成目标的最佳路径 。<strong>基于目标</strong>和<strong>基于效用</strong>的智能体是典型的规划式智能体。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察对具体经典案例进行多维度分类标签化的综合分析能力。",
+        "misconception": "误认为分类维度之间是互斥的，或认为 AlphaGo 只是简单的算法而非智能体。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch01-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q15",
+      "stem": "在 1.2.3 节所述的交互协议中，关于 `Thought`, `Action` 与 `Observation` 的关系，描述正确的有：（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "一个规范的智能体输出（Output）结构通常包含 `Thought` 和 `Action`"
+        },
+        {
+          "id": "b",
+          "text": "`Observation` 是感知系统捕获的环境反馈，不属于智能体输出的字段"
+        },
+        {
+          "id": "c",
+          "text": "`Thought` 字段的作用是展示智能体内部的决策“快照”和规划过程"
+        },
+        {
+          "id": "d",
+          "text": "智能体可以直接生成 `Observation` 来作为对工具调用的预期结果"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "根据教材 1.2.3 节，智能体的输出（Output）结构是由 `Thought` 和 `Action` 组成的。而 `Observation` 是由外部感知系统（传感器）处理环境反馈（如 API 返回的原始数据）后，封装成自然语言文本并作为“输入”（Input）提供给智能体的。智能体不能“生成”观察结果，否则就会产生幻觉。",
+      "optionExplanations": {
+        "a": "正确，教材 1.2.3 节明确定义了输出结构的两个核心部分。",
+        "b": "正确，观察是反馈给智能体的，属于感知系统的职责。",
+        "c": "正确，`Thought` 用于阐述分析过程与行动规划。",
+        "d": "错误，`Observation` 必须来自环境真实反馈，由感知系统处理，不能由智能体伪造输出。"
+      },
+      "evidence": [
+        {
+          "section": "1.2.3 智能体的感知与行动",
+          "quote": "- <strong>Thought (思考)</strong>：这是智能体内部决策的“快照”。它以自然语言形式阐述了智能体如何分析当前情境、回顾上一步的观察结果、进行自我反思与问题分解，并最终规划出下一步的具体行动。\n- <strong>Action (行动)</strong>：这是智能体基于思考后，决定对环境施加的具体操作，通常以函数调用的形式表示。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "1.2.3 智能体的感知与行动",
+          "quote": "因此，感知系统的一个重要职责就是扮演传感器的角色：将这个原始输出处理并封装成一段简洁、清晰的自然语言文本，即观察。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "强制辨析交互协议中“智能体生成内容”与“环境反馈内容”的边界。",
+        "misconception": "误认为 Observation 是智能体输出文本的一部分。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch01-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q16",
+      "stem": "在原始“查询北京天气再推荐景点”任务中，哪些情况可能妨碍得到有实际天气依据的结果（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "LLM 忘记在回复中添加 `Action:` 前缀，导致正则匹配失败"
+        },
+        {
+          "id": "b",
+          "text": "在第一次循环中，LLM 决定直接输出 `Action: Finish[...]`"
+        },
+        {
+          "id": "c",
+          "text": "一次正常执行中只需查询北京天气且在5轮内完成任务"
+        },
+        {
+          "id": "d",
+          "text": "调用 `get_weather` 后得到的 `Observation` 为“错误:解析天气数据失败”"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "缺少 Action 会进入错误反馈分支并继续下一轮；未查天气就 Finish 可能提前结束；天气解析错误使当前缺少有效天气依据。这些都是风险，错误反馈后仍可能恢复，不能推断每次必然失败。range(5) 只限定循环次数，不设置单次请求超时。",
+      "optionExplanations": {
+        "a": "正确，代码依赖 `re.search(r\"Action: (.*)\")`，缺失前缀将导致 `action_match` 为空，进入错误提示分支。",
+        "b": "正确，逻辑上跳过了必要的感知阶段，不符合任务描述。",
+        "c": "错误，在循环上限内正常完成符合本案例的流程。",
+        "d": "正确，错误结果不提供有效天气依据，但后续可能重新尝试，不代表必然失败。"
+      },
+      "evidence": [
+        {
+          "section": "1.3.3 执行行动循环",
+          "quote": "action_match = re.search(r\"Action: (.*)\", llm_output, re.DOTALL)\n    if not action_match:\n        observation = \"错误: 未能解析到 Action 字段。请确保你的回复严格遵循 'Thought: ... Action: ...' 的格式。\"\n        observation_str = f\"Observation: {observation}\"\n        print(f\"{observation_str}\\n\" + \"=\"*40)\n        prompt_history.append(observation_str)\n        continue\n    action_str = action_match.group(1).strip()\n\n    if action_str.startswith(\"Finish\"):\n        final_answer = re.match(r\"Finish\\[(.*)\\]\", action_str).group(1)\n        print(f\"任务完成，最终答案: {final_answer}\")\n        break",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "通过代码实现细节考察对智能体鲁棒性和逻辑闭环的理解。",
+        "misconception": "忽略正则表达式对交互格式的严格约束。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch01-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch01-q17",
+      "stem": "在开发需要模拟多角色协同（如虚拟软件公司）的系统时，根据 1.4.2 节，哪些框架采用了“组织化工作流”或“角色扮演”模式？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "MetaGPT：通过模拟 SOP 和分工明确的“虚拟团队”产出结果"
+        },
+        {
+          "id": "b",
+          "text": "CAMEL：通过为两个智能体设定明确角色和沟通协议"
+        },
+        {
+          "id": "c",
+          "text": "AgentGPT：侧重于单个通用智能体通过“思考-反思”闭环迭代"
+        },
+        {
+          "id": "d",
+          "text": "CrewAI：采用层级化或顺序化方式让多个智能体协同"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "MetaGPT 和 CrewAI 被归类为“组织化工作流”模式，旨在模拟团队协作和 SOP。CAMEL 则是“角色扮演式对话”的代表。AgentGPT 属于早期的“单智能体自主循环”范式，不属于典型的多角色协作架构。",
+      "optionExplanations": {
+        "a": "正确，1.4.2 节提到其模拟虚拟团队和 SOP。",
+        "b": "正确，1.4.2 节提到其角色扮演和沟通协议特征。",
+        "c": "错误，教材明确将其作为单智能体自主循环的代表。",
+        "d": "正确，1.4.2 节指出 CrewAI 模拟分工明确的团队协作。"
+      },
+      "evidence": [
+        {
+          "section": "1.4.2 作为自主协作者的智能体",
+          "quote": "1. <strong>单智能体自主循环</strong>：这是早期的典型范式，如 <strong>AgentGPT</strong> 所代表的模式。其核心是一个通用智能体通过“思考-规划-执行-反思”的闭环，不断进行自我提示和迭代，以完成一个开放式的高层级目标。\n2. <strong>多智能体协作</strong>：这是当前最主流的探索方向，旨在通过模拟人类团队的协作模式来解决复杂问题。它又可细分为不同模式： <strong>角色扮演式对话</strong>：如 <strong>CAMEL</strong> 框架，通过为两个智能体（例如，“程序员”和“产品经理”）设定明确的角色和沟通协议，让它们在一个结构化的对话中协同完成任务。 <strong>组织化工作流</strong>：如 <strong>MetaGPT</strong> 和 <strong>CrewAI</strong>，它们模拟一个分工明确的“虚拟团队”（如软件公司或咨询小组）。每个智能体都有预设的职责和工作流程（SOP），通过层级化或顺序化的方式协作，产出高质量的复杂成果（如完整的代码库或研究报告）。<strong>AutoGen</strong> 和 <strong>AgentScope</strong> 则提供了更灵活的对话模式，允许开发者自定义智能体间的复杂交互网络。\n3. <strong>高级控制流架构</strong>：诸如 <strong>LangGraph</strong> 等框架，则更侧重于为智能体提供更强大的底层工程基础。它将智能体的执行过程建模为状态图（State Graph），从而能更灵活、更可靠地实现循环、分支、回溯以及人工介入等复杂流程。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对主流智能体框架分类及应用范式的辨析力。",
+        "misconception": "认为所有 Agent 框架都是无差别的“自主智能体”。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch01-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch01-q18",
+      "stem": "针对“一个混合场景：既有严格的合规性审批节点，又需要根据动态政策进行推理分析”，设计合理的系统应包含：（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "使用 Workflow 来固定合规性逻辑，确保审批路径的可预测性"
+        },
+        {
+          "id": "b",
+          "text": "完全抛弃 Workflow，利用 Agent 的自主性处理所有逻辑"
+        },
+        {
+          "id": "c",
+          "text": "集成 Agent 在特定环节执行动态推理，处理模糊的政策解读"
+        },
+        {
+          "id": "d",
+          "text": "构建“Workflow + Agent”的混合模式，兼顾确定性与灵活性"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c",
+        "d"
+      ],
+      "explanation": "这是由课件对两者职责的比较推导出的设计方案：固定节点提供可预测的处理路径，Agent 处理需动态推理的环节。组合本身不保证政策理解正确或业务合规，仍需验证。",
+      "optionExplanations": {
+        "a": "正确，符合 Workflow 在合规场景的优势。",
+        "b": "错误，Agent 的不可控性在合规场景中是风险，不应完全替代。",
+        "c": "正确，体现了 Agent 解决模糊推理的价值。",
+        "d": "正确，是 1.4.3 节理念在复杂工程中的逻辑延伸。"
+      },
+      "evidence": [
+        {
+          "section": "1.4.3 Workflow 和 Agent 的差异",
+          "quote": "如图 1.6 所示，工作流是一种传统的自动化范式，其核心是<strong>对一系列任务或步骤进行预先定义的、结构化的编排</strong>。它本质上是一个精确的、静态的流程图，规定了在何种条件下、以何种顺序执行哪些操作。一个典型的案例：某企业的费用报销审批流程。员工提交报销单（触发）-> 如果金额小于 500 元，直接由部门经理审批 -> 如果金额大于 500 元，先由部门经理审批，再流转至财务总监审批 -> 审批通过后，通知财务部打款。整个过程的每一步、每一个判断条件都被精确地预先设定。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "1.4.3 Workflow 和 Agent 的差异",
+          "quote": "在这个过程中，没有任何写死的`if天气=晴天 then 推荐颐和园`的规则。如果天气是“雨天”，Agent 会自主推理并推荐国家博物馆、首都博物馆等室内场所。<strong>这种基于实时信息进行动态推理和决策的能力，正是 Agent 的核心价值所在。</strong>",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查学生在混合业务架构设计中平衡两种技术范式的综合决策能力。",
+        "misconception": "非黑即白地二选一，忽略了架构融合的可能性。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch01-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch01-q19",
+      "stem": "【思考题】请自选一个生活或工作场景（例如：智能厨房助手、自动化简历筛选系统），按照 PEAS 模型定义其构成要素，并描述该智能体如何完成一次完整的“感知-思考-行动-观察”闭环。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "本题旨在引导学生将抽象模型应用于实际问题，考察对 PEAS 和 Agent Loop 的深度融合理解。",
+      "referenceAnswer": "以“智能厨房助手”为例：\n1. PEAS 描述：\n   - P（性能）：菜肴美味度（咸淡适中）、烹饪效率、厨房安全（无干烧）。\n   - E（环境）：厨房台面、灶具、调料罐、待处理食材、用户语音请求。\n   - A（执行器）：电磁炉功率开关、机械臂搅拌器、语音反馈合成器。\n   - S（传感器）：锅底红外测温仪、烟雾报警器、麦克风（接收指令）。\n2. 闭环过程：\n   - 感知：麦克风捕捉到用户说“帮我煎个五分熟牛排”。\n   - 思考：规划出[预热锅底] -> [控制火力] -> [定时翻面]的步骤。选择开启电磁炉工具。\n   - 行动：执行器将电磁炉功率调至 示例设定的预热功率。\n   - 观察：红外测温仪反馈锅底已达 设定的预热温度，产生观察结果，作为下一轮“放入牛排”决策的输入。",
+      "rubric": [
+        "准确定义了 PEAS 的四个维度，且符合逻辑（如传感器与执行器对应）",
+        "清晰描述了循环中的四个阶段，尤其是“观察”如何反馈给下一轮决策",
+        "应用场景具体，具备实际落地意义"
+      ],
+      "evidence": [
+        {
+          "section": "1.2.1 任务环境定义",
+          "quote": "要理解智能体的运作，我们必须先理解它所处的<strong>任务环境</strong>。在人工智能领域，通常使用<strong>PEAS 模型</strong>来精确描述一个任务环境，即分析其<strong>性能度量(Performance)、环境(Environment)、执行器(Actuators)和传感器(Sensors)</strong> 。以上文提到的智能旅行助手为例，下表 1.2 展示了如何运用 PEAS 模型对其任务环境进行规约。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "1.2.2 智能体的运行机制",
+          "quote": "行动并非循环的终点。智能体的行动会引起<strong>环境 (Environment)</strong> 的<strong>状态变化 (State Change)</strong>，环境随即会产生一个新的<strong>观察 (Observation)</strong> 作为结果反馈。这个新的观察又会在下一轮循环中被智能体的感知系统捕获，形成一个持续的“感知-思考-行动-观察”的闭环。智能体正是通过不断重复这一循环，逐步推进任务，从初始状态向目标状态演进。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "评估学生对智能体动力学循环的具象化建模能力。",
+        "misconception": "混淆“执行结果”与“反馈观察”的界限。"
+      },
+      "type": "reflection",
+      "objectiveId": "ch01-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "optionExplanations": {}
+    },
+    {
+      "id": "ch01-q20",
+      "stem": "【思考题】在 1.3 节的旅行助手中，如果将其重构为“Workflow + Agent”的混合模式：请说明你会将哪些部分设定为固定的 Workflow 节点，哪些部分保留给 Agent 的自主推理？这样做相比全 Agent 模式有什么工程上的优势？",
+      "options": [],
+      "answerIds": [],
+      "explanation": "本题考察对教材 1.4.3 节核心观点的应用，要求从工程稳定性和灵活性平衡角度出发进行架构思考。",
+      "referenceAnswer": "可固定城市参数校验、天气 API 调用、错误记录和结果呈现等步骤；让 Agent 根据真实天气、用户偏好与可用景点信息推理推荐理由。若天气请求失败，可按事先定义的重试或停止路径处理，也可让 Agent 在允许的工具范围内提出替代查询。固定流程使关键步骤可检查，并减少重复调用模型的需要；但网络失败、输入错误和模型误判仍可能发生，不能保证 API 永远成功。此为基于课件差异的设计推演，并非课件已经实现的混合系统。",
+      "rubric": [
+        "合理区分了“确定性操作”和“动态推理操作”",
+        "提到了具体工程优势（如稳定性、成本、可控性等）",
+        "设计方案符合教材 1.4.3 节中关于 Workflow 与 Agent 互补的论述"
+      ],
+      "evidence": [
+        {
+          "section": "1.4.3 Workflow 和 Agent 的差异",
+          "quote": "如图 1.6 所示，工作流是一种传统的自动化范式，其核心是<strong>对一系列任务或步骤进行预先定义的、结构化的编排</strong>。它本质上是一个精确的、静态的流程图，规定了在何种条件下、以何种顺序执行哪些操作。一个典型的案例：某企业的费用报销审批流程。员工提交报销单（触发）-> 如果金额小于 500 元，直接由部门经理审批 -> 如果金额大于 500 元，先由部门经理审批，再流转至财务总监审批 -> 审批通过后，通知财务部打款。整个过程的每一步、每一个判断条件都被精确地预先设定。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "1.4.3 Workflow 和 Agent 的差异",
+          "quote": "在这个过程中，没有任何写死的`if天气=晴天 then 推荐颐和园`的规则。如果天气是“雨天”，Agent 会自主推理并推荐国家博物馆、首都博物馆等室内场所。<strong>这种基于实时信息进行动态推理和决策的能力，正是 Agent 的核心价值所在。</strong>",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察学生在架构层面的工程判断力与权衡思维。",
+        "misconception": "认为 Agent 能够解决一切工程问题，忽略了生产环境的稳定性需求。"
+      },
+      "type": "reflection",
+      "objectiveId": "ch01-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "optionExplanations": {}
+    }
+  ]
+}

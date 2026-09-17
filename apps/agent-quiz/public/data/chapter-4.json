@@ -1,0 +1,1260 @@
+{
+  "id": 4,
+  "title": "第四章 智能体经典范式构建",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第四章 智能体经典范式构建",
+    "path": "docs/chapter4/第四章 智能体经典范式构建.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md",
+    "sha256": "3f02e84fcf75c76caef3eaca5b91765251d1d8afbbf0f6dc750abcd25eff1ef1",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "714d89a2-f554-4aea-938f-f44330b82e3d",
+    "artifactId": "fea512d9-78cf-4f2b-99a5-49cff53b03da"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch04-o01",
+        "title": "理解LLM封装与工具边界",
+        "sections": [
+          "4.1.3 封装基础 LLM 调用函数",
+          "4.2.2 工具的定义与实现",
+          "4.2.1 ReAct 的工作流程"
+        ],
+        "reason": "复用客户端与外部工具是范式实现的基础，配置记忆不应占据测评主体。"
+      },
+      {
+        "id": "ch04-o02",
+        "title": "追踪ReAct闭环与终止",
+        "sections": [
+          "4.2.1 ReAct 的工作流程",
+          "4.2.3 ReAct 智能体的编码实现",
+          "4.2.4 ReAct 的特点、局限性与调试技巧"
+        ],
+        "reason": "考查行动执行后的反馈而非Thought缩写。"
+      },
+      {
+        "id": "ch04-o03",
+        "title": "区分规划器与执行器的职责",
+        "sections": [
+          "4.3.1 Plan-and-Solve 的工作原理",
+          "4.3.2 规划阶段",
+          "4.3.3 执行器与状态管理"
+        ],
+        "reason": "计划不是结果；后续步骤必须有状态才能利用前序结论。"
+      },
+      {
+        "id": "ch04-o04",
+        "title": "构建反思驱动的迭代",
+        "sections": [
+          "4.4.1 Reflection 机制的核心思想",
+          "4.4.2 案例设定与记忆模块设计",
+          "4.4.3 Reflection 智能体的编码实现"
+        ],
+        "reason": "反思需要明确标准与历史，不等于重复生成。"
+      },
+      {
+        "id": "ch04-o05",
+        "title": "按任务结构选择经典范式",
+        "sections": [
+          "4.3.4 运行实例与分析",
+          "4.2.4 ReAct 的特点、局限性与调试技巧",
+          "4.4.4 运行实例与分析"
+        ],
+        "reason": "动态外部信息、稳定分解与质量改进需要不同控制方式。"
+      },
+      {
+        "id": "ch04-o06",
+        "title": "评估反思成本与结果证据",
+        "sections": [
+          "4.4.5 Reflection 机制的成本收益分析",
+          "4.4.4 运行实例与分析",
+          "4.4.5 Reflection 机制的成本收益分析"
+        ],
+        "reason": "反思增加成本且评价可能偏误，应有预算和独立检验。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch04-q01",
+        "type": "single",
+        "objectiveId": "ch04-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "4.1.3 封装基础 LLM 调用函数",
+        "purpose": "辨认LLM客户端封装模型交互细节的职责。"
+      },
+      {
+        "id": "ch04-q02",
+        "type": "single",
+        "objectiveId": "ch04-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "4.2.2 工具的定义与实现",
+        "purpose": "追踪工具描述、工具名称与执行函数的关联，以及结果如何回到模型。"
+      },
+      {
+        "id": "ch04-q03",
+        "type": "single",
+        "objectiveId": "ch04-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "4.2.1 ReAct 的工作流程",
+        "purpose": "辨认Thought、Action、Observation的职责。"
+      },
+      {
+        "id": "ch04-q04",
+        "type": "single",
+        "objectiveId": "ch04-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "4.2.3 ReAct 智能体的编码实现",
+        "purpose": "给出一段中间步骤，推导追加Observation、继续循环或输出最终答案的正确分支。"
+      },
+      {
+        "id": "ch04-q05",
+        "type": "single",
+        "objectiveId": "ch04-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "4.3.1 Plan-and-Solve 的工作原理",
+        "purpose": "识别先规划后执行的两阶段划分。"
+      },
+      {
+        "id": "ch04-q06",
+        "type": "single",
+        "objectiveId": "ch04-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "4.3.2 规划阶段",
+        "purpose": "解释结构化计划如何被解析为子任务而非直接当最终答案。"
+      },
+      {
+        "id": "ch04-q07",
+        "type": "single",
+        "objectiveId": "ch04-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "4.4.1 Reflection 机制的核心思想",
+        "purpose": "辨认执行、反思、优化三阶段。"
+      },
+      {
+        "id": "ch04-q08",
+        "type": "single",
+        "objectiveId": "ch04-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "4.4.2 案例设定与记忆模块设计",
+        "purpose": "解释Memory保存执行结果和反思为何能让下一轮修改有依据。"
+      },
+      {
+        "id": "ch04-q09",
+        "type": "single",
+        "objectiveId": "ch04-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "4.3.4 运行实例与分析",
+        "purpose": "为多步算术任务识别计划与中间结果管理的需求。"
+      },
+      {
+        "id": "ch04-q10",
+        "type": "single",
+        "objectiveId": "ch04-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "4.2.4 ReAct 的特点、局限性与调试技巧",
+        "purpose": "分析ReAct反复模型调用、错误行动和偏离目标的代价。"
+      },
+      {
+        "id": "ch04-q11",
+        "type": "single",
+        "objectiveId": "ch04-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "4.4.5 Reflection 机制的成本收益分析",
+        "purpose": "识别质量收益与额外调用、时延之间的权衡。"
+      },
+      {
+        "id": "ch04-q12",
+        "type": "single",
+        "objectiveId": "ch04-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "4.4.4 运行实例与分析",
+        "purpose": "比较模型自评通过与代码实际正确、复杂度改善的证据强度。"
+      },
+      {
+        "id": "ch04-q13",
+        "type": "multiple",
+        "objectiveId": "ch04-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "4.2.1 ReAct 的工作流程",
+        "purpose": "比较纯思维链、纯行动与ReAct的信息来源和纠错条件。"
+      },
+      {
+        "id": "ch04-q14",
+        "type": "multiple",
+        "objectiveId": "ch04-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "4.2.4 ReAct 的特点、局限性与调试技巧",
+        "purpose": "比较格式解析失败、无效工具和缺少事实信息三类失败的调试措施。"
+      },
+      {
+        "id": "ch04-q15",
+        "type": "multiple",
+        "objectiveId": "ch04-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "4.3.3 执行器与状态管理",
+        "purpose": "比较Planner分解全局任务与Executor携带历史结果解决当前子问题的职责。"
+      },
+      {
+        "id": "ch04-q16",
+        "type": "multiple",
+        "objectiveId": "ch04-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "4.4.3 Reflection 智能体的编码实现",
+        "purpose": "在代码优化案例中选择具体评审、针对性修订及合理终止的步骤。"
+      },
+      {
+        "id": "ch04-q17",
+        "type": "multiple",
+        "objectiveId": "ch04-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "4.4.4 运行实例与分析",
+        "purpose": "针对功能已正确但效率不足的素数代码，选择能利用明确评审意见的优化流程。"
+      },
+      {
+        "id": "ch04-q18",
+        "type": "multiple",
+        "objectiveId": "ch04-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "4.4.5 Reflection 机制的成本收益分析",
+        "purpose": "在低时延简单任务和高质量复杂任务间选择反思预算、停止条件和验证安排。"
+      },
+      {
+        "id": "ch04-q19",
+        "type": "reflection",
+        "objectiveId": "ch04-o03",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "4.3.3 执行器与状态管理",
+        "purpose": "为一个多步骤任务设计执行状态，指出前序结果错误如何传播，并说明何时需要重新规划而非盲目继续。"
+      },
+      {
+        "id": "ch04-q20",
+        "type": "reflection",
+        "objectiveId": "ch04-o06",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "4.4.5 Reflection 机制的成本收益分析",
+        "purpose": "比较同一编程任务采用ReAct、Plan-and-Solve、Reflection的流程、成本与测试证据；记录实际运行待验证项。"
+      }
+    ],
+    "notes": "重点为三范式控制流、状态和选型；环境安装不作为主要能力题。课件运行示例不视为学习者已实测。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:37:16.997434+00:00",
+    "notes": [
+      "逐题核对20题题干、选项、答案、逐项解释和思考参考答案，依据锁定的本地课件作语义编辑；此为代理编辑核验，不是人工课堂效度评价或课程示例运行证明。",
+      "修复question到stem及design和reflection解释字段；修正工具描述唯一依据、Observation等于真相、解析和语法正确保证、Reflection每轮必然两次调用、伪造成本公式和测试证据；区分动态重规划扩展与已实现代码。",
+      "保留NotebookLM来源ID、源文件哈希、题目ID与蓝图配额；所有证据改用对应课件连续片段与原始来源URL。思考题仅含自查要点。",
+      "AGENT_QUIZ_REPO=/Users/heitao/Colab/my_blog python3 apps/agent-quiz/scripts/validate_bank.py --chapters 1,2,3,4,7：100题，0 errors。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch04-q01",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "解析用户的工具调用意图并自动匹配对应的 Python 函数执行"
+        },
+        {
+          "id": "b",
+          "text": "封装模型服务请求，处理流式响应并拼接返回完整文本"
+        },
+        {
+          "id": "c",
+          "text": "通过 load_dotenv 管理 API 密钥以确保其不会在日志中泄露"
+        },
+        {
+          "id": "d",
+          "text": "维护智能体的短期记忆轨迹并根据历史记录动态更新系统提示词"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.1.3",
+          "quote": "def think(self, messages: List[Dict[str, str]], temperature: float = 0) -> str:\n        \"\"\"\n        调用大语言模型进行思考，并返回其响应。\n        \"\"\"\n        print(f\"🧠 正在调用 {self.model} 模型...\")\n        try:\n            response = self.client.chat.completions.create(\n                model=self.model,\n                messages=messages,\n                temperature=temperature,\n                stream=True,\n            )\n            \n            # 处理流式响应\n            print(\"✅ 大语言模型响应成功:\")\n            collected_content = []\n            for chunk in response:\n                if not chunk.choices:\n                    continue\n                content = chunk.choices[0].delta.content or \"\"\n                print(content, end=\"\", flush=True)\n                collected_content.append(content)\n            print()  # 在流式输出结束后换行\n            return \"\".join(collected_content)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "根据 4.1.3 节，HelloAgentsLLM 类的 think 函数通过封装 OpenAI 兼容接口的调用细节，实现了对模型通信的统一管理，并硬编码了流式响应（stream=True）的处理逻辑。",
+      "optionExplanations": {
+        "a": "可能误以为 think 包含 Agent 逻辑，实际上它仅负责底层的 LLM 通信，不涉及工具匹配与执行。",
+        "b": "正确选项，文中明确提到该类封装交互细节并默认使用流式响应。",
+        "c": "错误，加载环境变量不等于防止日志泄露；think 的主要职责是请求与响应处理。",
+        "d": "短期记忆轨迹的管理由后续章节中的 Memory 类或 Agent 类实现，而非基础 LLM 客户端。"
+      },
+      "objectiveId": "ch04-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "stem": "在 4.1.3 节定义的 HelloAgentsLLM 类中，think 函数的主要职责是什么？",
+      "design": {
+        "purpose": "辨认LLM客户端封装模型交互细节的职责。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q02",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "工具必须包含 API 密钥、BaseURL 以及特定的模型 ID 以确保调用成功"
+        },
+        {
+          "id": "b",
+          "text": "工具的核心由名称、执行逻辑以及用于 LLM 判断依据的描述（Description）组成"
+        },
+        {
+          "id": "c",
+          "text": "一个良好定义的工具必须具备内置的错误解析器与自动重试（Retry）逻辑"
+        },
+        {
+          "id": "d",
+          "text": "工具定义的关键在于其正则表达式模板，用于约束 LLM 输出的 Action 格式"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.2.2",
+          "quote": "1. <strong>名称 (Name)</strong>： 一个简洁、唯一的标识符，供智能体在 `Action` 中调用，例如 `Search`。\n2. <strong>描述 (Description)</strong>： 一段清晰的自然语言描述，说明这个工具的用途。<strong>这是整个机制中最关键的部分</strong>，因为大语言模型会依赖这段描述来判断何时使用哪个工具。\n3. <strong>执行逻辑 (Execution Logic)</strong>： 真正执行任务的函数或方法。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "工具三要素是名称、描述和执行逻辑。描述是模型判断工具用途的重要依据，但不是唯一依据，当前任务、上下文等也影响选择。",
+      "optionExplanations": {
+        "a": "可能误以为这些模型配置参数属于工具要素，实际上它们属于 LLM 客户端的配置。",
+        "b": "正确选项，完全符合文中对工具三大核心支柱的定义。",
+        "c": "虽然重试逻辑在工程中重要，但它不是文中定义的工具三个基本核心要素之一。",
+        "d": "正则表达式是 Agent 解析逻辑的一部分，不属于工具本身的定义要素。"
+      },
+      "objectiveId": "ch04-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "stem": "根据 4.2.2 节的定义，关于工具（Tools）核心要素的描述，以下哪项最为准确？",
+      "design": {
+        "purpose": "追踪工具描述、工具名称与执行函数的关联，以及结果如何回到模型。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q03",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "大语言模型（LLM）生成的内心独白与逻辑推理输出"
+        },
+        {
+          "id": "b",
+          "text": "环境中的外部工具在执行 Action 后返回的客观结果"
+        },
+        {
+          "id": "c",
+          "text": "用户在看到初步答案后提供的反馈评价或追加提问"
+        },
+        {
+          "id": "d",
+          "text": "提示词模板中预设的 few-shot 示例，用于修正模型输出格式"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.2.1",
+          "quote": "- <strong>Observation (观察)：</strong> 这是执行`Action`后从外部工具返回的结果，例如搜索结果的摘要或API的返回值。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "本节示例的Observation来自工具执行后的反馈，而非模型自行编造。工具输出仍可能错误、过时或包含失败信息，不能一概视为已验证事实。",
+      "optionExplanations": {
+        "a": "逻辑推理属于 Thought 阶段，而非 Observation。",
+        "b": "正确选项，Observation 源自工具执行的客观反馈。",
+        "c": "用户反馈虽可作为信息，但在 ReAct 循环标准定义中，Observation 指代工具返回结果。",
+        "d": "few-shot 示例是静态的 Prompt 引导，不属于动态循环中的 Observation。"
+      },
+      "objectiveId": "ch04-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "stem": "在 ReAct 范式的“思考-行动-观察”循环中，“Observation (观察)”阶段的数据来源是什么？",
+      "design": {
+        "purpose": "辨认Thought、Action、Observation的职责。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q04",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "调用 Search 工具进一步验证该答案在互联网上的准确性"
+        },
+        {
+          "id": "b",
+          "text": "将该字符串作为 Observation 存入历史并启动下一轮 Thought 循环"
+        },
+        {
+          "id": "c",
+          "text": "识别出特殊的 Finish 指令，提取括号内内容作为最终答案并终止流程"
+        },
+        {
+          "id": "d",
+          "text": "抛出异常，因为该 Action 格式不符合 `tool_name[tool_input]` 的规范"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "4.2.3",
+          "quote": "这段代码是`Action`的执行中心。它首先检查是否为`Finish`指令，如果是，则流程结束。否则，它会通过`tool_executor`获取对应的工具函数并执行，得到`observation`。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "该分支提取最终答案并终止流程；这是程序终止，不是答案正确性的验证。",
+      "optionExplanations": {
+        "a": "Finish 指令意味着模型认为任务已完成，不再需要额外搜索。",
+        "b": "Finish 不需要 Observation 反馈，它是循环的出口。",
+        "c": "正确选项，符合文中对 Action 执行逻辑中 Finish 分支的处理描述。",
+        "d": "Finish 是系统提示词模板中明确允许且必需的合法 Action 格式。"
+      },
+      "objectiveId": "ch04-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "stem": "当 ReAct 解析出的 Action 为 Finish[示例答案] 时，按4.2.3节代码下一步会怎样？",
+      "design": {
+        "purpose": "给出一段中间步骤，推导追加Observation、继续循环或输出最终答案的正确分支。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q05",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "通过增加“评审员”角色对每一步的推理过程进行实时打分"
+        },
+        {
+          "id": "b",
+          "text": "采用“先谋后动”策略，通过解耦规划与执行阶段来避免偏离轨道"
+        },
+        {
+          "id": "c",
+          "text": "引入外部知识库进行实时 RAG 检索以消除大模型的幻觉"
+        },
+        {
+          "id": "d",
+          "text": "要求模型一次性输出最终答案，减少多次调用 LLM 的延迟"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.3.1",
+          "quote": "1. <strong>规划阶段 (Planning Phase)</strong>： 首先，智能体会接收用户的完整问题。它的第一个任务不是直接去解决问题或调用工具，而是<strong>将问题分解，并制定出一个清晰、分步骤的行动计划</strong>。这个计划本身就是一次大语言模型的调用产物。\n2. <strong>执行阶段 (Solving Phase)</strong>： 在获得完整的计划后，智能体进入执行阶段。它会<strong>严格按照计划中的步骤，逐一执行</strong>。每一步的执行都可能是一次独立的 LLM 调用，或者是对上一步结果的加工处理，直到计划中的所有步骤都完成，最终得出答案。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "4.3.1 节明确提到，Plan-and-Solve 通过预先生成全局规划（蓝图）来解决 CoT 在长链路推理中易丢失目标的问题。",
+      "optionExplanations": {
+        "a": "“评审员”是 Reflection 范式的核心特征，而非 Plan-and-Solve。",
+        "b": "正确选项，使用了文中“先谋后动”与“解耦”的专业表述。",
+        "c": "RAG 检索在文中并非 Plan-and-Solve 区别于 CoT 的核心动机。",
+        "d": "Plan-and-Solve 依然需要多次调用 LLM（一次规划，多次执行）。"
+      },
+      "objectiveId": "ch04-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "stem": "Plan-and-Solve 范式相比于思维链（CoT）的主要改进点在于什么？",
+      "design": {
+        "purpose": "识别先规划后执行的两阶段划分。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q06",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "利用 Python 解释器的沙箱环境直接运行这些子步骤"
+        },
+        {
+          "id": "b",
+          "text": "通过结构化输出简化后续代码解析工作，提升系统稳定性"
+        },
+        {
+          "id": "c",
+          "text": "为了将计划内容直接存储到向量数据库中进行语义检索"
+        },
+        {
+          "id": "d",
+          "text": "确保大模型在生成计划时能够自动计算出每一步的 Token 消耗"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.3.2",
+          "quote": "- <strong>格式约束</strong>： 强制要求输出为一个 Python 列表格式的字符串，这极大地简化了后续代码的解析工作，使其比解析自然语言更稳定、更可靠。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "输出列表字符串便于用 ast.literal_eval 提取步骤，减少自由文本解析的不确定性；模型仍可能不遵循格式，计划也可能错误，因此仍需异常处理和结果检查。",
+      "optionExplanations": {
+        "a": "列表中的元素是描述性的字符串，不能直接作为 Python 代码运行。",
+        "b": "正确选项，符合文中对“稳定、可靠”及“简化解析”的描述。",
+        "c": "文中未涉及向量数据库或语义检索的逻辑。",
+        "d": "Python 列表格式与 Token 消耗计算无直接关联。"
+      },
+      "objectiveId": "ch04-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "stem": "在 4.3.2 节的实现中，Planner 类强制要求模型以 Python 列表格式输出计划的主要目的是什么？",
+      "design": {
+        "purpose": "解释结构化计划如何被解析为子任务而非直接当最终答案。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q07",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "负责捕捉工具调用时的网络超时异常并执行自动重联"
+        },
+        {
+          "id": "b",
+          "text": "对初稿进行多维度评估，识别事实错误、逻辑漏洞或效率问题"
+        },
+        {
+          "id": "c",
+          "text": "根据用户的情绪反馈调整对话的语气，使其更加友好"
+        },
+        {
+          "id": "d",
+          "text": "将长篇幅的执行记录压缩为摘要，以节省上下文 Token 成本"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.4.1",
+          "quote": "2. <strong>反思 (Reflection)</strong>：接着，智能体进入反思阶段。它会调用一个独立的、或者带有特殊提示词的大语言模型实例，来扮演一个“评审员”的角色。这个“评审员”会审视第一步生成的“初稿”，并从多个维度进行评估，例如：\n   - <strong>事实性错误</strong>：是否存在与常识或已知事实相悖的内容？\n   - <strong>逻辑漏洞</strong>：推理过程是否存在不连贯或矛盾之处？\n   - <strong>效率问题</strong>：是否有更直接、更简洁的路径来完成任务？\n   - <strong>遗漏信息</strong>：是否忽略了问题的某些关键约束或方面？ 根据评估，它会生成一段结构化的<strong>反馈 (Feedback)</strong>，指出具体的问题所在和改进建议。\n3. <strong>优化 (Refinement)</strong>：最后，智能体将“初稿”和“反馈”作为新的上下文，再次调用大语言模型，要求它根据反馈内容对初稿进行修正，生成一个更完善的“修订稿”。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "“评审员”是 Reflection 范式的核心角色，其职责是通过审视初稿产出反馈（Feedback），驱动后续的优化（Refinement）阶段。",
+      "optionExplanations": {
+        "a": "异常处理属于工程鲁棒性设计，不是反思阶段的逻辑评估任务。",
+        "b": "正确选项，详细涵盖了文中提到的四个主要评估维度。",
+        "c": "反思阶段关注的是任务产出的质量，而非用户情绪对齐。",
+        "d": "反思是为了发现问题，而非单纯为了节省 Token 的摘要任务。"
+      },
+      "objectiveId": "ch04-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "stem": "在 Reflection 机制中，模型扮演的“评审员”角色的主要任务是什么？",
+      "design": {
+        "purpose": "辨认执行、反思、优化三阶段。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q08",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "定期清理内存中过期的记录，防止 Token 溢出导致程序崩溃"
+        },
+        {
+          "id": "b",
+          "text": "将执行与反思记录序列化为文本，为后续优化提供完整的短期记忆轨迹"
+        },
+        {
+          "id": "c",
+          "text": "计算当前代码版本与前一版本之间的文本编辑距离（Levenshtein）"
+        },
+        {
+          "id": "d",
+          "text": "将智能体的历史表现上传至服务器，以进行持久化的离线微调"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.4.2",
+          "quote": "- `get_trajectory` 方法是核心，它将记忆轨迹“序列化”成一段文本，可以直接插入到后续的提示词中，为模型的反思和优化提供完整的上下文。\n- `get_last_execution` 方便我们获取最新的“初稿”以供反思。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "get_trajectory 将记录序列化为文本，可用于提示词上下文；这不保证模型一定完成正确修正，也不意味着示例的每次调用都实际传入完整轨迹。",
+      "optionExplanations": {
+        "a": "文中实现的 Memory 是全量存储，并未涉及自动清理逻辑。",
+        "b": "正确选项，使用了“序列化”和“短期记忆轨迹”等原文术语。",
+        "c": "Memory 类仅负责记录存储，不涉及编辑距离计算。",
+        "d": "该模块旨在提供当前任务内的短期记忆，不涉及远程持久化或微调。"
+      },
+      "objectiveId": "ch04-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "stem": "在 4.4.2 节的 Memory 类中，`get_trajectory` 函数在 Reflection 循环中起到了什么作用？",
+      "design": {
+        "purpose": "解释Memory保存执行结果和反思为何能让下一轮修改有依据。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q09",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "LLM 在单次生成中产生的 Token 长度经常超过上下文窗口限制"
+        },
+        {
+          "id": "b",
+          "text": "多次串行调用 LLM 带来的累计网络延迟与计算开销"
+        },
+        {
+          "id": "c",
+          "text": "正则表达式在解析大型文本时的 CPU 计算密度过高"
+        },
+        {
+          "id": "d",
+          "text": "外部工具返回的 Observation 内容过于冗长，难以被解析器识别"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.2.4",
+          "quote": "2. <strong>执行效率问题</strong>：由于其循序渐进的特性，完成一个任务通常需要多次调用 LLM。每一次调用都伴随着网络延迟和计算成本。对于需要很多步骤的复杂任务，这种串行的“思考-行动”循环可能会导致较高的总耗时和费用。\n3. <strong>提示词的脆弱性</strong>：整个机制的稳定运行建立在一个精心设计的提示词模板之上。模板中的任何微小变动，甚至是用词的差异，都可能影响 LLM 的行为。此外，并非所有模型都能持续稳定地遵循预设的格式，这增加了在实际应用中的不确定性。\n4. <strong>可能陷入局部最优</strong>：步进式的决策模式意味着智能体缺乏一个全局的、长远的规划。它可能会因为眼前的 `Observation` 而选择一个看似正确但长远来看并非最优的路径，甚至在某些情况下陷入“原地打转”的循环中。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "ReAct 的串行特性决定了它必须等待上一步完成才能启动下一步，这种累积效应在复杂任务中表现为显著的时间与金钱成本。",
+      "optionExplanations": {
+        "a": "错误，本节指出的是多次串行调用的累计成本，没有断言单次输出经常超限。",
+        "b": "正确选项，符合文中对串行调用导致延迟与成本的描述。",
+        "c": "错误，课件未将正则解析CPU开销列为主要瓶颈，也未提供耗时比较。",
+        "d": "错误，工具返回文本可能影响上下文成本，但本节这里强调串行模型调用的累积开销。"
+      },
+      "objectiveId": "ch04-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "stem": "根据 4.2.4 节的分析，ReAct 范式在处理长链路复杂任务时面临的主要效率瓶颈是什么？",
+      "design": {
+        "purpose": "为多步算术任务识别计划与中间结果管理的需求。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q10",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "ReAct 能预先生成完整的财报分析模板，确保输出结构严谨"
+        },
+        {
+          "id": "b",
+          "text": "ReAct 具有更强的环境适应性，能根据搜索结果动态修正后续行动"
+        },
+        {
+          "id": "c",
+          "text": "ReAct 的提示词长度通常比 Plan-and-Solve 短，能节省费用"
+        },
+        {
+          "id": "d",
+          "text": "ReAct 能够完全避开大语言模型的推理环节，直接通过 API 获取结果"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.2.4",
+          "quote": "2. <strong>动态规划与纠错能力</strong>：与一次性生成完整计划的范式不同，ReAct 是“走一步，看一步”。它根据每一步从外部世界获得的 `Observation` 来动态调整后续的 `Thought` 和 `Action`。如果上一步的搜索结果不理想，它可以在下一步中修正搜索词，重新尝试。\n3. <strong>工具协同能力</strong>：ReAct 范式天然地将大语言模型的推理能力与外部工具的执行能力结合起来。LLM 负责运筹帷幄（规划和推理），工具负责解决具体问题（搜索、计算），二者协同工作，突破了单一 LLM 在知识时效性、计算准确性等方面的固有局限。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "财报等时效性信息搜索属于探索性任务，需要根据前一搜索结果（如“财报链接”）动态决定下一步（如“下载财报”），这正是 ReAct 环境适应性的体现。",
+      "optionExplanations": {
+        "a": "错误，预先制定完整计划不是这里强调的动态反馈优势。",
+        "b": "正确选项，使用了文中“环境适应性”与“动态调整”的核心术语。",
+        "c": "ReAct 的多轮对话历史会使 Prompt 越来越长，不一定比 P&S 省钱。",
+        "d": "ReAct 的核心是“思考+行动”，依然高度依赖推理环节。"
+      },
+      "objectiveId": "ch04-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "stem": "对需要查询最新财报、并依据搜索结果决定后续步骤的任务，按本章示例为何适合考虑 ReAct？",
+      "design": {
+        "purpose": "分析ReAct反复模型调用、错误行动和偏离目标的代价。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q11",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "开发人员必须手动编写复杂的单元测试代码来验证结果"
+        },
+        {
+          "id": "b",
+          "text": "每一轮迭代中用于反思与优化的额外 LLM 调用次数"
+        },
+        {
+          "id": "c",
+          "text": "为了存储迭代轨迹而必须采购的高性能分布式数据库"
+        },
+        {
+          "id": "d",
+          "text": "模型由于不断自我批判而产生的大量“拒绝回答”错误"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.4.5",
+          "quote": "1. <strong>模型调用开销增加</strong>:这是最直接的成本。每进行一轮迭代，至少需要额外调用两次大语言模型（一次用于反思，一次用于优化）。如果迭代多轮，API 调用成本和计算资源消耗将成倍增加。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "继续改进的一轮通常包含反思与优化两次调用；若反思反馈触发停止，该轮不会再调用优化。总成本取决于轮数、输入历史和生成长度，质量提升也需要验证。",
+      "optionExplanations": {
+        "a": "反思是自动完成的，不一定要求开发人员手动编写单元测试。",
+        "b": "正确选项，准确指出了迭代中的模型调用开销。",
+        "c": "Memory 类在文中是基于内存列表实现的，无需高性能数据库。",
+        "d": "反思旨在优化而非拒绝回答，且不属于主要的直接成本。"
+      },
+      "objectiveId": "ch04-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "stem": "Reflection 范式被描述为一种“以成本换质量”的策略，其增加的直接成本主要来源于哪里？",
+      "design": {
+        "purpose": "识别质量收益与额外调用、时延之间的权衡。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q12",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "生成的 Python 代码能够通过本地解释器的语法校验且不报错"
+        },
+        {
+          "id": "b",
+          "text": "达到最大迭代次数限制，或评审员反馈中明确包含“无需改进”"
+        },
+        {
+          "id": "c",
+          "text": "当前的 Token 总消耗量达到了环境变量中设定的硬性上限"
+        },
+        {
+          "id": "d",
+          "text": "用户在终端界面中看到初步结果后，输入“确认”指令"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "4.4.3",
+          "quote": "for i in range(self.max_iterations):\n            print(f\"\\n--- 第 {i+1}/{self.max_iterations} 轮迭代 ---\")\n\n            # a. 反思\n            print(\"\\n-> 正在进行反思...\")\n            last_code = self.memory.get_last_execution()\n            reflect_prompt = REFLECT_PROMPT_TEMPLATE.format(task=task, code=last_code)\n            feedback = self._get_llm_response(reflect_prompt)\n            self.memory.add_record(\"reflection\", feedback)\n\n            # b. 检查是否需要停止\n            if \"无需改进\" in feedback:\n                print(\"\\n✅ 反思认为代码已无需改进，任务完成。\")\n                break",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "示例在反馈包含“无需改进”时提前退出，否则由 max_iterations 限定轮数。这是字符串终止规则，并未执行本地测试来证明代码正确或最优。",
+      "optionExplanations": {
+        "a": "错误，语法校验不等于功能通过，而且示例终止条件并未进行此校验。",
+        "b": "正确选项，对应文中代码实现中的 if 判断与 for 循环控制。",
+        "c": "Token 限制通常在 LLM API 层级，而非 Agent 内部的业务逻辑终止条件。",
+        "d": "文中实现的是自动化迭代，不涉及用户手动确认环节。"
+      },
+      "objectiveId": "ch04-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "stem": "在 4.4.3 节的 ReflectionAgent 实现中，任务终止的逻辑触发条件是什么？",
+      "design": {
+        "purpose": "比较模型自评通过与代码实际正确、复杂度改善的证据强度。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q13",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "通过“内心独白”分析当前情况，使下一步行动更具目的性"
+        },
+        {
+          "id": "b",
+          "text": "允许智能体反思上一步行动的结果，并动态修正行动策略"
+        },
+        {
+          "id": "c",
+          "text": "彻底消除大语言模型的事实幻觉，不再需要外部工具校验"
+        },
+        {
+          "id": "d",
+          "text": "提升了过程的透明度，方便开发者查阅智能体的决策心路历程"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "4.2.4",
+          "quote": "1. <strong>高可解释性</strong>：ReAct 最大的优点之一就是透明。通过 `Thought` 链，我们可以清晰地看到智能体每一步的“心路历程”——它为什么会选择这个工具，下一步又打算做什么。这对于理解、信任和调试智能体的行为至关重要。\n2. <strong>动态规划与纠错能力</strong>：与一次性生成完整计划的范式不同，ReAct 是“走一步，看一步”。它根据每一步从外部世界获得的 `Observation` 来动态调整后续的 `Thought` 和 `Action`。如果上一步的搜索结果不理想，它可以在下一步中修正搜索词，重新尝试。\n3. <strong>工具协同能力</strong>：ReAct 范式天然地将大语言模型的推理能力与外部工具的执行能力结合起来。LLM 负责运筹帷幄（规划和推理），工具负责解决具体问题（搜索、计算），二者协同工作，突破了单一 LLM 在知识时效性、计算准确性等方面的固有局限。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "本章用Thought文本分析情境、引导行动并提高调试可读性；它不能证明模型全部内部计算过程，也不保证纠错成功。",
+      "optionExplanations": {
+        "a": "正确。原文明确提到推理让行动更具目的性。",
+        "b": "正确。ReAct 允许根据 Observation 修正 Thought。",
+        "c": "错误。ReAct 依然依赖外部工具来减少幻觉，而非彻底消除且不需要校验。",
+        "d": "正确。透明度与“心路历程”是文中强调的高可解释性优势。"
+      },
+      "objectiveId": "ch04-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "stem": "相较于纯行动型（Act-only）智能体，ReAct 范式引入 Thought（思考）阶段的价值在于哪些方面？",
+      "design": {
+        "purpose": "比较纯思维链、纯行动与ReAct的信息来源和纠错条件。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q14",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "打印 LLM 返回的原始、未经处理的文本，判断其是否遵循了提示词格式"
+        },
+        {
+          "id": "b",
+          "text": "在提示词中加入 few-shot 示例（成功案例），引导模型稳定输出"
+        },
+        {
+          "id": "c",
+          "text": "调高模型的 temperature 参数，增加其生成随机 Action 的多样性"
+        },
+        {
+          "id": "d",
+          "text": "检查格式化后的完整提示词，包括追加的历史记录"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "4.2.4",
+          "quote": "- <strong>检查完整的提示词</strong>：在每次调用 LLM 之前，将最终格式化好的、包含所有历史记录的完整提示词打印出来。这是追溯 LLM 决策源头的最直接方式。\n- <strong>分析原始输出</strong>：当输出解析失败时（例如，正则表达式没有匹配到 `Action`），务必将 LLM 返回的原始、未经处理的文本打印出来。这能帮助你判断是 LLM 没有遵循格式，还是你的解析逻辑有误。\n- <strong>验证工具的输入与输出</strong>：检查智能体生成的 `tool_input` 是否是工具函数所期望的格式，同时也要确保工具返回的 `observation` 格式是智能体可以理解和处理的。\n- <strong>调整提示词中的示例 (Few-shot Prompting)</strong>：如果模型频繁出错，可以在提示词中加入一两个完整的“Thought-Action-Observation”成功案例，通过示例来引导模型更好地遵循你的指令。\n- <strong>尝试不同的模型或参数</strong>：更换一个能力更强的模型，或者调整 `temperature` 参数（通常设为0以保证输出的确定性），有时能直接解决问题。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "调试应侧重于分析原始文本、优化示例引导以及检查上下文完整性。提高温度会增加不确定性，反而不利于格式遵循。",
+      "optionExplanations": {
+        "a": "正确。原文强调务必打印原始文本进行对比分析。",
+        "b": "正确。Few-shot 示例是提升指令遵循能力的有效手段。",
+        "c": "错误，课件建议尝试较低温度减少随机性，而非通过随机Action修复格式。",
+        "d": "正确，完整Prompt有助于追溯指令和历史是否影响输出。"
+      },
+      "objectiveId": "ch04-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "stem": "当 ReAct 智能体频繁出现“Action 格式解析错误”时，以下哪些调试手段是 4.2.4 节所推荐的？",
+      "design": {
+        "purpose": "比较格式解析失败、无效工具和缺少事实信息三类失败的调试措施。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q15",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "维护包含“历史步骤与结果”的状态管理，并将其注入后续步骤"
+        },
+        {
+          "id": "b",
+          "text": "在接收到任务后，首先将复杂问题分解为由子任务构成的蓝图"
+        },
+        {
+          "id": "c",
+          "text": "在已有上下文基础上，调用 LLM 专注解决当前的具体子任务"
+        },
+        {
+          "id": "d",
+          "text": "在每执行完一步后，根据结果动态修改全局计划中的后续步骤"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "4.3.3",
+          "quote": "在规划器 (`Planner`) 生成了清晰的行动蓝图后，我们就需要一个执行器 (`Executor`) 来逐一完成计划中的任务。执行器不仅负责调用大语言模型来解决每个子问题，还承担着一个至关重要的角色：<strong>状态管理</strong>。它必须记录每一步的执行结果，并将其作为上下文提供给后续步骤，确保信息在整个任务链条中顺畅流动",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "Executor 专注于按预定计划执行任务并管理中间状态（History）。修改计划属于动态规划，文中标准 P&S 是静态规划。",
+      "optionExplanations": {
+        "a": "正确。状态管理（State Management）是 Executor 的核心职责。",
+        "b": "错误。这是规划器（Planner）的任务。",
+        "c": "正确。Executor 通过 EXECUTOR_PROMPT_TEMPLATE 解决特定步骤。",
+        "d": "错误。4.3 节实现的 P&S 计划是静态生成的蓝图。"
+      },
+      "objectiveId": "ch04-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "stem": "在 Plan-and-Solve 范式的执行阶段（Solving Phase），执行器（Executor）的角色包含哪些任务？",
+      "design": {
+        "purpose": "比较Planner分解全局任务与Executor携带历史结果解决当前子问题的职责。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q16",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "指出试除法的时间复杂度瓶颈，建议改用埃拉托斯特尼筛法"
+        },
+        {
+          "id": "b",
+          "text": "建议在大规模数据场景下考虑使用分段筛法或奇数筛法"
+        },
+        {
+          "id": "c",
+          "text": "强制要求将 Python 函数改写为带有 C 扩展的加速模块"
+        },
+        {
+          "id": "d",
+          "text": "分析了 O(n * sqrt(n)) 与 O(n log log n) 算法在性能上的阶梯式差异"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "4.4.4",
+          "quote": "当前代码的时间复杂度为O(n * sqrt(n))。虽然对于较小的n值，这种实现是可以接受的，但当n非常大时，性能会显著下降。主要瓶颈在于每个数都需要进行试除法检查，这导致了较高的时间开销。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        },
+        {
+          "section": "4.4.4",
+          "quote": "建议使用埃拉托斯特尼筛法（Sieve of Eratosthenes），该算法的时间复杂度为O(n log(log n))，能够显著提高查找素数的效率。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        },
+        {
+          "section": "4.4.4",
+          "quote": "1. <strong>分段筛法（Segmented Sieve）</strong>：适用于n非常大但内存有限的情况。将区间分成多个小段，每段分别用筛法处理，减少内存使用。\n2. <strong>奇数筛法（Odd Number Sieve）</strong>：除了2以外，所有素数都是奇数。可以在初始化`is_prime`数组时只标记奇数，这样可以将空间复杂度降低一半，同时减少一些不必要的计算。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "评审员从算法逻辑深度切入，对比了复杂度差异并给出了进阶优化方向（分段/奇数筛）。",
+      "optionExplanations": {
+        "a": "正确。这是第一轮迭代的核心改进点。",
+        "b": "正确。这是第二轮迭代中提及的高级优化方向。",
+        "c": "错误，展示的反馈没有要求改写为C扩展。",
+        "d": "正确。文中运行实例明确展示了对两种复杂度性能差异的分析。"
+      },
+      "objectiveId": "ch04-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "stem": "在 4.4.4 节的素数查找代码优化案例中，评审员模型提出了哪些关键的改进建议？",
+      "design": {
+        "purpose": "在代码优化案例中选择具体评审、针对性修订及合理终止的步骤。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q17",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "提供内部纠错回路，使其不再完全依赖外部工具（Observation）纠偏"
+        },
+        {
+          "id": "b",
+          "text": "形成的“执行-反思-优化”轨迹可作为短期记忆，提升最终质量"
+        },
+        {
+          "id": "c",
+          "text": "课件提出将记忆扩展为多模态以反思图像等输出的可能性"
+        },
+        {
+          "id": "d",
+          "text": "大幅度降低了智能体解决复杂任务时的 API 调用延迟与成本"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "4.4.1",
+          "quote": "- 它为智能体提供了一个内部纠错回路，使其不再完全依赖于外部工具的反馈（ReAct 的 Observation），从而能够修正更高层次的逻辑和策略错误。\n- 它将一次性的任务执行，转变为一个持续优化的过程，显著提升了复杂任务的最终成功率和答案质量。\n- 它为智能体构建了一个临时的<strong>“短期记忆”</strong>。整个“执行-反思-优化”的轨迹形成了一个宝贵的经验记录，智能体不仅知道最终答案，还记得自己是如何从有缺陷的初稿迭代到最终版本的。更进一步，这个记忆系统还可以是<strong>多模态的</strong>，允许智能体反思和修正文本以外的输出（如代码、图像等），为构建更强大的多模态智能体奠定了基础。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "课件提出内部反馈、轨迹记忆以及多模态扩展潜力；示例Memory只存文本，不能把扩展方向视作已运行功能。反思仍可能遗漏或引入错误。",
+      "optionExplanations": {
+        "a": "正确。内部纠错回路（Internal Error-correction Loop）是其核心价值。",
+        "b": "正确。文中提到迭代轨迹形成的短期记忆让模型知道如何变好。",
+        "c": "正确。原文明确提到这为构建更强大的多模态智能体奠定了基础。",
+        "d": "错误。Reflection 是典型的“以成本换质量”，会显著增加成本。"
+      },
+      "objectiveId": "ch04-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "stem": "Reflection 范式相比于其他范式，在构建强大智能体方面具有哪些独特价值？",
+      "design": {
+        "purpose": "针对功能已正确但效率不足的素数代码，选择能利用明确评审意见的优化流程。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q18",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "自动驾驶系统的实时避障决策，要求毫秒级响应"
+        },
+        {
+          "id": "b",
+          "text": "撰写涉及公司核心资产评估的高质量技术报告"
+        },
+        {
+          "id": "c",
+          "text": "生成需要极高逻辑严密性的关键业务代码"
+        },
+        {
+          "id": "d",
+          "text": "在科学研究中进行极度复杂的逻辑推演与验证"
+        }
+      ],
+      "answerIds": [
+        "b",
+        "c",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "4.4.5",
+          "quote": "综上所述，Reflection 机制是一种典型的“以成本换质量”的策略。它非常适合那些<strong>对最终结果的质量、准确性和可靠性有极高要求，且对任务完成的实时性要求相对宽松</strong>的场景。例如:",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        },
+        {
+          "section": "4.4.5",
+          "quote": "- 生成关键的业务代码或技术报告。\n- 在科学研究中进行复杂的逻辑推演。\n- 需要深度分析和规划的决策支持系统。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "explanation": "课件建议在质量优先、实时性较宽松时考虑Reflection。它可作为审查过程的一部分，但不替代执行测试、事实核对或领域评审。",
+      "optionExplanations": {
+        "a": "错误。毫秒级响应无法承受 Reflection 串行迭代的巨大延迟。",
+        "b": "正确。技术报告属于对质量要求极高但实时性相对宽松的场景。",
+        "c": "正确。业务代码需要极高的可靠性，适合通过反思进行逻辑加固。",
+        "d": "正确。复杂逻辑推演符合原文提到的科学研究场景。"
+      },
+      "objectiveId": "ch04-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "stem": "假设允许较长处理时间，并会另行验证最终结果，哪些场景符合课件建议考虑Reflection的条件（多选）？",
+      "design": {
+        "purpose": "在低时延简单任务和高质量复杂任务间选择反思预算、停止条件和验证安排。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      }
+    },
+    {
+      "id": "ch04-q19",
+      "type": "reflection",
+      "options": [],
+      "answerIds": [],
+      "referenceAnswer": "这是对课件静态实现的扩展方案：在Executor逐步执行时增加结果验证，保存步骤编号、输入、输出和失败原因；验证失败时暂停依赖步骤，将已确认结果、错误信息及剩余目标送回Planner生成修订计划。需解析并校验新计划，保留有效结果并避免重复执行有副作用的动作，同时设定重规划次数、时间或调用预算上限。可新增结构化状态对象；若复用Reflection的Memory，也需扩展接口，原示例没有failed_execution字段约定或self.plan自动替换逻辑。新的计划仍需验证。",
+      "rubric": [
+        "说明如何验证步骤结果并保存失败原因",
+        "区分已确认状态和需重做步骤，暂停依赖错误结果的后续执行",
+        "说明向Planner反馈失败信息并校验修订计划",
+        "设置重规划预算及重复执行控制，并明确这是新增扩展"
+      ],
+      "objectiveId": "ch04-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "4.3.3",
+          "quote": "在规划器 (`Planner`) 生成了清晰的行动蓝图后，我们就需要一个执行器 (`Executor`) 来逐一完成计划中的任务。执行器不仅负责调用大语言模型来解决每个子问题，还承担着一个至关重要的角色：<strong>状态管理</strong>。它必须记录每一步的执行结果，并将其作为上下文提供给后续步骤，确保信息在整个任务链条中顺畅流动",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "optionExplanations": {},
+      "stem": "在多步任务执行中，如果 Executor 发现第 N 步的结果出现明显错误（如搜索结果为空或逻辑冲突），应如何通过状态设计触发重新规划（Replanning）逻辑？请阐述设计思路。",
+      "design": {
+        "purpose": "为一个多步骤任务设计执行状态，指出前序结果错误如何传播，并说明何时需要重新规划而非盲目继续。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      },
+      "explanation": "基于静态Planner/Executor提出扩展设计；原示例没有实现自动重规划。"
+    },
+    {
+      "id": "ch04-q20",
+      "type": "reflection",
+      "options": [],
+      "answerIds": [],
+      "referenceAnswer": "ReAct逐轮调用模型并追加工具观察；Plan-and-Solve有规划调用和逐步执行，历史结果会增加后续输入；Reflection增加反思及必要时的修订调用。三者总Token取决于轮数、历史长度、输出长度与模型配置，不能给出固定线性增长、每步固定成本或总是Reflection最贵的结论。ReAct利用工具反馈调整行动；本章Plan-and-Solve按静态计划执行，没有自动重规划；Reflection用评审反馈修订，但可能漏错。交互轨迹、子任务清单、代码版本及反馈记录是过程记录，不等于测试证据。数学编程任务还应实际执行已定义的测试输入，保存预期值、实际输出与性能测量；本章打印评审意见或“无需改进”不证明代码已运行、正确或最优。",
+      "rubric": [
+        "比较三种范式的调用与上下文成本来源，不虚构固定增长公式",
+        "区分工具反馈、静态计划执行与评审反馈的纠错边界",
+        "区分过程记录与实际运行测试证据",
+        "提出具体输入输出或性能核验方式，不把评审意见当成通过结果"
+      ],
+      "objectiveId": "ch04-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "4.2.4",
+          "quote": "2. <strong>执行效率问题</strong>：由于其循序渐进的特性，完成一个任务通常需要多次调用 LLM。每一次调用都伴随着网络延迟和计算成本。对于需要很多步骤的复杂任务，这种串行的“思考-行动”循环可能会导致较高的总耗时和费用。\n3. <strong>提示词的脆弱性</strong>：整个机制的稳定运行建立在一个精心设计的提示词模板之上。模板中的任何微小变动，甚至是用词的差异，都可能影响 LLM 的行为。此外，并非所有模型都能持续稳定地遵循预设的格式，这增加了在实际应用中的不确定性。\n4. <strong>可能陷入局部最优</strong>：步进式的决策模式意味着智能体缺乏一个全局的、长远的规划。它可能会因为眼前的 `Observation` 而选择一个看似正确但长远来看并非最优的路径，甚至在某些情况下陷入“原地打转”的循环中。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        },
+        {
+          "section": "4.3.3",
+          "quote": "在规划器 (`Planner`) 生成了清晰的行动蓝图后，我们就需要一个执行器 (`Executor`) 来逐一完成计划中的任务。执行器不仅负责调用大语言模型来解决每个子问题，还承担着一个至关重要的角色：<strong>状态管理</strong>。它必须记录每一步的执行结果，并将其作为上下文提供给后续步骤，确保信息在整个任务链条中顺畅流动",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        },
+        {
+          "section": "4.4.5",
+          "quote": "1. <strong>模型调用开销增加</strong>:这是最直接的成本。每进行一轮迭代，至少需要额外调用两次大语言模型（一次用于反思，一次用于优化）。如果迭代多轮，API 调用成本和计算资源消耗将成倍增加。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        },
+        {
+          "section": "4.4.2",
+          "quote": "- `get_trajectory` 方法是核心，它将记忆轨迹“序列化”成一段文本，可以直接插入到后续的提示词中，为模型的反思和优化提供完整的上下文。\n- `get_last_execution` 方便我们获取最新的“初稿”以供反思。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md"
+        }
+      ],
+      "optionExplanations": {},
+      "stem": "对比 ReAct、Plan-and-Solve 与 Reflection 三种范式，分别阐述它们在处理“复杂数学编程任务”时的 Token 成本分布、错误发现机制以及提供的“测试证据”差异。",
+      "design": {
+        "purpose": "比较同一编程任务采用ReAct、Plan-and-Solve、Reflection的流程、成本与测试证据；记录实际运行待验证项。",
+        "misconception": "混淆范式的流程职责、能力边界或把设计意图视为验证结果。"
+      },
+      "explanation": "比较成本来源、纠错线索与可验证证据，避免把生成轨迹当作测试通过。"
+    }
+  ]
+}

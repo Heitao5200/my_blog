@@ -1,0 +1,1289 @@
+{
+  "id": 3,
+  "title": "第三章 大语言模型基础",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第三章 大语言模型基础",
+    "path": "docs/chapter3/第三章 大语言模型基础.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md",
+    "sha256": "31c2a799e4775db07289cdcbc302857296623a45a6fc87576375d6016f2bd6da",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "a2203fb7-8411-4afc-b076-6de99ecc1ef5",
+    "artifactId": "35192318-9447-458c-b120-5fb607576a08"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch03-o01",
+        "title": "解释序列建模向注意力架构演进",
+        "sections": [
+          "3.1.1 从 N-gram 到 RNN",
+          "3.1.2 Transformer 架构解析",
+          "3.1.1 从 N-gram 到 RNN"
+        ],
+        "reason": "理解建模假设和计算依赖，比模型名更能迁移。"
+      },
+      {
+        "id": "ch03-o02",
+        "title": "理解注意力与Decoder-Only的生成约束",
+        "sections": [
+          "3.1.2 Transformer 架构解析",
+          "3.1.2 Transformer 架构解析",
+          "3.1.3 Decoder-Only 架构"
+        ],
+        "reason": "因果遮罩和位置信息决定模型能看什么及如何生成。"
+      },
+      {
+        "id": "ch03-o03",
+        "title": "设计清晰提示并调节采样",
+        "sections": [
+          "3.2.1 提示工程",
+          "3.2.1 提示工程",
+          "3.2.1 提示工程"
+        ],
+        "reason": "提示结构和采样分别控制任务说明与输出分布，不能混同可靠性。"
+      },
+      {
+        "id": "ch03-o04",
+        "title": "理解token化与本地推理数据流",
+        "sections": [
+          "3.2.2 文本分词",
+          "3.2.3 调用开源大语言模型",
+          "3.2.3 调用开源大语言模型"
+        ],
+        "reason": "输入文本必须经模型匹配的编码解码流程，token不是字词的固定同义词。"
+      },
+      {
+        "id": "ch03-o05",
+        "title": "按任务和资源选择模型",
+        "sections": [
+          "3.2.4 模型的选择",
+          "3.3.1 缩放法则",
+          "3.2.4 模型的选择"
+        ],
+        "reason": "模型能力、部署资源和成本共同约束方案，不追逐榜单型号。"
+      },
+      {
+        "id": "ch03-o06",
+        "title": "识别幻觉并选择有边界的缓解方法",
+        "sections": [
+          "3.3.2 模型幻觉",
+          "3.3.2 模型幻觉",
+          "3.3.1 缩放法则"
+        ],
+        "reason": "区分事实正确性与语言流畅性，避免把提示或规模当保证。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch03-q01",
+        "type": "single",
+        "objectiveId": "ch03-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "3.1.1 从 N-gram 到 RNN",
+        "purpose": "识别语言模型对序列概率建模的目标及N-gram局部上下文限制。"
+      },
+      {
+        "id": "ch03-q02",
+        "type": "single",
+        "objectiveId": "ch03-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "3.1.2 Transformer 架构解析",
+        "purpose": "解释RNN按时间步依赖如何限制训练并行性。"
+      },
+      {
+        "id": "ch03-q03",
+        "type": "single",
+        "objectiveId": "ch03-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "3.1.2 Transformer 架构解析",
+        "purpose": "辨认注意力中的相关性加权与位置编码的不同作用。"
+      },
+      {
+        "id": "ch03-q04",
+        "type": "single",
+        "objectiveId": "ch03-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "3.1.2 Transformer 架构解析",
+        "purpose": "追踪Q、K、V形成加权表示的过程，区分相似度与被聚合的信息。"
+      },
+      {
+        "id": "ch03-q05",
+        "type": "single",
+        "objectiveId": "ch03-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "3.2.1 提示工程",
+        "purpose": "识别角色、任务、示例和输出约束在提示中的作用。"
+      },
+      {
+        "id": "ch03-q06",
+        "type": "single",
+        "objectiveId": "ch03-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "3.2.1 提示工程",
+        "purpose": "解释temperature与top-p怎样影响候选token选择范围或随机性。"
+      },
+      {
+        "id": "ch03-q07",
+        "type": "single",
+        "objectiveId": "ch03-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "3.2.2 文本分词",
+        "purpose": "辨认token、文本字符和token ID的区别。"
+      },
+      {
+        "id": "ch03-q08",
+        "type": "single",
+        "objectiveId": "ch03-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "3.2.3 调用开源大语言模型",
+        "purpose": "追踪tokenizer、模型生成和decode之间的数据流。"
+      },
+      {
+        "id": "ch03-q09",
+        "type": "single",
+        "objectiveId": "ch03-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "3.2.4 模型的选择",
+        "purpose": "为隐私约束或低延迟任务识别需要优先比较的模型指标。"
+      },
+      {
+        "id": "ch03-q10",
+        "type": "single",
+        "objectiveId": "ch03-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "3.3.1 缩放法则",
+        "purpose": "解释参数、数据与计算资源配比为何影响扩大模型的收益。"
+      },
+      {
+        "id": "ch03-q11",
+        "type": "single",
+        "objectiveId": "ch03-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "3.3.2 模型幻觉",
+        "purpose": "识别额外验证、检索或约束输出带来的成本与可靠性收益。"
+      },
+      {
+        "id": "ch03-q12",
+        "type": "single",
+        "objectiveId": "ch03-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "3.3.2 模型幻觉",
+        "purpose": "比较事实性错误与违背提供上下文的错误。"
+      },
+      {
+        "id": "ch03-q13",
+        "type": "multiple",
+        "objectiveId": "ch03-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "3.1.1 从 N-gram 到 RNN",
+        "purpose": "比较N-gram、RNN和注意力对上下文依赖的处理，避免将并行训练等同并行生成。"
+      },
+      {
+        "id": "ch03-q14",
+        "type": "multiple",
+        "objectiveId": "ch03-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "3.1.3 Decoder-Only 架构",
+        "purpose": "比较完整编码器解码器与Decoder-Only，并判断因果遮罩、逐token生成的必要约束。"
+      },
+      {
+        "id": "ch03-q15",
+        "type": "multiple",
+        "objectiveId": "ch03-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "3.2.1 提示工程",
+        "purpose": "对结构化抽取与开放创作比较零样本、少样本和推理引导的适用性，不声称低温消除幻觉。"
+      },
+      {
+        "id": "ch03-q16",
+        "type": "multiple",
+        "objectiveId": "ch03-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "3.2.3 调用开源大语言模型",
+        "purpose": "面对本地开源模型输出异常，选择核对分词器、输入格式、设备及生成配置的合理检查。"
+      },
+      {
+        "id": "ch03-q17",
+        "type": "multiple",
+        "objectiveId": "ch03-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "3.2.4 模型的选择",
+        "purpose": "给定资源、上下文和质量约束选择云端或本地及模型大小的可行组合。"
+      },
+      {
+        "id": "ch03-q18",
+        "type": "multiple",
+        "objectiveId": "ch03-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "3.3.1 缩放法则",
+        "purpose": "评估扩大规模能改善平均损失但仍需事实验证等判断，拒绝用规模法则推出每个任务必然正确。"
+      },
+      {
+        "id": "ch03-q19",
+        "type": "reflection",
+        "objectiveId": "ch03-o02",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "3.1.3 Decoder-Only 架构",
+        "purpose": "用短序列解释训练时因果遮罩与推理时逐token追加的关系，并指出并行性各发生在哪个阶段。"
+      },
+      {
+        "id": "ch03-q20",
+        "type": "reflection",
+        "objectiveId": "ch03-o06",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "3.3.2 模型幻觉",
+        "purpose": "为一个知识问答场景提出幻觉验证方案，区分采样稳定、外部事实核对和用户可见的不确定性。"
+      }
+    ],
+    "notes": "覆盖架构、交互、选型和局限；不以当前模型排行榜、价格或参数传闻出题。完整Transformer张量推导仅部分覆盖，不将本测评等同实现能力认证。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:37:16.996045+00:00",
+    "notes": [
+      "逐题核对20题题干、选项、答案、逐项解释和思考参考答案，依据锁定的本地课件作语义编辑；此为代理编辑核验，不是人工课堂效度评价或课程示例运行证明。",
+      "修正位置编码置换绝对断言、幻觉类型重叠单选、低温正确性/隐私保证、字数与Token混淆、乱码臆测病因和Chinchilla等比例绝对化；补齐reflection数据字段及原文证据。",
+      "保留NotebookLM来源ID、源文件哈希、题目ID与蓝图配额；所有证据改用对应课件连续片段与原始来源URL。思考题仅含自查要点。",
+      "AGENT_QUIZ_REPO=/Users/heitao/Colab/my_blog python3 apps/agent-quiz/scripts/validate_bank.py --chapters 1,2,3,4,7：100题，0 errors。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch03-q01",
+      "stem": "在统计语言模型中，引入“马尔可夫假设”对 N-gram 模型计算复杂度的主要贡献是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "通过增加上下文窗口大小，使模型能够处理无限长的句子序列"
+        },
+        {
+          "id": "b",
+          "text": "把依赖全部历史的条件概率近似为只依赖前 n−1 个词，简化概率估计"
+        },
+        {
+          "id": "c",
+          "text": "利用余弦相似度在连续向量空间中度量词元间的语义关联"
+        },
+        {
+          "id": "d",
+          "text": "解决了在语料库中从未出现的词序列概率为零的数据稀疏问题"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "完整历史的组合难以从有限语料估计。N-gram 用有限历史窗口近似条件概率，从而简化计数估计；并不消除数据稀疏或保证总计算量与句长无关。",
+      "optionExplanations": {
+        "a": "增加窗口会增加而非降低计算复杂度，且 N 总是有限的。",
+        "b": "这是教材 3.1.1 节指出的核心思想：不必回溯全部历史，只近似认为与前面有限的 n-1 个词有关。",
+        "c": "余弦相似度是神经网络语言模型的特征，统计模型使用的是基于频数的最大似然估计。",
+        "d": "马尔可夫假设本身不能解决稀疏性问题，甚至因窗口限制仍会产生稀疏，该问题需靠平滑技术缓解。"
+      },
+      "evidence": [
+        {
+          "section": "3.1.1",
+          "quote": "为了解决这个问题，研究者引入了<strong>马尔可夫假设 (Markov Assumption)</strong> 。其核心思想是：我们不必回溯一个词的全部历史，可以近似地认为，一个词的出现概率只与它前面有限的 $n−1$ 个词有关，如图3.1所示。基于这个假设建立的语言模型，我们称之为 <strong>N-gram模型</strong>。这里的 \"N\" 代表我们考虑的上下文窗口大小。让我们来看几个最常见的例子来理解这个概念：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察学生对统计语言模型中马尔可夫假设如何折中建模能力与计算复杂度的深层理解。",
+        "misconception": "学生可能误以为 N-gram 是为了提升语义理解，而忽略了其在工程上对计算瓶颈的规避作用。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch03-q02",
+      "stem": "循环神经网络 (RNN) 在处理超长序列时的计算逻辑，如何限制了其在现代 GPU 上的训练效率？",
+      "options": [
+        {
+          "id": "a",
+          "text": "由于隐藏状态向量维度过小，导致 GPU 核心利用率不足"
+        },
+        {
+          "id": "b",
+          "text": "其门控机制（Gating Mechanism）引入了过多的非线性激活函数"
+        },
+        {
+          "id": "c",
+          "text": "当前时间步依赖上一步隐藏状态，限制了沿序列时间维度的并行计算"
+        },
+        {
+          "id": "d",
+          "text": "梯度消失现象迫使模型必须频繁进行显存回收"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "RNN 的隐藏状态 $h_t$ 依赖于 $h_{t-1}$，这种递归依赖关系要求计算必须按时间步顺序进行，无法像 Transformer 那样一次性将整句投入 GPU 进行矩阵运算。",
+      "optionExplanations": {
+        "a": "瓶颈在于计算的时序依赖，而非向量维度。",
+        "b": "门控机制主要解决梯度消失，并非计算效率的主因。",
+        "c": "符合教材 3.1.2 节对 RNN 瓶颈的描述：必须按顺序处理数据，限制了并行计算和规模提升。",
+        "d": "梯度消失是收敛问题，而非导致训练串行的结构问题。"
+      },
+      "evidence": [
+        {
+          "section": "3.1.2",
+          "quote": "在上一节中，我们看到RNN及LSTM通过引入循环结构来处理序列数据，这在一定程度上解决了捕捉长距离依赖的问题。然而，这种循环的计算方式也带来了新的瓶颈：它必须按顺序处理数据。第 t 个时间步的计算，必须等待第 t−1 个时间步完成后才能开始。这意味着 RNN 无法进行大规模的并行计算，在处理长序列时效率低下，这极大地限制了模型规模和训练速度的提升。Transformer在2017 年由谷歌团队提出<sup>[4]</sup>。它完全抛弃了循环结构，转而完全依赖一种名为<strong>注意力 (Attention)</strong> 的机制来捕捉序列内的依赖关系，从而实现了真正意义上的并行计算。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "对比 RNN 与 Transformer 的硬件友好度。",
+        "misconception": "可能误认为 RNN 的所有问题都源于梯度消失，而忽视了架构本身的串行限制。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q03",
+      "stem": "仅考虑课件介绍的不带位置编码、也不含因果掩码的自注意力机制，它为何需要额外的位置编码来区分词序？",
+      "options": [
+        {
+          "id": "a",
+          "text": "生成完全不同的自注意力权重，因为词元出现的时间点不同"
+        },
+        {
+          "id": "b",
+          "text": "这种注意力计算只基于词元间关系，本身没有显式注入词元的位置信息"
+        },
+        {
+          "id": "c",
+          "text": "导致模型崩溃，因为残差连接需要位置信息来对齐向量"
+        },
+        {
+          "id": "d",
+          "text": "仅影响编码器（Encoder），对解码器（Decoder）的自回归生成没有影响"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "位置编码给词元表示补充顺序信息。不能把这一结论扩大为任意带掩码 Transformer 对置换输入都输出完全相同的结果；本题限定未加入其他位置线索的自注意力。",
+      "optionExplanations": {
+        "a": "可能误以为词元位置会自动影响权重，但 Transformer 内部是并行矩阵运算，没有天然时序。",
+        "b": "正确，课件通过词序互换的例子说明自注意力自身不提供位置编码。",
+        "c": "残差连接是向量加法，不依赖位置编码。",
+        "d": "位置编码对整个架构捕捉顺序信息都至关重要。"
+      },
+      "evidence": [
+        {
+          "section": "3.1.2",
+          "quote": "我们已经了解，Transformer 的核心是自注意力机制，它通过计算序列中任意两个词元之间的关系来捕捉依赖。然而，这种计算方式有一个固有的问题：它本身不包含任何关于词元顺序或位置的信息。对于自注意力来说，“agent learns” 和 “learns agent” 这两个序列是完全等价的，因为它只关心词元之间的关系，而忽略了它们的排列。为了解决这个问题，Transformer 引入了<strong>位置编码 (Positional Encoding)</strong> 。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察学生对非递归架构中位置信息补充必要性的理解。",
+        "misconception": "学生容易混淆 RNN（天然时序）与 Transformer（人为补充时序）的区别。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch03-q04",
+      "stem": "在自注意力机制（Self-Attention）的 $Attention(Q,K,V)$ 计算过程中，下列关于向量功能的追踪描述正确的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "$QK^T$ 的运算结果用于衡量词元间的相似度得分，而 V 承载最终被聚合的“内容”信息"
+        },
+        {
+          "id": "b",
+          "text": "$QV^T$ 用于计算注意力权重，K 负责将权重映射回原始嵌入空间"
+        },
+        {
+          "id": "c",
+          "text": "Q 与 K 交换位置后，计算出的注意力得分矩阵（Attention Matrix）将保持完全不变"
+        },
+        {
+          "id": "d",
+          "text": "$d_k$ 是 V 向量的维度，用于防止点积数值过大导致梯度消失"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "自注意力的核心逻辑是 Query（查询）去匹配 Key（键）获取相关性分数，然后基于该分数加权聚合 Value（值）。",
+      "optionExplanations": {
+        "a": "符合教材 3.1.2 (2) 对 Q、K、V 角色的定义及计算公式描述。",
+        "b": "这里可能误以为是 Q 与 V 计算得分，实际上 V 只作为内容的载体。",
+        "c": "交换 Q 和 K 会导致得分矩阵转置，从而改变每个词元对他人的注意力分配。",
+        "d": "$d_k$ 是 Key 向量的维度，而非 Value 向量的维度。"
+      },
+      "evidence": [
+        {
+          "section": "3.1.2",
+          "quote": "- 准备“考题”和“资料”：对于句子中的每个词，都通过权重矩阵生成其$Q,K,V$向量。\n- 计算相关性得分：要计算词$A$的新表示，就用词$A$的$Q$向量，去和句子中所有词（包括$A$自己）的$K$向量进行点积运算。这个得分反映了其他词对于理解词$A$的重要性。\n- 稳定化与归一化：将得到的所有分数除以一个缩放因子$\\sqrt{d_{k}}$（$d_{k}$是$K$向量的维度），以防止梯度过小，然后用Softmax函数将分数转换成总和为1的权重，也就是归一化的过程。\n- 加权求和：将上一步得到的权重分别乘以每个词对应的$V$向量，然后将所有结果相加。最终得到的向量，就是词$A$融合了全局上下文信息后的新表示。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "精准考察自注意力机制中各向量的分工与矩阵运算流程。",
+        "misconception": "容易混淆 K 和 V 的作用，或误解缩放因子 $d_k$ 的来源。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q05",
+      "stem": "给定一段 Prompt：“你现在是一个翻译助手。请将以下句子翻译成地道的英文：‘今天天气真不错。’注意输出格式必须为 JSON。”其中“你现在是一个翻译助手”属于提示工程中的哪个要素？",
+      "options": [
+        {
+          "id": "a",
+          "text": "输出约束 (Constraints)"
+        },
+        {
+          "id": "b",
+          "text": "任务指令 (Instruction)"
+        },
+        {
+          "id": "c",
+          "text": "角色扮演 (Role-playing)"
+        },
+        {
+          "id": "d",
+          "text": "上下文示例 (In-context Example)"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "赋予模型特定身份（如翻译助手）以引导其输出风格和知识范围的方法被称为角色扮演。",
+      "optionExplanations": {
+        "a": "输出约束是“格式必须为 JSON”。",
+        "b": "任务指令是“将句子翻译成地道的英文”。",
+        "c": "符合教材 3.2.1 (4) 节对角色扮演的定义。",
+        "d": "Prompt 中未提供任何具体的输入输出对作为示例。"
+      },
+      "evidence": [
+        {
+          "section": "3.2.1",
+          "quote": "<strong>角色扮演 (Role-playing)</strong> 通过赋予模型一个特定的角色，我们可以引导它的回答风格、语气和知识范围，使其输出更符合特定场景的需求。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察对 Prompt Engineering 基本技巧的识别。",
+        "misconception": "可能将所有文本引导语一概而论为“指令”。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch03-q06",
+      "stem": "按课件对温度与截断采样的说明，下列说法正确的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "T 越高，概率分布越陡峭，使得模型更倾向于输出最高概率的 Token"
+        },
+        {
+          "id": "b",
+          "text": "当 T=0 时，模型等同于贪心采样，此时 Top-p 和 Top-k 参数会失去调节意义"
+        },
+        {
+          "id": "c",
+          "text": "Temperature 的调整是在 Top-k 和 Top-p 过滤之后进行的"
+        },
+        {
+          "id": "d",
+          "text": "设置 T=0.9 通常用于严谨的法律条文解读场景，以确保准确性"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "课件将 T=0 描述为选择最可能词元的贪心情形，此时 Top-k/Top-p 不再用于增加随机选择。T=0 是解码约定，不应直接代入除以温度的公式，也不能据此保证内容正确或每次服务响应完全一致。",
+      "optionExplanations": {
+        "a": "这里可能误以为 T 越大越保守，实际上 T 越高分布越平坦，随机性越强。",
+        "b": "符合教材 3.2.1 (1) 对参数优先级的描述：T=0 时 Top-k/p 将变得无关紧要。",
+        "c": "优先级顺序通常是：温度调整 -> Top-k -> Top-p。",
+        "d": "错误，课件把较低温度用于强调稳定性的任务；温度本身不能确保准确性。"
+      },
+      "evidence": [
+        {
+          "section": "3.2.1",
+          "quote": "需要注意的是，如果将温度设置为 0，则 Top-k 和 Top-p 将变得无关紧要，因为最有可能的 Token 将成为下一个预测的 Token；如果将 Top-k 设置为 1，温度和 Top-p 也将变得无关紧要，因为只有一个 Token 通过 Top-k 标准，它将是下一个预测的 Token。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察采样参数调节的数学逻辑及实际应用策略。",
+        "misconception": "学生可能死记硬背 T 的效果，而不理解 T=0 时截断采样失效的原理。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q07",
+      "stem": "分词器 (Tokenizer) 在 NLP 流水线中定义的切分单元被称为：",
+      "options": [
+        {
+          "id": "a",
+          "text": "字符 (Character)"
+        },
+        {
+          "id": "b",
+          "text": "词元 (Token)"
+        },
+        {
+          "id": "c",
+          "text": "词嵌入 (Embedding)"
+        },
+        {
+          "id": "d",
+          "text": "子字节 (Sub-byte)"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "分词器的核心作用是将原始文本切分成模型可处理的最小单元，即词元（Token）。",
+      "optionExplanations": {
+        "a": "字符仅是分词的一种极端策略（Character-based）。",
+        "b": "符合教材 3.2.2 节定义：将原始文本切分成一个个最小的单元，我们称之为词元 (Token)。",
+        "c": "词嵌入是将词元映射到高维空间后的连续向量。",
+        "d": "教材中对应的概念是字节对编码（BPE），而非子字节。"
+      },
+      "evidence": [
+        {
+          "section": "3.2.2",
+          "quote": "我们知道，计算机本质上只能理解数字。因此，在将自然语言文本喂给大语言模型之前，必须先将其转换成模型能够处理的数字格式。这个将文本序列转换为数字序列的过程，就叫做<strong>分词 (Tokenization)</strong> 。<strong>分词器 (Tokenizer)</strong> 的作用，就是定义一套规则，将原始文本切分成一个个最小的单元，我们称之为<strong>词元 (Token)</strong> 。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察对分词基本概念的掌握。",
+        "misconception": "可能混淆物理切分单元（Token）与数学表示（Embedding）。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch03-q08",
+      "stem": "在调用 `transformers` 库进行对话模型推理时，`tokenizer.apply_chat_template` 的核心任务是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "将 Token ID 反序列化为人类可读的文本"
+        },
+        {
+          "id": "b",
+          "text": "将消息列表按模型特定的 System/User 角色格式转换为特定标记序列"
+        },
+        {
+          "id": "c",
+          "text": "在本地显存中自动分配模型权重的加载位置"
+        },
+        {
+          "id": "d",
+          "text": "通过对 Logits 进行 Softmax 运算生成概率分布"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "不同的对话模型（如 Qwen, Llama）有不同的特殊标记（如 <|im_start|> 等），该方法根据模型模板格式化输入。",
+      "optionExplanations": {
+        "a": "这是 `decode` 方法的作用。",
+        "b": "符合教材 3.2.3 节代码实践描述：Qwen1.5-Chat 模型遵循特定对话模板，需格式化后再进行编码。",
+        "c": "权重的加载由 `AutoModel` 的 `to(device)` 等控制。",
+        "d": "这是推理引擎后端的逻辑，不属于分词器模板功能。"
+      },
+      "evidence": [
+        {
+          "section": "3.2.3",
+          "quote": "# 使用分词器的模板格式化输入\ntext = tokenizer.apply_chat_template(\n    messages,\n    tokenize=False,\n    add_generation_prompt=True\n)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察对开源模型调用流程中关键环节的理解。",
+        "misconception": "可能误认为所有模型的输入格式都是通用的 Plain Text。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q09",
+      "stem": "针对“高隐私敏感且需在离线环境运行”的智能体应用，下列哪种选型方案最为合适？",
+      "options": [
+        {
+          "id": "a",
+          "text": "调用 OpenAI GPT-4 API 配合 VPN 隧道"
+        },
+        {
+          "id": "b",
+          "text": "部署 Qwen1.5-0.5B-Chat 等轻量级开源模型于本地私有服务器"
+        },
+        {
+          "id": "c",
+          "text": "利用 Google Gemini 1.5 Pro 的超长上下文窗口服务"
+        },
+        {
+          "id": "d",
+          "text": "采用 Anthropic Claude 3 系列的闭源托管 API"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "在模型与依赖准备完毕后，本地部署可支持离线推理，避免将推理输入提交给托管模型服务。是否满足隐私需求仍取决于系统配置；轻量模型只是入门示例，任务能力需要验证。",
+      "optionExplanations": {
+        "a": "API 即使使用加密隧道，数据最终仍需发送给第三方处理。",
+        "b": "符合教材 3.2.3 节所述：对于敏感数据、离线运行场景，本地部署开源模型至关重要。",
+        "c": "Gemini 是闭源云服务，不满足离线需求。",
+        "d": "闭源托管 API 依然存在数据隐私合规的外部风险。"
+      },
+      "evidence": [
+        {
+          "section": "3.2.3",
+          "quote": "在本书的第一章，我们通过 API 来与大语言模型进行交互，以此驱动我们的智能体。这是一种快速、便捷的方式，但并非唯一的方式。对于许多需要处理敏感数据、希望离线运行或想精细控制成本的场景，将大语言模型直接部署在本地就显得至关重要。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "根据业务约束选择模型部署策略。",
+        "misconception": "可能忽略闭源模型在隐私和离线场景下的根本限制。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch03-q10",
+      "stem": "DeepMind 提出的“Chinchilla 定律”对模型训练的主要指导意义在于：",
+      "options": [
+        {
+          "id": "a",
+          "text": "只要计算资源充足，模型参数量越大则性能必然越优"
+        },
+        {
+          "id": "b",
+          "text": "在给定计算预算下，应同时考虑参数量与训练数据量的合适配比"
+        },
+        {
+          "id": "c",
+          "text": "小规模模型无论如何训练，其性能都无法超越大规模模型"
+        },
+        {
+          "id": "d",
+          "text": "数据量对模型性能的贡献在达到 1000 亿 token 后会进入饱和期"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "Chinchilla 定律修正了盲目追求参数规模的观念，指出数据效率同样关键，最优模型往往比预想的小，但训练数据更多。",
+      "optionExplanations": {
+        "a": "这是该定律试图纠正的旧观念。",
+        "b": "符合教材 3.3.1 节描述：在给定的计算预算下，模型参数量和训练数据量之间存在一个最优配比。",
+        "c": "教材举例指出 70B 模型若数据充足，性能可超 175B 模型。",
+        "d": "错误，课件未提出1000亿token这一固定饱和阈值。"
+      },
+      "evidence": [
+        {
+          "section": "3.3.1",
+          "quote": "早期的研究更侧重于增加模型参数量，但 DeepMind 在 2022 年提出的“Chinchilla 定律”对此进行了重要修正<sup>[10]</sup>。该定律指出，在给定的计算预算下，为了达到最优性能，<strong>模型参数量和训练数据量之间存在一个最优配比</strong>。具体来说，最优的模型应该比之前普遍认为的要小，但需要用多得多的数据进行训练。例如，一个 700 亿参数的 Chinchilla 模型，由于使用了比 GPT-3（1750 亿参数）多 4 倍的数据进行训练，其性能反而超越了后者。这一发现纠正了“越大越好”的片面认知，强调了数据效率的重要性，并指导了后续许多高效大模型（如 Llama 系列）的设计。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察对 Scaling Laws 核心规律的理解。",
+        "misconception": "学生容易误认为 LLM 的进化只是简单的“参数堆砌”。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q11",
+      "stem": "在构建基于 RAG（检索增强生成）的智能体时，开发者必须在“幻觉缓解”与“运行成本”之间做出权衡，其原因不包括：",
+      "options": [
+        {
+          "id": "a",
+          "text": "把检索文本加入提示词通常增加输入 Token，并占用上下文预算"
+        },
+        {
+          "id": "b",
+          "text": "大多数闭源模型 API 是按照 Token 消耗量计费的"
+        },
+        {
+          "id": "c",
+          "text": "RAG 系统引入了额外的知识库检索和处理的系统复杂度"
+        },
+        {
+          "id": "d",
+          "text": "RAG 技术的引入会强制降低模型本身的推理深度（CoT）能力"
+        }
+      ],
+      "answerIds": [
+        "d"
+      ],
+      "explanation": "由课件的 RAG 流程和 Token 计费说明可推导：检索与上下文处理会增加工程工作及输入成本。课件未说 RAG 强制降低 CoT 能力；检索质量和上下文组织仍可能影响结果。",
+      "optionExplanations": {
+        "a": "上下文注入确实会增加 token 消耗，影响成本。",
+        "b": "符合教材 3.2.2.3 节对开发者意义的描述（API 成本计费）。",
+        "c": "检索外部知识并构造上下文会增加处理步骤；不要求所有RAG都使用向量库。",
+        "d": "这是本题应选项，课件没有提出RAG必然降低推理深度的机制。"
+      },
+      "evidence": [
+        {
+          "section": "3.3.2",
+          "quote": "1. <strong>检索增强生成 (Retrieval-Augmented Generation, RAG)</strong> <sup>[14]</sup>： 这是目前缓解幻觉的有效方法之一。RAG 系统通过在生成之前从外部知识库（如文档数据库、网页）中检索相关信息，然后将检索到的信息作为上下文，引导模型生成基于事实的回答。\n   2. <strong>多步推理与验证</strong>： 引导模型进行多步推理，并在每一步进行自我检查或外部验证。\n   3. <strong>引入外部工具</strong>： 允许模型调用外部工具（如搜索引擎、计算器、代码解释器）来获取实时信息或进行精确计算。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.2.2",
+          "quote": "- <strong>API 成本</strong>：大多数模型 API 都是按 Token 数量计费的。了解你的文本会被如何分词，是预估和控制智能体运行成本的关键一步。\n- <strong>模型表现的异常</strong>：有时模型的奇怪表现根源在于分词。例如，模型可能很擅长计算 `2 + 2`，但对于 `2+2`（没有空格）就可能出错，因为后者可能被分词器视为一个独立的、不常见的词元。同样，一个词因为首字母大小写不同，也可能被切分成完全不同的 Token 序列，从而影响模型的理解。在设计提示词和解析模型输出时，考虑到这些“陷阱”有助于提升智能体的鲁棒性。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "辩证考察幻觉缓解方案的工程代价。",
+        "misconception": "可能认为 RAG 是全方位的“银弹”，而忽略了其带来的 Token 长度挑战。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch03-q12",
+      "stem": "按课件术语，强调摘要或翻译未能忠实反映源文本含义的幻觉类型称为：",
+      "options": [
+        {
+          "id": "a",
+          "text": "事实性幻觉 (Factual Hallucinations)"
+        },
+        {
+          "id": "b",
+          "text": "忠实性幻觉 (Faithfulness Hallucinations)"
+        },
+        {
+          "id": "c",
+          "text": "数据稀疏性 (Sparsity)"
+        },
+        {
+          "id": "d",
+          "text": "序列性幻觉 (Sequential Hallucinations)"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "忠实性幻觉特指在摘要、翻译等任务中，输出未能反映源文本的准确含义。",
+      "optionExplanations": {
+        "a": "事实性幻觉更侧重于违背客观现实，而非特定的输入文案。",
+        "b": "符合教材 3.3.2 节定义：生成的内容未能忠实地反映源文本的含义。",
+        "c": "错误，数据稀疏性是前文讨论的概率估计问题。若输出与输入直接矛盾，也可能同时符合内在幻觉；本题不将两种重叠类型作为互斥选项。",
+        "d": "教材中无此术语。"
+      },
+      "evidence": [
+        {
+          "section": "3.3.2",
+          "quote": "- <strong>忠实性幻觉 (Faithfulness Hallucinations)</strong> ： 在文本摘要、翻译等任务中，生成的内容未能忠实地反映源文本的含义。\n- <strong>内在幻觉 (Intrinsic Hallucinations)</strong> ： 模型生成的内容与输入信息直接矛盾。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "精准区分幻觉的分类细分。",
+        "misconception": "学生容易将所有错误归类为“事实错误”。"
+      },
+      "type": "single",
+      "objectiveId": "ch03-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q13",
+      "stem": "关于 N-gram、RNN 和 Transformer 三种模型的演进对比，下列叙述正确的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "基于原始频数估计的 N-gram 对未见词组合可能给出零概率，存在稀疏性问题"
+        },
+        {
+          "id": "b",
+          "text": "RNN 引入了隐藏状态作为“记忆”，从而在理论上打破了固定窗口的限制"
+        },
+        {
+          "id": "c",
+          "text": "Transformer 抛弃了循环结构，实现了训练阶段的并行化计算"
+        },
+        {
+          "id": "d",
+          "text": "三种模型在推理（生成）阶段均能实现一次性并行输出整句结果"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "前三项分别描述了三种架构的核心特点。第四项错误是因为主流 LLM（自回归）在生成阶段必须逐 token 进行，无法全并行。",
+      "optionExplanations": {
+        "a": "符合教材 3.1.1 节对 N-gram 缺陷（稀疏性、泛化能力差）的描述。",
+        "b": "符合教材 3.1.1 (3) 节对 RNN 隐藏状态“记忆”功能的描述。",
+        "c": "符合教材 3.1.2 节对 Transformer 抛弃循环、实现并行的描述。",
+        "d": "这里可能误以为训练并行等于生成并行，但 3.1.3 节明确指出生成是自回归的逐词过程。"
+      },
+      "evidence": [
+        {
+          "section": "3.1.1",
+          "quote": "N-gram 模型虽然简单有效，但有两个致命缺陷：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.1.1",
+          "quote": "如图3.3所示，RNN 的设计引入了一个<strong>隐藏状态 (hidden state)</strong> 向量，我们可以将其理解为网络的短期记忆。在处理序列的每一步，网络都会读取当前的输入词，并结合它上一刻的记忆（即上一个时间步的隐藏状态），然后生成一个新的记忆（即当前时间步的隐藏状态）传递给下一刻。这个循环往复的过程，使得信息可以在序列中不断向后传递。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.1.2",
+          "quote": "在上一节中，我们看到RNN及LSTM通过引入循环结构来处理序列数据，这在一定程度上解决了捕捉长距离依赖的问题。然而，这种循环的计算方式也带来了新的瓶颈：它必须按顺序处理数据。第 t 个时间步的计算，必须等待第 t−1 个时间步完成后才能开始。这意味着 RNN 无法进行大规模的并行计算，在处理长序列时效率低下，这极大地限制了模型规模和训练速度的提升。Transformer在2017 年由谷歌团队提出<sup>[4]</sup>。它完全抛弃了循环结构，转而完全依赖一种名为<strong>注意力 (Attention)</strong> 的机制来捕捉序列内的依赖关系，从而实现了真正意义上的并行计算。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "综合考察模型演化脉络。",
+        "misconception": "混淆“并行训练”与“并行生成”的概念。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch03-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q14",
+      "stem": "GPT 系列采用的 Decoder-Only 架构相对于原始 Transformer 的优势体现在：",
+      "options": [
+        {
+          "id": "a",
+          "text": "通过“预测下一个词”的单一目标，简化了预训练任务逻辑"
+        },
+        {
+          "id": "b",
+          "text": "去除了编码器，使模型结构更简洁且更易于规模化扩展"
+        },
+        {
+          "id": "c",
+          "text": "自回归模式天然契合对话、写作等内容生成类任务"
+        },
+        {
+          "id": "d",
+          "text": "由于结构简化，在相同硬件下推理速度比原始架构快数倍"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Decoder-only 的成功在于任务的统一与结构的极简，这使得它在大规模预训练中极具优势。推理速度提升并非其核心演进目标。",
+      "optionExplanations": {
+        "a": "符合教材 3.1.3 节关于训练目标统一的描述。",
+        "b": "符合教材 3.1.3 节关于结构简化、易于扩展的描述。",
+        "c": "符合教材 3.1.3 节关于自回归模式契合生成任务的描述。",
+        "d": "错误，课件没有给出相同硬件下数倍加速的测量结论。"
+      },
+      "evidence": [
+        {
+          "section": "3.1.3",
+          "quote": "- <strong>训练目标统一</strong>：模型的唯一任务就是“预测下一个词”，这个简单的目标非常适合在海量的无标注文本数据上进行预训练。\n- <strong>结构简单，易于扩展</strong>：更少的组件意味着更容易进行规模化扩展。今天的 GPT-4、Llama 等拥有数千亿甚至万亿参数的巨型模型，都是基于这种简洁的架构。\n- <strong>天然适合生成任务</strong>：其自回归的工作模式与所有生成式任务（对话、写作、代码生成等）完美契合，这也是它能成为构建通用智能体基础的核心原因。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "理解主流 LLM 架构选型的驱动因素。",
+        "misconception": "可能忽略了“预测下一个词”这个简单目标在海量数据上的威力。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch03-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q15",
+      "stem": "按本章提示工程建议，为复杂逻辑题设计基线方案时，哪些方法值得尝试并验证（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "包含“请一步步思考”的引导语以启用思维链 (CoT)"
+        },
+        {
+          "id": "b",
+          "text": "尝试较低 Temperature 以减少采样随机性"
+        },
+        {
+          "id": "c",
+          "text": "提供少量带解题示范的 Few-shot 示例"
+        },
+        {
+          "id": "d",
+          "text": "只要把 Top-p 设为1并提高温度至1.5，就能保证逻辑答案正确"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "分步推理、少样本示范与较低温度分别提供过程引导、任务示范和较低的采样随机性。都需要用真实题目验证，不能保证逻辑正确或完全确定。",
+      "optionExplanations": {
+        "a": "符合教材 3.2.1 (5) 对思维链的建议。",
+        "b": "符合教材 3.2.1 (1) 对事实与逻辑任务使用低温度的建议。",
+        "c": "符合教材 3.2.1 (2) 对少样本提示增强理解边界的描述。",
+        "d": "错误，采样参数不提供正确性保证。"
+      },
+      "evidence": [
+        {
+          "section": "3.2.1",
+          "quote": "<strong>思维链 (Chain-of-Thought, CoT)</strong> 是一种强大的提示技巧，它通过引导模型“一步一步地思考”，提升了模型在复杂任务上的推理能力。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.2.1",
+          "quote": "<strong>少样本提示 (Few-shot Prompting)</strong> 我们提供多个示例，这能让模型更准确地理解任务的细节、边界和细微差别，从而获得更好的性能。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.2.1",
+          "quote": "低温度（0 $\\leqslant$ Temperature $\\lt$ 0.3）时输出更 “精准、确定”。适用场景： 事实性任务：如问答、数据计算、代码生成； 严谨性场景：法律条文解读、技术文档撰写、学术概念解释等场景。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察 Prompt 技巧与采样参数在逻辑场景下的协同配置。",
+        "misconception": "容易混淆“创意生成”与“逻辑推理”的参数配置。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch03-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q16",
+      "stem": "本地对话模型输出异常时，按3.2.3节示例，应先核对哪些输入准备环节（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "分词器与模型是否使用相匹配的模型配置"
+        },
+        {
+          "id": "b",
+          "text": "是否按模型的聊天模板格式化消息"
+        },
+        {
+          "id": "c",
+          "text": "格式化文本是否编码为模型输入，并移到相应设备"
+        },
+        {
+          "id": "d",
+          "text": "直接认定所有异常都是训练语料没有出现过这句测试文本"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "课件依次加载匹配的模型与分词器、应用聊天模板并编码文本后推理。排查应核对这些输入步骤；仅凭异常输出不能诊断具体原因。",
+      "optionExplanations": {
+        "a": "正确，示例共用model_id加载两者。",
+        "b": "正确，示例使用apply_chat_template。",
+        "c": "正确，示例把编码结果放到相应设备。",
+        "d": "错误，课件不支持由输出异常直接作出这一诊断。"
+      },
+      "evidence": [
+        {
+          "section": "3.2.3",
+          "quote": "# 加载分词器\ntokenizer = AutoTokenizer.from_pretrained(model_id)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.2.3",
+          "quote": "# 使用分词器的模板格式化输入\ntext = tokenizer.apply_chat_template(\n    messages,\n    tokenize=False,\n    add_generation_prompt=True\n)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.2.3",
+          "quote": "# 编码输入文本\nmodel_inputs = tokenizer([text], return_tensors=\"pt\").to(device)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.2.3",
+          "quote": "# 加载模型，并将其移动到指定设备\nmodel = AutoModelForCausalLM.from_pretrained(model_id).to(device)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察大模型落地实践中的排障逻辑。",
+        "misconception": "容易忽视分词器与权重匹配这种工程底层的同步问题。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch03-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch03-q17",
+      "stem": "针对篇幅较长、仅含文字的合同分析练习，按本章选型原则，应重点核对哪些因素（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "分词后的输入及输出预算是否满足上下文窗口限制"
+        },
+        {
+          "id": "b",
+          "text": "模型在所需逻辑分析任务上的能力与实际测试表现"
+        },
+        {
+          "id": "c",
+          "text": "多模态（Multimodal）处理图像的能力"
+        },
+        {
+          "id": "d",
+          "text": "模型是否支持 RLHF 训练以生成更人性化的回复"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b"
+      ],
+      "explanation": "窗口按Token计算，不能直接把中文字数等同于Token或用128K作通用充分条件。文本分析还需核对相关任务能力，较大窗口不保证不遗漏信息。",
+      "optionExplanations": {
+        "a": "正确，需要按所用分词器估算实际Token预算。",
+        "b": "符合教材 3.2.4.1 对性能与能力的评估建议。",
+        "c": "合同审查主要基于文本逻辑，非图像任务。",
+        "d": "该选项并非本题文本分析能力与长度约束的直接评估依据。"
+      },
+      "evidence": [
+        {
+          "section": "3.2.4",
+          "quote": "- <strong>性能与能力</strong>：这是最核心的考量。不同的模型擅长的任务不同，有的长于逻辑推理和代码生成，有的则在创意写作或多语言翻译上更胜一筹。您可以参考一些公开的基准测试排行榜（如 LMSys Chatbot Arena Leaderboard）来评估模型的综合能力。\n- <strong>成本</strong>：对于闭源模型，成本主要体现在 API 调用费用，通常按 Token 数量计费。对于开源模型，成本则体现在本地部署所需的硬件（GPU、内存）和运维上。需要根据应用的预期使用量和预算做出选择。\n- <strong>速度（延迟）</strong>：对于需要实时交互的智能体（如客服、游戏 NPC），模型的响应速度至关重要。一些轻量级或经过优化的模型（如 GPT-3.5 Turbo, Claude 3.5 Sonnet）在延迟上表现更优。\n- <strong>上下文窗口</strong>：模型能一次性处理的 Token 数量上限。对于需要理解长文档、分析代码库或维持长期对话记忆的智能体，选择一个拥有较大上下文窗口（如 128K Token 或更高）的模型是必要的。\n- <strong>部署方式</strong>：使用 API 的方式最简单便捷，但数据需要发送给第三方，且受限于服务商的条款。本地部署则能确保数据隐私和最高程度的自主可控，但对技术和硬件要求更高。\n- <strong>生态与工具链</strong>：一个模型的流行程度也决定了其周边生态的成熟度。主流模型通常拥有更丰富的社区支持、教程、预训练模型、微调工具和兼容的开发框架（如 LangChain, LlamaIndex, Hugging Face Transformers），这能极大地加速开发进程，降低开发难度。选择一个拥有活跃社区和完善工具链的模型，可以在遇到问题时更容易找到解决方案和资源。\n- <strong>可微调性与定制化</strong>：对于需要处理特定领域数据或执行特定任务的智能体，模型的微调能力至关重要。一些模型提供了便捷的微调接口和工具，允许开发者使用自己的数据集对模型进行定制化训练，从而显著提升模型在特定场景下的性能和准确性。开源模型在这方面通常提供更大的灵活性。\n- <strong>安全性与伦理</strong>：随着大语言模型的广泛应用，其潜在的安全风险和伦理问题也日益凸显。选择模型时，需要考虑其在偏见、毒性、幻觉等方面的表现，以及服务商或开源社区在模型安全和负责任AI方面的投入。对于面向公众或涉及敏感信息的应用，模型的安全性和伦理合规性是不可忽视的考量。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "场景化模型选型能力考察。",
+        "misconception": "可能忽略上下文窗口对处理长文本的决定性门槛作用。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch03-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch03-q18",
+      "stem": "关于 Scaling Laws (缩放法则) 与“能力涌现”的描述，正确的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "模型平均训练 Loss 随规模平滑下降，但特定能力（如多步推理）可能是突发式涌现的"
+        },
+        {
+          "id": "b",
+          "text": "涌现现象意味着大模型不仅是简单记忆，可能形成了深层抽象推理能力"
+        },
+        {
+          "id": "c",
+          "text": "缩放法则保证了只要无限增加算力，就能完全消除模型的“事实幻觉”"
+        },
+        {
+          "id": "d",
+          "text": "Chinchilla 的讨论提示在固定计算预算下联合权衡参数与训练数据量"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "课件讨论损失的缩放规律、特定能力的出现与计算预算下的参数/数据配比。这些讨论不构成无限扩算力即可完全消除幻觉的保证。",
+      "optionExplanations": {
+        "a": "符合教材 3.3.1 节关于性能平滑提升与能力突发涌现的描述。",
+        "b": "符合教材 3.3.1 节对涌现意义的论述。",
+        "c": "错误，课件没有给出完全消除事实幻觉的保证。",
+        "d": "符合教材 3.3.1 节关于参数与数据量最优配比的修正建议。"
+      },
+      "evidence": [
+        {
+          "section": "3.3.1",
+          "quote": "缩放法则最令人惊奇的产物是“能力的涌现”。所谓能力涌现，是指当模型规模达到一定阈值后，会突然展现出在小规模模型中完全不存在或表现不佳的全新能力。例如，<strong>链式思考 (Chain-of-Thought)</strong> 、<strong>指令遵循 (Instruction Following)</strong> 、多步推理、代码生成等能力，都是在模型参数量达到数百亿甚至千亿级别后才显著出现的。这种现象表明，大语言模型不仅仅是简单地记忆和复述，它们在学习过程中可能形成了某种更深层次的抽象和推理能力。对于智能体开发者而言，能力的涌现意味着选择一个足够大规模的模型，是实现复杂自主决策和规划能力的前提。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.3.1",
+          "quote": "研究发现，在对数-对数坐标系下，模型的性能（通常用损失 Loss 来衡量）与参数量、数据量和计算量这三个因素都呈现出平滑的幂律关系<sup>[9]</sup>。简单来说，只要我们持续、按比例地增加这三个要素，模型的性能就会可预测地、平滑地提升，而不会出现明显的瓶颈。这一发现为大模型的设计和训练提供了清晰的指导：在资源允许的范围内，尽可能地扩大模型规模和训练数据量。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.3.1",
+          "quote": "早期的研究更侧重于增加模型参数量，但 DeepMind 在 2022 年提出的“Chinchilla 定律”对此进行了重要修正<sup>[10]</sup>。该定律指出，在给定的计算预算下，为了达到最优性能，<strong>模型参数量和训练数据量之间存在一个最优配比</strong>。具体来说，最优的模型应该比之前普遍认为的要小，但需要用多得多的数据进行训练。例如，一个 700 亿参数的 Chinchilla 模型，由于使用了比 GPT-3（1750 亿参数）多 4 倍的数据进行训练，其性能反而超越了后者。这一发现纠正了“越大越好”的片面认知，强调了数据效率的重要性，并指导了后续许多高效大模型（如 Llama 系列）的设计。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "design": {
+        "purpose": "考察对 Scaling Laws 的边界及本质意义的理解。",
+        "misconception": "容易迷信“规模即正义”，认为规模能自动解决事实性错误。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch03-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch03-q19",
+      "stem": "请结合教材 3.1.3 节内容，深入解释 Decoder-Only 架构在训练阶段虽然是并行输入整段文本，但为何能模拟推理时“逐 Token 生成”的自回归特性？其核心数学手段是如何实现的？",
+      "referenceAnswer": "其核心数学手段是“掩码自注意力 (Masked Self-Attention)”中的因果掩码（Causal Mask）。具体实现逻辑：1. 在计算未归一化的注意力分数矩阵之后、Softmax 归一化之前，模型应用掩码将当前位置之后的所有词元得分替换为负无穷。2. 经过 Softmax 后，这些未来位置的注意力权重变为 0。3. 这从数学上阻止了模型在计算当前表示时“看到”未来的信息，使得训练时的条件概率计算与推理时的一步步接龙过程在逻辑上保持一致。",
+      "rubric": [
+        "是否准确指出核心手段为“掩码自注意力”或“因果掩码”",
+        "是否解释了负无穷/Softmax 导致权重为 0 的数学过程",
+        "是否明确了该机制如何强制实现了“不看未来”的限制，从而对齐训练与推理"
+      ],
+      "design": {
+        "purpose": "深度考察对 Transformer 训练/推理一致性底层原理的理解，尤其是从标准注意力到掩码注意力的转换逻辑。",
+        "misconception": "把一种缓解或约束机制误当作全部正确性的保证。"
+      },
+      "type": "reflection",
+      "objectiveId": "ch03-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "3.1.3",
+          "quote": "在训练阶段，虽然一段文本可以被并行送入模型，但在自注意力机制计算出注意力分数矩阵（即每个词对其他所有词的关注度得分）之后、进行 Softmax 归一化之前，模型会应用一个“因果掩码”。这个掩码会将所有位于当前位置之后的词元对应的分数替换为一个非常大的负数。当这个带有负无穷分数的矩阵经过 Softmax 函数时，这些位置的概率就会变为 0。这样一来，模型在计算任意位置的表示时，都从数学上被阻止了去关注它后面的信息。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.1.3",
+          "quote": "在生成阶段则更直接：未来的词元还没有生成出来，模型只能把已经生成的内容作为上下文输入，并一步步预测下一个词。掩码自注意力保证了训练时的学习方式与生成时的自回归使用方式保持一致，从而让模型始终只依赖当前位置之前的信息。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "optionExplanations": {},
+      "explanation": "考查因果掩码如何在并行训练中限制对未来位置的注意力。",
+      "options": [],
+      "answerIds": []
+    },
+    {
+      "id": "ch03-q20",
+      "stem": "为一个教学用知识问答助手设计三层幻觉缓解方案，结合3.3.2节说明检索、推理验证与外部工具各自的作用及局限。",
+      "referenceAnswer": "第一层检索：从可追溯资料检索相关内容作为上下文，缓解事实依据不足；检索可能过时或不相关，须核查。第二层推理与验证：对复杂问题拆分步骤并检查中间结论，必要时外部验证；自我检查仍可能重复同一错误。第三层工具：用搜索获取实时资料、计算器完成数值计算，并核对工具输入和输出是否支持结论。温度可减少采样随机性，但不是事实核查，也不保证确定或正确。这是基于课件的设计方案，仍需用真实问题测试，不能宣称消除了幻觉。",
+      "rubric": [
+        "说明RAG提供外部依据，并检查检索相关性与时效",
+        "说明多步推理及验证作用，承认自检可能遗漏错误",
+        "说明外部工具的适用场景并核对工具输入输出",
+        "区分随机性控制、幻觉缓解与正确性保证"
+      ],
+      "design": {
+        "purpose": "考察学生综合运用多种技术手段解决 LLM 局限性（幻觉）的系统架构设计能力。",
+        "misconception": "把一种缓解或约束机制误当作全部正确性的保证。"
+      },
+      "type": "reflection",
+      "objectiveId": "ch03-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "3.3.2",
+          "quote": "1. <strong>检索增强生成 (Retrieval-Augmented Generation, RAG)</strong> <sup>[14]</sup>： 这是目前缓解幻觉的有效方法之一。RAG 系统通过在生成之前从外部知识库（如文档数据库、网页）中检索相关信息，然后将检索到的信息作为上下文，引导模型生成基于事实的回答。\n   2. <strong>多步推理与验证</strong>： 引导模型进行多步推理，并在每一步进行自我检查或外部验证。\n   3. <strong>引入外部工具</strong>： 允许模型调用外部工具（如搜索引擎、计算器、代码解释器）来获取实时信息或进行精确计算。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        },
+        {
+          "section": "3.3.2",
+          "quote": "尽管幻觉问题短期内难以完全消除，但通过上述的策略，可以显著降低其发生频率和影响，提高大语言模型在实际应用中的可靠性和实用性。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md"
+        }
+      ],
+      "optionExplanations": {},
+      "explanation": "综合运用本章幻觉缓解机制，并区分降低风险与保证正确。",
+      "options": [],
+      "answerIds": []
+    }
+  ]
+}

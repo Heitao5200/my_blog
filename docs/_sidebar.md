@@ -5,6 +5,7 @@
 * 组队学习
     * 2026-09 Hello-Agents 进阶
         * [学习总览](组队学习/2026-09hello-agents进阶/README.md)
+        * [章节学习测评](组队学习/2026-09hello-agents进阶/学习测评/ ':ignore')
         * [怎么学习](组队学习/2026-09hello-agents进阶/怎么学习.md)
         * [学习思考笔记模板](组队学习/2026-09hello-agents进阶/学习思考笔记模板.md)
         * [Task00](组队学习/2026-09hello-agents进阶/任务笔记/Task00.md)

@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch12-o01",
+      "title": "按能力选择评估对象与指标",
+      "sections": [
+        "12.1.1 为何需要智能体评估",
+        "12.1.3 HelloAgents 评估体系设计",
+        "12.1.2 主流评估基准概览"
+      ],
+      "reason": "能运行不等于有改进，评价必须对准能力和任务。"
+    },
+    {
+      "id": "ch12-o02",
+      "title": "理解BFCL的预测提取与匹配",
+      "sections": [
+        "12.2.1 BFCL 基准介绍",
+        "12.2.5 核心组件实现细节",
+        "12.2.4 BFCL 官方评估工具集成"
+      ],
+      "reason": "调用语义正确性不同于输出字符串一致。"
+    },
+    {
+      "id": "ch12-o03",
+      "title": "理解GAIA综合任务与答案判定",
+      "sections": [
+        "12.3.1 GAIA 基准介绍",
+        "12.3.5 核心组件实现细节",
+        "12.3.3 在 HelloAgents 中实现 GAIA 评估"
+      ],
+      "reason": "最终答案匹配需要规范化，但不能忽视任务所需工具和文件。"
+    },
+    {
+      "id": "ch12-o04",
+      "title": "设计生成数据与评估的模块分工",
+      "sections": [
+        "12.4.2 系统架构",
+        "12.4.3 AIME 题目生成器实现",
+        "12.4.6 人工验证界面"
+      ],
+      "reason": "生成题目、评审质量和核对答案是独立环节。"
+    },
+    {
+      "id": "ch12-o05",
+      "title": "选择开放内容的互补评价方法",
+      "sections": [
+        "12.4.1 评估方法概述",
+        "12.4.4 LLM Judge 评估工具",
+        "12.4.5 Win Rate 评估工具"
+      ],
+      "reason": "模型评分与成对偏好有局限，需要人工核实和清晰标准。"
+    },
+    {
+      "id": "ch12-o06",
+      "title": "根据评估范围作受限结论",
+      "sections": [
+        "12.2.6 扩展与优化建议",
+        "12.4.7 完整评估流程",
+        "12.4.8 综合评估报告"
+      ],
+      "reason": "样本覆盖、实现版本和真实执行状态决定结论强度。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch12-q01",
+      "type": "single",
+      "objectiveId": "ch12-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "12.1.1 为何需要智能体评估",
+      "purpose": "识别不确定输出、多样标准和评估成本带来的挑战。"
+    },
+    {
+      "id": "ch12-q02",
+      "type": "single",
+      "objectiveId": "ch12-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "12.1.3 HelloAgents 评估体系设计",
+      "purpose": "解释工具调用、通用任务和生成数据质量为何需要不同评估链路。"
+    },
+    {
+      "id": "ch12-q03",
+      "type": "single",
+      "objectiveId": "ch12-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "12.2.1 BFCL 基准介绍",
+      "purpose": "识别工具选择、参数构造和无关工具拒用分别属于调用能力。"
+    },
+    {
+      "id": "ch12-q04",
+      "type": "single",
+      "objectiveId": "ch12-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "12.2.5 核心组件实现细节",
+      "purpose": "追踪数据及ground truth加载、提示构造、预测提取与匹配评分。"
+    },
+    {
+      "id": "ch12-q05",
+      "type": "single",
+      "objectiveId": "ch12-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "12.3.1 GAIA 基准介绍",
+      "purpose": "识别GAIA对推理、浏览、文件和多模态能力的组合要求。"
+    },
+    {
+      "id": "ch12-q06",
+      "type": "single",
+      "objectiveId": "ch12-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "12.3.5 核心组件实现细节",
+      "purpose": "解释FINAL ANSWER抽取与准精确匹配归一化过程。"
+    },
+    {
+      "id": "ch12-q07",
+      "type": "single",
+      "objectiveId": "ch12-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "12.4.2 系统架构",
+      "purpose": "辨认生成器、LLMJudgeTool、WinRateTool和人工验证界面各自职责。"
+    },
+    {
+      "id": "ch12-q08",
+      "type": "single",
+      "objectiveId": "ch12-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "12.4.3 AIME 题目生成器实现",
+      "purpose": "解释批量生成的进度保存与LaTeX反斜杠的JSON序列化问题。"
+    },
+    {
+      "id": "ch12-q09",
+      "type": "single",
+      "objectiveId": "ch12-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "12.4.1 评估方法概述",
+      "purpose": "为绝对质量、多维评分与相对优劣选择适当的评估方法。"
+    },
+    {
+      "id": "ch12-q10",
+      "type": "single",
+      "objectiveId": "ch12-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "12.4.4 LLM Judge 评估工具",
+      "purpose": "分析LLM Judge自动化规模收益与评委偏差、成本及错误传播的风险。"
+    },
+    {
+      "id": "ch12-q11",
+      "type": "single",
+      "objectiveId": "ch12-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "12.2.6 扩展与优化建议",
+      "purpose": "识别仅simple_python基础样本不能代表所有BFCL类别的覆盖限制。"
+    },
+    {
+      "id": "ch12-q12",
+      "type": "single",
+      "objectiveId": "ch12-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "12.4.7 完整评估流程",
+      "purpose": "比较模型自动评审和人工答案验证在完整流程中的证据作用。"
+    },
+    {
+      "id": "ch12-q13",
+      "type": "multiple",
+      "objectiveId": "ch12-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "12.1.2 主流评估基准概览",
+      "purpose": "针对函数调用、真实任务和开放产物比较BFCL、GAIA及多评委方案。"
+    },
+    {
+      "id": "ch12-q14",
+      "type": "multiple",
+      "objectiveId": "ch12-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "12.2.4 BFCL 官方评估工具集成",
+      "purpose": "比较本地基础评估与导出JSONL后官方评估；缺少标准答案或未跑官方脚本不能宣称官方分数。"
+    },
+    {
+      "id": "ch12-q15",
+      "type": "multiple",
+      "objectiveId": "ch12-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "12.3.3 在 HelloAgents 中实现 GAIA 评估",
+      "purpose": "比较评估报告、待提交结果文件和已获排行榜结果的证据边界。"
+    },
+    {
+      "id": "ch12-q16",
+      "type": "multiple",
+      "objectiveId": "ch12-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "12.4.6 人工验证界面",
+      "purpose": "给定题目、答案和解答不一致的样本，选择人工复核、修订或拒绝及保存验证状态。"
+    },
+    {
+      "id": "ch12-q17",
+      "type": "multiple",
+      "objectiveId": "ch12-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "12.4.5 Win Rate 评估工具",
+      "purpose": "解读胜率、败率和平局率，检查对照样本和比较条件，避免胜率等同数学正确率。"
+    },
+    {
+      "id": "ch12-q18",
+      "type": "multiple",
+      "objectiveId": "ch12-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "12.4.8 综合评估报告",
+      "purpose": "在综合报告中选择同时呈现样本范围、各方法结果与待修订项，拒绝用示例分数替代实际评估。"
+    },
+    {
+      "id": "ch12-q19",
+      "type": "reflection",
+      "objectiveId": "ch12-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "12.2.6 扩展与优化建议",
+      "purpose": "设计工具调用能力回归评估，包含有工具可用、无关工具、多调用和参数错误案例，并区分基础本地与官方评分。"
+    },
+    {
+      "id": "ch12-q20",
+      "type": "reflection",
+      "objectiveId": "ch12-o05",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "12.4.8 综合评估报告",
+      "purpose": "为一批生成数学题制定生成、自动评审、成对比较、人工验算与发布门槛，说明评委分歧如何处理。"
+    }
+  ],
+  "notes": "BFCL multiple等类别定义以原始数据及当前课件明确证据为准，不沿用概述误称；不测试基准样本数或榜单排名。避开“30道必然足够”等代表性断言，报告示例不得冒充真实成绩。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

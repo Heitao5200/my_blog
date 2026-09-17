@@ -1,0 +1,1367 @@
+{
+  "id": 11,
+  "title": "第十一章 Agentic-RL",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第十一章 Agentic-RL",
+    "path": "docs/chapter11/第十一章 Agentic-RL.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md",
+    "sha256": "9492aa2a8c2ca56a347a92fcf7b4e45f0e7e6cf27615e7f8b7984ba9ffd19d99",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "b29701c5-5038-453a-b450-9693d01994bb",
+    "artifactId": "cb52e09f-3168-4bff-8127-a83238e468ef"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch11-o01",
+        "title": "将LLM智能体映射为可学习策略",
+        "sections": [
+          "11.1.1 从强化学习到 Agentic RL",
+          "11.1.3 Agentic RL 的核心理念",
+          "11.1.2 LLM 训练全景图"
+        ],
+        "reason": "训练对象是策略及其任务反馈，不能把所有调参都称作Agentic RL。"
+      },
+      {
+        "id": "ch11-o02",
+        "title": "设计数据与奖励的任务契约",
+        "sections": [
+          "11.2.1 GSM8K 数学推理数据集",
+          "11.2.2 奖励函数设计",
+          "11.2.3 自定义数据集和奖励函数"
+        ],
+        "reason": "数据字段与奖励标准决定学到的行为，格式奖励不能替代正确性。"
+      },
+      {
+        "id": "ch11-o03",
+        "title": "理解SFT起点与LoRA参数更新",
+        "sections": [
+          "11.3.1 为什么需要 SFT",
+          "11.3.2 LoRA:参数高效微调",
+          "11.3.3 SFT 训练实战"
+        ],
+        "reason": "训练格式能力和参数效率是不同设计目标。"
+      },
+      {
+        "id": "ch11-o04",
+        "title": "追踪GRPO组内比较与策略约束",
+        "sections": [
+          "11.4.1 从 PPO 到 GRPO",
+          "11.4.3 GRPO 训练过程解析",
+          "11.4.2 GRPO 训练实战"
+        ],
+        "reason": "理解奖励相对性比记公式符号更重要。"
+      },
+      {
+        "id": "ch11-o05",
+        "title": "依据多维指标诊断训练问题",
+        "sections": [
+          "11.5.1 评估指标体系",
+          "11.5.3 错误分析",
+          "11.5.4 改进方向"
+        ],
+        "reason": "平均奖励上升不能单独证明正确率和泛化都提高。"
+      },
+      {
+        "id": "ch11-o06",
+        "title": "组织可比较的训练评估与部署",
+        "sections": [
+          "11.6.1 端到端训练流程",
+          "11.6.2 超参数调优",
+          "11.6.4 生产部署"
+        ],
+        "reason": "先验证小流程再扩规模，训练完成与上线有效是不同证据。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch11-q01",
+        "type": "single",
+        "objectiveId": "ch11-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "11.1.1 从强化学习到 Agentic RL",
+        "purpose": "辨认状态、行动、奖励与策略在数学或工具任务中的对应关系。"
+      },
+      {
+        "id": "ch11-q02",
+        "type": "single",
+        "objectiveId": "ch11-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "11.1.3 Agentic RL 的核心理念",
+        "purpose": "解释历史观察如何改变多步智能体的状态及后续决策。"
+      },
+      {
+        "id": "ch11-q03",
+        "type": "single",
+        "objectiveId": "ch11-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "11.2.1 GSM8K 数学推理数据集",
+        "purpose": "识别数学任务可核对标准答案为何便于自动评估。"
+      },
+      {
+        "id": "ch11-q04",
+        "type": "single",
+        "objectiveId": "ch11-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "11.2.2 奖励函数设计",
+        "purpose": "解释准确性、步骤或长度奖励如何组合，并识别奖励欺骗。"
+      },
+      {
+        "id": "ch11-q05",
+        "type": "single",
+        "objectiveId": "ch11-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "11.3.1 为什么需要 SFT",
+        "purpose": "辨认SFT学习任务格式、推理示例和初始能力的作用。"
+      },
+      {
+        "id": "ch11-q06",
+        "type": "single",
+        "objectiveId": "ch11-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "11.3.2 LoRA:参数高效微调",
+        "purpose": "用W加BA解释冻结基础权重与训练低秩增量的机制。"
+      },
+      {
+        "id": "ch11-q07",
+        "type": "single",
+        "objectiveId": "ch11-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "11.4.1 从 PPO 到 GRPO",
+        "purpose": "识别GRPO以同问题多答案组相对奖励替代独立价值模型的核心思路。"
+      },
+      {
+        "id": "ch11-q08",
+        "type": "single",
+        "objectiveId": "ch11-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "11.4.3 GRPO 训练过程解析",
+        "purpose": "追踪生成多答案、算奖励、形成组内相对信号及KL约束更新的循环。"
+      },
+      {
+        "id": "ch11-q09",
+        "type": "single",
+        "objectiveId": "ch11-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "11.5.1 评估指标体系",
+        "purpose": "为模型对比选择准确率、采样预算、延迟和推理质量等相关指标。"
+      },
+      {
+        "id": "ch11-q10",
+        "type": "single",
+        "objectiveId": "ch11-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "11.5.3 错误分析",
+        "purpose": "分析只优化容易获取的格式或长度奖励可能牺牲任务成功的风险。"
+      },
+      {
+        "id": "ch11-q11",
+        "type": "single",
+        "objectiveId": "ch11-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "11.6.1 端到端训练流程",
+        "purpose": "判断小样本流程验证与大规模训练的计算成本、证据力度差异。"
+      },
+      {
+        "id": "ch11-q12",
+        "type": "single",
+        "objectiveId": "ch11-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "11.6.2 超参数调优",
+        "purpose": "比较网格、随机和贝叶斯调参的搜索方法与预算需求，不声称有限网格证明全局最优。"
+      },
+      {
+        "id": "ch11-q13",
+        "type": "multiple",
+        "objectiveId": "ch11-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "11.1.2 LLM 训练全景图",
+        "purpose": "比较预训练、SFT、偏好优化与多步任务强化学习的监督来源和目标。"
+      },
+      {
+        "id": "ch11-q14",
+        "type": "multiple",
+        "objectiveId": "ch11-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "11.2.3 自定义数据集和奖励函数",
+        "purpose": "比较SFT的期望completion与RL的ground_truth等字段职责，选择适合训练阶段的数据。"
+      },
+      {
+        "id": "ch11-q15",
+        "type": "multiple",
+        "objectiveId": "ch11-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "11.3.3 SFT 训练实战",
+        "purpose": "比较全量微调与LoRA的可训练参数和资源取舍，选择与显存约束匹配的配置。"
+      },
+      {
+        "id": "ch11-q16",
+        "type": "multiple",
+        "objectiveId": "ch11-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "11.4.2 GRPO 训练实战",
+        "purpose": "在组内答案无差异、输出被截断或策略偏移场景下选择需检查的生成与优化参数。"
+      },
+      {
+        "id": "ch11-q17",
+        "type": "multiple",
+        "objectiveId": "ch11-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "11.5.4 改进方向",
+        "purpose": "根据计算、推理、理解和格式错误分布选择数据、奖励或训练方案的改进方向。"
+      },
+      {
+        "id": "ch11-q18",
+        "type": "multiple",
+        "objectiveId": "ch11-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "11.6.4 生产部署",
+        "purpose": "在部署前选择模型导出、LoRA合并、推理优化及服务验证步骤，并考虑质量与效率变化。"
+      },
+      {
+        "id": "ch11-q19",
+        "type": "reflection",
+        "objectiveId": "ch11-o02",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "11.2.2 奖励函数设计",
+        "purpose": "为代码调试智能体定义状态、行动和奖励，举例说明如何防止仅迎合格式或测试表象而未修复问题。"
+      },
+      {
+        "id": "ch11-q20",
+        "type": "reflection",
+        "objectiveId": "ch11-o06",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "11.6.3 分布式训练",
+        "purpose": "设计从单机小样本到分布式训练的升级条件，明确验证集、资源预算、SFT/GRPO对照及部署回归指标。"
+      }
+    ],
+    "notes": "GSM8K作为本章教学任务，不把数学成绩直接外推真实工具能力；不考固定GPU显存、准确率承诺或“必须先SFT”的普遍定律。分布式策略置于思考题，正式数学推导覆盖有限。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17",
+    "notes": [
+      "20 题已逐题核对蓝图目标、选项答案、解析及本地连续原文引文；保留 NotebookLM 来源与原蓝图配额。",
+      "已更正 SFT 普遍必要性、固定显存/准确率保证、有限网格全局最优、学习率缩放与默认 ZeRO-3 最优等过度断言。",
+      "开放题中的代码验证机制与部署回归方案明确作为迁移应用建议，不冒充课件原文或已运行结果。",
+      "validate_bank.py --chapters 11 通过：20 题，0 错误。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch11-q01",
+      "stem": "在本章数学求解智能体中，哪组对应关系正确？",
+      "options": [
+        {
+          "id": "a",
+          "text": "状态是当前问题与已有推理，行动是生成下一步或答案，奖励由答案正确性给出"
+        },
+        {
+          "id": "b",
+          "text": "状态是最终奖励，行动是训练集，策略是标准答案"
+        },
+        {
+          "id": "c",
+          "text": "行动仅指更新模型参数，生成推理不属于行动"
+        },
+        {
+          "id": "d",
+          "text": "奖励是问题文本，状态只能是空字符串"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "本章将 LLM 作为可学习策略；策略根据问题与已有推理选择后续输出，验证系统根据答案返回奖励。",
+      "optionExplanations": {
+        "a": "符合本章的状态、行动、奖励映射。",
+        "b": "把反馈、数据和策略混为一谈。",
+        "c": "此任务中的行动是策略输出，训练参数更新是学习过程。",
+        "d": "问题属于状态信息；奖励来自验证。"
+      },
+      "evidence": [
+        {
+          "section": "11.1.1 从强化学习到 Agentic RL",
+          "quote": "- <strong>智能体</strong>:基于 LLM 的推理系统\n- <strong>环境</strong>:数学问题和验证系统\n- <strong>状态</strong>:当前的问题描述和已有的推理步骤\n- <strong>行动</strong>:生成下一步推理或最终答案\n- <strong>奖励</strong>:答案是否正确(正确+1，错误 0)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.1.1 从强化学习到 Agentic RL",
+          "quote": "强化学习提供了新的可能性。通过让智能体自主生成多个候选答案并根据正确性获得奖励，它可以学习哪些推理路径更优、哪些步骤是关键，甚至发现比人类标注更好的解题方法<sup>[8]</sup>。这就是 Agentic RL 的核心思想:将 LLM 作为可学习策略，嵌入智能体的感知-决策-执行循环，通过强化学习优化多步任务表现。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认状态、行动、奖励与策略在数学或工具任务中的对应关系。",
+        "misconception": "把模型参数更新当成智能体在环境中的行动。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch11-q02",
+      "stem": "调试智能体调用测试工具后收到一条失败日志，为什么下一步决策应利用这条日志？",
+      "options": [
+        {
+          "id": "a",
+          "text": "因为每次工具调用都必须把模型重新预训练一次"
+        },
+        {
+          "id": "b",
+          "text": "因为当前状态加入了新的观察，策略应据此选择下一步行动"
+        },
+        {
+          "id": "c",
+          "text": "因为工具输出会自动成为正确答案，不必判断"
+        },
+        {
+          "id": "d",
+          "text": "因为初始提示确定了全部行动，日志只能用于事后展示"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "在本章的多步框架中，状态包含提示与历史观察。新日志改变可用信息，因而可改变后续行动；它本身不等于参数更新或正确结论。",
+      "optionExplanations": {
+        "a": "状态更新不要求重新训练权重。",
+        "b": "新观察进入上下文，为后续决策提供依据。",
+        "c": "失败日志是环境反馈，仍需解释与验证。",
+        "d": "固定忽略新观察不符合多步状态演化。"
+      },
+      "evidence": [
+        {
+          "section": "11.1.3 Agentic RL 的核心理念",
+          "quote": "在状态方面，PBRFT 的状态 $s_0$ 仅由用户提示构成，时间跨度 $T=1$(单步)，状态不变化，可以表示为 $s_0 = \\text{prompt}$。而 Agentic RL 的状态 $s_t$ 包含历史观察和上下文，时间跨度 $T \\gg 1$(多步)，状态随行动演化，可以表示为 $s_t = (\\text{prompt}, o_1, o_2, ..., o_t)$，其中 $o_t$ 是第 $t$ 步的观察(如工具返回结果、环境反馈等)。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释历史观察如何改变多步智能体的状态及后续决策。",
+        "misconception": "把上下文中的状态演化误认为模型权重必须变化。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q03",
+      "stem": "GSM8K 的最终答案标记为什么便于构建自动准确性奖励？",
+      "options": [
+        {
+          "id": "a",
+          "text": "有最终答案就能自动证明每个推理步骤都正确"
+        },
+        {
+          "id": "b",
+          "text": "可以提取标准答案，与模型生成的最终答案核对"
+        },
+        {
+          "id": "c",
+          "text": "小学数学题无需模型生成答案即可获得奖励"
+        },
+        {
+          "id": "d",
+          "text": "只要输出含有 ####，答案内容就无需检查"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "明确的最终答案提供可核对的目标，使最终答案的准确性能够自动评估；这不等于完整证明中间推理。",
+      "optionExplanations": {
+        "a": "结果正确不充分证明每个步骤正确。",
+        "b": "标准答案是准确性核对的依据。",
+        "c": "仍需生成结果并与标准答案比较。",
+        "d": "标记帮助提取，不能替代答案比较。"
+      },
+      "evidence": [
+        {
+          "section": "11.2.1 GSM8K 数学推理数据集",
+          "quote": "这个问题需要两步推理:首先计算 5 月份卖出的数量(48 的一半)，然后计算总数(4 月+5 月)。答案中的`<<48/2=24>>`是中间计算步骤的标记，`#### 72`标记最终答案。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.2.2 奖励函数设计",
+          "quote": "准确率奖励的优点是简单直接，容易理解和实现，适合有明确正确答案的任务。缺点是奖励稀疏，只有答案完全正确才有奖励，无法区分\"接近正确\"和\"完全错误\"，可能导致训练初期缺乏有效反馈。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别数学任务可核对标准答案为何便于自动评估。",
+        "misconception": "把格式匹配当作答案正确。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch11-q04",
+      "stem": "组合准确性、长度和步骤奖励时，哪种判断最合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "步骤越多必然推理越好，奖励应无上限增长"
+        },
+        {
+          "id": "b",
+          "text": "只优化最短输出即可兼顾准确率"
+        },
+        {
+          "id": "c",
+          "text": "以正确性为基础调整辅助奖励，并检查冗余步骤是否在骗取奖励"
+        },
+        {
+          "id": "d",
+          "text": "只要同时使用三种奖励，就能保证没有奖励欺骗"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "本章长度惩罚和步骤奖励以答案正确为条件；步骤计数仍可能鼓励冗余内容，因此组合与调权不自动保证质量。",
+      "optionExplanations": {
+        "a": "步骤计数可能被冗余输出利用。",
+        "b": "过度偏好短输出会损害任务结果。",
+        "c": "正确性条件与冗余检查回应了本章列出的风险。",
+        "d": "组合公式仍可能遗漏任务要求。"
+      },
+      "evidence": [
+        {
+          "section": "11.2.2 奖励函数设计",
+          "quote": "其中 $l$ 是生成文本的长度(字符数或 token 数)，$l_{\\text{target}}$ 是目标长度，$\\alpha$ 是惩罚系数(默认 0.001)。只有在答案正确的情况下才应用长度惩罚，避免模型为了减少惩罚而生成错误的短答案。\n\n设计思路是:如果答案错误，奖励为 0(无论长度);如果答案正确且长度合理，奖励为 1;如果答案正确但过长，奖励为 $1 - \\alpha \\cdot (l - l_{\\text{target}})$。例如，目标长度 200 字符，实际长度 500 字符，惩罚系数 0.001，则奖励为 $1 - 0.001 \\times (500 - 200) = 0.7$。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.2.2 奖励函数设计",
+          "quote": "其中 $s$ 是检测到的推理步骤数量，$\\beta$ 是步骤奖励系数(默认 0.1)。同样，只有在答案正确的情况下才给予步骤奖励。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.2.2 奖励函数设计",
+          "quote": "步骤奖励的优点是鼓励可解释的推理，生成的答案更容易验证和调试，有助于模型学习系统化的思考方式。缺点是可能导致模型为了获得更多奖励生成冗余步骤，需要平衡步骤数量和答案质量，步骤检测可能不准确。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释准确性、步骤或长度奖励如何组合，并识别奖励欺骗。",
+        "misconception": "把可量化的长度或步骤代理指标等同于真实任务质量。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q05",
+      "stem": "本章先进行 SFT 的主要教学目的是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "建立输出格式、推理示例与初始任务能力，为后续 RL 提供起点"
+        },
+        {
+          "id": "b",
+          "text": "证明所有模型在任何 RL 任务前都必须重新 SFT"
+        },
+        {
+          "id": "c",
+          "text": "训练一个独立价值模型，这是 SFT 的定义"
+        },
+        {
+          "id": "d",
+          "text": "保证模型在未见问题上全部答对"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "这里的 SFT 用任务示例建立基线并缩小探索空间。它是本章流程选择，不是所有 RL 场景的普遍前置定律。",
+      "optionExplanations": {
+        "a": "准确概括了本章列出的作用。",
+        "b": "章节流程不能外推成所有场景的强制规律。",
+        "c": "监督学习期望输出与训练价值模型不是同一个概念。",
+        "d": "示例学习不能保证未见任务全对。"
+      },
+      "evidence": [
+        {
+          "section": "11.3.1 为什么需要 SFT",
+          "quote": "SFT 的作用是教会模型任务的基本规则。首先，学习输出格式，让模型知道如何组织答案(如使用\"Step 1\"， \"Final Answer\"等标记)。其次，学习推理模式，通过示例学习如何分解问题、逐步推导。再次，建立基线能力，为后续的强化学习提供一个合理的起点。最后，减少探索空间，强化学习不需要从零开始，可以在 SFT 的基础上优化。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认SFT学习任务格式、推理示例和初始能力的作用。",
+        "misconception": "把本章采用的训练顺序当作普遍必要条件。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch11-q06",
+      "stem": "LoRA 用 W′ = W + BA 表示适配后的权重时，训练机制是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "冻结 A、B，只更新全部 W"
+        },
+        {
+          "id": "b",
+          "text": "W、A、B 全部必须全量更新"
+        },
+        {
+          "id": "c",
+          "text": "W 被删除，模型只使用 B 的输出"
+        },
+        {
+          "id": "d",
+          "text": "冻结基础权重 W，训练低秩矩阵 A、B"
+        }
+      ],
+      "answerIds": [
+        "d"
+      ],
+      "explanation": "低秩增量 BA 与原始变换共同参与前向计算，更新的是额外的低秩参数。",
+      "optionExplanations": {
+        "a": "与本章冻结基础权重的设计相反。",
+        "b": "不是此处介绍的 LoRA 参数更新方式。",
+        "c": "基础权重仍参与前向计算。",
+        "d": "对应 h = Wx + BAx 及冻结 W 的说明。"
+      },
+      "evidence": [
+        {
+          "section": "11.3.2 LoRA:参数高效微调",
+          "quote": "LoRA(Low-Rank Adaptation)<sup>[3]</sup>是一种参数高效微调方法，它只训练少量的额外参数，而保持原模型参数冻结。LoRA 的核心思想是:模型微调时的参数变化可以用低秩矩阵表示。\n\n假设原模型的权重矩阵为 $W \\in \\mathbb{R}^{d \\times k}$，微调后的权重为 $W' = W + \\Delta W$。LoRA 假设 $\\Delta W$ 可以分解为两个低秩矩阵的乘积:\n\n$$\n\\Delta W = BA\n$$\n\n其中 $B \\in \\mathbb{R}^{d \\times r}$, $A \\in \\mathbb{R}^{r \\times k}$, $r \\ll \\min(d, k)$ 是秩(rank)。\n\n前向传播时，输出为:\n\n$$\nh = Wx + \\Delta Wx = Wx + BAx\n$$\n\n原模型参数 $W$ 保持冻结，只训练 $B$ 和 $A$。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "用W加BA解释冻结基础权重与训练低秩增量的机制。",
+        "misconception": "把添加适配器误认为替换或全量训练基础模型。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q07",
+      "stem": "本章介绍的 GRPO 相比需要独立价值模型的 PPO，其核心简化是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "不再需要计算任何奖励"
+        },
+        {
+          "id": "b",
+          "text": "用同一问题多个答案的组内相对奖励提供学习信号，省去独立价值模型"
+        },
+        {
+          "id": "c",
+          "text": "把所有问题的答案拼成一个答案，取消采样"
+        },
+        {
+          "id": "d",
+          "text": "只保留价值模型并删除策略模型"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "GRPO 通过同题多答案之间的奖励比较构造相对信号，不需要独立训练 Value Model；奖励和策略仍然存在。",
+      "optionExplanations": {
+        "a": "组内比较仍依赖奖励。",
+        "b": "抓住了组内比较与省去价值模型的关键。",
+        "c": "不同问题拼接不能替代同题组内比较。",
+        "d": "策略模型负责生成，是训练对象。"
+      },
+      "evidence": [
+        {
+          "section": "11.4.1 从 PPO 到 GRPO",
+          "quote": "GRPO(Group Relative Policy Optimization)<sup>[2]</sup>是一种简化的 PPO 变体，专门为 LLM 设计。GRPO 的核心思想是:不需要 Value Model，使用组内相对奖励代替绝对奖励;简化训练流程，只需要 Policy Model 和 Reference Model;提高训练稳定性，减少奖励崩塌的风险。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.4.1 从 PPO 到 GRPO",
+          "quote": "其中 $\\bar{r}_{\\text{group}}$ 是组内平均奖励，$\\beta$ 是 KL 散度惩罚系数。关键区别在于:GRPO 使用 $r(s,a) - \\bar{r}_{\\text{group}}$ 代替优势函数 $A(s,a)$，不需要 Value Model;GRPO 使用组内相对奖励，减少奖励方差;GRPO 添加 KL 散度惩罚，防止策略偏离太远。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别GRPO以同问题多答案组相对奖励替代独立价值模型的核心思路。",
+        "misconception": "把省去价值模型误解为省去奖励或策略。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch11-q08",
+      "stem": "按本章简化循环，同题三个答案的奖励为 1、0、0；减去组均值后应如何更新？",
+      "options": [
+        {
+          "id": "a",
+          "text": "相对信号仍为 1、0、0，且不需策略约束"
+        },
+        {
+          "id": "b",
+          "text": "先更新策略，再生成答案和计算奖励"
+        },
+        {
+          "id": "c",
+          "text": "相对信号为 2/3、−1/3、−1/3，并在更新中加入 KL 约束"
+        },
+        {
+          "id": "d",
+          "text": "三个答案相对信号都是 1/3，因而完全相同"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "组均值为 1/3，逐项相减得到 2/3、−1/3、−1/3。先采样、算奖励和相对信号，再更新策略；KL 用于限制偏离参考模型。此处采用教材简化示意，不声称覆盖所有实现细节。",
+      "optionExplanations": {
+        "a": "没有扣除组均值，也漏掉 KL 约束。",
+        "b": "学习信号来自采样结果，顺序颠倒。",
+        "c": "计算与循环顺序均符合教材。",
+        "d": "均值不是每个样本的相对奖励。"
+      },
+      "evidence": [
+        {
+          "section": "11.4.3 GRPO 训练过程解析",
+          "quote": "1. <strong>采样阶段</strong>:对于每个问题，使用当前策略生成多个答案(`num_generations`个)。这些答案构成一个\"组\"，用于计算相对奖励。\n\n2. <strong>奖励计算</strong>:对每个生成的答案计算奖励 $r_i$。奖励可以是准确率、长度惩罚、步骤奖励或它们的组合。\n\n3. <strong>相对奖励</strong>:计算组内平均奖励 $\\bar{r} = \\frac{1}{N}\\sum_{i=1}^{N} r_i$，然后计算相对奖励 $\\hat{r}_i = r_i - \\bar{r}$。这样做的好处是减少奖励方差，使训练更稳定。\n\n4. <strong>策略更新</strong>:使用相对奖励更新策略，同时添加 KL 散度惩罚，防止策略偏离参考模型太远。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪生成多答案、算奖励、形成组内相对信号及KL约束更新的循环。",
+        "misconception": "混淆绝对奖励、组均值与相对奖励。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q09",
+      "stem": "比较 SFT 与 GRPO 后的数学模型，哪种评估方案更有解释力？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只比较训练平均奖励，不看测试表现"
+        },
+        {
+          "id": "b",
+          "text": "只比较输出长度，越短越好"
+        },
+        {
+          "id": "c",
+          "text": "一个模型采样一次、另一个采样十次，只公布谁的准确率高"
+        },
+        {
+          "id": "d",
+          "text": "在相同测试集和明确的采样预算下，同时报告准确率、延迟、格式与推理质量"
+        }
+      ],
+      "answerIds": [
+        "d"
+      ],
+      "explanation": "本章要求从准确性、效率和质量多维评估。Accuracy@K 随采样预算定义而异，因此模型对比也需明确 K；公平预算要求是据指标定义作出的应用判断。",
+      "optionExplanations": {
+        "a": "奖励可能受辅助项影响，不等于泛化效果。",
+        "b": "短输出可能遗漏必要推理或结果。",
+        "c": "不同 K 的结果不能无条件当作同等成本比较。",
+        "d": "同时呈现能力、成本与质量，并明确可比条件。"
+      },
+      "evidence": [
+        {
+          "section": "11.5.1 评估指标体系",
+          "quote": "一个好的评估体系应该是多维度的，从不同角度衡量模型的能力。我们将评估指标分为三类:准确性指标、效率指标、质量指标。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.5.1 评估指标体系",
+          "quote": "<strong>Top-K 准确率</strong>:生成 K 个答案，只要有一个正确就算对。计算公式为:\n$$\n\\text{Accuracy@K} = \\frac{\\text{至少有一个正确答案的问题数}}{\\text{总问题数}}\n$$\n\n这个指标反映了模型的\"潜力\"，即通过多次采样能否找到正确答案。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.5.1 评估指标体系",
+          "quote": "适当的步骤数(2-5 步)说明模型能够系统地分解问题，过多的步骤可能说明推理冗余。\n\n<strong>推理时间(Inference Time)</strong>:生成一个答案所需的时间。这个指标在实际部署中很重要，影响用户体验。\n\n<strong>（3）质量指标</strong>\n\n质量指标衡量答案的可读性和可解释性。\n\n<strong>格式正确率(Format Correctness)</strong>:答案是否符合预期格式(如包含\"Step 1\"， \"Final Answer\"等标记)。计算公式为:\n$$\n\\text{Format Correctness} = \\frac{\\text{格式正确的答案数}}{\\text{总答案数}}\n$$\n\n格式正确是基本要求，格式混乱的答案即使结果正确也难以使用。\n\n<strong>推理连贯性(Reasoning Coherence)</strong>:推理步骤之间是否逻辑连贯。这个指标通常需要人工评估或使用专门的评估模型。\n\n<strong>可解释性(Explainability)</strong>:答案是否容易理解和验证。包含清晰步骤的答案比直接给出结果的答案更具可解释性。\n\n如表 11.7 所示，不同指标的对比。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "为模型对比选择准确率、采样预算、延迟和推理质量等相关指标。",
+        "misconception": "把多采样预算的优势误认为模型本身无成本提升。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch11-q10",
+      "stem": "模型的格式奖励上升，但独立测试正确率下降且出现大量空洞步骤，最合理的诊断是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "格式越规范就越接近任务成功，应忽略正确率"
+        },
+        {
+          "id": "b",
+          "text": "辅助奖励可能鼓励了表面特征，应检查错误类型和奖励权重"
+        },
+        {
+          "id": "c",
+          "text": "这是所有 RL 训练必经过程，继续训练一定恢复"
+        },
+        {
+          "id": "d",
+          "text": "只要增加步骤奖励系数，就能排除计算与理解错误"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "格式和步骤数是代理指标。奖励上升而任务结果下降提示目标错配的可能性，应结合错误样本诊断，不能仅凭一个现象断言唯一原因。",
+      "optionExplanations": {
+        "a": "格式正确不代表计算与理解正确。",
+        "b": "需核对奖励与任务结果是否一致并分析失败模式。",
+        "c": "没有必然恢复的保证。",
+        "d": "更强的代理奖励可能进一步放大问题。"
+      },
+      "evidence": [
+        {
+          "section": "11.5.3 错误分析",
+          "quote": "仅仅知道准确率是不够的，我们需要深入分析模型在哪些类型的问题上容易出错，从而指导后续改进。模型的错误可以分为四类:计算错误(推理步骤正确但计算出错，如\"48/2=25\"，说明数值计算能力不足)、推理错误(推理逻辑错误导致解题思路不对，如先加后除而非先除后加，说明逻辑推理能力不足)、理解错误(没有正确理解问题，如问题问\"总共\"但只计算了一部分，说明语言理解能力不足)、格式错误(答案正确但格式不符合要求，如缺少\"Final Answer:\"标记，说明格式学习不足)。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.2.2 奖励函数设计",
+          "quote": "步骤奖励的优点是鼓励可解释的推理，生成的答案更容易验证和调试，有助于模型学习系统化的思考方式。缺点是可能导致模型为了获得更多奖励生成冗余步骤，需要平衡步骤数量和答案质量，步骤检测可能不准确。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "分析只优化容易获取的格式或长度奖励可能牺牲任务成功的风险。",
+        "misconception": "把平均奖励上涨当作任务能力必然提高。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q11",
+      "stem": "预算有限时，先跑少量样本的端到端流程，最合理的结论是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "它可检查数据与训练流程并节省试错成本，但不足以证明大规模泛化效果"
+        },
+        {
+          "id": "b",
+          "text": "只要小样本能运行，生产部署就无需评估"
+        },
+        {
+          "id": "c",
+          "text": "小样本训练的任何准确率都代表完整测试集表现"
+        },
+        {
+          "id": "d",
+          "text": "小样本验证只能浪费资源，必须直接全量训练"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "小样本运行适合发现流程和参数问题。验证流程成功与证明最终性能属于不同证据，后者仍需独立评估。",
+      "optionExplanations": {
+        "a": "符合从小规模开始的建议，也保留证据边界。",
+        "b": "训练跑通不等于上线效果验证。",
+        "c": "样本规模和分布会影响结论。",
+        "d": "先小规模试错可以减少全量失败成本。"
+      },
+      "evidence": [
+        {
+          "section": "11.6.1 端到端训练流程",
+          "quote": "<strong>从小规模开始</strong>:不要一开始就用全部数据训练。先用 100-1000 个样本快速迭代，验证流程和参数，确认效果后再扩大规模。这样可以节省大量时间和计算资源。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "判断小样本流程验证与大规模训练的计算成本、证据力度差异。",
+        "misconception": "把流程跑通当作性能与部署验收。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch11-q12",
+      "stem": "给定有限调参预算，关于三种搜索方法哪项准确？",
+      "options": [
+        {
+          "id": "a",
+          "text": "有限网格的最佳结果证明了整个连续参数空间的全局最优"
+        },
+        {
+          "id": "b",
+          "text": "随机搜索会遍历所有组合，因此必定找到最优解"
+        },
+        {
+          "id": "c",
+          "text": "网格遍历所设组合，随机搜索采样组合，贝叶斯优化用概率模型指导搜索"
+        },
+        {
+          "id": "d",
+          "text": "贝叶斯优化不需要任何试验结果即可保证最优"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "网格、随机、贝叶斯搜索的区别在候选选择方式及预算利用。教材“全局最优”的措辞应限于实际枚举且被评估的网格，不能扩展到未搜索空间。",
+      "optionExplanations": {
+        "a": "未枚举区域没有被验证。",
+        "b": "随机采样不是穷举，也不保证最优。",
+        "c": "准确描述三种搜索的机制。",
+        "d": "概率模型依赖观测，有限预算没有普遍最优保证。"
+      },
+      "evidence": [
+        {
+          "section": "11.6.2 超参数调优",
+          "quote": "网格搜索(Grid Search)是最简单的调优方法，遍历所有参数组合，选择最佳的一组。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.6.2 超参数调优",
+          "quote": "随机搜索(Random Search)随机采样参数组合，比网格搜索更高效。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.6.2 超参数调优",
+          "quote": "贝叶斯优化(Bayesian Optimization)使用概率模型指导搜索，更加智能。可以使用 Optuna 等库:",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较网格、随机和贝叶斯调参的搜索方法与预算需求，不声称有限网格证明全局最优。",
+        "misconception": "把有限搜索域中的最好配置当作全空间最优。"
+      },
+      "type": "single",
+      "objectiveId": "ch11-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q13",
+      "stem": "为训练管线选择监督信号，哪些匹配符合本章？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "预训练从文本自身构造下一个词预测信号"
+        },
+        {
+          "id": "b",
+          "text": "SFT 用 prompt 与期望 completion 学习任务输出"
+        },
+        {
+          "id": "c",
+          "text": "偏好建模依据回答优劣，多步 Agentic RL 关注交互中的任务完成反馈"
+        },
+        {
+          "id": "d",
+          "text": "以上阶段的监督信号完全相同，都是固定的最终答案字符串"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "文本自监督、示例模仿、偏好对比与交互任务反馈具有不同来源和目标；它们可能组合使用，但不能视为同一训练信号。",
+      "optionExplanations": {
+        "a": "文本本身提供预测目标。",
+        "b": "SFT 学习期望输出。",
+        "c": "偏好建模与多步任务目标的区分正确。",
+        "d": "忽略了不同阶段的监督结构与优化目标。"
+      },
+      "evidence": [
+        {
+          "section": "11.1.2 LLM 训练全景图",
+          "quote": "<strong>预训练阶段</strong>是 LLM 训练的第一阶段，目标是让模型学习语言的基本规律和世界知识。这个阶段使用海量的文本数据(通常是数 TB 级别)，通过自监督学习的方式训练模型：训练信号来自文本本身，例如根据上文预测下一个词。最常见的预训练任务是因果语言建模(Causal Language Modeling)，也称为下一个词预测(Next Token Prediction)。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.1.2 LLM 训练全景图",
+          "quote": "后训练通常包含三个步骤。第一步是<strong>监督微调(SFT)</strong><sup>[15]</sup>，目标是让模型学会遵循指令和对话格式。训练数据是(prompt， completion)对，训练目标与预训练类似，仍然是最大化正确输出的概率:",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.1.2 LLM 训练全景图",
+          "quote": "第二步是<strong>奖励建模(RM)</strong>。SFT 后的模型虽然能遵循指令，但生成的回答质量参差不齐。我们需要一种方式来评估回答的质量，这就是奖励模型的作用<sup>[13,14]</sup>。奖励模型的训练数据是偏好对比数据,包含同一个问题的两个回答,一个更好(chosen),一个更差(rejected)。奖励模型的训练目标是学习人类的偏好:",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.1.3 Agentic RL 的核心理念",
+          "quote": "这种转变不仅仅是技术细节的差异，而是思维方式的根本转变。PBRFT 思维关注\"如何让模型生成更好的单个回答\"，优化回答质量，关注语言表达，进行单步决策。而 Agentic RL 思维关注\"如何让智能体完成复杂任务\"，优化任务完成度，关注行动策略，进行多步规划。这种转变使得 LLM 从\"对话助手\"进化为\"自主智能体\"，能够主动寻找信息、知道何时、如何使用外部工具、为了最终目标，愿意执行看似\"绕路\"的中间步骤、从错误学习。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较预训练、SFT、偏好优化与多步任务强化学习的监督来源和目标。",
+        "misconception": "因都更新语言模型参数而认为所有训练目标相同。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch11-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q14",
+      "stem": "准备本章自定义数据集时，哪些字段职责理解正确？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "SFT 的 completion 是期望输出，可包含完整推理示例"
+        },
+        {
+          "id": "b",
+          "text": "RL 的 ground_truth 用于核对生成答案和计算奖励"
+        },
+        {
+          "id": "c",
+          "text": "把 ground_truth 直接复制成模型输出就等同于完成自主生成训练"
+        },
+        {
+          "id": "d",
+          "text": "本章 RL 数据还可保留 full_answer，但它与用于奖励核对的 ground_truth 职责不同"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "SFT 监督期望输出；RL 中模型生成候选答案，标准答案用于奖励计算。本章自定义格式包含 full_answer，不应因此把完整答案泄露成模型待解决问题的直接输出。",
+      "optionExplanations": {
+        "a": "符合 SFT 的示例学习职责。",
+        "b": "符合本章 RL 奖励目标字段用途。",
+        "c": "复制标签绕过了策略生成与学习。",
+        "d": "本章列明两个字段，不能混同它们的语义。"
+      },
+      "evidence": [
+        {
+          "section": "11.2.3 自定义数据集和奖励函数",
+          "quote": "在使用自定义数据集之前，需要了解两种训练格式的数据要求:\n\n<strong>SFT 格式</strong>:用于监督微调，需要包含以下字段:\n- `prompt`: 输入提示(包含 system 和 user 消息)\n- `completion`: 期望的输出\n- `text`: 完整的对话文本(可选)\n\n<strong>RL 格式</strong>:用于强化学习，需要包含以下字段:\n- `question`: 原始问题\n- `prompt`: 输入提示(包含 system 和 user 消息)\n- `ground_truth`: 正确答案\n- `full_answer`: 完整答案(包含推理过程)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.2.1 GSM8K 数学推理数据集",
+          "quote": "关键点是 prompt 与 SFT 相同，但 ground_truth 只包含最终答案(用于计算奖励)，模型需要自己生成完整的推理过程。这种设计迫使模型学会自主推理，而不是简单地记忆答案。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较SFT的期望completion与RL的ground_truth等字段职责，选择适合训练阶段的数据。",
+        "misconception": "混淆训练示例、奖励标签与模型实际生成内容。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch11-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q15",
+      "stem": "显存受限，需要选择本章 SFT 配置，哪些判断合理？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "启用 LoRA 后主要训练低秩增量，减少可训练参数"
+        },
+        {
+          "id": "b",
+          "text": "LoRA 保证所有任务精度都高于全量微调"
+        },
+        {
+          "id": "c",
+          "text": "结合 LoRA 与实际峰值显存调整 batch_size，并验证任务效果"
+        },
+        {
+          "id": "d",
+          "text": "LoRA 秩影响增量参数量，资源配置不能仅凭模型名称决定"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c",
+        "d"
+      ],
+      "explanation": "LoRA 通过减少可训练参数降低部分训练成本；秩、batch 和实际实现仍影响资源占用。任务效果需测量，不能承诺固定显存或绝对优于全量训练。",
+      "optionExplanations": {
+        "a": "符合冻结 W、训练 A/B 的机制。",
+        "b": "参数效率不构成精度普遍更高的保证。",
+        "c": "SFT 配置需结合资源约束与效果验证。",
+        "d": "参数量 r(d+k) 随秩变化。"
+      },
+      "evidence": [
+        {
+          "section": "11.3.2 LoRA:参数高效微调",
+          "quote": "LoRA(Low-Rank Adaptation)<sup>[3]</sup>是一种参数高效微调方法，它只训练少量的额外参数，而保持原模型参数冻结。LoRA 的核心思想是:模型微调时的参数变化可以用低秩矩阵表示。\n\n假设原模型的权重矩阵为 $W \\in \\mathbb{R}^{d \\times k}$，微调后的权重为 $W' = W + \\Delta W$。LoRA 假设 $\\Delta W$ 可以分解为两个低秩矩阵的乘积:\n\n$$\n\\Delta W = BA\n$$\n\n其中 $B \\in \\mathbb{R}^{d \\times r}$, $A \\in \\mathbb{R}^{r \\times k}$, $r \\ll \\min(d, k)$ 是秩(rank)。\n\n前向传播时，输出为:\n\n$$\nh = Wx + \\Delta Wx = Wx + BAx\n$$\n\n原模型参数 $W$ 保持冻结，只训练 $B$ 和 $A$。\n\n参数量对比:原模型参数量为 $d \\times k$，LoRA 参数量为 $d \\times r + r \\times k = r(d + k)$。当 $r \\ll \\min(d, k)$ 时，LoRA 参数量远小于原模型。例如，对于 $d=4096, k=4096, r=8$ 的情况，原模型参数量为 $4096 \\times 4096 = 16,777,216$，LoRA 参数量为 $8 \\times (4096 + 4096) = 65,536$，参数量减少了 256 倍!",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.3.3 SFT 训练实战",
+          "quote": "# 训练参数\n    \"num_epochs\": 3,        # 训练3轮\n    \"batch_size\": 4,        # 批次大小\n    \"learning_rate\": 5e-5,  # 学习率\n    \n    # LoRA配置\n    \"use_lora\": True,       # 使用LoRA\n    \"lora_rank\": 8,         # LoRA秩",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.3.3 SFT 训练实战",
+          "quote": "- `num_epochs`: 训练轮数。1 轮表示遍历整个数据集一次。太少(1-2 轮)可能欠拟合，太多(>10 轮)可能过拟合。建议从 3 轮开始，观察损失曲线调整。\n- `batch_size`: 每次更新使用的样本数。越大训练越稳定，但显存占用越高。建议根据显存调整:4GB 显存用 batch_size=1-2，8GB 显存用 batch_size=4-8，16GB 显存用 batch_size=8-16。\n- `learning_rate`: 学习率，控制参数更新的步长。太小(1e-6)收敛慢，太大(1e-3)可能不收敛。SFT 推荐 5e-5，LoRA 可以稍大(1e-4)。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较全量微调与LoRA的可训练参数和资源取舍，选择与显存约束匹配的配置。",
+        "misconception": "把 LoRA 当作无需测量的固定显存或性能保证。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch11-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q16",
+      "stem": "GRPO 出现组内答案近似相同、长答案被截断、策略偏移过大三种问题时，哪些检查合理？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "检查 temperature 和 num_generations，并查看奖励是否仍有区分度"
+        },
+        {
+          "id": "b",
+          "text": "检查 max_new_tokens 是否足以容纳完整答案，同时考虑计算预算"
+        },
+        {
+          "id": "c",
+          "text": "检查 learning_rate 与 kl_coef，结合奖励和输出质量判断更新幅度"
+        },
+        {
+          "id": "d",
+          "text": "只增加训练轮数，生成参数与优化参数都无需检查"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "组内缺少差异会削弱相对奖励信号；截断关系到生成上限；策略偏移需检查学习率与 KL 约束。参数应按现象验证，而非机械保证提升。",
+      "optionExplanations": {
+        "a": "生成多样性和奖励区分度共同影响相对信号。",
+        "b": "长度上限需平衡完整性与成本。",
+        "c": "学习率与 KL 系数都与策略更新相关。",
+        "d": "继续迭代不能替代定位具体问题。"
+      },
+      "evidence": [
+        {
+          "section": "11.4.2 GRPO 训练实战",
+          "quote": "- `num_generations`: 每个问题生成多少个答案。越多越好，但计算成本也越高。典型值为 4-8。生成多个答案的目的是计算组内相对奖励，增加训练信号的多样性。\n- `max_new_tokens`: 每个答案最多生成多少个 token。太少可能截断答案，太多浪费计算。建议 256-512。\n- `temperature`: 生成温度，控制随机性。0 表示贪婪解码，1 表示标准采样。GRPO 建议 0.7-1.0，保持一定的探索性。\n\n<strong>优化参数</strong>:\n\n- `learning_rate`: GRPO 的学习率通常比 SFT 小，因为我们不想偏离 SFT 模型太远。建议 1e-6 到 1e-5；小模型上学习率过大（如 5e-5）可能导致策略坍塌。\n- `kl_coef`: KL 散度惩罚系数，控制策略更新的幅度。太小(0.01)可能导致策略偏离太远，太大(0.5)可能限制学习。建议 0.05-0.1。\n- `clip_range`: 策略比率裁剪范围，类似 PPO 的 epsilon。建议 0.2。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.4.3 GRPO 训练过程解析",
+          "quote": "3. <strong>相对奖励</strong>:计算组内平均奖励 $\\bar{r} = \\frac{1}{N}\\sum_{i=1}^{N} r_i$，然后计算相对奖励 $\\hat{r}_i = r_i - \\bar{r}$。这样做的好处是减少奖励方差，使训练更稳定。\n\n4. <strong>策略更新</strong>:使用相对奖励更新策略，同时添加 KL 散度惩罚，防止策略偏离参考模型太远。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "在组内答案无差异、输出被截断或策略偏移场景下选择需检查的生成与优化参数。",
+        "misconception": "把所有训练异常归因于训练轮数不足。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch11-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch11-q17",
+      "stem": "错误分析发现：多数样本误读“总共”，少量答案正确但缺少结尾标记。哪些后续改进更有依据？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "人工复核分类样本，区分理解错误与格式错误，再决定改进重点"
+        },
+        {
+          "id": "b",
+          "text": "针对题意理解补充示例，对格式问题补充结构化输出示例，并在保留评估集上验证"
+        },
+        {
+          "id": "c",
+          "text": "按错误类别比较修改前后表现，同时检查总体正确率是否受损"
+        },
+        {
+          "id": "d",
+          "text": "把所有样本都归为计算错误，仅增加长度惩罚即可解决"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "错误分布用于定位优先问题，而不是自动决定唯一方案。数据和训练改动应针对已核实的错误模式，再通过评估确认是否有效；本题方案是对教材迭代过程的应用。",
+      "optionExplanations": {
+        "a": "标签需有样本证据，避免粗分类误导。",
+        "b": "补充示例与观察到的短板相匹配，仍需验证。",
+        "c": "分项与总体指标共同检验改进代价。",
+        "d": "理解、格式问题不等同于算术问题，长度也非针对性修复。"
+      },
+      "evidence": [
+        {
+          "section": "11.5.3 错误分析",
+          "quote": "仅仅知道准确率是不够的，我们需要深入分析模型在哪些类型的问题上容易出错，从而指导后续改进。模型的错误可以分为四类:计算错误(推理步骤正确但计算出错，如\"48/2=25\"，说明数值计算能力不足)、推理错误(推理逻辑错误导致解题思路不对，如先加后除而非先除后加，说明逻辑推理能力不足)、理解错误(没有正确理解问题，如问题问\"总共\"但只计算了一部分，说明语言理解能力不足)、格式错误(答案正确但格式不符合要求，如缺少\"Final Answer:\"标记，说明格式学习不足)。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.5.4 改进方向",
+          "quote": "这是一个持续迭代的过程:训练模型 → 评估性能 → 分析错误 → 确定问题 → 选择改进方向 → 重新训练。通过多次迭代，模型性能会不断提升。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.3.1 为什么需要 SFT",
+          "quote": "SFT 的作用是教会模型任务的基本规则。首先，学习输出格式，让模型知道如何组织答案(如使用\"Step 1\"， \"Final Answer\"等标记)。其次，学习推理模式，通过示例学习如何分解问题、逐步推导。再次，建立基线能力，为后续的强化学习提供一个合理的起点。最后，减少探索空间，强化学习不需要从零开始，可以在 SFT 的基础上优化。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "根据计算、推理、理解和格式错误分布选择数据、奖励或训练方案的改进方向。",
+        "misconception": "忽视错误类型而套用统一奖励调参。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch11-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch11-q18",
+      "stem": "把 LoRA 训练结果用于生产服务，哪些步骤与判断合理？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "按所选导出路径合并适配器与基础模型，并保存模型和 tokenizer"
+        },
+        {
+          "id": "b",
+          "text": "尝试量化等推理优化后，重新测量质量与延迟，而非假定效果不变"
+        },
+        {
+          "id": "c",
+          "text": "创建推理 API 后，用代表性请求验证服务行为及部署前后回归指标"
+        },
+        {
+          "id": "d",
+          "text": "只要权重保存成功，就可以断言服务已经上线且质量合格"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "教材给出合并导出、量化优化和 API 服务步骤。质量与服务回归验证是将这些步骤用于部署时的必要应用判断；生成权重文件本身不证明线上服务有效。",
+      "optionExplanations": {
+        "a": "符合本章导出示例。",
+        "b": "优化收益与质量变化需实测。",
+        "c": "API 代码存在不等于服务运行正确，须验证请求。",
+        "d": "保存文件、服务运行和质量验收是不同证据。"
+      },
+      "evidence": [
+        {
+          "section": "11.6.4 生产部署",
+          "quote": "将 LoRA 权重合并到基础模型，方便部署:\n\n```python\nfrom transformers import AutoModelForCausalLM, AutoTokenizer\nfrom peft import PeftModel\n\n# 加载基础模型\nbase_model = AutoModelForCausalLM.from_pretrained(\"Qwen/Qwen3-0.6B\")\n\n# 加载LoRA权重\nmodel = PeftModel.from_pretrained(base_model, \"./models/grpo_model\")\n\n# 合并权重\nmerged_model = model.merge_and_unload()\n\n# 保存合并后的模型\nmerged_model.save_pretrained(\"./models/merged_model\")\n\n# 保存tokenizer\ntokenizer = AutoTokenizer.from_pretrained(\"Qwen/Qwen3-0.6B\")\ntokenizer.save_pretrained(\"./models/merged_model\")",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.6.4 生产部署",
+          "quote": "使用量化和优化技术加速推理:",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.6.4 生产部署",
+          "quote": "<strong>（3）API 服务</strong>\n\n使用 FastAPI 创建推理服务:",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "design": {
+        "purpose": "在部署前选择模型导出、LoRA合并、推理优化及服务验证步骤，并考虑质量与效率变化。",
+        "misconception": "把模型训练或导出完成当成生产上线成功。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch11-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch11-q19",
+      "stem": "为代码调试智能体设计一个多步 RL 任务：说明状态、行动与奖励；平衡修复成功、修改简洁性和可验证的修复说明。举例说明如何防止伪造“测试通过”、删除测试或堆砌步骤骗取奖励，并指出测试通过仍不能证明什么。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "这是把本章状态/行动映射与组合奖励思想迁移到代码调试的开放设计题。沙箱、可信测试与保护测试文件是参考实现建议，不是教材已有代码；应解释每个奖励代理与真实修复目标之间的差距。",
+      "referenceAnswer": "状态可包含问题描述、当前代码、已做修改和真实测试反馈；行动可包括查看文件、调用测试工具和提出补丁。主要奖励来自独立验证器执行受保护测试及回归测试的结果，不能读取模型自报的“通过”。可对不必要的改动施加较小惩罚，但不能使短补丁压过正确性；对可核查的定位依据、修改理由与测试结果说明作辅助评价，不能只计数 Step 标记。禁止智能体修改验证器与受保护测试，加入隐藏或新生成的测试覆盖硬编码表象。测试全通过仍仅表明覆盖范围内的行为符合预期，不证明所有输入正确；需检查未覆盖场景与补丁副作用，迭代奖励设计。",
+      "rubric": [
+        "是否清楚区分状态信息、实际行动与环境反馈。",
+        "是否把真实修复验证作为主目标，并解释简洁性与说明质量的辅助权重。",
+        "是否提出可实现的防伪造和防篡改验证机制，而非依赖模型自报。",
+        "是否说明测试覆盖局限、奖励代理漏洞以及回归验证方法。"
+      ],
+      "design": {
+        "purpose": "为代码调试智能体定义状态、行动和奖励，举例说明如何防止仅迎合格式或测试表象而未修复问题。",
+        "misconception": ""
+      },
+      "type": "reflection",
+      "objectiveId": "ch11-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "11.1.1 从强化学习到 Agentic RL",
+          "quote": "- <strong>智能体</strong>:基于 LLM 的推理系统\n- <strong>环境</strong>:数学问题和验证系统\n- <strong>状态</strong>:当前的问题描述和已有的推理步骤\n- <strong>行动</strong>:生成下一步推理或最终答案\n- <strong>奖励</strong>:答案是否正确(正确+1，错误 0)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.2.2 奖励函数设计",
+          "quote": "奖励函数是强化学习的核心，它定义了什么是\"好的行为\"。一个好的奖励函数能够引导智能体学习到正确的策略，而一个糟糕的奖励函数可能导致训练失败或学到错误的行为。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.2.2 奖励函数设计",
+          "quote": "步骤奖励的优点是鼓励可解释的推理，生成的答案更容易验证和调试，有助于模型学习系统化的思考方式。缺点是可能导致模型为了获得更多奖励生成冗余步骤，需要平衡步骤数量和答案质量，步骤检测可能不准确。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "optionExplanations": {}
+    },
+    {
+      "id": "ch11-q20",
+      "stem": "为本章 SFT→GRPO 流程设计从单 GPU 小样本验证到多机训练、再到部署评估的升级方案。明确升级条件、保留验证集、资源预算、SFT/GRPO 对照及部署回归指标；说明总 batch、学习率和 DDP/ZeRO/Offload 如何选择，而非仅按 GPU 数量套默认值。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "这是综合方案题，没有唯一硬件配置。扩展前应建立可比的质量和成本基线。教材把平方根学习率缩放公式称作“线性缩放”，两者并不相同；应将该公式作为待验证的启发式，不能保证收敛。",
+      "referenceAnswer": "先检查数据和奖励，用小样本完成训练、保存、加载与评估闭环；保留不参与调参的最终测试集，并用独立验证集迭代。固定评估题目、采样预算和解码条件，对比基础/SFT/GRPO 的正确率、错误类型、格式与推理质量，记录峰值显存、吞吐、训练时间和预算。当质量达到预定门槛且单机成为实测瓶颈时再升级。总 batch = 每卡 batch × GPU 数 × 梯度累积步数，可先减少累积以保持总 batch，不能因卡数增加就必然扩大 batch。学习率从稳定基线小规模验证；教材给出的平方根缩放是候选启发式，不是线性缩放或收敛保证。显存充足时可评估 DDP，资源不足时比较 ZeRO 分片及 Offload；后者节省 GPU 内存但可能增加传输与通信代价，需按实测吞吐选择。导出或合并后重新加载，必要时量化，并通过 API 回归正确率、格式、延迟、吞吐与资源占用；未达门槛则回退并分析。",
+      "rubric": [
+        "是否定义小规模验证内容、扩容门槛及可量化资源预算。",
+        "是否隔离验证/最终测试用途，并建立相同采样条件的 SFT/GRPO 对照。",
+        "是否正确计算总 batch，且没有把学习率缩放当作保证收敛的规律。",
+        "是否依据显存、通信与吞吐测量选择分布式方案，说明 Offload 的代价。",
+        "是否包含模型导出后的质量、服务与效率回归以及失败回退条件。"
+      ],
+      "design": {
+        "purpose": "设计从单机小样本到分布式训练的升级条件，明确验证集、资源预算、SFT/GRPO对照及部署回归指标。",
+        "misconception": ""
+      },
+      "type": "reflection",
+      "objectiveId": "ch11-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "11.6.1 端到端训练流程",
+          "quote": "<strong>从小规模开始</strong>:不要一开始就用全部数据训练。先用 100-1000 个样本快速迭代，验证流程和参数，确认效果后再扩大规模。这样可以节省大量时间和计算资源。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.6.3 分布式训练",
+          "quote": "<strong>1. Batch Size 调整</strong>\n\n分布式训练时，总 batch size = `per_device_batch_size × num_gpus × gradient_accumulation_steps`\n\n```python\n# 单GPU: batch_size=4, gradient_accumulation=4, 总batch=16\n# 4GPU DDP: batch_size=4, gradient_accumulation=1, 总batch=16 (保持一致)\n```\n\n<strong>2. 学习率缩放</strong>\n\n使用线性缩放规则: `lr_new = lr_base × sqrt(total_batch_size_new / total_batch_size_base)`",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.6.3 分布式训练",
+          "quote": "当数据量和模型规模增大时，单 GPU 训练会变得非常缓慢。这时我们需要使用分布式训练来加速训练过程。HelloAgents 基于 TRL 和 Hugging Face Accelerate，天然支持多 GPU 和多节点分布式训练\n\n<strong>方案选择建议</strong>:\n\n- <strong>单机多卡(2-8 卡)</strong>: 使用 DDP，简单高效\n- <strong>大模型(>7B)</strong>: 使用 DeepSpeed ZeRO-2 或 ZeRO-3\n- <strong>多节点集群</strong>: 使用 DeepSpeed ZeRO-3 + Offload",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.5.1 评估指标体系",
+          "quote": "一个好的评估体系应该是多维度的，从不同角度衡量模型的能力。我们将评估指标分为三类:准确性指标、效率指标、质量指标。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        },
+        {
+          "section": "11.6.4 生产部署",
+          "quote": "将 LoRA 权重合并到基础模型，方便部署:",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter11/%E7%AC%AC%E5%8D%81%E4%B8%80%E7%AB%A0%20Agentic-RL.md"
+        }
+      ],
+      "optionExplanations": {}
+    }
+  ]
+}

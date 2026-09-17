@@ -1,0 +1,1327 @@
+{
+  "id": 10,
+  "title": "第十章 智能体通信协议",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第十章 智能体通信协议",
+    "path": "docs/chapter10/第十章 智能体通信协议.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md",
+    "sha256": "44352af2257757cd6625d5935f6e1d11cfe9ba4dc29d3fe67244624d63f57c59",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "069d1620-9109-4250-9cda-0c30c341cb63",
+    "artifactId": "4b91d35d-fc8f-4810-9a85-f59ce351befb"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch10-o01",
+        "title": "按通信对象区分协议职责",
+        "sections": [
+          "10.1.1 为何需要通信协议",
+          "10.1.3 HelloAgents 通信协议架构设计",
+          "10.1.2 三种协议设计理念比较"
+        ],
+        "reason": "标准化工具、任务协作与网络发现是互补问题。"
+      },
+      {
+        "id": "ch10-o02",
+        "title": "理解MCP的角色及能力发现",
+        "sections": [
+          "10.2.1 MCP 协议概念介绍",
+          "10.2.2 使用 MCP 客户端",
+          "10.2.2 使用 MCP 客户端"
+        ],
+        "reason": "连接成功之后还需要发现能力、匹配参数并执行。"
+      },
+      {
+        "id": "ch10-o03",
+        "title": "选择传输方式与工具展开",
+        "sections": [
+          "10.2.3 MCP 传输方式详解",
+          "10.2.4 在智能体中使用 MCP 工具",
+          "10.2.3 MCP 传输方式详解"
+        ],
+        "reason": "本地进程通信和远程通信有不同生命周期，包装不是协议本身。"
+      },
+      {
+        "id": "ch10-o04",
+        "title": "理解Agent任务委托与工件",
+        "sections": [
+          "10.3.1 协议设计动机",
+          "10.3.3 使用 HelloAgents A2A 工具",
+          "10.3.4 在智能体中使用 A2A 工具"
+        ],
+        "reason": "跨Agent协作不是把远端模型当作普通函数名替换。"
+      },
+      {
+        "id": "ch10-o05",
+        "title": "应用服务发现与负载路由",
+        "sections": [
+          "10.4.1 协议目标",
+          "10.4.3 实战案例",
+          "10.4.2 使用 ANP 服务发现"
+        ],
+        "reason": "找到服务和选择服务是不同决策，需要动态状态。"
+      },
+      {
+        "id": "ch10-o06",
+        "title": "决定自建服务器及协议组合边界",
+        "sections": [
+          "10.5.1 创建你的第一个 MCP 服务器",
+          "10.3.2 使用 A2A 协议实战",
+          "10.5.2 上传 MCP 服务器"
+        ],
+        "reason": "标准化减少重复适配，但不自动解决认证、业务正确性或服务可用性。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch10-q01",
+        "type": "single",
+        "objectiveId": "ch10-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "10.1.1 为何需要通信协议",
+        "purpose": "识别重复适配、动态发现与跨Agent协作三种集成难题。"
+      },
+      {
+        "id": "ch10-q02",
+        "type": "single",
+        "objectiveId": "ch10-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "10.1.3 HelloAgents 通信协议架构设计",
+        "purpose": "解释协议实现、Tool包装和Agent集成三层如何解耦。"
+      },
+      {
+        "id": "ch10-q03",
+        "type": "single",
+        "objectiveId": "ch10-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "10.2.1 MCP 协议概念介绍",
+        "purpose": "区分Host、Client与Server以及Tools、Resources、Prompts。"
+      },
+      {
+        "id": "ch10-q04",
+        "type": "single",
+        "objectiveId": "ch10-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "10.2.2 使用 MCP 客户端",
+        "purpose": "追踪连接、列工具、读取schema、传参调用和处理结果的顺序。"
+      },
+      {
+        "id": "ch10-q05",
+        "type": "single",
+        "objectiveId": "ch10-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "10.2.3 MCP 传输方式详解",
+        "purpose": "辨认协议与具体传输通道的关系。"
+      },
+      {
+        "id": "ch10-q06",
+        "type": "single",
+        "objectiveId": "ch10-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "10.2.4 在智能体中使用 MCP 工具",
+        "purpose": "解释MCPTool如何将服务器工具展开为Agent可选择的独立工具。"
+      },
+      {
+        "id": "ch10-q07",
+        "type": "single",
+        "objectiveId": "ch10-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "10.3.1 协议设计动机",
+        "purpose": "辨认Task与Artifact在协作中的职责。"
+      },
+      {
+        "id": "ch10-q08",
+        "type": "single",
+        "objectiveId": "ch10-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "10.3.3 使用 HelloAgents A2A 工具",
+        "purpose": "追踪A2A服务端、客户端与工具包装之间的委托路径。"
+      },
+      {
+        "id": "ch10-q09",
+        "type": "single",
+        "objectiveId": "ch10-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "10.4.1 协议目标",
+        "purpose": "识别任务到达时需要按能力发现候选服务。"
+      },
+      {
+        "id": "ch10-q10",
+        "type": "single",
+        "objectiveId": "ch10-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "10.4.3 实战案例",
+        "purpose": "分析负载均衡在成本、可用性与能力匹配之间的取舍。"
+      },
+      {
+        "id": "ch10-q11",
+        "type": "single",
+        "objectiveId": "ch10-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "10.5.1 创建你的第一个 MCP 服务器",
+        "purpose": "判断内部业务与私有数据需求何时值得自建MCP服务器。"
+      },
+      {
+        "id": "ch10-q12",
+        "type": "single",
+        "objectiveId": "ch10-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "10.3.2 使用 A2A 协议实战",
+        "purpose": "比较本章A2A模拟思想的教学实现与完整协议互操作验证，避免混称生产实现。"
+      },
+      {
+        "id": "ch10-q13",
+        "type": "multiple",
+        "objectiveId": "ch10-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "10.1.2 三种协议设计理念比较",
+        "purpose": "按数据库访问、专家委托和网络服务发现比较MCP、A2A、ANP的章节定位。"
+      },
+      {
+        "id": "ch10-q14",
+        "type": "multiple",
+        "objectiveId": "ch10-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "10.2.2 使用 MCP 客户端",
+        "purpose": "比较工具执行、资源读取和提示模板获取的语义，避免将它们都视为修改外部数据。"
+      },
+      {
+        "id": "ch10-q15",
+        "type": "multiple",
+        "objectiveId": "ch10-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "10.2.3 MCP 传输方式详解",
+        "purpose": "比较本地Stdio和课件介绍的远程传输在部署与连接管理上的需求，不外推最新协议规范。"
+      },
+      {
+        "id": "ch10-q16",
+        "type": "multiple",
+        "objectiveId": "ch10-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "10.3.4 在智能体中使用 A2A 工具",
+        "purpose": "在客服接待、技术和销售专家场景中选择基于能力的分派及结果回传。"
+      },
+      {
+        "id": "ch10-q17",
+        "type": "multiple",
+        "objectiveId": "ch10-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "10.4.2 使用 ANP 服务发现",
+        "purpose": "对新Agent加入或候选服务变化选择注册、发现和路由更新的必要步骤。"
+      },
+      {
+        "id": "ch10-q18",
+        "type": "multiple",
+        "objectiveId": "ch10-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "10.5.2 上传 MCP 服务器",
+        "purpose": "在共享天气服务时权衡打包配置、可复用接口和部署维护；发布配置存在不等于服务可用。"
+      },
+      {
+        "id": "ch10-q19",
+        "type": "reflection",
+        "objectiveId": "ch10-o01",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "10.1.2 三种协议设计理念比较",
+        "purpose": "为研究协作系统画出工具访问、专家委托和服务发现三类连接，说明每个协议承担的职责及失败处理位置。"
+      },
+      {
+        "id": "ch10-q20",
+        "type": "reflection",
+        "objectiveId": "ch10-o06",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "10.5.1 创建你的第一个 MCP 服务器",
+        "purpose": "为内部数据设计MCP服务器的工具、资源和参数契约，并列出客户端发现、调用与错误路径的验证方案。"
+      }
+    ],
+    "notes": "严格区分课件示例与正式协议规范；A2A采用模拟协议思想，不能生成完整兼容性保证题。避开“官方发布平台”、绝对无单点故障及最新传输支持等争议断言；认证实现深度覆盖不足。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:42:42.294768+00:00",
+    "notes": [
+      "按锁定课件逐题审核20题及原蓝图purpose，核对全部选项解释与思考答案；属于代理语义编辑和机械来源校验，不是人工测评效度验证或协议运行证明。",
+      "重写q02三层分工、q04发现调用顺序、q08委托路径、q09能力发现、q10能力预算负载筛选、q17注册发现路由更新、q18发布材料与可用性边界；q19/q20改为自然语言职责/契约及验证设计。保留NotebookLM来源与题目ID和配额。",
+      "q07定义已目视核对本地docs/images/10-figures/10-table-7.png；证据保留10.3.1连续正文与原图引用，解析明确表10.7为图片。未将图中文字伪装成Markdown正文引文。",
+      "全部引文连续且位于所标小节；思考题为无分值自查。AGENT_QUIZ_REPO=/Users/heitao/Colab/my_blog python3 apps/agent-quiz/scripts/validate_bank.py --chapters 10通过，20题0errors。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch10-q01",
+      "type": "single",
+      "stem": "在 10.1.1 节中，教材通过 ReAct 智能体的例子说明了传统开发模式面临的“集成困境”。以下哪项最准确地描述了这种困境的核心表现？",
+      "options": [
+        {
+          "id": "a",
+          "text": "智能体在处理长文本任务时，无法自动维护对话上下文导致逻辑中断。"
+        },
+        {
+          "id": "b",
+          "text": "每接入一个新服务（如 GitHub 或数据库）都需手写专门的 Tool 类，导致代码重复且互不兼容。"
+        },
+        {
+          "id": "c",
+          "text": "不同 LLM 厂商的 API 调用频率限制不同，导致工具响应的物理延迟不可控。"
+        },
+        {
+          "id": "d",
+          "text": "智能体缺乏向量数据库支持，无法在运行时检索私有知识库。"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.1.1 为何需要通信协议",
+          "quote": "这个智能体工作得很好，但它面临着三个根本性的限制。首先是<strong>工具集成的困境</strong>：每当需要访问新的外部服务（如 GitHub API、数据库、文件系统），我们都必须编写专门的 Tool 类。这不仅工作量大，而且不同开发者编写的工具无法互相兼容。其次是<strong>能力扩展的瓶颈</strong>：智能体的能力被限制在预先定义的工具集内，无法动态发现和使用新的服务。最后是<strong>协作的缺失</strong>：当任务复杂到需要多个专业智能体协作时（如研究员+撰写员+编辑），我们只能通过手动编排来协调它们的工作。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "根据原文，集成困境的核心在于为每个新服务手写适配器带来的高工作量、代码重复以及开发者之间工具的不兼容性。",
+      "optionExplanations": {
+        "a": "误将“记忆机制”或“上下文窗口”限制混淆为“通信协议”解决的集成困境。",
+        "b": "正确，直接对应文中提到的由于缺乏标准化接口导致的重复编写与兼容性缺失问题。",
+        "c": "误将“运维/基础设施层”的 API 频率限制视为“协议架构”层面的集成困境。",
+        "d": "误将“RAG 检索增强”能力的缺失混淆为本章讨论的通信协议集成问题。"
+      },
+      "objectiveId": "ch10-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "answerIds": [
+        "b"
+      ],
+      "design": {
+        "purpose": "识别重复适配、动态发现与跨Agent协作三种集成难题。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      }
+    },
+    {
+      "id": "ch10-q02",
+      "type": "single",
+      "stem": "按10.1.3节，哪一组职责划分准确解释了三层架构如何让Agent统一使用不同协议？",
+      "options": [
+        {
+          "id": "a",
+          "text": "协议实现层负责具体通信；工具封装层提供统一Tool/run接口；智能体集成层经Tool System使用这些工具"
+        },
+        {
+          "id": "b",
+          "text": "协议实现层只负责用户界面；工具封装层训练模型；智能体集成层生成网络驱动"
+        },
+        {
+          "id": "c",
+          "text": "三层都直接实现同一份协议代码，每个Agent还必须复制所有底层通信实现"
+        },
+        {
+          "id": "d",
+          "text": "工具封装层只保存日志，Agent必须绕过它才能访问MCP、A2A或ANP"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.1.3 HelloAgents 通信协议架构设计",
+          "quote": "<strong>（1）协议实现层</strong>：这一层包含了三种协议的具体实现。MCP 基于 FastMCP 库实现，提供客户端和服务器功能；A2A 基于 Google 官方的 a2a-sdk 实现；ANP 是我们自研的轻量级实现，提供服务发现和网络管理功能，当然目前也有官方的[实现](https://github.com/agent-network-protocol/AgentConnect)，考虑到后期的迭代，因此这里只做概念的模拟。\n\n<strong>（2）工具封装层</strong>：这一层将协议实现封装成统一的 Tool 接口。MCPTool、A2ATool 和 ANPTool 都继承自 BaseTool，提供一致的`run()`方法。这种设计让智能体能够以相同的方式使用不同的协议。\n\n<strong>（3）智能体集成层</strong>：这一层是智能体与协议的集成点。所有的智能体（ReActAgent、SimpleAgent 等）都通过 Tool System 来使用协议工具，无需关心底层的协议细节。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "具体协议实现与Agent业务逻辑之间，由统一工具接口连接；Agent再通过Tool System使用包装后的能力。封装层和集成层共同参与解耦，不能用含混的“哪层屏蔽细节”强行二选一。",
+      "optionExplanations": {
+        "a": "正确，分别对应课件所述三层职责。",
+        "b": "错误，课件三层没有这种界面、训练、驱动分工。",
+        "c": "错误，重复底层实现违背统一接口的设计。",
+        "d": "错误，工具封装层提供统一run接口，Agent经工具系统使用它。"
+      },
+      "objectiveId": "ch10-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "answerIds": [
+        "a"
+      ],
+      "design": {
+        "purpose": "解释协议实现、Tool包装和Agent集成三层如何解耦。",
+        "misconception": "把工具包装与Agent集成视为互斥的解耦位置。"
+      }
+    },
+    {
+      "id": "ch10-q03",
+      "type": "single",
+      "stem": "在 MCP 协议的 Host-Client-Server 架构中，当 Claude Desktop 作为一个 Host 运作时，Client（客户端层）的核心职责是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "直接接收用户输入并管理对话的 UI 界面。"
+        },
+        {
+          "id": "b",
+          "text": "执行推理决策，判断当前上下文是否需要调用工具。"
+        },
+        {
+          "id": "c",
+          "text": "与指定的 MCP Server 建立连接，并负责请求的发送与响应的接收。"
+        },
+        {
+          "id": "d",
+          "text": "直接访问物理磁盘，执行文件的扫描与读取操作。"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.2.1 MCP 协议概念介绍",
+          "quote": "2. <strong>Client（客户端层）</strong>：当 Claude 模型决定需要访问文件系统时，Host 中内置的 MCP Client 被激活。Client 负责与适当的 MCP Server 建立连接，发送请求并接收响应。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "MCP 的关注点分离原则明确规定 Client 负责协议通信（连接、发送请求、接收响应），而具体业务功能由 Server 完成。",
+      "optionExplanations": {
+        "a": "这是 Host（宿主层）负责的用户体验与界面管理职责。",
+        "b": "这是大模型（LLM）的推理职责，而非协议 Client 的通信职责。",
+        "c": "正确，Client 是 Host 和 Server 之间的通信中转站。",
+        "d": "这是 Server（服务器层）负责的具体功能实现职责。"
+      },
+      "objectiveId": "ch10-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "answerIds": [
+        "c"
+      ],
+      "design": {
+        "purpose": "区分Host、Client与Server以及Tools、Resources、Prompts。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      }
+    },
+    {
+      "id": "ch10-q04",
+      "type": "single",
+      "stem": "按10.2.2节，将一个未知MCP服务器的工具接入调用流程，哪一顺序合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "先猜参数并调用，失败后再考虑连接服务器"
+        },
+        {
+          "id": "b",
+          "text": "连接服务器→list_tools读取名称、描述和inputSchema→按参数约定call_tool→检查结果或异常"
+        },
+        {
+          "id": "c",
+          "text": "先生成A2A工件→修改模型权重→再获取MCP工具列表"
+        },
+        {
+          "id": "d",
+          "text": "读取工具名称后即可保证参数与业务结果正确，无需检查调用结果"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.2.2 使用 MCP 客户端",
+          "quote": "async def discover_tools():\n    client = MCPClient([\"npx\", \"-y\", \"@modelcontextprotocol/server-filesystem\", \".\"])\n\n    async with client:\n        # 获取所有可用工具\n        tools = await client.list_tools()\n\n        print(f\"服务器提供了 {len(tools)} 个工具：\")\n        for tool in tools:\n            print(f\"\\n工具名称: {tool['name']}\")\n            print(f\"描述: {tool.get('description', '无描述')}\")\n\n            # 打印参数信息\n            if 'inputSchema' in tool:\n                schema = tool['inputSchema']\n                if 'properties' in schema:\n                    print(\"参数:\")\n                    for param_name, param_info in schema['properties'].items():\n                        param_type = param_info.get('type', 'any')\n                        param_desc = param_info.get('description', '')\n                        print(f\"  - {param_name} ({param_type}): {param_desc}\")",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.2.2 使用 MCP 客户端",
+          "quote": "async def safe_tool_call():\n    client = MCPClient([\"npx\", \"-y\", \"@modelcontextprotocol/server-filesystem\", \".\"])\n\n    async with client:\n        try:\n            # 尝试读取可能不存在的文件\n            result = await client.call_tool(\"read_file\", {\"path\": \"nonexistent.txt\"})\n            print(result)\n        except Exception as e:\n            print(f\"工具调用失败: {e}\")\n            # 可以选择重试、使用默认值或向用户报告错误",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "发现信息用于理解参数契约，随后才能有依据地构造调用；schema不保证模型填参正确，结果和异常仍需处理。",
+      "optionExplanations": {
+        "a": "错误，必须先建立通信并了解接口。",
+        "b": "正确，对应连接、发现、调用和错误处理流程。",
+        "c": "错误，A2A工件与模型训练不是此调用流程的前置步骤。",
+        "d": "错误，名称不足以描述参数要求，接口信息也不保证执行成功。"
+      },
+      "objectiveId": "ch10-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "answerIds": [
+        "b"
+      ],
+      "design": {
+        "purpose": "追踪连接、列工具、读取schema、传参调用和处理结果的顺序。",
+        "misconception": "将发现工具等同于已经成功执行，或将schema当作正确性保证。"
+      }
+    },
+    {
+      "id": "ch10-q05",
+      "type": "single",
+      "stem": "关于 MCP 协议的“传输层无关性”（Transport Agnostic）特性，以下哪项理解是正确的？",
+      "options": [
+        {
+          "id": "a",
+          "text": "MCP 只能在本地进程间通过 Stdio 标准输入输出进行通信。"
+        },
+        {
+          "id": "b",
+          "text": "MCP 必须依赖特定的网络硬件才能实现跨服务器访问。"
+        },
+        {
+          "id": "c",
+          "text": "MCP 协议核心逻辑不依赖特定传输方式，可运行在 Stdio、HTTP/SSE 或内存等多种通道上。"
+        },
+        {
+          "id": "d",
+          "text": "传输层无关性意味着 MCP 不需要任何传输层支持即可实现智能体通信。"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.2.3 MCP 传输方式详解",
+          "quote": "MCP 协议的一个重要特性是<strong>传输层无关性</strong>（Transport Agnostic）。这意味着 MCP 协议本身不依赖于特定的传输方式，可以在不同的通信通道上运行。HelloAgents 基于 FastMCP 2.0，提供了完整的传输方式支持，让你可以根据实际场景选择最合适的传输模式。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "传输层无关性是指协议定义的语义和交互规范与底层的字节流传递媒介（Stdio, HTTP 等）解耦。",
+      "optionExplanations": {
+        "a": "误将 Stdio 这一种具体的传输方式当成了协议的全部限制。",
+        "b": "误解了协议层的抽象性，协议旨在通过软件适配多种标准协议（如 HTTP）。",
+        "c": "正确，体现了协议设计的灵活性，支持多种通信通道。",
+        "d": "误解了术语含义，任何协议都需要传输层支撑，无关性是指“不挑剔/不绑定”特定传输层。"
+      },
+      "objectiveId": "ch10-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "answerIds": [
+        "c"
+      ],
+      "design": {
+        "purpose": "辨认协议与具体传输通道的关系。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      }
+    },
+    {
+      "id": "ch10-q06",
+      "type": "single",
+      "stem": "当开发者通过 MCPTool 集成一个包含多个功能的外部服务器时，“自动展开机制”会将服务器端的工具如何呈现给智能体？",
+      "options": [
+        {
+          "id": "a",
+          "text": "将所有工具合并为一个名为 `mcp_gateway` 的巨型单一工具。"
+        },
+        {
+          "id": "b",
+          "text": "Agent 直接获取服务器源代码并在本地重新编译执行。"
+        },
+        {
+          "id": "c",
+          "text": "将服务器提供的每个工具包装成Agent侧独立可选工具，例如fs_read_text_file"
+        },
+        {
+          "id": "d",
+          "text": "删除服务器端的原始工具，并强制生成新的 Python 本地类库。"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.2.4 在智能体中使用 MCP 工具",
+          "quote": "HelloAgents 的`MCPTool`有一个特性：<strong>自动展开</strong>。当你添加一个 MCP 工具到 Agent 时，它会自动将 MCP 服务器提供的所有工具展开为独立的工具，让 Agent 可以像调用普通工具一样调用它们。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "自动展开机制的目的是让 MCP 服务器上的工具在智能体眼中与本地普通工具无异，具有独立的接口。",
+      "optionExplanations": {
+        "a": "误以为是聚合，实际上展开后的工具是相互独立的，方便模型精准定位。",
+        "b": "误解了 MCP 的 RPC（远程过程调用）性质，代码执行仍在服务器端。",
+        "c": "正确，符合原文对“展开为独立工具”的定义。",
+        "d": "错误，课件展示的是工具包装和注册，不是删除或重写服务器源码。"
+      },
+      "objectiveId": "ch10-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "answerIds": [
+        "c"
+      ],
+      "design": {
+        "purpose": "解释MCPTool如何将服务器工具展开为Agent可选择的独立工具。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      }
+    },
+    {
+      "id": "ch10-q07",
+      "type": "single",
+      "stem": "按10.3.1节及表10.7，研究员接受“撰写分析报告”的委托并交付报告时，Task与Artifact分别对应什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "Task是服务URL，Artifact是请求超时参数"
+        },
+        {
+          "id": "b",
+          "text": "Task是委托的工作单位，Artifact是任务执行产生的报告等结果"
+        },
+        {
+          "id": "c",
+          "text": "Task和Artifact都只是MCP的函数参数名称"
+        },
+        {
+          "id": "d",
+          "text": "Task是模型权重，Artifact是连接服务器的端口"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.3.1 协议设计动机",
+          "quote": "A2A 协议采用点对点（P2P）架构（网状拓扑），允许智能体直接通信，从根本上解决了上述问题。它的核心是<strong>任务（Task）</strong>和<strong>工件（Artifact）</strong>这两个抽象概念，这是它与 MCP 最大的区别，如表 10.7 所示。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "课件表10.7将Task定义为智能体之间委托的单元，将Artifact定义为任务执行产生的结果；这里分别对应报告撰写任务与交付报告。表10.7为课件图片，已对照本地原图核验。",
+      "optionExplanations": {
+        "a": "错误，URL与超时配置不是这两个抽象的定义。",
+        "b": "正确，对应表10.7中的委托单位与执行产出。",
+        "c": "错误，课件在A2A协作语境中区分两者。",
+        "d": "错误，两者都不是模型或网络端口配置。"
+      },
+      "objectiveId": "ch10-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "answerIds": [
+        "b"
+      ],
+      "design": {
+        "purpose": "辨认Task与Artifact在协作中的职责。",
+        "misconception": "把委托任务与交付成果混为一谈。"
+      }
+    },
+    {
+      "id": "ch10-q08",
+      "type": "single",
+      "stem": "按10.3.3—10.3.4节，一个协调者要把研究任务交给独立运行的研究员，哪一委托路径符合示例？",
+      "options": [
+        {
+          "id": "a",
+          "text": "协调者通过A2ATool连接研究员服务；服务端注册的research技能处理请求并返回结果；独立客户端也可用execute_skill调用该技能"
+        },
+        {
+          "id": "b",
+          "text": "协调者读取result字段后，研究员服务会自动被创建并注册所有技能"
+        },
+        {
+          "id": "c",
+          "text": "A2AClient负责生成全部研究结果，A2AServer只负责显示网页"
+        },
+        {
+          "id": "d",
+          "text": "A2ATool把研究员源码复制进协调者提示词，由协调者直接替代服务端执行"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.3.3 使用 HelloAgents A2A 工具",
+          "quote": "# 创建研究员Agent服务\nresearcher = A2AServer(\n    name=\"researcher\",\n    description=\"负责搜索和分析资料的Agent\",\n    version=\"1.0.0\"\n)\n\n# 定义技能\n@researcher.skill(\"research\")\ndef handle_research(text: str) -> str:\n    \"\"\"处理研究请求\"\"\"\n    import re\n    match = re.search(r'research\\s+(.+)', text, re.IGNORECASE)\n    topic = match.group(1).strip() if match else text",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.3.3 使用 HelloAgents A2A 工具",
+          "quote": "# 创建客户端连接到研究员Agent\nclient = A2AClient(\"http://localhost:5000\")\n\n# 发送研究请求\nresponse = client.execute_skill(\"research\", \"research AI在医疗领域的应用\")\nprint(f\"收到响应：{response.get('result')}\")",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.3.4 在智能体中使用 A2A 工具",
+          "quote": "# 添加A2A工具，连接到研究员Agent\nresearcher_tool = A2ATool(\n    name=\"researcher\",\n    description=\"研究员Agent，可以搜索和分析资料\",\n    agent_url=\"http://localhost:5000\"\n)\ncoordinator.add_tool(researcher_tool)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "服务端先注册技能并运行，客户端才能发送技能请求；A2ATool把远程研究员暴露为协调者可使用的工具。示例研究内容是简化占位逻辑，返回结果不证明真实研究已完成。",
+      "optionExplanations": {
+        "a": "正确，区分服务端技能、客户端调用与Agent侧工具包装。",
+        "b": "错误，结果字段用于读取响应，不会建立服务或注册技能。",
+        "c": "错误，研究处理函数定义在服务端；客户端负责发出调用。",
+        "d": "错误，示例按agent_url连接服务，没有复制源码的流程。"
+      },
+      "objectiveId": "ch10-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "answerIds": [
+        "a"
+      ],
+      "design": {
+        "purpose": "追踪A2A服务端、客户端与工具包装之间的委托路径。",
+        "misconception": "把响应字段当作委托机制，忽略先运行服务和注册技能。"
+      }
+    },
+    {
+      "id": "ch10-q09",
+      "type": "single",
+      "stem": "新到达一个“翻译文本”任务，网络中有多种不同能力的Agent。按ANP服务发现目标，首先应做什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "直接选择端口号最小的Agent"
+        },
+        {
+          "id": "b",
+          "text": "按任务所需能力或功能描述查找可处理翻译的候选服务"
+        },
+        {
+          "id": "c",
+          "text": "让所有Agent都接收任务，再把最先返回的任意内容当作译文"
+        },
+        {
+          "id": "d",
+          "text": "只读取服务名称，不检查是否具备翻译能力"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.4.1 协议目标",
+          "quote": "- <strong>服务发现</strong>：当新任务到达时，如何快速找到能够处理该任务的智能体？\n- <strong>智能路由</strong>：如果多个智能体都能处理同一任务，如何选择最合适的一个（如根据负载、成本等）并向其分派任务？\n- <strong>动态扩展</strong>：如何让新加入网络的智能体被其他成员发现和调用？",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.4.1 协议目标",
+          "quote": "<strong>1. 服务的发现与匹配：</strong>首先，智能体 A 通过一个公开的发现服务，基于语义或功能描述进行查询，以定位到符合其任务需求的智能体 B。该发现服务通过预先爬取各智能体对外暴露的标准端点（`.well-known/agent-descriptions`）来建立索引，从而实现服务需求方与提供方的动态匹配。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "服务发现首先建立任务需求与候选能力的匹配，再对符合要求的候选进行路由选择。地址可连接或名字相似都不等于具备所需能力。",
+      "optionExplanations": {
+        "a": "错误，端口大小不表示任务能力。",
+        "b": "正确，符合基于语义或功能描述定位服务的目标。",
+        "c": "错误，这忽略能力筛选和结果验证。",
+        "d": "错误，名称不能替代能力描述。"
+      },
+      "objectiveId": "ch10-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "answerIds": [
+        "b"
+      ],
+      "design": {
+        "purpose": "识别任务到达时需要按能力发现候选服务。",
+        "misconception": "把服务发现简化为记端点路径或任选一个可连接地址。"
+      }
+    },
+    {
+      "id": "ch10-q10",
+      "type": "single",
+      "stem": "参照ANP注册与调度示例：任务要求translation能力，且预算上限为0.03。A仅支持text_analysis，load=0.1、price=0.01；B支持translation，load=0.7、price=0.02；C支持translation，load=0.2、price=0.05。假设这些值有效且B当前可调用，哪种选择合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "选A，因为最低load比能力要求更重要"
+        },
+        {
+          "id": "b",
+          "text": "选B：先满足能力与预算约束，再在合格候选中考虑负载与可用性"
+        },
+        {
+          "id": "c",
+          "text": "选C，因为最低负载可以自动抵消价格超出预算"
+        },
+        {
+          "id": "d",
+          "text": "仅按metadata选出的节点就一定调用成功，无需处理失败"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.4.2 使用 ANP 服务发现",
+          "quote": "# 注册Agent服务\nregister_service(\n    discovery=discovery,\n    service_id=\"nlp_agent_1\",\n    service_name=\"NLP处理专家A\",\n    service_type=\"nlp\",\n    capabilities=[\"text_analysis\", \"sentiment_analysis\", \"ner\"],\n    endpoint=\"http://localhost:8001\",\n    metadata={\"load\": 0.3, \"price\": 0.01, \"version\": \"1.0.0\"}\n)\n\nregister_service(\n    discovery=discovery,\n    service_id=\"nlp_agent_2\",\n    service_name=\"NLP处理专家B\",\n    service_type=\"nlp\",\n    capabilities=[\"text_analysis\", \"translation\"],\n    endpoint=\"http://localhost:8002\",\n    metadata={\"load\": 0.7, \"price\": 0.02, \"version\": \"1.1.0\"}\n)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.4.1 协议目标",
+          "quote": "- <strong>智能路由</strong>：如果多个智能体都能处理同一任务，如何选择最合适的一个（如根据负载、成本等）并向其分派任务？\n- <strong>动态扩展</strong>：如何让新加入网络的智能体被其他成员发现和调用？",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.4.3 实战案例",
+          "quote": "def get_best_server():\n    \"\"\"选择负载最低的服务器\"\"\"\n    servers = discovery.discover_services(service_type=\"api\")\n    if not servers:\n        return None\n\n    best = min(servers, key=lambda s: s.metadata.get(\"load\", 1.0))\n    return best",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "这是将课件能力字段及负载、价格元数据用于约束筛选的设计推演：A不具翻译能力，C超预算，B符合条件。示例最低负载函数本身并未实现完整能力/预算/健康筛选，负载元数据也不是成功保证。",
+      "optionExplanations": {
+        "a": "错误，低负载不能弥补所需能力缺失。",
+        "b": "正确，B满足给定约束；之后仍需核对调用结果。",
+        "c": "错误，负载不改变明确的预算限制。",
+        "d": "错误，注册元数据可能过时，调用仍可能失败。"
+      },
+      "objectiveId": "ch10-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "answerIds": [
+        "b"
+      ],
+      "design": {
+        "purpose": "分析负载均衡在成本、可用性与能力匹配之间的取舍。",
+        "misconception": "不经能力和预算筛选就全局选择最小负载，并把注册信息等同于实时可用性。"
+      }
+    },
+    {
+      "id": "ch10-q11",
+      "type": "single",
+      "stem": "以下关于构建自定义 MCP 服务器动机的描述中，哪一项不属于 10.5.1 节提到的构建动机？",
+      "options": [
+        {
+          "id": "a",
+          "text": "将企业内部复杂的业务流程封装为标准化工具以供调用。"
+        },
+        {
+          "id": "b",
+          "text": "通过协议层实现服务器日志到智能体原生语言的自动语义翻译。"
+        },
+        {
+          "id": "c",
+          "text": "创建一个安全可控的接口以访问无法对公网暴露的私有数据源。"
+        },
+        {
+          "id": "d",
+          "text": "针对高频调用或响应延迟有严苛要求的场景进行深度优化。"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.5.1 创建你的第一个 MCP 服务器",
+          "quote": "- <strong>封装业务逻辑</strong>：将企业内部特有的业务流程或复杂操作封装为标准化的 MCP 工具，供智能体统一调用。\n- <strong>访问私有数据</strong>：创建一个安全可控的接口或代理，用于访问内部数据库、API 或其他无法对公网暴露的私有数据源。\n- <strong>性能专项优化</strong>：针对高频调用或对响应延迟有严苛要求的应用场景，进行深度优化。\n- <strong>功能定制扩展</strong>：实现标准 MCP 服务未提供的特定功能，例如集成专有算法模型或连接特定的硬件设备。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "MCP 关注的是连接和工具调用的标准化，而非语义翻译服务。b 选项属于“语义模型”而非“通信协议”解决的问题。",
+      "optionExplanations": {
+        "a": "属于原文提到的“封装业务逻辑”。",
+        "b": "正确，这是典型的对协议层能力的误解，MCP 不负责自动化的语义翻译。",
+        "c": "属于原文提到的“访问私有数据”。",
+        "d": "属于原文提到的“性能专项优化”。"
+      },
+      "objectiveId": "ch10-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "answerIds": [
+        "b"
+      ],
+      "design": {
+        "purpose": "判断内部业务与私有数据需求何时值得自建MCP服务器。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      }
+    },
+    {
+      "id": "ch10-q12",
+      "type": "single",
+      "stem": "关于本章A2A教学实现与完整协议互操作验证的关系，课件明确说明了什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "当前提供的 SDK 代码已完全符合全球金融级生产部署标准。"
+        },
+        {
+          "id": "b",
+          "text": "教材完全放弃了 A2A 的协议思想，采用了一种全新的替代方案。"
+        },
+        {
+          "id": "c",
+          "text": "本章采用模拟协议思想并继承部分SDK功能的实现，不能据此认定已完成生产互操作验证"
+        },
+        {
+          "id": "d",
+          "text": "本章 A2A 实现可以无缝对接任何基于 OpenAI Swarm 框架的智能体。"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.3.2 使用 A2A 协议实战",
+          "quote": "A2A 现有实现大部分为`Sample Code`，并且即使有 Python 的实现也较为繁琐，因此这里我们只采用模拟协议思想的方式，通过 A2A-SDK 来继承部分功能实现。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "这是锁定课件对本章实现范围的说明；不代表对当前所有A2A SDK成熟度的实时判断。与其他系统互操作或生产可用性需另行验证。",
+      "optionExplanations": {
+        "a": "错误，本章没有提供金融级生产部署验证，并明确限定了模拟实现范围。",
+        "b": "错误，原文提到是“继承部分功能实现”，并未放弃协议思想。",
+        "c": "正确，符合文中对“模拟协议思想”实现的描述。",
+        "d": "错误，课件没有提供与任意Swarm系统互操作的验证结果。"
+      },
+      "objectiveId": "ch10-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "answerIds": [
+        "c"
+      ],
+      "design": {
+        "purpose": "比较本章A2A模拟思想的教学实现与完整协议互操作验证，避免混称生产实现。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      }
+    },
+    {
+      "id": "ch10-q13",
+      "type": "multiple",
+      "stem": "根据 10.1.2 节关于协议适用场景的比较，以下匹配正确的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "智能体需要访问本地文件、PostgreSQL 数据库或 GitHub API：选择 MCP"
+        },
+        {
+          "id": "b",
+          "text": "需要研究员智能体与撰写员智能体通过对话协商任务：选择 A2A"
+        },
+        {
+          "id": "c",
+          "text": "构建包含数千个节点、需要去中心化服务发现的智能体生态：选择 ANP"
+        },
+        {
+          "id": "d",
+          "text": "仅仅是为了提升单个智能体的数学逻辑推理能力：选择 ANP"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.1.2 三种协议设计理念比较",
+          "quote": "- 如果你的智能体需要访问外部服务（文件、数据库、API），选择<strong>MCP</strong>\n- 如果你需要多个智能体相互协作完成任务，选择<strong>A2A</strong>\n- 如果你要构建大规模的智能体生态系统，考虑<strong>ANP</strong>",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "协议选择应依据访问工具、点对点对话、或大规模网络发现的需求。单一智能体推理能力属于模型内部逻辑，不涉及外部通信协议。",
+      "optionExplanations": {
+        "a": "正确，外部服务访问是 MCP 的核心价值。",
+        "b": "正确，专家协作对话是 A2A 的设计定位。",
+        "c": "正确，大规模生态系统的发现机制属于 ANP 范畴。",
+        "d": "错误，逻辑推理是 LLM 自身能力，ANP 是解决网络发现问题的基础设施。"
+      },
+      "objectiveId": "ch10-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "design": {
+        "purpose": "按数据库访问、专家委托和网络服务发现比较MCP、A2A、ANP的章节定位。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      }
+    },
+    {
+      "id": "ch10-q14",
+      "type": "multiple",
+      "stem": "在 MCP 的核心能力矩阵中，关于 Tools、Resources 和 Prompts 的语义区分，描述正确的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "Tools 是主动的，代表了智能体可以执行的具体操作。"
+        },
+        {
+          "id": "b",
+          "text": "Resources 是被动的，主要负责向智能体提供数据上下文（如日志）。"
+        },
+        {
+          "id": "c",
+          "text": "Prompts 是指导性的，为智能体提供交互模板或系统级指导。"
+        },
+        {
+          "id": "d",
+          "text": "执行工具、读取资源和获取提示模板都必然修改外部业务数据"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.2.1 MCP 协议概念介绍",
+          "quote": "这三种能力的区别在于：<strong>Tools 是主动的</strong>（执行操作），<strong>Resources 是被动的</strong>（提供数据），<strong>Prompts 是指导性的</strong>（提供模板）。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "三者分别提供可执行操作、上下文数据和提示模板，不能将所有MCP访问都视为外部写入。",
+      "optionExplanations": {
+        "a": "正确，对应原文“主动（执行操作）”。",
+        "b": "正确，对应原文“被动（提供数据）”。",
+        "c": "正确，对应原文“指导性（提供模板）”。",
+        "d": "错误，资源读取和模板获取提供数据或指导；工具是否修改数据也取决于具体操作。"
+      },
+      "objectiveId": "ch10-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "design": {
+        "purpose": "比较工具执行、资源读取和提示模板获取的语义，避免将它们都视为修改外部数据。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      }
+    },
+    {
+      "id": "ch10-q15",
+      "type": "multiple",
+      "stem": "按课件所介绍的传输示例，下列部署与连接判断哪些合理（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "Stdio可通过命令启动本地Python服务器进程，用于本地开发调试"
+        },
+        {
+          "id": "b",
+          "text": "连接远程HTTP服务时需有实际运行且支持该接口的服务器，示例建议使用MCPClient"
+        },
+        {
+          "id": "c",
+          "text": "课件将SSE用于实时或流式场景，并注明需要支持SSE的服务器"
+        },
+        {
+          "id": "d",
+          "text": "Memory传输的本地演示通过后，即可证明远程HTTP服务部署成功"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.2.3 MCP 传输方式详解",
+          "quote": "<strong>（4）Stdio Transport - 标准输入输出传输</strong>\n\n适用场景：本地开发、调试、Python 脚本服务器\n\n```python\nfrom hello_agents.tools import MCPTool\n\n# 方式1：使用自定义Python服务器\nmcp_tool = MCPTool(server_command=[\"python\", \"my_mcp_server.py\"])\n\n# 方式2：使用社区服务器（文件系统）\nmcp_tool = MCPTool(server_command=[\"npx\", \"-y\", \"@modelcontextprotocol/server-filesystem\", \".\"])\n\n# 列出工具\nresult = mcp_tool.run({\"action\": \"list_tools\"})\nprint(result)\n\n# 调用工具\nresult = mcp_tool.run({\n    \"action\": \"call_tool\",\n    \"tool_name\": \"read_file\",\n    \"arguments\": {\"path\": \"README.md\"}\n})\nprint(result)\n```",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.2.3 MCP 传输方式详解",
+          "quote": "<strong>（5）HTTP Transport - HTTP 传输</strong>\n\n适用场景：生产环境、远程服务、微服务架构\n\n```python\n# 注意：MCPTool 主要用于 Stdio 和 Memory 传输\n# 对于 HTTP/SSE 等远程传输，建议使用底层的 MCPClient\n\nimport asyncio\nfrom hello_agents.protocols import MCPClient\n\nasync def test_http_transport():\n    # 连接到远程 HTTP MCP 服务器\n    client = MCPClient(\"http://api.example.com/mcp\")\n\n    async with client:\n        # 获取服务器信息\n        tools = await client.list_tools()\n        print(f\"远程服务器工具: {len(tools)} 个\")\n\n        # 调用远程工具\n        result = await client.call_tool(\"process_data\", {\n            \"data\": \"Hello, World!\",\n            \"operation\": \"uppercase\"\n        })\n        print(f\"远程处理结果: {result}\")\n\n# 注意：需要实际的 HTTP MCP 服务器\n# asyncio.run(test_http_transport())\n```",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.2.3 MCP 传输方式详解",
+          "quote": "<strong>（6）SSE Transport - Server-Sent Events 传输</strong>\n\n适用场景：实时通信、流式处理、长连接\n\n```python\n# 注意：MCPTool 主要用于 Stdio 和 Memory 传输\n# 对于 SSE 传输，建议使用底层的 MCPClient\n\nimport asyncio\nfrom hello_agents.protocols import MCPClient\n\nasync def test_sse_transport():\n    # 连接到 SSE MCP 服务器\n    client = MCPClient(\n        \"http://localhost:8080/sse\",\n        transport_type=\"sse\"\n    )\n\n    async with client:\n        # SSE 特别适合流式处理\n        result = await client.call_tool(\"stream_process\", {\n            \"input\": \"大量数据处理请求\",\n            \"stream\": True\n        })\n        print(f\"流式处理结果: {result}\")\n\n# 注意：需要支持 SSE 的 MCP 服务器\n# asyncio.run(test_sse_transport())\n```",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "这些是课件版本的传输用法。传输机制与协议语义分离，但进程启动、远程服务及连接生命周期仍须按所选通道管理；本地演示不能验证远程部署。",
+      "optionExplanations": {
+        "a": "正确，课件Stdio示例通过命令启动服务器。",
+        "b": "正确，代码明确注明需要实际HTTP MCP服务器。",
+        "c": "正确，这是课件SSE示例的前提与场景。",
+        "d": "错误，两者服务和连接路径不同，须分别验证。"
+      },
+      "objectiveId": "ch10-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "design": {
+        "purpose": "比较本地Stdio和课件介绍的远程传输在部署与连接管理上的需求，不外推最新协议规范。",
+        "misconception": "将一种本地传输测试当作远程服务已部署或已验证。"
+      }
+    },
+    {
+      "id": "ch10-q16",
+      "type": "multiple",
+      "stem": "在 10.3.4 节展示的智能客服实战案例中，接待员智能体如何利用 A2A 工具实现其职责？",
+      "options": [
+        {
+          "id": "a",
+          "text": "通过 A2ATool 访问运行在不同端口（如 6000, 6001）的专业专家节点。"
+        },
+        {
+          "id": "b",
+          "text": "分析客户提出的问题类型（技术问题或销售问题）。"
+        },
+        {
+          "id": "c",
+          "text": "整理专家返回的初步回答并最终反馈给客户。"
+        },
+        {
+          "id": "d",
+          "text": "自动修改并删除专家服务器上不符合规范的代码逻辑。"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.3.4 在智能体中使用 A2A 工具",
+          "quote": "# 4. 创建接待员Agent（使用HelloAgents的SimpleAgent）\nreceptionist = SimpleAgent(\n    name=\"接待员\",\n    llm=llm,\n    system_prompt=\"\"\"你是客服接待员，负责：\n1. 分析客户问题类型（技术问题 or 销售问题）\n2. 将问题转发给相应的专家\n3. 整理专家的回答并返回给客户\n\n请保持礼貌和专业。\"\"\"\n)\n\n# 添加技术专家工具\ntech_tool = A2ATool(\n    agent_url=\"http://localhost:6000\",\n    name=\"tech_expert\",\n    description=\"技术专家，回答技术相关问题\"\n)\nreceptionist.add_tool(tech_tool)\n\n# 添加销售顾问工具\nsales_tool = A2ATool(\n    agent_url=\"http://localhost:6001\",\n    name=\"sales_advisor\",\n    description=\"销售顾问，回答价格、购买相关问题\"\n)\nreceptionist.add_tool(sales_tool)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "接待员分析问题类型，通过对应A2ATool委托专家，再整理结果给客户。示例未包含修改远程源码的职责；专家响应仍需按任务要求核对。",
+      "optionExplanations": {
+        "a": "正确，代码展示了通过不同 URL 连接不同专家。",
+        "b": "正确，这是 system_prompt 赋予接待员的首要任务。",
+        "c": "正确，这是任务闭环的最后一步。",
+        "d": "错误，本案例只通过已公开的专家技能委托任务，没有源码修改或删除流程。"
+      },
+      "objectiveId": "ch10-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "design": {
+        "purpose": "在客服接待、技术和销售专家场景中选择基于能力的分派及结果回传。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      }
+    },
+    {
+      "id": "ch10-q17",
+      "type": "multiple",
+      "stem": "一个支持translation的新Agent加入网络，随后某个原候选地址发生变化。按10.4.2节的注册、发现与网络构建思路，哪些处理合理（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "登记新Agent的标识、能力、端点等信息，使发现过程能够找到它"
+        },
+        {
+          "id": "b",
+          "text": "任务分派前按类型发现候选并核对所需能力，候选变化时重新评估目标"
+        },
+        {
+          "id": "c",
+          "text": "把新节点及需要的连接纳入网络管理，并在地址变化后核对实际调用目标"
+        },
+        {
+          "id": "d",
+          "text": "只要曾经发现过一个Agent，就永久缓存旧端点，忽略能力或连接变化"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.4.2 使用 ANP 服务发现",
+          "quote": "# 注册Agent服务\nregister_service(\n    discovery=discovery,\n    service_id=\"nlp_agent_1\",\n    service_name=\"NLP处理专家A\",\n    service_type=\"nlp\",\n    capabilities=[\"text_analysis\", \"sentiment_analysis\", \"ner\"],\n    endpoint=\"http://localhost:8001\",\n    metadata={\"load\": 0.3, \"price\": 0.01, \"version\": \"1.0.0\"}\n)\n\nregister_service(\n    discovery=discovery,\n    service_id=\"nlp_agent_2\",\n    service_name=\"NLP处理专家B\",\n    service_type=\"nlp\",\n    capabilities=[\"text_analysis\", \"translation\"],\n    endpoint=\"http://localhost:8002\",\n    metadata={\"load\": 0.7, \"price\": 0.02, \"version\": \"1.1.0\"}\n)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.4.2 使用 ANP 服务发现",
+          "quote": "# 按类型查找\nnlp_services = discover_service(discovery, service_type=\"nlp\")\nprint(f\"找到 {len(nlp_services)} 个NLP服务\")\n\n# 选择负载最低的服务\nbest_service = min(nlp_services, key=lambda s: s.metadata.get(\"load\", 1.0))\nprint(f\"最佳服务：{best_service.service_name} (负载: {best_service.metadata['load']})\")\n```",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.4.2 使用 ANP 服务发现",
+          "quote": "# 添加节点\nfor service in discovery.list_all_services():\n    network.add_node(service.service_id, service.endpoint)\n\n# 建立连接（根据能力匹配）\nnetwork.connect_nodes(\"nlp_agent_1\", \"nlp_agent_2\")",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "课件分别演示注册信息、发现候选以及添加节点和连接。新服务和地址变化需要让这些信息保持一致，再核对调用结果；具体自动更新和健康检测机制属于需补充实现的工程设计，课件未保证自动完成。",
+      "optionExplanations": {
+        "a": "正确，注册使能力和端点信息可被查询。",
+        "b": "正确，服务类型只是初筛，所需具体能力也要匹配。",
+        "c": "正确，这是基于节点和连接示例对动态变化的合理维护设计。",
+        "d": "错误，旧端点和旧能力信息可能不再适用。"
+      },
+      "objectiveId": "ch10-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "design": {
+        "purpose": "对新Agent加入或候选服务变化选择注册、发现和路由更新的必要步骤。",
+        "misconception": "将一次注册或发现视作永久有效的路由与可用性保证。"
+      }
+    },
+    {
+      "id": "ch10-q18",
+      "type": "multiple",
+      "stem": "共享10.5.2节的天气MCP服务时，哪些做法正确体现了发布配置、复用接口与可用性的关系（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "按课件示例整理服务器程序、依赖和发布配置，使他人能按约定构建与启动"
+        },
+        {
+          "id": "b",
+          "text": "保持工具名称、参数和功能说明一致，便于客户端发现并复用天气能力"
+        },
+        {
+          "id": "c",
+          "text": "发布后还需实际连接、发现和调用，并检查天气接口错误与维护需求"
+        },
+        {
+          "id": "d",
+          "text": "只要仓库中存在smithery.yaml，就已证明服务部署成功且实时天气查询始终可用"
+        }
+      ],
+      "evidence": [
+        {
+          "section": "10.5.2 上传 MCP 服务器",
+          "quote": "weather-mcp-server/\n├── README.md           # 项目说明文档\n├── LICENSE            # 开源许可证\n├── Dockerfile         # Docker 构建配置（推荐）\n├── pyproject.toml     # Python 项目配置（必需）\n├── requirements.txt   # Python 依赖\n├── smithery.yaml      # Smithery 配置文件（必需）\n└── server.py          # MCP 服务器主文件\n```",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.5.2 上传 MCP 服务器",
+          "quote": "name: weather-mcp-server\ndisplayName: Weather MCP Server\ndescription: Real-time weather query MCP server based on HelloAgents framework\nversion: 1.0.0\nauthor: HelloAgents Team\nhomepage: https://github.com/yourusername/weather-mcp-server\nlicense: MIT\ncategories:\n  - weather\n  - data\ntags:\n  - weather\n  - real-time\n  - helloagents\n  - wttr\nruntime: container\nbuild:\n  dockerfile: Dockerfile\n  dockerBuildPath: .\nstartCommand:\n  type: http\ntools:\n  - name: get_weather\n    description: Get current weather for a city\n  - name: list_supported_cities\n    description: List all supported cities\n  - name: get_server_info\n    description: Get server information\n```\n\n配置说明：\n\n- `name`: 服务器的唯一标识符（小写，用连字符分隔）\n- `displayName`: 显示名称\n- `description`: 简短描述\n- `version`: 版本号（遵循语义化版本）\n- `runtime`: 运行时环境（python/node）\n- `entrypoint`: 入口文件\n- `tools`: 工具列表",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.5.1 创建你的第一个 MCP 服务器",
+          "quote": "# 测试3: 查询北京天气\n            weather = json.loads(await client.call_tool(\"get_weather\", {\"city\": \"北京\"}))\n            if \"error\" not in weather:\n                print(f\"\\n北京天气: {weather['temperature']}°C, {weather['condition']}\")\n\n            # 测试4: 查询深圳天气\n            weather = json.loads(await client.call_tool(\"get_weather\", {\"city\": \"深圳\"}))\n            if \"error\" not in weather:\n                print(f\"深圳天气: {weather['temperature']}°C, {weather['condition']}\")",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "explanation": "课件的发布目录和配置用于描述构建、启动及工具能力；它们不是运行回执。共享服务还涉及依赖和上游天气源维护，需要以实际调用结果验证可用性。此题只按课件版本讨论发布流程。",
+      "optionExplanations": {
+        "a": "正确，程序、依赖与配置共同构成可复用发布材料。",
+        "b": "正确，清晰一致的工具契约有助于客户端使用。",
+        "c": "正确，课件客户端测试检查实际返回及error，而非只检查配置存在。",
+        "d": "错误，配置存在不证明构建、启动、网络连接或上游数据查询成功。"
+      },
+      "objectiveId": "ch10-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "design": {
+        "purpose": "在共享天气服务时权衡打包配置、可复用接口和部署维护；发布配置存在不等于服务可用。",
+        "misconception": "把发布材料齐全、目录结构或配置存在当作运行可用的证据。"
+      }
+    },
+    {
+      "id": "ch10-q19",
+      "type": "reflection",
+      "stem": "用自然语言描述一个研究协作系统：需要查询内部资料、委托研究员与撰写员协作，并动态寻找具备特定能力的专家。说明MCP、A2A、ANP各承担哪类连接；当工具调用、专家委托或服务发现失败时，分别在哪里处理。无需代码或协议状态名。",
+      "referenceAnswer": "协调者通过ANP式发现按所需能力查询候选专家并检查端点，再经A2A式委托把研究或撰写任务交给专家；各Agent通过MCP访问内部数据库或资料工具，获得实际数据。MCP工具层应报告连接、参数或数据查询错误；委托客户端和协调逻辑应识别专家请求失败、超时或缺少成果，核对返回结果后决定是否重试或换专家；发现/路由层遇到空候选或失效地址时应停止分派或重新发现。可设置重试次数和时间预算，保留失败原因，不把错误文字包装成研究成果。本章的A2A与ANP含模拟思想实现，不能凭示例推断完整生产互操作、标准状态枚举或自动恢复保证。",
+      "rubric": [
+        "区分MCP工具访问、A2A专家委托和ANP服务发现三种连接",
+        "说明任务与结果如何在各角色间传递，且不把候选注册当作成功委托",
+        "分别定位工具、委托和发现失败，并提出有界处理方式",
+        "明确应用扩展与课件已实现内容的边界，不编造协议状态或成功回执"
+      ],
+      "objectiveId": "ch10-o01",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "10.1.2 三种协议设计理念比较",
+          "quote": "- 如果你的智能体需要访问外部服务（文件、数据库、API），选择<strong>MCP</strong>\n- 如果你需要多个智能体相互协作完成任务，选择<strong>A2A</strong>\n- 如果你要构建大规模的智能体生态系统，考虑<strong>ANP</strong>",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.3.2 使用 A2A 协议实战",
+          "quote": "A2A 现有实现大部分为`Sample Code`，并且即使有 Python 的实现也较为繁琐，因此这里我们只采用模拟协议思想的方式，通过 A2A-SDK 来继承部分功能实现。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.2.2 使用 MCP 客户端",
+          "quote": "async def safe_tool_call():\n    client = MCPClient([\"npx\", \"-y\", \"@modelcontextprotocol/server-filesystem\", \".\"])\n\n    async with client:\n        try:\n            # 尝试读取可能不存在的文件\n            result = await client.call_tool(\"read_file\", {\"path\": \"nonexistent.txt\"})\n            print(result)\n        except Exception as e:\n            print(f\"工具调用失败: {e}\")\n            # 可以选择重试、使用默认值或向用户报告错误",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.4.1 协议目标",
+          "quote": "- <strong>服务发现</strong>：当新任务到达时，如何快速找到能够处理该任务的智能体？\n- <strong>智能路由</strong>：如果多个智能体都能处理同一任务，如何选择最合适的一个（如根据负载、成本等）并向其分派任务？\n- <strong>动态扩展</strong>：如何让新加入网络的智能体被其他成员发现和调用？",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "optionExplanations": {},
+      "options": [],
+      "answerIds": [],
+      "design": {
+        "purpose": "为研究协作系统画出工具访问、专家委托和服务发现三类连接，说明每个协议承担的职责及失败处理位置。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      },
+      "explanation": "按课件三协议定位做职责与失败路径设计；具体重试、验证与替代策略是应用侧扩展，不是协议自动成功保证。"
+    },
+    {
+      "id": "ch10-q20",
+      "type": "reflection",
+      "stem": "为内部固定资产数据设计一个MCP服务契约，用自然语言描述两个工具、一项只读资源、必要参数与结果约定，并给出连接、发现、成功调用及错误路径的验证方案。无需编写代码。",
+      "referenceAnswer": "可设计get_asset_detail工具：asset_id为必填非空字符串，返回标识、状态和更新时间，查无资产时返回明确错误；update_asset_status工具：asset_id和status必填，status只能取约定枚举，成功后返回更新后的状态，拒绝非法状态或无权限修改。提供只读资源asset://status-definitions，解释状态含义和允许变更规则；资源读取本身不执行状态修改。先用MCPClient连接目标服务并关闭连接，list_tools检查名称、描述与inputSchema，list_resources/read_resource验证资源，再用受控样例资产检查查询和修改的预期结果及实际存储变化。错误测试覆盖缺参、错类型、未知资产、无权限、服务不可达；检查明确错误、未误写数据及重试边界。参数校验、权限和写后读回属于本方案应实现并验证的契约，不能仅凭schema存在或示例打印“完成”宣称全部通过。",
+      "rubric": [
+        "两个工具的职责、必填参数、类型或枚举及返回结果清晰",
+        "区分只读资源与修改工具，并说明权限和错误契约",
+        "验证真实连接、工具发现/schema与资源读取",
+        "用预期结果核对成功调用及写后状态，覆盖失败路径",
+        "区分提出验证方案与已经执行成功"
+      ],
+      "objectiveId": "ch10-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "10.5.1 创建你的第一个 MCP 服务器",
+          "quote": "# 定义工具函数\ndef get_weather(city: str) -> str:\n    \"\"\"获取指定城市的当前天气\"\"\"\n    try:\n        weather_data = get_weather_data(city)\n        return json.dumps(weather_data, ensure_ascii=False, indent=2)\n    except Exception as e:\n        return json.dumps({\"error\": str(e), \"city\": city}, ensure_ascii=False)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.2.2 使用 MCP 客户端",
+          "quote": "async def discover_tools():\n    client = MCPClient([\"npx\", \"-y\", \"@modelcontextprotocol/server-filesystem\", \".\"])\n\n    async with client:\n        # 获取所有可用工具\n        tools = await client.list_tools()\n\n        print(f\"服务器提供了 {len(tools)} 个工具：\")\n        for tool in tools:\n            print(f\"\\n工具名称: {tool['name']}\")\n            print(f\"描述: {tool.get('description', '无描述')}\")\n\n            # 打印参数信息\n            if 'inputSchema' in tool:\n                schema = tool['inputSchema']\n                if 'properties' in schema:\n                    print(\"参数:\")\n                    for param_name, param_info in schema['properties'].items():\n                        param_type = param_info.get('type', 'any')\n                        param_desc = param_info.get('description', '')\n                        print(f\"  - {param_name} ({param_type}): {param_desc}\")",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.2.2 使用 MCP 客户端",
+          "quote": "# 列出可用资源\nresources = client.list_resources()\nprint(f\"可用资源：{[r['uri'] for r in resources]}\")",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.2.2 使用 MCP 客户端",
+          "quote": "async def safe_tool_call():\n    client = MCPClient([\"npx\", \"-y\", \"@modelcontextprotocol/server-filesystem\", \".\"])\n\n    async with client:\n        try:\n            # 尝试读取可能不存在的文件\n            result = await client.call_tool(\"read_file\", {\"path\": \"nonexistent.txt\"})\n            print(result)\n        except Exception as e:\n            print(f\"工具调用失败: {e}\")\n            # 可以选择重试、使用默认值或向用户报告错误",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        },
+        {
+          "section": "10.2.2 使用 MCP 客户端",
+          "quote": "# 读取资源\nresource_content = client.read_resource(\"file:///path/to/resource\")\nprint(f\"资源内容：{resource_content}\")\n```",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md"
+        }
+      ],
+      "optionExplanations": {},
+      "options": [],
+      "answerIds": [],
+      "design": {
+        "purpose": "为内部数据设计MCP服务器的工具、资源和参数契约，并列出客户端发现、调用与错误路径的验证方案。",
+        "misconception": "混淆协议职责、实际调用流程与教学示例的能力边界。"
+      },
+      "explanation": "结合课件工具注册、schema发现、资源读取和错误处理示例，提出内部业务服务的接口及验证设计。"
+    }
+  ]
+}

@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch06-o01",
+      "title": "说明框架复用与解耦的价值",
+      "sections": [
+        "6.1.1 为何需要智能体框架",
+        "6.1.1 为何需要智能体框架",
+        "6.1.2 主流框架的选型与对比"
+      ],
+      "reason": "从手写循环到框架需要理解职责边界及抽象成本。"
+    },
+    {
+      "id": "ch06-o02",
+      "title": "追踪AutoGen团队的对话调度",
+      "sections": [
+        "6.2.1 AutoGen 的核心机制",
+        "6.2.3 核心代码实现",
+        "6.2.4 AutoGen 的优势与局限性分析"
+      ],
+      "reason": "角色说明不能替代调度和终止控制。"
+    },
+    {
+      "id": "ch06-o03",
+      "title": "理解AgentScope的消息与角色约束",
+      "sections": [
+        "6.3.1 AgentScope 的设计",
+        "6.3.2 三国狼人杀游戏",
+        "6.3.3 AgentScope 的优势与局限性分析"
+      ],
+      "reason": "狼人杀案例的关键是结构化消息和信息边界，不是人物名称。"
+    },
+    {
+      "id": "ch06-o04",
+      "title": "解释CAMEL互补角色协作",
+      "sections": [
+        "6.4.1 CAMEL 的自主协作",
+        "6.4.1 CAMEL 的自主协作",
+        "6.4.2 AI科普电子书"
+      ],
+      "reason": "自主协作来自任务和角色边界，不能只靠两个无约束聊天者。"
+    },
+    {
+      "id": "ch06-o05",
+      "title": "用图状态表达任务数据依赖",
+      "sections": [
+        "6.5.2 三步问答助手",
+        "6.5.3 LangGraph 的优势与局限性分析",
+        "6.5.1 LangGraph 的结构梳理"
+      ],
+      "reason": "节点连接顺序之外，共享状态是信息正确传递的基础。"
+    },
+    {
+      "id": "ch06-o06",
+      "title": "依据任务约束选择协作控制方式",
+      "sections": [
+        "6.4.3 CAMEL 的优势与局限性分析",
+        "6.5.3 LangGraph 的优势与局限性分析",
+        "6.2.4 AutoGen 的优势与局限性分析"
+      ],
+      "reason": "涌现式协作和显式控制不是互相替代的优劣序列。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch06-q01",
+      "type": "single",
+      "objectiveId": "ch06-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "6.1.1 为何需要智能体框架",
+      "purpose": "识别框架对Agent Loop、模型、工具和记忆的复用作用。"
+    },
+    {
+      "id": "ch06-q02",
+      "type": "single",
+      "objectiveId": "ch06-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "6.1.1 为何需要智能体框架",
+      "purpose": "解释替换模型或新增工具不应修改全部业务流程的原因。"
+    },
+    {
+      "id": "ch06-q03",
+      "type": "single",
+      "objectiveId": "ch06-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "6.2.1 AutoGen 的核心机制",
+      "purpose": "辨认core与agentchat层的职责分工。"
+    },
+    {
+      "id": "ch06-q04",
+      "type": "single",
+      "objectiveId": "ch06-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "6.2.3 核心代码实现",
+      "purpose": "解释RoundRobinGroupChat中角色消息、轮询顺序和终止条件如何共同工作。"
+    },
+    {
+      "id": "ch06-q05",
+      "type": "single",
+      "objectiveId": "ch06-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "6.3.1 AgentScope 的设计",
+      "purpose": "识别组合式、消息驱动架构的基本组织方式。"
+    },
+    {
+      "id": "ch06-q06",
+      "type": "single",
+      "objectiveId": "ch06-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "6.3.2 三国狼人杀游戏",
+      "purpose": "追踪游戏状态、角色Agent和消息传递在一次行动中的职责。"
+    },
+    {
+      "id": "ch06-q07",
+      "type": "single",
+      "objectiveId": "ch06-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "6.4.1 CAMEL 的自主协作",
+      "purpose": "区分AI User与AI Assistant的任务职责。"
+    },
+    {
+      "id": "ch06-q08",
+      "type": "single",
+      "objectiveId": "ch06-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "6.4.1 CAMEL 的自主协作",
+      "purpose": "解释Inception Prompting如何稳定角色、目标及交互约定。"
+    },
+    {
+      "id": "ch06-q09",
+      "type": "single",
+      "objectiveId": "ch06-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "6.5.2 三步问答助手",
+      "purpose": "识别理解、搜索、回答各步骤需要的输入和产生的状态字段。"
+    },
+    {
+      "id": "ch06-q10",
+      "type": "single",
+      "objectiveId": "ch06-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "6.5.3 LangGraph 的优势与局限性分析",
+      "purpose": "分析显式图提高审计性时增加的状态与边设计成本。"
+    },
+    {
+      "id": "ch06-q11",
+      "type": "single",
+      "objectiveId": "ch06-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "6.4.3 CAMEL 的优势与局限性分析",
+      "purpose": "判断轻架构重提示在灵活协作和可控性之间的取舍。"
+    },
+    {
+      "id": "ch06-q12",
+      "type": "single",
+      "objectiveId": "ch06-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "6.5.3 LangGraph 的优势与局限性分析",
+      "purpose": "比较LangGraph的状态边控制与基于对话的流程协调。"
+    },
+    {
+      "id": "ch06-q13",
+      "type": "multiple",
+      "objectiveId": "ch06-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "6.1.2 主流框架的选型与对比",
+      "purpose": "比较多智能体对话、工程化消息、角色扮演和显式图控制的定位。"
+    },
+    {
+      "id": "ch06-q14",
+      "type": "multiple",
+      "objectiveId": "ch06-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "6.2.4 AutoGen 的优势与局限性分析",
+      "purpose": "比较轮询对话的可预测性与需求动态回退时所需的流程变更。"
+    },
+    {
+      "id": "ch06-q15",
+      "type": "multiple",
+      "objectiveId": "ch06-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "6.3.3 AgentScope 的优势与局限性分析",
+      "purpose": "比较工程化并发容错与简单应用的复杂性成本。"
+    },
+    {
+      "id": "ch06-q16",
+      "type": "multiple",
+      "objectiveId": "ch06-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "6.4.2 AI科普电子书",
+      "purpose": "针对科普电子书选择专业内容与表达加工的互补角色和交付约束。"
+    },
+    {
+      "id": "ch06-q17",
+      "type": "multiple",
+      "objectiveId": "ch06-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "6.5.1 LangGraph 的结构梳理",
+      "purpose": "为搜索失败后的重试或回退选择条件边、状态更新与退出条件。"
+    },
+    {
+      "id": "ch06-q18",
+      "type": "multiple",
+      "objectiveId": "ch06-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "6.2.4 AutoGen 的优势与局限性分析",
+      "purpose": "面对需要人工介入和可审计交付的任务，选择角色、终止及审核机制，避免无限对话。"
+    },
+    {
+      "id": "ch06-q19",
+      "type": "reflection",
+      "objectiveId": "ch06-o05",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "6.5.2 三步问答助手",
+      "purpose": "将三步问答扩成搜索失败可回退的图，列明状态、条件边、终止条件，并区分示例模拟搜索与真实外部检索。"
+    },
+    {
+      "id": "ch06-q20",
+      "type": "reflection",
+      "objectiveId": "ch06-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "6.2.3 核心代码实现",
+      "purpose": "为软件开发团队设计审查不通过后的回退与人工接管，说明比固定轮询新增的控制规则和成本。"
+    }
+  ],
+  "notes": "框架行为限定本章版本，尤其AutoGen 0.7.4；不考最新API、品牌排名。分布式部署细节仅概念覆盖，不能据此认证部署能力。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

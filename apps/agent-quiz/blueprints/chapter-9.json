@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch09-o01",
+      "title": "把上下文视为有限信息预算",
+      "sections": [
+        "9.1 什么是上下文工程",
+        "9.2.1 有效上下文的“解剖学”",
+        "9.2.2 上下文检索与智能体式搜索"
+      ],
+      "reason": "窗口扩大不等于有效信息增多，需要管理相关性和噪声。"
+    },
+    {
+      "id": "ch09-o02",
+      "title": "理解GSSC数据流与预算选择",
+      "sections": [
+        "9.3.2 核心数据结构",
+        "9.3.3 GSSC 流水线详解",
+        "9.3.3 GSSC 流水线详解"
+      ],
+      "reason": "候选内容只有经过评分、结构化与预算约束才成为上下文。"
+    },
+    {
+      "id": "ch09-o03",
+      "title": "用结构化笔记保持跨会话状态",
+      "sections": [
+        "9.4.1 设计理念与应用场景",
+        "9.4.2 存储格式详解",
+        "9.4.5 最佳实践"
+      ],
+      "reason": "笔记是任务状态而非无限对话备份。"
+    },
+    {
+      "id": "ch09-o04",
+      "title": "通过TerminalTool按需获得当前证据",
+      "sections": [
+        "9.5.1 设计理念与安全机制",
+        "9.5.2 核心功能详解",
+        "9.5.3 典型使用模式"
+      ],
+      "reason": "实时访问需遵守执行边界，输出错误也应进入诊断。"
+    },
+    {
+      "id": "ch09-o05",
+      "title": "在长任务中选择压缩与分工策略",
+      "sections": [
+        "9.2.3 面向长时程任务的上下文工程",
+        "9.2.3 面向长时程任务的上下文工程",
+        "9.4.4 与 ContextBuilder 的深度集成"
+      ],
+      "reason": "跨窗口连续性依赖关键状态，压缩不能只保留结论。"
+    },
+    {
+      "id": "ch09-o06",
+      "title": "整合代码库维护助手并监测效果",
+      "sections": [
+        "9.3.5 最佳实践与优化建议",
+        "9.5.4 与其他工具的协同",
+        "9.6.5 运行效果分析"
+      ],
+      "reason": "发现、记录、检索与预算选择形成闭环，统计只是优化线索。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch09-q01",
+      "type": "single",
+      "objectiveId": "ch09-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "9.1 什么是上下文工程",
+      "purpose": "区分提示工程与动态管理完整上下文的工程任务。"
+    },
+    {
+      "id": "ch09-q02",
+      "type": "single",
+      "objectiveId": "ch09-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "9.2.1 有效上下文的“解剖学”",
+      "purpose": "解释指令、工具描述、示例和历史如何共同占用注意力预算。"
+    },
+    {
+      "id": "ch09-q03",
+      "type": "single",
+      "objectiveId": "ch09-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "9.3.2 核心数据结构",
+      "purpose": "识别ContextPacket的内容、时间、token与相关性字段，以及reserve_ratio的作用。"
+    },
+    {
+      "id": "ch09-q04",
+      "type": "single",
+      "objectiveId": "ch09-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "9.3.3 GSSC 流水线详解",
+      "purpose": "追踪Gather到Select到Structure到Compress，解释相关性与新近性评分。"
+    },
+    {
+      "id": "ch09-q05",
+      "type": "single",
+      "objectiveId": "ch09-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "9.4.1 设计理念与应用场景",
+      "purpose": "识别task_state、blocker、action等结构化笔记类别的用途。"
+    },
+    {
+      "id": "ch09-q06",
+      "type": "single",
+      "objectiveId": "ch09-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "9.4.2 存储格式详解",
+      "purpose": "解释Markdown正文、YAML元数据和索引文件如何共同支持检索。"
+    },
+    {
+      "id": "ch09-q07",
+      "type": "single",
+      "objectiveId": "ch09-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "9.5.1 设计理念与安全机制",
+      "purpose": "识别只读命令、工作目录限制和资源限制的不同防护目标。"
+    },
+    {
+      "id": "ch09-q08",
+      "type": "single",
+      "objectiveId": "ch09-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "9.5.2 核心功能详解",
+      "purpose": "追踪cwd、返回码、标准错误和超时怎样影响工具结果。"
+    },
+    {
+      "id": "ch09-q09",
+      "type": "single",
+      "objectiveId": "ch09-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "9.2.3 面向长时程任务的上下文工程",
+      "purpose": "识别摘要必须保留的目标、决策、未解决缺陷和下一步。"
+    },
+    {
+      "id": "ch09-q10",
+      "type": "single",
+      "objectiveId": "ch09-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "9.2.3 面向长时程任务的上下文工程",
+      "purpose": "分析压缩丢失细节、结构化笔记维护和子代理隔离的成本收益。"
+    },
+    {
+      "id": "ch09-q11",
+      "type": "single",
+      "objectiveId": "ch09-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "9.3.5 最佳实践与优化建议",
+      "purpose": "判断动态预算、缓存和A/B测试对成本与信息质量的影响。"
+    },
+    {
+      "id": "ch09-q12",
+      "type": "single",
+      "objectiveId": "ch09-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "9.5.4 与其他工具的协同",
+      "purpose": "比较TerminalTool当前事实、MemoryTool交互记忆与NoteTool持久任务状态。"
+    },
+    {
+      "id": "ch09-q13",
+      "type": "multiple",
+      "objectiveId": "ch09-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "9.2.2 上下文检索与智能体式搜索",
+      "purpose": "比较一次性装入资料与保留引用按需加载的JIT策略。"
+    },
+    {
+      "id": "ch09-q14",
+      "type": "multiple",
+      "objectiveId": "ch09-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "9.3.3 GSSC 流水线详解",
+      "purpose": "比较汇集信息、筛选信息与压缩信息，判断各阶段能解决和不能解决的问题。"
+    },
+    {
+      "id": "ch09-q15",
+      "type": "multiple",
+      "objectiveId": "ch09-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "9.4.5 最佳实践",
+      "purpose": "比较未解决阻塞、过期行动和稳定结论的优先级与更新方式。"
+    },
+    {
+      "id": "ch09-q16",
+      "type": "multiple",
+      "objectiveId": "ch09-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "9.5.3 典型使用模式",
+      "purpose": "为代码库或大日志选择先导航再定向检索及局部阅读的操作，避免全量塞入上下文。"
+    },
+    {
+      "id": "ch09-q17",
+      "type": "multiple",
+      "objectiveId": "ch09-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "9.4.4 与 ContextBuilder 的深度集成",
+      "purpose": "在恢复会话时选择检索相关笔记并经ContextBuilder纳入当前任务的步骤。"
+    },
+    {
+      "id": "ch09-q18",
+      "type": "multiple",
+      "objectiveId": "ch09-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "9.6.5 运行效果分析",
+      "purpose": "面对跨会话遗忘或上下文超额，选择维护笔记、更新证据和预算筛选的组合措施。"
+    },
+    {
+      "id": "ch09-q19",
+      "type": "reflection",
+      "objectiveId": "ch09-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "9.3.3 GSSC 流水线详解",
+      "purpose": "给定超过预算的候选信息，设计保留系统约束、关键阻塞和高相关证据的选择过程，并说明哪些信息被舍弃及风险。"
+    },
+    {
+      "id": "ch09-q20",
+      "type": "reflection",
+      "objectiveId": "ch09-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "9.6.1 场景设定与需求分析",
+      "purpose": "设计一次跨三天的代码库维护任务交接，包含当前文件证据、持久笔记、压缩摘要和恢复检查，区分旧记录与当前状态。"
+    }
+  ],
+  "notes": "不把课件TerminalTool多层限制宣传为完备安全证明；实现漏洞检验不在客观题覆盖内。子代理架构主要通过权衡和思考覆盖。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

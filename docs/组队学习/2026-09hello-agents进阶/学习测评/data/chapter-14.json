@@ -1,0 +1,1307 @@
+{
+  "id": 14,
+  "title": "第十四章 自动化深度研究智能体",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第十四章 自动化深度研究智能体",
+    "path": "docs/chapter14/第十四章 自动化深度研究智能体.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md",
+    "sha256": "a6ceef0555715f3870f097fcf812496862a28d4a1ad1ce6cbfa05c2989692bbf",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "5843f931-9a83-45ba-886a-b5c64d803212",
+    "artifactId": "5db2e96c-f846-4f25-8dc0-2564735ec684"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch14-o01",
+        "title": "把开放研究转为可追踪TODO",
+        "sections": [
+          "14.2.1 什么是 TODO 驱动的研究",
+          "14.2.2 三阶段研究流程",
+          "14.1.1 为什么需要深度研究助手"
+        ],
+        "reason": "任务分解应有研究意图和查询，而非只生成一份目录。"
+      },
+      {
+        "id": "ch14-o02",
+        "title": "划分Agent与服务层职责",
+        "sections": [
+          "14.3.1 Agent 职责划分",
+          "14.3.3 Agent 协作模式",
+          "14.5.4 搜索调度服务"
+        ],
+        "reason": "规划总结报告的智能职责与数据调度解析的工程职责不同。"
+      },
+      {
+        "id": "ch14-o03",
+        "title": "保证计划可解析且研究证据可保留",
+        "sections": [
+          "14.5.1 任务规划服务",
+          "14.5.2 总结服务",
+          "14.5.3 报告生成服务"
+        ],
+        "reason": "结构正确的计划和来源完整的总结共同支撑后续报告。"
+      },
+      {
+        "id": "ch14-o04",
+        "title": "实现工具可观测与持久研究状态",
+        "sections": [
+          "14.3.2 ToolAwareSimpleAgent 的设计",
+          "14.4.3 ToolRegistry 工具管理",
+          "14.4.2 NoteTool 使用"
+        ],
+        "reason": "记录调用和保存结果服务不同的追踪需求。"
+      },
+      {
+        "id": "ch14-o05",
+        "title": "选择多源搜索和结果预算",
+        "sections": [
+          "14.4.1 SearchTool 扩展",
+          "14.5.4 搜索调度服务",
+          "14.5.4 搜索调度服务"
+        ],
+        "reason": "更多来源带来覆盖也增加重复、噪声与费用。"
+      },
+      {
+        "id": "ch14-o06",
+        "title": "呈现真实进度与可检查报告",
+        "sections": [
+          "14.6.2 实时进度展示",
+          "14.6.3 研究结果可视化",
+          "14.6.2 实时进度展示"
+        ],
+        "reason": "进度事件和报告渲染不能代替任务执行与引用正确性。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch14-q01",
+        "type": "single",
+        "objectiveId": "ch14-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "14.2.1 什么是 TODO 驱动的研究",
+        "purpose": "辨认TODO驱动研究的规划、执行、整合目标。"
+      },
+      {
+        "id": "ch14-q02",
+        "type": "single",
+        "objectiveId": "ch14-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "14.2.2 三阶段研究流程",
+        "purpose": "追踪title、intent、query在规划输出到执行输入中的作用。"
+      },
+      {
+        "id": "ch14-q03",
+        "type": "single",
+        "objectiveId": "ch14-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "14.3.1 Agent 职责划分",
+        "purpose": "识别TODO Planner、Task Summarizer和Report Writer各自产物。"
+      },
+      {
+        "id": "ch14-q04",
+        "type": "single",
+        "objectiveId": "ch14-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "14.3.3 Agent 协作模式",
+        "purpose": "解释DeepResearchAgent协调顺序执行及上一步输出作为下一步输入的过程。"
+      },
+      {
+        "id": "ch14-q05",
+        "type": "single",
+        "objectiveId": "ch14-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "14.5.1 任务规划服务",
+        "purpose": "辨认计划JSON字段验证与研究内容质量判断的区别。"
+      },
+      {
+        "id": "ch14-q06",
+        "type": "single",
+        "objectiveId": "ch14-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "14.5.2 总结服务",
+        "purpose": "追踪搜索结果格式化、任务总结和来源引用提取。"
+      },
+      {
+        "id": "ch14-q07",
+        "type": "single",
+        "objectiveId": "ch14-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "14.3.2 ToolAwareSimpleAgent 的设计",
+        "purpose": "识别tool_call_listener为工具调用提供调试、日志和进度事件的作用。"
+      },
+      {
+        "id": "ch14-q08",
+        "type": "single",
+        "objectiveId": "ch14-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "14.4.3 ToolRegistry 工具管理",
+        "purpose": "追踪工具指令解析、注册表查找和工具执行的路径。"
+      },
+      {
+        "id": "ch14-q09",
+        "type": "single",
+        "objectiveId": "ch14-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "14.4.1 SearchTool 扩展",
+        "purpose": "识别单引擎与Advanced组合模式适合的检索需求。"
+      },
+      {
+        "id": "ch14-q10",
+        "type": "single",
+        "objectiveId": "ch14-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "14.5.4 搜索调度服务",
+        "purpose": "解释去重、token限制和结果格式化为何位于搜索与总结之间。"
+      },
+      {
+        "id": "ch14-q11",
+        "type": "single",
+        "objectiveId": "ch14-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "14.6.2 实时进度展示",
+        "purpose": "判断SSE逐步显示研究进度的体验收益与连接、异常处理成本。"
+      },
+      {
+        "id": "ch14-q12",
+        "type": "single",
+        "objectiveId": "ch14-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "14.6.3 研究结果可视化",
+        "purpose": "比较Markdown呈现、可点击引用与已核实事实的不同含义。"
+      },
+      {
+        "id": "ch14-q13",
+        "type": "multiple",
+        "objectiveId": "ch14-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "14.1.1 为什么需要深度研究助手",
+        "purpose": "比较一次搜索摘要与覆盖多个研究子问题的流程及引用追踪需求。"
+      },
+      {
+        "id": "ch14-q14",
+        "type": "multiple",
+        "objectiveId": "ch14-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "14.5.4 搜索调度服务",
+        "purpose": "比较Agent直接调用工具与SearchService中间层统一调度的职责和可控性。"
+      },
+      {
+        "id": "ch14-q15",
+        "type": "multiple",
+        "objectiveId": "ch14-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "14.5.3 报告生成服务",
+        "purpose": "比较子任务总结与全局报告的整合职责，识别报告引用应能回溯原始来源。"
+      },
+      {
+        "id": "ch14-q16",
+        "type": "multiple",
+        "objectiveId": "ch14-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "14.4.2 NoteTool 使用",
+        "purpose": "对研究中断场景选择保存任务ID、意图、查询、搜索结果及总结的笔记内容。"
+      },
+      {
+        "id": "ch14-q17",
+        "type": "multiple",
+        "objectiveId": "ch14-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "14.5.4 搜索调度服务",
+        "purpose": "面对搜索失败、结果重复或上下文过长，选择合理的调度和结果处理措施。"
+      },
+      {
+        "id": "ch14-q18",
+        "type": "multiple",
+        "objectiveId": "ch14-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "14.6.2 实时进度展示",
+        "purpose": "在流式研究过程中选择区分进度、最终结果与错误事件的界面状态，避免把中间摘要当完成。"
+      },
+      {
+        "id": "ch14-q19",
+        "type": "reflection",
+        "objectiveId": "ch14-o03",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "14.5.3 报告生成服务",
+        "purpose": "设计一条报告结论回溯子任务总结和原始搜索来源的证据链，并说明来源冲突、缺失和过期时的处理。"
+      },
+      {
+        "id": "ch14-q20",
+        "type": "reflection",
+        "objectiveId": "ch14-o04",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "14.4.2 NoteTool 使用",
+        "purpose": "设计中断后恢复研究的状态记录与检查步骤，区分已有笔记、已完成任务和仍需重新查询的数据；不要假定保存笔记就已实现自动恢复。"
+      }
+    ],
+    "notes": "覆盖TODO、服务、工具、持久化与SSE；课件接口路径存在多种写法，不考路径背诵。开篇提出反思式续查，但核心示例为顺序三阶段，不把自适应迭代或完整断点恢复当已实现事实。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:44:36.927333+00:00",
+    "notes": [
+      "逐项核对20题的蓝图目标与课件，修正正则必需论、工具监听通知时机、搜索品牌琐事和缺少依据的图表复述。",
+      "修正单次URL去重被称为跨任务全局去重、字符截断保证token/OOM安全、笔记存在即自动恢复等过度表述；重写流式状态与事实验证边界。",
+      "思考题区分稳定任务/来源标识、Markdown持久笔记与拟实现的恢复机制；指出SSE片段请求方式及完成事件需另行联调，不宣称已经运行。",
+      "通过validate_bank.py及额外原始连续子串检查；来源IDs、哈希和蓝图配额保持不变。内容审阅不代表示例代码、外部API或教学应用已端到端验证。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch14-q01",
+      "stem": "TODO驱动的研究范式将开放主题组织成哪种主要流程？",
+      "options": [
+        {
+          "id": "a",
+          "text": "搜索 → 阅读 → 总结 → 整理"
+        },
+        {
+          "id": "b",
+          "text": "规划 → 执行 → 整合"
+        },
+        {
+          "id": "c",
+          "text": "提问 → 检索 → 生成 → 优化"
+        },
+        {
+          "id": "d",
+          "text": "任务拆解 → 向量化 → RAG 检索 → 报告"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "文中明确指出，TODO 驱动的研究范式的核心思想是将“研究”这个复杂任务转化为“规划→执行→整合”的流程。这种方式将传统的手动研究（选项a）系统化，避免了碎片的、无组织的资料堆砌。",
+      "optionExplanations": {
+        "a": "可能误以为是自动化流程，实际上原文将其描述为传统研究方式中需要被解决的“重复劳动”痛点。",
+        "b": "正确，依据 14.2.1 节对 TODO 驱动方式的核心流程定义。",
+        "c": "可能误以为是通用的 RAG 开发流程，未能体现本章深度研究中“规划”和“子任务闭环”的特征。",
+        "d": "可能误以为是底层技术逻辑，但本章是从智能体协作范式角度定义的业务闭环流程。"
+      },
+      "evidence": [
+        {
+          "section": "14.2.1 什么是 TODO 驱动的研究",
+          "quote": "这种范式的核心思想是：<strong>将\"研究\"这个复杂任务转化为\"规划→执行→整合\"的流程</strong>。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认TODO驱动研究的规划、执行、整合目标。",
+        "misconception": "混淆传统手动研究步骤与自动化智能体流程。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch14-q02",
+      "stem": "在规划阶段生成的 `TodoItem` 结构中，专门用于驱动搜索引擎进行原始资料获取的字段是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "title（任务标题）"
+        },
+        {
+          "id": "b",
+          "text": "intent（研究意图）"
+        },
+        {
+          "id": "c",
+          "text": "query（搜索查询）"
+        },
+        {
+          "id": "d",
+          "text": "status（任务状态）"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "根据 14.2.2 节的定义，`query` 字段是专门为搜索引擎设计的“查询字符串”。虽然 `title` 和 `intent` 提供了任务的上下文，但真正被传递给 `SearchTool` 执行检索的是 `query`。",
+      "optionExplanations": {
+        "a": "可能误以为标题直接用于搜索，实际上标题主要用于报告组织和前端展示。",
+        "b": "可能误以为意图是搜索关键词，实际上意图是解释为什么要研究该项，属于逻辑上下文。",
+        "c": "正确，`query` 字段专门设计为搜索引擎的直接输入。",
+        "d": "可能误以为状态控制搜索逻辑，实际上状态是执行后的记录标识。"
+      },
+      "evidence": [
+        {
+          "section": "14.2.2 三阶段研究流程",
+          "quote": "规划阶段的目标是将研究主题分解为 3-5 个子任务。系统接收研究主题和当前日期作为输入，输出 JSON 格式的子任务列表。每个子任务包含三个字段：title（任务标题）、intent（研究意图）和 query（搜索查询）。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪title、intent、query在规划输出到执行输入中的作用。",
+        "misconception": "分不清任务描述、研究动机与实际执行指令（Query）的区别。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q03",
+      "stem": "在深度研究助手的智能体分工中，关于各阶段产出物的描述，正确的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "TODO Planner 产出包含所有搜索摘要的子任务列表"
+        },
+        {
+          "id": "b",
+          "text": "Task Summarizer 产出 JSON 格式的结构化笔记索引"
+        },
+        {
+          "id": "c",
+          "text": "Report Writer 产出整合了所有子任务总结的 Markdown 报告"
+        },
+        {
+          "id": "d",
+          "text": "Report Writer 产出用于第二次搜索的优化查询列表"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "Report Writer 负责整合所有子任务的阶段性总结，生成最终的结构化 Markdown 报告。TODO Planner 只产出任务列表（JSON），不包含搜索摘要；Task Summarizer 产出的是 Markdown 总结。",
+      "optionExplanations": {
+        "a": "可能误以为规划阶段就包含摘要，实际上此时搜索尚未开始。",
+        "b": "可能误以为总结器产出 JSON，实际上总结器产出的是给人阅读的 Markdown 总结。",
+        "c": "正确，符合 Report Writer 的职责定义和 14.3.1 节的职责划分。",
+        "d": "可能误以为是反思流程，但在本章的基础架构中，Report Writer 是流程的终点。"
+      },
+      "evidence": [
+        {
+          "section": "14.2.2 三阶段研究流程",
+          "quote": "报告阶段的目标是整合所有子任务的总结，生成最终报告。系统接收所有子任务的总结和研究主题作为输入，输出 Markdown 格式的最终报告。报告包含标题、概述、各个子任务的详细分析、总结和参考文献五个部分。例如，对于\"Datawhale 是一个什么样的组织？\"，最终报告可能是：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别TODO Planner、Task Summarizer和Report Writer各自产物。",
+        "misconception": "混淆多智能体协作中各环节的输入输出物。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch14-q04",
+      "stem": "在 `DeepResearchAgent` 采用的顺序协作模式中，Report Writer 生成最终报告的主要输入信息来自于：",
+      "options": [
+        {
+          "id": "a",
+          "text": "SearchTool 返回的原始搜索结果摘要列表"
+        },
+        {
+          "id": "b",
+          "text": "用户的原始研究主题及搜索引擎配置"
+        },
+        {
+          "id": "c",
+          "text": "Task Summarizer 对每个子任务生成的总结列表"
+        },
+        {
+          "id": "d",
+          "text": "PlanningService 规划的原始 JSON 任务列表"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "根据 14.2.2 节和 14.3.3 节的协作图示，报告阶段处于执行阶段之后。Report Writer 的输入是“所有子任务的总结和研究主题”，这些总结是经过 Task Summarizer 提炼后的二次加工信息。",
+      "optionExplanations": {
+        "a": "可能误以为直接整合搜索结果，忽略了 Summarizer 环节的提炼作用。",
+        "b": "可能误以为只靠主题生成，实际上需要子任务总结作为事实基础。",
+        "c": "正确，体现了顺序协作中“上一步的输出是下一步的输入”的逻辑。",
+        "d": "可能误以为直接处理 JSON，实际上报告阶段需要的是各子任务的研究结论。"
+      },
+      "evidence": [
+        {
+          "section": "14.2.2 三阶段研究流程",
+          "quote": "报告阶段的目标是整合所有子任务的总结，生成最终报告。系统接收所有子任务的总结和研究主题作为输入，输出 Markdown 格式的最终报告。报告包含标题、概述、各个子任务的详细分析、总结和参考文献五个部分。例如，对于\"Datawhale 是一个什么样的组织？\"，最终报告可能是：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释DeepResearchAgent协调顺序执行及上一步输出作为下一步输入的过程。",
+        "misconception": "认为报告生成是直接基于原始搜索数据，而非中间层的提炼产物。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q05",
+      "stem": "PlanningService成功解析JSON，并确认每个子任务都有title、intent、query后，可以得出哪项结论？",
+      "options": [
+        {
+          "id": "a",
+          "text": "所有查询已覆盖主题且结果必然真实"
+        },
+        {
+          "id": "b",
+          "text": "计划满足所检查的结构要求，内容覆盖与查询质量仍需检查"
+        },
+        {
+          "id": "c",
+          "text": "不需要再执行搜索，计划已是最终报告"
+        },
+        {
+          "id": "d",
+          "text": "只要使用正则，就不必调用JSON解析或字段验证"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "课件先提取JSON、解析并验证必要字段。这只解决格式入口，不能保证研究内容完整或真实。",
+      "optionExplanations": {
+        "a": "错误：字段完整不证明覆盖质量或事实。",
+        "b": "正确：结构验证和研究质量是不同层。",
+        "c": "错误：计划只是后续执行的输入。",
+        "d": "错误：文本提取不能替代解析和验证。"
+      },
+      "evidence": [
+        {
+          "section": "14.5.1 任务规划服务",
+          "quote": "它的核心职责是：\n\n1. </strong>构建规划 Prompt<strong>：根据研究主题和当前日期构建 Prompt\n2. </strong>调用规划 Agent<strong>：调用 TODO Planner Agent 生成子任务列表\n3. </strong>解析 JSON 响应<strong>：从 Agent 的响应中提取 JSON 格式的子任务列表\n4. </strong>验证子任务格式**：确保每个子任务包含必需的字段（title、intent、query）",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认计划JSON字段验证与研究内容质量判断的区别。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch14-q06",
+      "stem": "在 `SummarizationService` 中，`_format_sources` 方法的核心职责是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "将搜索结果渲染为前端可以直接显示的 Markdown 列表"
+        },
+        {
+          "id": "b",
+          "text": "将包含标题、URL 和摘要的搜索结果格式化为供 Agent 阅读的 Prompt 上下文"
+        },
+        {
+          "id": "c",
+          "text": "对搜索结果中的重复 URL 进行物理删除和去重操作"
+        },
+        {
+          "id": "d",
+          "text": "调用 Token 计算工具对单个搜索摘要进行长度裁剪"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "该方法的作用是内部格式化，将 `search_results` 列表转化为包含序号、标题、URL 和摘要的字符串，作为上下文注入 Prompt 传给总结 Agent。",
+      "optionExplanations": {
+        "a": "可能误以为是前端渲染逻辑，实际上这是后端服务为 LLM 准备输入的步骤。",
+        "b": "正确，符合代码实现中将搜索结果转化为易读文本供 Agent 总结的逻辑。",
+        "c": "可能误以为去重在此完成，实际上去重通常在 `SearchService` 层处理。",
+        "d": "可能误以为裁剪在此完成，实际上 Token 限制属于 `SearchService` 的职责。"
+      },
+      "evidence": [
+        {
+          "section": "14.5.2 总结服务",
+          "quote": "它的职责是：\n\n1. <strong>格式化搜索结果</strong>：将搜索结果格式化为易读的文本\n2. <strong>构建总结 Prompt</strong>：根据任务信息和搜索结果构建 Prompt\n3. <strong>调用总结 Agent</strong>：调用 Task Summarizer Agent 生成总结\n4. <strong>提取来源引用</strong>：从总结中提取来源引用",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪搜索结果格式化、任务总结和来源引用提取。",
+        "misconception": "混淆“面向用户的 UI 渲染”与“面向 LLM 的 Prompt 构造”。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q07",
+      "stem": "本章ToolAwareSimpleAgent中的tool_call_listener主要做什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "收到工具名、解析参数及执行结果，用于日志、分析和进度通知"
+        },
+        {
+          "id": "b",
+          "text": "保证在工具执行前拦截并修正全部错误参数"
+        },
+        {
+          "id": "c",
+          "text": "用日志替代真实工具执行"
+        },
+        {
+          "id": "d",
+          "text": "自动核验外部网页中所有事实"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "监听器增强可观测性；示例通知发生在工具执行之后，不是执行前的审批或修正机制。",
+      "optionExplanations": {
+        "a": "正确：示例在执行工具后调用监听器。",
+        "b": "错误：示例先调用工具，再通知监听器。",
+        "c": "错误：通知记录不产生工具结果。",
+        "d": "错误：监听不等于事实核查。"
+      },
+      "evidence": [
+        {
+          "section": "14.3.2 ToolAwareSimpleAgent 的设计",
+          "quote": "# 调用工具\n        result = super()._execute_tool_call(tool_name, parameters)\n        \n        # 通知监听器\n        if self._tool_call_listener:\n            self._tool_call_listener({\n                \"agent_name\": self.name,\n                \"tool_name\": tool_name,\n                \"parsed_parameters\": parsed_parameters,\n                \"result\": result,\n            })\n        \n        return result",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别tool_call_listener为工具调用提供调试、日志和进度事件的作用。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch14-q08",
+      "stem": "Agent生成工具调用指令后，正确的处理关系是？",
+      "options": [
+        {
+          "id": "a",
+          "text": "从指令取得工具名和参数，查找已注册工具，调用执行并返回结果"
+        },
+        {
+          "id": "b",
+          "text": "尚未识别工具时就执行任意工具的run"
+        },
+        {
+          "id": "c",
+          "text": "把指令原样当成成功结果，不执行工具"
+        },
+        {
+          "id": "d",
+          "text": "注册表只记录工具名称，任何情况下都无需传参"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "工具注册与指令解析把模型输出转为实际工具调用，不能跳过执行。",
+      "optionExplanations": {
+        "a": "正确：解析、查找、执行与结果回传各有职责。",
+        "b": "错误：必须先确定目标。",
+        "c": "错误：文本指令不是执行结果。",
+        "d": "错误：执行需对应参数。"
+      },
+      "evidence": [
+        {
+          "section": "14.4.3 ToolRegistry 工具管理",
+          "quote": "1. </strong>Agent 生成指令<strong>：Agent 生成工具调用指令，如`[TOOL_CALL:search_tool:{\"input\": \"Datawhale组织\", \"backend\": \"tavily\"}]`\n2. </strong>解析指令<strong>：`ToolRegistry`解析指令，提取工具名称和参数\n3. </strong>查找工具<strong>：`ToolRegistry`根据工具名称查找对应的工具\n4. </strong>调用工具<strong>：调用工具的`run`方法，传入参数\n5. </strong>返回结果<strong>：工具返回执行结果\n6. </strong>格式化结果<strong>：将结果格式化为字符串，返回给 Agent",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪工具指令解析、注册表查找和工具执行的路径。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q09",
+      "stem": "研究任务希望扩大多来源覆盖，而不是仅固定一个搜索后端。按本章SearchTool扩展，应考虑哪种模式？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只在提示中写“多源”，不改变实际检索"
+        },
+        {
+          "id": "b",
+          "text": "关闭所有搜索，只让模型猜测来源"
+        },
+        {
+          "id": "c",
+          "text": "使用Advanced组合多个引擎，并检查合并结果"
+        },
+        {
+          "id": "d",
+          "text": "把一个结果复制多份当作多个独立来源"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "多源模式扩大候选信息来源，但不自动保证所有结果正确或相互独立。",
+      "optionExplanations": {
+        "a": "错误：提示文本不会自动执行多个后端。",
+        "b": "错误：不能取得外部证据。",
+        "c": "正确：课件介绍组合模式，仍需去重和筛选。",
+        "d": "错误：复制不增加证据独立性。"
+      },
+      "evidence": [
+        {
+          "section": "14.4.1 SearchTool 扩展",
+          "quote": "在第七章中，我们实现了`SearchTool`的基础版本，集成了 Tavily 和 SerpApi 两个搜索引擎，展示了多源搜索的设计思想。在本章的深度研究助手中，我们进一步扩展了`SearchTool`的能力，新增了 DuckDuckGo、Perplexity、SearXNG 等搜索引擎，并实现了 Advanced 模式（组合多个搜索引擎）。搜索是深度研究助手最核心的功能，这些扩展使得系统能够适应不同的使用场景和需求。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别单引擎与Advanced组合模式适合的检索需求。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch14-q10",
+      "stem": "搜索结果已经返回后，本章对snippet做长度限制，以下哪项不是这一处理可以直接实现的效果？",
+      "options": [
+        {
+          "id": "a",
+          "text": "减少传给总结Agent的文本量，缓解上下文预算压力"
+        },
+        {
+          "id": "b",
+          "text": "通过减少单次请求的上下文长度，节省 LLM API 的调用成本"
+        },
+        {
+          "id": "c",
+          "text": "通过本地截断技术，提高搜索引擎在网络侧的响应速度"
+        },
+        {
+          "id": "d",
+          "text": "限制单个来源占用的输入篇幅，为其他来源留空间"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "截断发生在网络搜索之后，可控制下游输入规模，无法反过来加快已完成的搜索请求。固定字符/token比例只是估算，截断也可能丢失重要信息。",
+      "optionExplanations": {
+        "a": "这是输入预算管理的目的，但需按真实模型分词和总预算检查。",
+        "b": "较短输入通常减少输入token开销，实际成本还取决于模型计费。",
+        "c": "这是不包括的效果：本地后处理无法改变已完成请求的网络响应时间。",
+        "d": "限制单来源篇幅可以避免其独占输入，但不能保证保留的都是核心信息。"
+      },
+      "evidence": [
+        {
+          "section": "14.5.4 搜索调度服务",
+          "quote": "def _limit_source_tokens(\n        self,\n        sources: List[dict],\n        max_tokens_per_source: int = 2000\n    ) -> List[dict]:\n        \"\"\"限制每个来源的Token数量\"\"\"\n        limited_sources = []\n\n        for source in sources:\n            snippet = source.get(\"snippet\", \"\")\n\n            # 简单的Token估算：1个Token约等于4个字符\n            max_chars = max_tokens_per_source * 4\n\n            if len(snippet) > max_chars:\n                snippet = snippet[:max_chars] + \"...\"\n\n            limited_sources.append({\n                **source,\n                \"snippet\": snippet\n            })\n\n        return limited_sources",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释去重、token限制和结果格式化为何位于搜索与总结之间。",
+        "misconception": "认为本地处理逻辑可以反向加速第三方 API 的网络吞吐速度。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q11",
+      "stem": "深度研究助手选择 SSE (Server-Sent Events) 作为前后端交互协议，主要是为了解决什么核心体验问题？",
+      "options": [
+        {
+          "id": "a",
+          "text": "解决跨域资源共享 (CORS) 导致的搜索权限问题"
+        },
+        {
+          "id": "b",
+          "text": "实时展示研究中间状态，改善长等待体验，同时仍需处理连接与错误状态"
+        },
+        {
+          "id": "c",
+          "text": "支持前端直接向服务器发送大型二进制文件"
+        },
+        {
+          "id": "d",
+          "text": "通过双向全双工通信加速 Markdown 到 HTML 的转换过程"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "SSE允许服务器逐步推送研究状态，改善长等待时的可见性；它仍需连接和错误处理，不直接缩短模型计算。课件前后端片段需修正请求方式与完成事件的一致性后验证。",
+      "optionExplanations": {
+        "a": "SSE 与跨域问题无关，CORS 由 HTTP 头配置解决。",
+        "b": "正确：服务器推送提高可见性，但不免除客户端连接与异常处理。",
+        "c": "SSE 主要是服务器向客户端的单向流，不适合发送大型二进制文件。",
+        "d": "Markdown 转换在前端完成，且 SSE 并非双向通信（WebSocket 才是）。"
+      },
+      "evidence": [
+        {
+          "section": "14.6.2 实时进度展示",
+          "quote": "深度研究助手使用 SSE 实现实时进度展示。SSE 是一种服务器推送技术，允许服务器主动向客户端发送数据，在协议章节也有所讲解。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "判断SSE逐步显示研究进度的体验收益与连接、异常处理成本。",
+        "misconception": "混淆 SSE（单向流）与 WebSocket（双向）或普通 AJAX 的功能。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch14-q12",
+      "stem": "报告已渲染为Markdown，引用也能点击。怎样理解它与事实核验的关系？",
+      "options": [
+        {
+          "id": "a",
+          "text": "链接能点击就证明该来源支持全部结论"
+        },
+        {
+          "id": "b",
+          "text": "排版美观可以替代来源核对"
+        },
+        {
+          "id": "c",
+          "text": "Markdown和链接便于阅读及追溯，但不能自动证明内容正确"
+        },
+        {
+          "id": "d",
+          "text": "只要有参考文献，模型就不可能遗漏或误解信息"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "报告格式和引用组织提高可检查性；核实支持关系仍是独立步骤。",
+      "optionExplanations": {
+        "a": "错误：还需核对具体原文和结论。",
+        "b": "错误：显示层与证据层不同。",
+        "c": "正确：呈现和事实验证应区分。",
+        "d": "错误：仍可能引用不相关或误读来源。"
+      },
+      "evidence": [
+        {
+          "section": "14.6.3 研究结果可视化",
+          "quote": "研究结果以 Markdown 格式展示，包含标题、段落、列表、引用等元素。我们使用`marked`库将 Markdown 转换为 HTML，并添加自定义样式。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "14.5.3 报告生成服务",
+          "quote": "1. <strong>格式化子任务总结</strong>：将所有子任务的总结格式化为统一的格式\n2. <strong>构建报告 Prompt</strong>：根据研究主题和子任务总结构建 Prompt\n3. <strong>调用报告 Agent</strong>：调用 Report Writer Agent 生成最终报告\n4. <strong>整理引用</strong>：将所有来源引用整理到参考文献部分",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较Markdown呈现、可点击引用与已核实事实的不同含义。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch14-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q13",
+      "stem": "与只得到一次搜索摘要相比，TODO研究流程能提供哪些结构性帮助？",
+      "options": [
+        {
+          "id": "a",
+          "text": "将主题拆成多个可检索子问题，分别记录结果"
+        },
+        {
+          "id": "b",
+          "text": "让子任务总结和来源可供后续报告追溯"
+        },
+        {
+          "id": "c",
+          "text": "在整合阶段组织各子问题的结论"
+        },
+        {
+          "id": "d",
+          "text": "只要采用该流程就必定不遗漏任何事实"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "流程增强组织与追溯能力，但不保证固定耗时、完整覆盖或结论必然正确。",
+      "optionExplanations": {
+        "a": "正确：分解和记录是核心组织方式。",
+        "b": "正确：有助于形成可检查路径。",
+        "c": "正确：它不只是单个搜索摘要。",
+        "d": "错误：覆盖质量仍依赖规划与资料。"
+      },
+      "evidence": [
+        {
+          "section": "14.2.1 什么是 TODO 驱动的研究",
+          "quote": "这种方式的优势在于将复杂主题分解为清晰的子问题，每个子任务的搜索结果和总结都被记录下来，方便追溯。同时，系统化的研究流程避免了遗漏重要信息，可以轻松添加新的子任务或调整执行顺序。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较一次搜索摘要与覆盖多个研究子问题的流程及引用追踪需求。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch14-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q14",
+      "stem": "将搜索处理集中在SearchService，而不是在每个Agent里重复实现，哪些收益及边界合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "对本次返回的来源列表按URL去重"
+        },
+        {
+          "id": "b",
+          "text": "可以添加缓存以复用结果，同时另行考虑新鲜度"
+        },
+        {
+          "id": "c",
+          "text": "对过长片段裁剪后再交给总结Agent"
+        },
+        {
+          "id": "d",
+          "text": "现有局部去重代码已经保证所有任务和请求全局无重复"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "服务层便于集中处理与扩展；代码中的去重仅针对一次输入列表，字符裁剪也不是精确token计数。",
+      "optionExplanations": {
+        "a": "正确：示例seen_urls集合的范围是这次调用。",
+        "b": "正确：课件提出缓存扩展，旧结果需有使用边界。",
+        "c": "正确：中间层负责输入规模处理。",
+        "d": "错误：局部集合并非跨请求持久索引。"
+      },
+      "evidence": [
+        {
+          "section": "14.5.4 搜索调度服务",
+          "quote": "它的职责是：\n\n1. <strong>调度搜索引擎</strong>：根据配置选择搜索引擎\n2. <strong>执行搜索</strong>：调用 SearchTool 执行搜索\n3. <strong>处理结果</strong>：去重、限制 Token、格式化\n4. <strong>错误处理</strong>：处理搜索失败的情况",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "14.5.4 搜索调度服务",
+          "quote": "def _deduplicate_sources(self, sources: List[dict]) -> List[dict]:\n        \"\"\"去除重复的URL\"\"\"\n        seen_urls = set()\n        unique_sources = []\n\n        for source in sources:\n            url = source.get(\"url\", \"\")\n            if url and url not in seen_urls:\n                seen_urls.add(url)\n                unique_sources.append(source)\n\n        return unique_sources",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "14.5.4 搜索调度服务",
+          "quote": "为了提高效率和降低成本，我们可以添加搜索结果缓存：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较Agent直接调用工具与SearchService中间层统一调度的职责和可控性。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch14-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q15",
+      "stem": "根据 `ReportingService` 的职责逻辑，它在整合各个子任务总结时需要处理哪些工作？",
+      "options": [
+        {
+          "id": "a",
+          "text": "识别并消除不同子任务总结之间可能重叠的冗余信息"
+        },
+        {
+          "id": "b",
+          "text": "为整篇报告编写全局性的概述、核心发现及最终总结"
+        },
+        {
+          "id": "c",
+          "text": "整理来源引用，并保留总结与来源之间的可追溯关系"
+        },
+        {
+          "id": "d",
+          "text": "自动为报告中的每个术语添加指向维基百科的超链接"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Report Writer 需确保报告逻辑连贯、消除重复、保留所有引用并生成结构化的 Markdown。文中未提及自动添加百科外部链接的功能。",
+      "optionExplanations": {
+        "a": "正确，这是 Prompt 指令中明确要求的“消除重复”。",
+        "b": "正确，报告结构包含概述和总结。 ",
+        "c": "正确：课件明确ReportingService要整理引用；后续仍须核验引用支持关系。",
+        "d": "错误，系统中未实现该自动化外部关联逻辑。"
+      },
+      "evidence": [
+        {
+          "section": "14.5.3 报告生成服务",
+          "quote": "它的职责是：\n\n1. <strong>格式化子任务总结</strong>：将所有子任务的总结格式化为统一的格式\n2. <strong>构建报告 Prompt</strong>：根据研究主题和子任务总结构建 Prompt\n3. <strong>调用报告 Agent</strong>：调用 Report Writer Agent 生成最终报告\n4. <strong>整理引用</strong>：将所有来源引用整理到参考文献部分",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "14.3.1 Agent 职责划分",
+          "quote": "<strong>关键设计点</strong>：提示词明确要求报告包含标题、概述、详细分析、总结、参考文献等结构，强调按逻辑顺序组织内容，要求合并重复信息消除冗余，并保留所有来源引用。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较子任务总结与全局报告的整合职责，识别报告引用应能回溯原始来源。",
+        "misconception": "认为整合只是简单的 Markdown 拼接，忽略了逻辑编排和消重。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch14-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q16",
+      "stem": "当深度研究系统因网络波动或意外重启时，`NoteTool` 记录的哪些信息是恢复进度的核心要素？",
+      "options": [
+        {
+          "id": "a",
+          "text": "子任务的特定 ID 及其对应的研究意图 (intent)"
+        },
+        {
+          "id": "b",
+          "text": "已执行任务的搜索查询语句 (query) 及其原始结果摘要"
+        },
+        {
+          "id": "c",
+          "text": "Task Summarizer 产出的针对该子任务的 Markdown 总结文本"
+        },
+        {
+          "id": "d",
+          "text": "记录用户发起请求时的 IP 地址和浏览器 UserAgent"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "这些笔记为检查与恢复提供持久资料。但自动恢复还需任务对齐、完成状态及新鲜度检查，不能因文件存在就无条件跳过搜索。IP和浏览器信息不是此处研究成果的核心恢复材料。",
+      "optionExplanations": {
+        "a": "正确，它是任务匹配的基础。",
+        "b": "正确，属于可追溯的事实依据。",
+        "c": "正确，这是最终报告生成的直接素材。",
+        "d": "不是本题核心恢复材料：这些字段不能替代任务、证据与总结；此处不据此断言整个系统从不记录它们。"
+      },
+      "evidence": [
+        {
+          "section": "14.4.2 NoteTool 使用",
+          "quote": "`NoteTool`将笔记存储在指定的工作空间目录中，每个笔记是一个 Markdown 文件。笔记的文件名是任务 ID，内容包含任务标题、任务意图、搜索查询、搜索结果和总结。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "对研究中断场景选择保存任务ID、意图、查询、搜索结果及总结的笔记内容。",
+        "misconception": "忽视了中间搜索结果对可追溯性和恢复度的重要性。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch14-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch14-q17",
+      "stem": "研究搜索出现失败、重复来源或片段过长，哪些处理合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "捕获失败并记录错误；向下游明确结果缺失，避免生成有来源的假象"
+        },
+        {
+          "id": "b",
+          "text": "对返回列表按URL去重"
+        },
+        {
+          "id": "c",
+          "text": "限制片段长度并注意估算误差和截断的信息损失"
+        },
+        {
+          "id": "d",
+          "text": "不设停止条件地重试直到配额耗尽"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "稳健处理包括错误可见、去重和输入预算。空列表不是有充分证据的成功搜索。",
+      "optionExplanations": {
+        "a": "正确：课件捕获异常并返回空列表，下游仍需识别缺失。",
+        "b": "正确：避免同一URL重复占用上下文。",
+        "c": "正确：这是预算管理，不是保证消除模型OOM。",
+        "d": "错误：无界重试浪费成本，且未保证恢复。"
+      },
+      "evidence": [
+        {
+          "section": "14.5.4 搜索调度服务",
+          "quote": "它的职责是：\n\n1. <strong>调度搜索引擎</strong>：根据配置选择搜索引擎\n2. <strong>执行搜索</strong>：调用 SearchTool 执行搜索\n3. <strong>处理结果</strong>：去重、限制 Token、格式化\n4. <strong>错误处理</strong>：处理搜索失败的情况",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "14.5.4 搜索调度服务",
+          "quote": "def _limit_source_tokens(\n        self,\n        sources: List[dict],\n        max_tokens_per_source: int = 2000\n    ) -> List[dict]:\n        \"\"\"限制每个来源的Token数量\"\"\"\n        limited_sources = []\n\n        for source in sources:\n            snippet = source.get(\"snippet\", \"\")\n\n            # 简单的Token估算：1个Token约等于4个字符\n            max_chars = max_tokens_per_source * 4\n\n            if len(snippet) > max_chars:\n                snippet = snippet[:max_chars] + \"...\"\n\n            limited_sources.append({\n                **source,\n                \"snippet\": snippet\n            })\n\n        return limited_sources",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "面对搜索失败、结果重复或上下文过长，选择合理的调度和结果处理措施。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch14-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch14-q18",
+      "stem": "流式研究界面已经收到部分子任务总结，但随后发生错误。哪些状态处理合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "将子任务总结标为阶段性结果，不宣称最终报告完成"
+        },
+        {
+          "id": "b",
+          "text": "记录错误并结束或恢复连接状态，保留已获得的有效材料"
+        },
+        {
+          "id": "c",
+          "text": "因为进度条出现过就把整项研究标为完成"
+        },
+        {
+          "id": "d",
+          "text": "只有收到与约定一致的最终报告及完成状态，才显示完成"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "进度、阶段产物、最终报告和错误应分别处理；必须核对完成事件契约，不照搬课件不一致的片段。",
+      "optionExplanations": {
+        "a": "正确：task_summary与最终report有不同语义。",
+        "b": "正确：错误需要显式处理。",
+        "c": "错误：进度不等于任务成功。",
+        "d": "正确：前后端需对事件契约保持一致。"
+      },
+      "evidence": [
+        {
+          "section": "14.6.2 实时进度展示",
+          "quote": "1. <strong>客户端发起请求</strong>：发送 POST 请求到`/api/research`，包含研究主题\n2. <strong>服务器建立 SSE 连接</strong>：返回`text/event-stream`响应\n3. <strong>服务器推送进度</strong>：定期推送研究进度（规划、执行、报告）\n4. <strong>客户端接收进度</strong>：监听 SSE 事件，更新 UI\n5. <strong>研究完成</strong>：服务器推送最终报告，关闭连接",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "14.6.2 实时进度展示",
+          "quote": "except Exception as e:\n        # 错误处理",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "14.6.2 实时进度展示",
+          "quote": "# 错误处理\n        yield f\"data: {json.dumps({'type': 'error', 'message': str(e)})}\\n\\n\"",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "在流式研究过程中选择区分进度、最终结果与错误事件的界面状态，避免把中间摘要当完成。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch14-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch14-q19",
+      "stem": "请用文字设计“报告结论→子任务总结→原始搜索来源”的回溯链路，并说明来源冲突、缺失或过期时怎么办。不需要编写界面代码。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "每个结论保留稳定的子任务与来源标识，原始笔记保存URL、标题、片段和查询信息；报告引用映射到具体来源条目，而非仅凭局部编号[1]跨任务猜测。点击引用可读取对应材料是拟扩展交互。冲突应列出差异并复核，缺失支持应标为待核查，时效性内容需重新查询。来源可追溯不代表结论已正确。",
+      "optionExplanations": {},
+      "evidence": [
+        {
+          "section": "14.4.2 NoteTool 使用",
+          "quote": "`NoteTool`将笔记存储在指定的工作空间目录中，每个笔记是一个 Markdown 文件。笔记的文件名是任务 ID，内容包含任务标题、任务意图、搜索查询、搜索结果和总结。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        },
+        {
+          "section": "14.5.3 报告生成服务",
+          "quote": "它的职责是：\n\n1. <strong>格式化子任务总结</strong>：将所有子任务的总结格式化为统一的格式\n2. <strong>构建报告 Prompt</strong>：根据研究主题和子任务总结构建 Prompt\n3. <strong>调用报告 Agent</strong>：调用 Report Writer Agent 生成最终报告\n4. <strong>整理引用</strong>：将所有来源引用整理到参考文献部分",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "设计一条报告结论回溯子任务总结和原始搜索来源的证据链，并说明来源冲突、缺失和过期时的处理。",
+        "misconception": "方案设计不是已实现或已验证的结果。"
+      },
+      "referenceAnswer": "每个结论保留稳定的子任务与来源标识，原始笔记保存URL、标题、片段和查询信息；报告引用映射到具体来源条目，而非仅凭局部编号[1]跨任务猜测。点击引用可读取对应材料是拟扩展交互。冲突应列出差异并复核，缺失支持应标为待核查，时效性内容需重新查询。来源可追溯不代表结论已正确。",
+      "rubric": [
+        "有稳定标识关联报告、总结和来源",
+        "不混淆不同子任务内的重复引用编号",
+        "说明冲突、缺失及过期的处理",
+        "区分追溯功能设计与已实现结果"
+      ],
+      "type": "reflection",
+      "objectiveId": "ch14-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch14-q20",
+      "stem": "研究在第三个子任务中断后，如何设计恢复检查？请区分已有笔记、确实完成的任务和需要重查的材料，说明哪些属于课件基础之上的扩展。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "先读取与原研究主题及计划版本对应的持久任务列表，避免重新规划导致任务ID含义变化。按任务ID读取Markdown笔记，检查搜索材料、总结、来源及完成状态，不把文件存在当完成。确认仍适用且完整的材料可复用；缺失、失败或已过期的信息需补查。最后汇总并核验来源。任务版本、原子完成状态及自动续跑属于应另行设计验证的机制，课件NoteTool保存文件本身不证明完整恢复已实现。",
+      "optionExplanations": {},
+      "evidence": [
+        {
+          "section": "14.4.2 NoteTool 使用",
+          "quote": "在研究过程中，我们需要记录每个子任务的搜索结果、总结以及最终的研究报告。这些信息需要持久化到磁盘，以便在研究过程中断时能够从上次的进度继续，同时也方便查看研究过程中的所有操作，分析研究的质量和效率。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter14/%E7%AC%AC%E5%8D%81%E5%9B%9B%E7%AB%A0%20%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B7%B1%E5%BA%A6%E7%A0%94%E7%A9%B6%E6%99%BA%E8%83%BD%E4%BD%93.md"
+        }
+      ],
+      "design": {
+        "purpose": "设计中断后恢复研究的状态记录与检查步骤，区分已有笔记、已完成任务和仍需重新查询的数据；不要假定保存笔记就已实现自动恢复。",
+        "misconception": "方案设计不是已实现或已验证的结果。"
+      },
+      "referenceAnswer": "先读取与原研究主题及计划版本对应的持久任务列表，避免重新规划导致任务ID含义变化。按任务ID读取Markdown笔记，检查搜索材料、总结、来源及完成状态，不把文件存在当完成。确认仍适用且完整的材料可复用；缺失、失败或已过期的信息需补查。最后汇总并核验来源。任务版本、原子完成状态及自动续跑属于应另行设计验证的机制，课件NoteTool保存文件本身不证明完整恢复已实现。",
+      "rubric": [
+        "基于原计划或版本而非盲目重新规划后按数字对齐",
+        "核查Markdown笔记内容及完成状态",
+        "考虑资料时效性，明确何时重查",
+        "区分保存数据与自动恢复实现"
+      ],
+      "type": "reflection",
+      "objectiveId": "ch14-o04",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard"
+    }
+  ]
+}

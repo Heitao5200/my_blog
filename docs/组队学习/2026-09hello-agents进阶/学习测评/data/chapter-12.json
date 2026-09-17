@@ -1,0 +1,1271 @@
+{
+  "id": 12,
+  "title": "第十二章 智能体性能评估",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第十二章 智能体性能评估",
+    "path": "docs/chapter12/第十二章 智能体性能评估.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md",
+    "sha256": "12240210c72fd72fce1a1ed09026cba76ff3b23790c9986c457217d603def6ca",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "32f3ccd3-1a4f-46fc-ab81-a4349ded7394",
+    "artifactId": "f2b81e4b-bcf0-40c9-8d3f-7deeceb7368f"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch12-o01",
+        "title": "按能力选择评估对象与指标",
+        "sections": [
+          "12.1.1 为何需要智能体评估",
+          "12.1.3 HelloAgents 评估体系设计",
+          "12.1.2 主流评估基准概览"
+        ],
+        "reason": "能运行不等于有改进，评价必须对准能力和任务。"
+      },
+      {
+        "id": "ch12-o02",
+        "title": "理解BFCL的预测提取与匹配",
+        "sections": [
+          "12.2.1 BFCL 基准介绍",
+          "12.2.5 核心组件实现细节",
+          "12.2.4 BFCL 官方评估工具集成"
+        ],
+        "reason": "调用语义正确性不同于输出字符串一致。"
+      },
+      {
+        "id": "ch12-o03",
+        "title": "理解GAIA综合任务与答案判定",
+        "sections": [
+          "12.3.1 GAIA 基准介绍",
+          "12.3.5 核心组件实现细节",
+          "12.3.3 在 HelloAgents 中实现 GAIA 评估"
+        ],
+        "reason": "最终答案匹配需要规范化，但不能忽视任务所需工具和文件。"
+      },
+      {
+        "id": "ch12-o04",
+        "title": "设计生成数据与评估的模块分工",
+        "sections": [
+          "12.4.2 系统架构",
+          "12.4.3 AIME 题目生成器实现",
+          "12.4.6 人工验证界面"
+        ],
+        "reason": "生成题目、评审质量和核对答案是独立环节。"
+      },
+      {
+        "id": "ch12-o05",
+        "title": "选择开放内容的互补评价方法",
+        "sections": [
+          "12.4.1 评估方法概述",
+          "12.4.4 LLM Judge 评估工具",
+          "12.4.5 Win Rate 评估工具"
+        ],
+        "reason": "模型评分与成对偏好有局限，需要人工核实和清晰标准。"
+      },
+      {
+        "id": "ch12-o06",
+        "title": "根据评估范围作受限结论",
+        "sections": [
+          "12.2.6 扩展与优化建议",
+          "12.4.7 完整评估流程",
+          "12.4.8 综合评估报告"
+        ],
+        "reason": "样本覆盖、实现版本和真实执行状态决定结论强度。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch12-q01",
+        "type": "single",
+        "objectiveId": "ch12-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "12.1.1 为何需要智能体评估",
+        "purpose": "识别不确定输出、多样标准和评估成本带来的挑战。"
+      },
+      {
+        "id": "ch12-q02",
+        "type": "single",
+        "objectiveId": "ch12-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "12.1.3 HelloAgents 评估体系设计",
+        "purpose": "解释工具调用、通用任务和生成数据质量为何需要不同评估链路。"
+      },
+      {
+        "id": "ch12-q03",
+        "type": "single",
+        "objectiveId": "ch12-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "12.2.1 BFCL 基准介绍",
+        "purpose": "识别工具选择、参数构造和无关工具拒用分别属于调用能力。"
+      },
+      {
+        "id": "ch12-q04",
+        "type": "single",
+        "objectiveId": "ch12-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "12.2.5 核心组件实现细节",
+        "purpose": "追踪数据及ground truth加载、提示构造、预测提取与匹配评分。"
+      },
+      {
+        "id": "ch12-q05",
+        "type": "single",
+        "objectiveId": "ch12-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "12.3.1 GAIA 基准介绍",
+        "purpose": "识别GAIA对推理、浏览、文件和多模态能力的组合要求。"
+      },
+      {
+        "id": "ch12-q06",
+        "type": "single",
+        "objectiveId": "ch12-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "12.3.5 核心组件实现细节",
+        "purpose": "解释FINAL ANSWER抽取与准精确匹配归一化过程。"
+      },
+      {
+        "id": "ch12-q07",
+        "type": "single",
+        "objectiveId": "ch12-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "12.4.2 系统架构",
+        "purpose": "辨认生成器、LLMJudgeTool、WinRateTool和人工验证界面各自职责。"
+      },
+      {
+        "id": "ch12-q08",
+        "type": "single",
+        "objectiveId": "ch12-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "12.4.3 AIME 题目生成器实现",
+        "purpose": "解释批量生成的进度保存与LaTeX反斜杠的JSON序列化问题。"
+      },
+      {
+        "id": "ch12-q09",
+        "type": "single",
+        "objectiveId": "ch12-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "12.4.1 评估方法概述",
+        "purpose": "为绝对质量、多维评分与相对优劣选择适当的评估方法。"
+      },
+      {
+        "id": "ch12-q10",
+        "type": "single",
+        "objectiveId": "ch12-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "12.4.4 LLM Judge 评估工具",
+        "purpose": "分析LLM Judge自动化规模收益与评委偏差、成本及错误传播的风险。"
+      },
+      {
+        "id": "ch12-q11",
+        "type": "single",
+        "objectiveId": "ch12-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "12.2.6 扩展与优化建议",
+        "purpose": "识别仅simple_python基础样本不能代表所有BFCL类别的覆盖限制。"
+      },
+      {
+        "id": "ch12-q12",
+        "type": "single",
+        "objectiveId": "ch12-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "12.4.7 完整评估流程",
+        "purpose": "比较模型自动评审和人工答案验证在完整流程中的证据作用。"
+      },
+      {
+        "id": "ch12-q13",
+        "type": "multiple",
+        "objectiveId": "ch12-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "12.1.2 主流评估基准概览",
+        "purpose": "针对函数调用、真实任务和开放产物比较BFCL、GAIA及多评委方案。"
+      },
+      {
+        "id": "ch12-q14",
+        "type": "multiple",
+        "objectiveId": "ch12-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "12.2.4 BFCL 官方评估工具集成",
+        "purpose": "比较本地基础评估与导出JSONL后官方评估；缺少标准答案或未跑官方脚本不能宣称官方分数。"
+      },
+      {
+        "id": "ch12-q15",
+        "type": "multiple",
+        "objectiveId": "ch12-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "12.3.3 在 HelloAgents 中实现 GAIA 评估",
+        "purpose": "比较评估报告、待提交结果文件和已获排行榜结果的证据边界。"
+      },
+      {
+        "id": "ch12-q16",
+        "type": "multiple",
+        "objectiveId": "ch12-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "12.4.6 人工验证界面",
+        "purpose": "给定题目、答案和解答不一致的样本，选择人工复核、修订或拒绝及保存验证状态。"
+      },
+      {
+        "id": "ch12-q17",
+        "type": "multiple",
+        "objectiveId": "ch12-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "12.4.5 Win Rate 评估工具",
+        "purpose": "解读胜率、败率和平局率，检查对照样本和比较条件，避免胜率等同数学正确率。"
+      },
+      {
+        "id": "ch12-q18",
+        "type": "multiple",
+        "objectiveId": "ch12-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "12.4.8 综合评估报告",
+        "purpose": "在综合报告中选择同时呈现样本范围、各方法结果与待修订项，拒绝用示例分数替代实际评估。"
+      },
+      {
+        "id": "ch12-q19",
+        "type": "reflection",
+        "objectiveId": "ch12-o02",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "12.2.6 扩展与优化建议",
+        "purpose": "设计工具调用能力回归评估，包含有工具可用、无关工具、多调用和参数错误案例，并区分基础本地与官方评分。"
+      },
+      {
+        "id": "ch12-q20",
+        "type": "reflection",
+        "objectiveId": "ch12-o05",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "12.4.8 综合评估报告",
+        "purpose": "为一批生成数学题制定生成、自动评审、成对比较、人工验算与发布门槛，说明评委分歧如何处理。"
+      }
+    ],
+    "notes": "BFCL multiple等类别定义以原始数据及当前课件明确证据为准，不沿用概述误称；不测试基准样本数或榜单排名。避开“30道必然足够”等代表性断言，报告示例不得冒充真实成绩。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:44:36.927333+00:00",
+    "notes": [
+      "逐项阅读20题并核对本地完整课件及蓝图槽位；NotebookLM初稿大量题意漂移，已重写客观题并修订两道思考题。",
+      "纠正GAIA归一化多答案歧义、AST等价过度承诺、胜率等同正确率及固定发布门槛；补齐全部逐选项解释。",
+      "所有证据改为对应真实小节中的连续原文，补齐思考题依据；区分本地评估、导出、官方评分和榜单状态。",
+      "通过validate_bank.py及额外原始连续子串检查；来源IDs、哈希和蓝图配额保持不变。内容审阅不代表示例代码、外部API或教学应用已端到端验证。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch12-q01",
+      "type": "single",
+      "objectiveId": "ch12-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "stem": "智能体评估为什么难以完全照搬固定输出的软件测试？",
+      "options": [
+        {
+          "id": "a",
+          "text": "同一任务可能有多种正确输出，且大规模模型调用有成本"
+        },
+        {
+          "id": "b",
+          "text": "智能体输出始终固定，主要困难只是测试文件太多"
+        },
+        {
+          "id": "c",
+          "text": "所有任务都能只比较输出长度"
+        },
+        {
+          "id": "d",
+          "text": "只要没有报错，就无需检查回答质量"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "evidence": [
+        {
+          "section": "12.1.1 为何需要智能体评估",
+          "quote": "与传统软件测试不同，智能体评估面临着独特的挑战。首先是输出的不确定性，同一问题可能有多个正确答案，很难用简单的对错来判断。其次是评估标准的多样性，不同任务需要不同的评估方法，工具调用需要检查函数签名，问答任务需要评估语义相似度。最后是评估成本的高昂，每次评估都需要大量的 API 调用，成本可能达到数百元甚至更多。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "评估应同时处理输出不确定性、标准差异与调用成本。",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "正确：输出不确定和调用开销都是课件指出的挑战。",
+        "b": "错误：课件首先强调输出不确定性。",
+        "c": "错误：工具调用和问答需要不同标准。",
+        "d": "错误：可运行并不证明任务完成质量。"
+      },
+      "design": {
+        "purpose": "识别不确定输出、多样标准和评估成本带来的挑战。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q02",
+      "type": "single",
+      "objectiveId": "ch12-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "stem": "为什么本章将工具调用、通用助手任务和生成数据质量分成不同评估链路？",
+      "options": [
+        {
+          "id": "a",
+          "text": "三者只需要不同的报告标题，评分方法可以完全相同"
+        },
+        {
+          "id": "b",
+          "text": "工具调用关注函数和参数，通用任务关注综合解题，生成内容还需多维质量判断"
+        },
+        {
+          "id": "c",
+          "text": "GAIA只需统计工具调用次数"
+        },
+        {
+          "id": "d",
+          "text": "生成内容只要JSON可解析就算质量合格"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "12.1.3 HelloAgents 评估体系设计",
+          "quote": "1. <strong>BFCL</strong>：评估工具调用能力\n   - 选择理由：数据集规模适中，评估指标清晰，社区活跃\n   - 适用场景：评估智能体的函数调用准确性\n\n2. <strong>GAIA</strong>：评估通用 AI 助手能力\n   - 选择理由：任务真实，难度分级，综合性强\n   - 适用场景：评估智能体的综合问题解决能力\n\n3. <strong>数据生成质量评估</strong>：评估 LLM 生成数据质量\n   - 选择理由：通过这个案例可以完整体验如何使用 Agent 创造数据，评估数据的完整演示。\n   - 适用场景：评估生成的训练数据、测试数据的质量\n   - 评估方法：LLM Judge、Win Rate、人工验证",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "评估链路需从能力目标出发选择证据与判定方法。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "错误：被评估对象和成功标准不同。",
+        "b": "正确：三种场景分别对应BFCL、GAIA和生成质量评估。",
+        "c": "错误：次数不能代表综合问题解决能力。",
+        "d": "错误：结构合法无法证明内容正确或清晰。"
+      },
+      "design": {
+        "purpose": "解释工具调用、通用任务和生成数据质量为何需要不同评估链路。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q03",
+      "type": "single",
+      "objectiveId": "ch12-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "stem": "工具调用评估中的“无关工具”场景主要检查什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "是否总能把全部工具调用一遍"
+        },
+        {
+          "id": "b",
+          "text": "是否能判断可用工具与需求无关，并避免不必要的调用"
+        },
+        {
+          "id": "c",
+          "text": "能否改变外部API的权限"
+        },
+        {
+          "id": "d",
+          "text": "只检查输出中是否出现函数名"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "12.2.1 BFCL 基准介绍",
+          "quote": "最后是需要判断是否需要调用函数的场景（Irrelevance）。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "工具调用能力既包括正确调用，也包括在不适用时避免误用。",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "错误：无关工具不应被强行调用。",
+        "b": "正确：需要检查是否应调用函数。",
+        "c": "错误：这不是该评估目标。",
+        "d": "错误：出现名称不证明选择合适。"
+      },
+      "design": {
+        "purpose": "识别工具选择、参数构造和无关工具拒用分别属于调用能力。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q04",
+      "type": "single",
+      "objectiveId": "ch12-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "stem": "BFCL评估已加载问题、函数定义和标准答案。下一条合理的数据处理链路是哪条？",
+      "options": [
+        {
+          "id": "a",
+          "text": "直接将标准答案当预测结果，再计算分数"
+        },
+        {
+          "id": "b",
+          "text": "生成报告后才运行Agent，报告无需更新"
+        },
+        {
+          "id": "c",
+          "text": "构造提示并运行Agent，提取调用结果，再与标准答案匹配并汇总"
+        },
+        {
+          "id": "d",
+          "text": "只比较回复字数，不提取函数或参数"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "12.2.1 BFCL 基准介绍",
+          "quote": "BFCL 的评估流程遵循标准的基准测试流程：首先加载数据集并选择评估类别，然后运行智能体获取预测结果，接着将预测结果解析为抽象语法树（AST），最后通过 AST 匹配算法判断预测是否正确。整个流程会遍历所有测试样本，最终计算出准确率等评估指标并生成评估报告。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "应独立取得Agent预测，再进行调用提取、匹配与汇总。这里不把AST语法比较宣称为任意表达式的语义证明。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "错误：这泄露标准答案且未测到Agent能力。",
+        "b": "错误：报告应依据预测和评分结果。",
+        "c": "正确：预测提取与匹配是评分的必要步骤。",
+        "d": "错误：字数不能证明调用正确。"
+      },
+      "design": {
+        "purpose": "追踪数据及ground truth加载、提示构造、预测提取与匹配评分。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q05",
+      "type": "single",
+      "objectiveId": "ch12-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "stem": "哪项最符合GAIA所评估的通用助手能力？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只记忆某个SDK的函数名称"
+        },
+        {
+          "id": "b",
+          "text": "把所有问题都转成单次函数签名匹配"
+        },
+        {
+          "id": "c",
+          "text": "仅依据模型参数数量给分"
+        },
+        {
+          "id": "d",
+          "text": "结合多步推理、网页信息、文件或多模态输入解决问题"
+        }
+      ],
+      "answerIds": [
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "12.3.1 GAIA 基准介绍",
+          "quote": "GAIA 的设计理念是：<strong>真实世界的问题往往需要多种能力的综合运用</strong>。一个优秀的 AI 助手不仅需要调用工具，还需要：\n\n- <strong>多步推理</strong>：将复杂问题分解为多个子问题\n- <strong>知识运用</strong>：利用内置知识和外部知识库\n- <strong>多模态理解</strong>：处理文本、图片、文件等多种输入\n- <strong>网页浏览</strong>：从互联网获取最新信息\n- <strong>文件操作</strong>：读取和处理各种格式的文件",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "GAIA关注真实任务中的多种能力协同，而非单独函数调用准确性。",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "错误：GAIA强调真实任务的综合能力。",
+        "b": "错误：这是过窄的评估目标。",
+        "c": "错误：模型大小不是实际任务表现。",
+        "d": "正确：符合课件列出的能力组合。"
+      },
+      "design": {
+        "purpose": "识别GAIA对推理、浏览、文件和多模态能力的组合要求。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q06",
+      "type": "single",
+      "objectiveId": "ch12-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "stem": "按本章GAIAEvaluator的流程，为什么先提取最终答案再归一化比较？",
+      "options": [
+        {
+          "id": "a",
+          "text": "避免把整段推理直接当答案，并按既定规则处理表示差异"
+        },
+        {
+          "id": "b",
+          "text": "把任何语义相近的答案都自动判对"
+        },
+        {
+          "id": "c",
+          "text": "用归一化补写模型没有给出的事实"
+        },
+        {
+          "id": "d",
+          "text": "删除所有数值差异，以免影响准确率"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "evidence": [
+        {
+          "section": "12.3.5 核心组件实现细节",
+          "quote": "# 3. 提取答案（GAIA格式：FINAL ANSWER: [答案]）\n            predicted_answer = self._extract_answer(response)\n\n            # 4. 归一化答案（GAIA官方规则）\n            normalized_pred = self._normalize_answer(predicted_answer)\n            normalized_truth = self._normalize_answer(item[\"final_answer\"])\n\n            # 5. 准精确匹配",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        },
+        {
+          "section": "12.3.5 核心组件实现细节",
+          "quote": "# 5. 准精确匹配\n            exact_match = (normalized_pred == normalized_truth)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "课件展示“提取答案→归一化预测与标准答案→比较”的流程。具体规范化规则需与使用的评估版本核对，不能把课件简化代码当通用语义等价器。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "正确：抽取目标答案后，预测和标准答案都按规则规范化。",
+        "b": "错误：准精确匹配不是任意语义判断。",
+        "c": "错误：规范化不产生新事实。",
+        "d": "错误：有效的答案差异仍须保留。"
+      },
+      "design": {
+        "purpose": "解释FINAL ANSWER抽取与准精确匹配归一化过程。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q07",
+      "type": "single",
+      "objectiveId": "ch12-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "stem": "在生成数学题的质量评估系统中，HumanVerificationUI的主要职责是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "自动生成所有题目并自动批准"
+        },
+        {
+          "id": "b",
+          "text": "让人工检查题目、答案和解答，并记录评分及验证状态"
+        },
+        {
+          "id": "c",
+          "text": "替代所有模型调用的传输协议"
+        },
+        {
+          "id": "d",
+          "text": "仅统计JSON文件大小"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "12.4.6 人工验证界面",
+          "quote": "**验证流程**：\n\n1. 浏览器打开验证界面\n2. 阅读题目、答案、解答\n3. 从 4 个维度评分（1-5 分）\n4. 选择验证状态（approved/rejected/needs_revision）\n5. 添加评论（可选）\n6. 点击\"提交验证\"\n7. 查看下一题",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "生成、自动评价、成对比较和人工核验是不同组件的职责。",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "错误：题目生成由生成器承担，人工界面不自动批准。",
+        "b": "正确：用于人工核验与状态记录。",
+        "c": "错误：它是验证界面。",
+        "d": "错误：文件大小不是主要质量证据。"
+      },
+      "design": {
+        "purpose": "辨认生成器、LLMJudgeTool、WinRateTool和人工验证界面各自职责。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q08",
+      "type": "single",
+      "objectiveId": "ch12-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "stem": "批量生成含LaTeX的数学题时，下列哪种处理能同时改善可恢复性和数据解析可靠性？",
+      "options": [
+        {
+          "id": "a",
+          "text": "删除所有公式且只在最后保存"
+        },
+        {
+          "id": "b",
+          "text": "把任何反斜杠无条件重复两次，忽略已有转义"
+        },
+        {
+          "id": "c",
+          "text": "保存检查点，并正确序列化公式中的反斜杠，解析后核对公式"
+        },
+        {
+          "id": "d",
+          "text": "把解析失败的内容直接标记为通过"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "12.4.8 综合评估报告",
+          "quote": "在数据生成方面，应该使用合适的延迟时间（2-3 秒）避免 API 速率限制，启用检查点保存以避免中断损失，先小批量测试（10 个）确认无问题后再大批量生成，并定期检查生成质量及时调整提示词。在评估策略上，建议结合 LLM Judge 和 Win Rate 两种方法，其中 LLM Judge 用于绝对质量评估，Win Rate 用于相对质量对比，人工验证用于最终质量把关。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        },
+        {
+          "section": "12.4.3 AIME 题目生成器实现",
+          "quote": "通过正则表达式将未转义的反斜杠替换为双反斜杠，使其在 JSON 中合法。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "批量流程需保存进度；公式反斜杠应正确JSON转义。不能简单认为所有反斜杠都非法，部分序列可能被解析成控制字符，因此还应核对内容。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "错误：丢失内容，也可能因中断丢失全部进度。",
+        "b": "错误：盲目重复会破坏已经正确的内容。",
+        "c": "正确：检查点限制中断损失，正确转义避免损坏公式或JSON。",
+        "d": "错误：解析失败尚未得到有效结构。"
+      },
+      "design": {
+        "purpose": "解释批量生成的进度保存与LaTeX反斜杠的JSON序列化问题。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q09",
+      "type": "single",
+      "objectiveId": "ch12-o05",
+      "dimension": "application",
+      "level": "understand",
+      "stem": "一批生成题需要分别了解各质量维度的评分和相对参考题的优劣，应怎样选择方法？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只看题目数量，数量越多质量越好"
+        },
+        {
+          "id": "b",
+          "text": "只使用函数调用AST匹配"
+        },
+        {
+          "id": "c",
+          "text": "只看参考题的发布日期"
+        },
+        {
+          "id": "d",
+          "text": "用LLM Judge做多维评分，用Win Rate做成对比较，并保留人工核验"
+        }
+      ],
+      "answerIds": [
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "12.4.1 评估方法概述",
+          "quote": "在数据生成质量评估中，我们采用三种互补的评估方法：LLM Judge、Win Rate 和人工打分。选择这三种方法有两个重要原因。首先，从方法论角度来看，这些是当前智能体领域常用的自动化测评方案，也是许多学术论文中的主流做法，具有广泛的认可度和实践基础。其次，从适用性角度来看，这三种方法天然适合我们的评估场景：LLM Judge 和 Win Rate 用于评估题目生成质量（从正确性、清晰度、难度匹配等维度进行多维度评估），而人工打分用于评估答案生成质量（通过人类专家验证答案的准确性），这种分工非常合理且易于理解。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "绝对多维评价与相对偏好回答不同问题，数学正确性仍需核验。",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "错误：数量不是质量标准。",
+        "b": "错误：无法覆盖开放题目的清晰度和难度等质量。",
+        "c": "错误：日期无法证明生成题质量。",
+        "d": "正确：三种方法互补。"
+      },
+      "design": {
+        "purpose": "为绝对质量、多维评分与相对优劣选择适当的评估方法。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q10",
+      "type": "single",
+      "objectiveId": "ch12-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "stem": "LLM Judge能批量评价题目。为什么仍应保留人工验证？",
+      "options": [
+        {
+          "id": "a",
+          "text": "自动评分提高吞吐，但评委也可能误判，关键答案需要人工核查"
+        },
+        {
+          "id": "b",
+          "text": "只要模型分数很高就能证明所有推导正确"
+        },
+        {
+          "id": "c",
+          "text": "人工验证只能修改页面颜色"
+        },
+        {
+          "id": "d",
+          "text": "增加一个评委就一定消除全部偏差"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "evidence": [
+        {
+          "section": "12.4.1 评估方法概述",
+          "quote": "在数据生成质量评估中，我们采用三种互补的评估方法：LLM Judge、Win Rate 和人工打分。选择这三种方法有两个重要原因。首先，从方法论角度来看，这些是当前智能体领域常用的自动化测评方案，也是许多学术论文中的主流做法，具有广泛的认可度和实践基础。其次，从适用性角度来看，这三种方法天然适合我们的评估场景：LLM Judge 和 Win Rate 用于评估题目生成质量（从正确性、清晰度、难度匹配等维度进行多维度评估），而人工打分用于评估答案生成质量（通过人类专家验证答案的准确性），这种分工非常合理且易于理解。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        },
+        {
+          "section": "12.4.6 人工验证界面",
+          "quote": "**验证流程**：\n\n1. 浏览器打开验证界面\n2. 阅读题目、答案、解答\n3. 从 4 个维度评分（1-5 分）\n4. 选择验证状态（approved/rejected/needs_revision）\n5. 添加评论（可选）\n6. 点击\"提交验证\"\n7. 查看下一题",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "自动评估适合初筛，人工核验提供不同的证据来源；成本节省不能变成忽略正确性的理由。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "正确：自动效率与可靠性需要权衡。",
+        "b": "错误：评分本身不是数学证明。",
+        "c": "错误：人工检查题目、答案、解答和状态。",
+        "d": "错误：多个评委仍可能共享错误。"
+      },
+      "design": {
+        "purpose": "分析LLM Judge自动化规模收益与评委偏差、成本及错误传播的风险。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q11",
+      "type": "single",
+      "objectiveId": "ch12-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "stem": "只在少量simple_python样本上取得高分，应如何表述结果？",
+      "options": [
+        {
+          "id": "a",
+          "text": "说明所有BFCL类别都已达到同样水平"
+        },
+        {
+          "id": "b",
+          "text": "限定为本次基础类别和样本范围，复杂场景仍需另测"
+        },
+        {
+          "id": "c",
+          "text": "直接等同已获官方排行榜排名"
+        },
+        {
+          "id": "d",
+          "text": "因为样本少，所以结果完全没有任何用途"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "12.2.6 扩展与优化建议",
+          "quote": "我们当前的 SimpleAgent 实现主要聚焦于评估流程的搭建，在工具调用能力上还有提升空间。SimpleAgent 使用自定义的工具调用格式`[TOOL_CALL:tool_name:parameters]`，这种格式需要 LLM 主动学习和使用，在复杂场景下的表现可能不如使用原生函数调用（Function Calling）的智能体。此外，我们目前只测试了 simple_python 等基础类别，对于 multiple、parallel、irrelevance 等更复杂的场景，还需要针对性的优化。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "基础样本可验证流程，结论应限定在已测范围。",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "错误：未测类别不能外推。",
+        "b": "正确：课件明确当前实现与测试范围的局限。",
+        "c": "错误：本地结果不等于榜单提交或名次。",
+        "d": "错误：可作有限范围的初步验证，但不能泛化。"
+      },
+      "design": {
+        "purpose": "识别仅simple_python基础样本不能代表所有BFCL类别的覆盖限制。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q12",
+      "type": "single",
+      "objectiveId": "ch12-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "stem": "对于一份生成数学题的评估报告，自动评委高分与人工验算通过有什么区别？",
+      "options": [
+        {
+          "id": "a",
+          "text": "两者完全等价，都不需要查看推导"
+        },
+        {
+          "id": "b",
+          "text": "人工只核对排版，因此不影响正确性判断"
+        },
+        {
+          "id": "c",
+          "text": "自动评分是规模化质量线索，人工验算可以核查具体推导与答案"
+        },
+        {
+          "id": "d",
+          "text": "人工意见必须服从自动分数"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "12.4.1 评估方法概述",
+          "quote": "在数据生成质量评估中，我们采用三种互补的评估方法：LLM Judge、Win Rate 和人工打分。选择这三种方法有两个重要原因。首先，从方法论角度来看，这些是当前智能体领域常用的自动化测评方案，也是许多学术论文中的主流做法，具有广泛的认可度和实践基础。其次，从适用性角度来看，这三种方法天然适合我们的评估场景：LLM Judge 和 Win Rate 用于评估题目生成质量（从正确性、清晰度、难度匹配等维度进行多维度评估），而人工打分用于评估答案生成质量（通过人类专家验证答案的准确性），这种分工非常合理且易于理解。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        },
+        {
+          "section": "12.4.6 人工验证界面",
+          "quote": "**验证流程**：\n\n1. 浏览器打开验证界面\n2. 阅读题目、答案、解答\n3. 从 4 个维度评分（1-5 分）\n4. 选择验证状态（approved/rejected/needs_revision）\n5. 添加评论（可选）\n6. 点击\"提交验证\"\n7. 查看下一题",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "完整流程应保留自动评价和人工核验各自结果，分歧是复核线索。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "错误：评估证据与方法不同。",
+        "b": "错误：人工需阅读答案与解答。",
+        "c": "正确：两类证据互补。",
+        "d": "错误：发现错误应进一步复核或修订。"
+      },
+      "design": {
+        "purpose": "比较模型自动评审和人工答案验证在完整流程中的证据作用。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q13",
+      "type": "multiple",
+      "objectiveId": "ch12-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "stem": "团队要评估工具调用、复杂助理任务和生成数学题。哪些匹配合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "用BFCL观察函数选择与参数构造"
+        },
+        {
+          "id": "b",
+          "text": "用GAIA考查综合推理与工具/文件运用"
+        },
+        {
+          "id": "c",
+          "text": "用LLM Judge、成对比较和人工核验组合评估生成题"
+        },
+        {
+          "id": "d",
+          "text": "用一次BFCL得分代替全部生成题的数学验算"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "12.1.3 HelloAgents 评估体系设计",
+          "quote": "1. <strong>BFCL</strong>：评估工具调用能力\n   - 选择理由：数据集规模适中，评估指标清晰，社区活跃\n   - 适用场景：评估智能体的函数调用准确性\n\n2. <strong>GAIA</strong>：评估通用 AI 助手能力\n   - 选择理由：任务真实，难度分级，综合性强\n   - 适用场景：评估智能体的综合问题解决能力\n\n3. <strong>数据生成质量评估</strong>：评估 LLM 生成数据质量\n   - 选择理由：通过这个案例可以完整体验如何使用 Agent 创造数据，评估数据的完整演示。\n   - 适用场景：评估生成的训练数据、测试数据的质量\n   - 评估方法：LLM Judge、Win Rate、人工验证",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "选择基准和方法必须匹配目标能力。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "正确：这是BFCL的评估对象。",
+        "b": "正确：这是通用助手任务。",
+        "c": "正确：三方法覆盖不同质量证据。",
+        "d": "错误：不同能力不能用同一局部得分替代。"
+      },
+      "design": {
+        "purpose": "针对函数调用、真实任务和开放产物比较BFCL、GAIA及多评委方案。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q14",
+      "type": "multiple",
+      "objectiveId": "ch12-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "stem": "团队导出了BFCL预测JSONL，但官方评分步骤尚未成功。哪些结论或后续步骤合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "可以记录已完成预测导出，但不能宣称已取得官方分数"
+        },
+        {
+          "id": "b",
+          "text": "文件扩展名正确就足以证明官方准确率"
+        },
+        {
+          "id": "c",
+          "text": "核对预测格式、数据及ground truth，并完成官方评估步骤"
+        },
+        {
+          "id": "d",
+          "text": "单独保留已有本地基础评分及其范围，不与官方结果混写"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "12.2.4 BFCL 官方评估工具集成",
+          "quote": "整个评估流程包括四个步骤：首先从 BFCL v4 数据集加载测试数据，然后使用 HelloAgents 运行评估获取智能体的预测结果，接着将结果导出为 BFCL 官方格式（JSONL），最后使用官方评估脚本计算最终分数。这个流程确保了评估结果与 BFCL 排行榜完全一致，如图 12.3 所示：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "官方格式是后续评估的输入，不能替代官方脚本成功执行。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "正确：导出和评分是不同阶段。",
+        "b": "错误：仍需数据、标准答案和实际评分。",
+        "c": "正确：完整链路需要这些输入与执行。",
+        "d": "正确：方法和执行状态应区分。"
+      },
+      "design": {
+        "purpose": "比较本地基础评估与导出JSONL后官方评估；缺少标准答案或未跑官方脚本不能宣称官方分数。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q15",
+      "type": "multiple",
+      "objectiveId": "ch12-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "stem": "GAIAEvaluationTool生成本地报告、JSONL和提交说明后，哪些判断正确？",
+      "options": [
+        {
+          "id": "a",
+          "text": "本地报告描述此次运行与样本结果"
+        },
+        {
+          "id": "b",
+          "text": "JSONL可作为后续提交材料"
+        },
+        {
+          "id": "c",
+          "text": "提交说明存在就表示排行榜已接受并排名"
+        },
+        {
+          "id": "d",
+          "text": "是否已上榜应另查提交与平台结果，而不是只看文件"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "12.3.3 在 HelloAgents 中实现 GAIA 评估",
+          "quote": "评估完成后会自动生成三类文件：首先是 GAIA 格式结果文件（`evaluation_results/gaia_official/gaia_level1_result_*.jsonl`），采用 JSONL 格式（每行一个 JSON 对象），可直接用于提交到 GAIA 排行榜；其次是提交说明文件（`evaluation_results/gaia_official/SUBMISSION_GUIDE_*.md`），包含详细的提交步骤、结果文件格式说明和注意事项；最后是评估报告（`evaluation_reports/gaia_report_*.md`），包含评估结果摘要、详细指标、样本详情和可视化图表。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "报告、待提交文件与排行榜结果是三种证据状态。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "正确：报告是本地评估产物。",
+        "b": "正确：课件将它与提交步骤分开。",
+        "c": "错误：还需要实际提交和平台确认。",
+        "d": "正确：产物和外部发布状态不同。"
+      },
+      "design": {
+        "purpose": "比较评估报告、待提交结果文件和已获排行榜结果的证据边界。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q16",
+      "type": "multiple",
+      "objectiveId": "ch12-o04",
+      "dimension": "application",
+      "level": "application",
+      "stem": "某道生成题的题干、答案与解答不一致，适当的处理有哪些？",
+      "options": [
+        {
+          "id": "a",
+          "text": "人工阅读题目、答案与解答，定位冲突"
+        },
+        {
+          "id": "b",
+          "text": "根据核查结果标记需修改或拒绝，并保留说明"
+        },
+        {
+          "id": "c",
+          "text": "只要排版完整就立即批准"
+        },
+        {
+          "id": "d",
+          "text": "修订后重新核验，通过后再更新验证状态"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "12.4.6 人工验证界面",
+          "quote": "**验证流程**：\n\n1. 浏览器打开验证界面\n2. 阅读题目、答案、解答\n3. 从 4 个维度评分（1-5 分）\n4. 选择验证状态（approved/rejected/needs_revision）\n5. 添加评论（可选）\n6. 点击\"提交验证\"\n7. 查看下一题",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "不一致样本应进入核查与修订闭环，而非靠总体评分掩盖。",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "正确：不能只看自动分数。",
+        "b": "正确：界面支持这些状态及评论。",
+        "c": "错误：格式不能代替正确性。",
+        "d": "正确：应根据实际核验结果更新状态。"
+      },
+      "design": {
+        "purpose": "给定题目、答案和解答不一致的样本，选择人工复核、修订或拒绝及保存验证状态。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q17",
+      "type": "multiple",
+      "objectiveId": "ch12-o05",
+      "dimension": "application",
+      "level": "application",
+      "stem": "一组20次成对比较中，生成题赢9次、参考题赢8次、平局3次。哪些解读合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "生成题胜率为45%，平局率为15%"
+        },
+        {
+          "id": "b",
+          "text": "45%胜率表示45%的数学答案正确"
+        },
+        {
+          "id": "c",
+          "text": "结论仅反映本组对照及评委条件，应核对比较样本"
+        },
+        {
+          "id": "d",
+          "text": "即使相对表现接近，仍需独立核验答案正确性"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "12.4.5 Win Rate 评估工具",
+          "quote": "| 指标 | 数值 | 百分比 |\n|------|------|--------|\n| 生成数据胜出 | 9次 | 45.0% |\n| AIME真题胜出 | 8次 | 40.0% |\n| 平局 | 3次 | 15.0% |",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        },
+        {
+          "section": "12.4.6 人工验证界面",
+          "quote": "**验证流程**：\n\n1. 浏览器打开验证界面\n2. 阅读题目、答案、解答\n3. 从 4 个维度评分（1-5 分）\n4. 选择验证状态（approved/rejected/needs_revision）\n5. 添加评论（可选）\n6. 点击\"提交验证\"\n7. 查看下一题",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "胜、负、平描述成对判断，不是数学正确率。不能仅凭接近50%就宣称普遍达到真题质量。",
+      "difficulty": "hard",
+      "optionExplanations": {
+        "a": "正确：分别为9/20与3/20。",
+        "b": "错误：偏好胜率和数学正确率不同。",
+        "c": "正确：偏好结果受对照与评委条件影响。",
+        "d": "正确：成对优劣不能替代验算。"
+      },
+      "design": {
+        "purpose": "解读胜率、败率和平局率，检查对照样本和比较条件，避免胜率等同数学正确率。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q18",
+      "type": "multiple",
+      "objectiveId": "ch12-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "stem": "预算有限，需要发布生成题质量报告。哪些做法兼顾成本与结论可信度？",
+      "options": [
+        {
+          "id": "a",
+          "text": "明确本次样本范围、方法和实际执行结果"
+        },
+        {
+          "id": "b",
+          "text": "分别列出自动评价和人工核验中待修订的项目"
+        },
+        {
+          "id": "c",
+          "text": "用课件报告示例数字补齐未执行的评估"
+        },
+        {
+          "id": "d",
+          "text": "先小批量验证流程，再根据预算扩展并保存进度"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "12.4.8 综合评估报告",
+          "quote": "在数据生成方面，应该使用合适的延迟时间（2-3 秒）避免 API 速率限制，启用检查点保存以避免中断损失，先小批量测试（10 个）确认无问题后再大批量生成，并定期检查生成质量及时调整提示词。在评估策略上，建议结合 LLM Judge 和 Win Rate 两种方法，其中 LLM Judge 用于绝对质量评估，Win Rate 用于相对质量对比，人工验证用于最终质量把关。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        },
+        {
+          "section": "12.4.6 人工验证界面",
+          "quote": "**验证流程**：\n\n1. 浏览器打开验证界面\n2. 阅读题目、答案、解答\n3. 从 4 个维度评分（1-5 分）\n4. 选择验证状态（approved/rejected/needs_revision）\n5. 添加评论（可选）\n6. 点击\"提交验证\"\n7. 查看下一题",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "explanation": "可靠报告应限定已执行范围并披露待修订项，不能编造评估。",
+      "difficulty": "hard",
+      "optionExplanations": {
+        "a": "正确：结论必须有范围。",
+        "b": "正确：不能用平均分掩盖缺陷。",
+        "c": "错误：示例不是本次证据。",
+        "d": "正确：课件建议小规模测试和检查点。"
+      },
+      "design": {
+        "purpose": "在综合报告中选择同时呈现样本范围、各方法结果与待修订项，拒绝用示例分数替代实际评估。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      }
+    },
+    {
+      "id": "ch12-q19",
+      "type": "reflection",
+      "objectiveId": "ch12-o02",
+      "dimension": null,
+      "level": "reflection",
+      "stem": "请用文字设计SQL查询、绘图和统计工具的回归评估方案：覆盖适用工具、无关工具、多调用及参数错误。说明如何区分本地检查与官方BFCL评分；若查询依赖数据库状态，如何保持比较条件一致？无需编写代码。",
+      "options": [],
+      "answerIds": [],
+      "referenceAnswer": "准备问题、工具定义和标准调用；分别覆盖工具选择、无关工具拒用、多调用和参数值。先独立取得预测并检查提取、匹配，再保存本地结果和已测范围。只有实际执行相应官方评估流程后才报告官方分数。数据库固定快照或隔离样例是可选扩展方案，应另测实际查询结果；SQL AST相似不能保证任意SQL语义等价。",
+      "rubric": [
+        "覆盖四类要求而非只有成功调用",
+        "区分预测提取、匹配及真实工具执行证据",
+        "明确本地与官方评估状态和样本范围",
+        "提出固定数据库条件及结果核查方案，并承认AST边界"
+      ],
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "12.2.1 BFCL 基准介绍",
+          "quote": "BFCL 的评估流程遵循标准的基准测试流程：首先加载数据集并选择评估类别，然后运行智能体获取预测结果，接着将预测结果解析为抽象语法树（AST），最后通过 AST 匹配算法判断预测是否正确。整个流程会遍历所有测试样本，最终计算出准确率等评估指标并生成评估报告。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        },
+        {
+          "section": "12.2.6 扩展与优化建议",
+          "quote": "我们当前的 SimpleAgent 实现主要聚焦于评估流程的搭建，在工具调用能力上还有提升空间。SimpleAgent 使用自定义的工具调用格式`[TOOL_CALL:tool_name:parameters]`，这种格式需要 LLM 主动学习和使用，在复杂场景下的表现可能不如使用原生函数调用（Function Calling）的智能体。此外，我们目前只测试了 simple_python 等基础类别，对于 multiple、parallel、irrelevance 等更复杂的场景，还需要针对性的优化。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "optionExplanations": {},
+      "design": {
+        "purpose": "设计工具调用能力回归评估，包含有工具可用、无关工具、多调用和参数错误案例，并区分基础本地与官方评分。",
+        "misconception": "方案设计不是已实现或已验证的结果。"
+      },
+      "explanation": "准备问题、工具定义和标准调用；分别覆盖工具选择、无关工具拒用、多调用和参数值。先独立取得预测并检查提取、匹配，再保存本地结果和已测范围。只有实际执行相应官方评估流程后才报告官方分数。数据库固定快照或隔离样例是可选扩展方案，应另测实际查询结果；SQL AST相似不能保证任意SQL语义等价。"
+    },
+    {
+      "id": "ch12-q20",
+      "type": "reflection",
+      "objectiveId": "ch12-o05",
+      "dimension": null,
+      "level": "reflection",
+      "stem": "用文字设计一批数学题从生成、自动评审、成对比较到人工验算的质量流程。说明发布条件如何确定，评委意见冲突时如何处理。不要把示例分数当成通用门槛。",
+      "options": [],
+      "answerIds": [],
+      "referenceAnswer": "先小批量生成并保存进度，再用LLM Judge从正确性、清晰度、难度匹配和完整性初筛，Win Rate提供相对参考。人工检查题目、答案与解答，发现错误则修订或拒绝，分歧样本进入复核。发布要求应预先结合用途制定，不能仅凭平均分或胜率区间证明正确；应保留各阶段结果、人工状态和待处理项。",
+      "rubric": [
+        "区分三种评价方法各自提供的证据",
+        "发布条件有用途依据且不以胜率替代正确性",
+        "对冲突或错误提出复核与修订流程",
+        "保留真实结果和未完成项，不编造通过"
+      ],
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "12.4.1 评估方法概述",
+          "quote": "在数据生成质量评估中，我们采用三种互补的评估方法：LLM Judge、Win Rate 和人工打分。选择这三种方法有两个重要原因。首先，从方法论角度来看，这些是当前智能体领域常用的自动化测评方案，也是许多学术论文中的主流做法，具有广泛的认可度和实践基础。其次，从适用性角度来看，这三种方法天然适合我们的评估场景：LLM Judge 和 Win Rate 用于评估题目生成质量（从正确性、清晰度、难度匹配等维度进行多维度评估），而人工打分用于评估答案生成质量（通过人类专家验证答案的准确性），这种分工非常合理且易于理解。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        },
+        {
+          "section": "12.4.6 人工验证界面",
+          "quote": "**验证流程**：\n\n1. 浏览器打开验证界面\n2. 阅读题目、答案、解答\n3. 从 4 个维度评分（1-5 分）\n4. 选择验证状态（approved/rejected/needs_revision）\n5. 添加评论（可选）\n6. 点击\"提交验证\"\n7. 查看下一题",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter12/%E7%AC%AC%E5%8D%81%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E6%80%A7%E8%83%BD%E8%AF%84%E4%BC%B0.md"
+        }
+      ],
+      "optionExplanations": {},
+      "design": {
+        "purpose": "为一批生成数学题制定生成、自动评审、成对比较、人工验算与发布门槛，说明评委分歧如何处理。",
+        "misconception": "方案设计不是已实现或已验证的结果。"
+      },
+      "explanation": "先小批量生成并保存进度，再用LLM Judge从正确性、清晰度、难度匹配和完整性初筛，Win Rate提供相对参考。人工检查题目、答案与解答，发现错误则修订或拒绝，分歧样本进入复核。发布要求应预先结合用途制定，不能仅凭平均分或胜率区间证明正确；应保留各阶段结果、人工状态和待处理项。"
+    }
+  ]
+}

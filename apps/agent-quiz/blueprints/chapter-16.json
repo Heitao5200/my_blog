@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch16-o01",
+      "title": "确定可交付的真实问题与项目边界",
+      "sections": [
+        "16.1.1 为什么要做毕业设计",
+        "16.2.1 选题原则",
+        "16.2.3 选题示例"
+      ],
+      "reason": "毕业设计检验知识迁移和完成度，不以堆叠技术数量评价。"
+    },
+    {
+      "id": "ch16-o02",
+      "title": "组织他人能理解的开源交付物",
+      "sections": [
+        "16.1.2 毕业设计的形式",
+        "16.3.3 项目目录结构",
+        "16.4.1 编写 README 文档"
+      ],
+      "reason": "项目结构和说明要支持复现，不能只有截图或口头宣称。"
+    },
+    {
+      "id": "ch16-o03",
+      "title": "形成可复现的运行与依赖流程",
+      "sections": [
+        "16.3.1 安装必要工具",
+        "16.4.2 编写 requirements.txt",
+        "16.4.3 开发 Jupyter Notebook"
+      ],
+      "reason": "示例能在作者机器运行不足以保证他人可用。"
+    },
+    {
+      "id": "ch16-o04",
+      "title": "用自检验证核心功能与异常",
+      "sections": [
+        "16.4.4 测试你的项目",
+        "16.4.3 开发 Jupyter Notebook",
+        "16.4.4 测试你的项目"
+      ],
+      "reason": "检验输出满足预期，比没有报错更接近项目成功。"
+    },
+    {
+      "id": "ch16-o05",
+      "title": "维护轻量仓库与完整资源入口",
+      "sections": [
+        "16.4.5 大文件处理指南",
+        "16.4.5 大文件处理指南",
+        "16.4.5 大文件处理指南"
+      ],
+      "reason": "不提交大文件并不意味着读者无需获取资源。"
+    },
+    {
+      "id": "ch16-o06",
+      "title": "完成可审查的贡献与反馈循环",
+      "sections": [
+        "16.5.1 提交代码到 GitHub",
+        "16.5.2 创建 Pull Request",
+        "16.5.3 响应 Review 意见"
+      ],
+      "reason": "本地提交、远端分支、PR和合并是不同交付状态。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch16-q01",
+      "type": "single",
+      "objectiveId": "ch16-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "16.1.1 为什么要做毕业设计",
+      "purpose": "识别项目应解决真实问题并展示综合应用能力。"
+    },
+    {
+      "id": "ch16-q02",
+      "type": "single",
+      "objectiveId": "ch16-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "16.2.1 选题原则",
+      "purpose": "解释问题、核心功能、技术选择和有限时间资源之间的依赖。"
+    },
+    {
+      "id": "ch16-q03",
+      "type": "single",
+      "objectiveId": "ch16-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "16.1.2 毕业设计的形式",
+      "purpose": "识别README、依赖、Notebook和必要资源的不同交付作用。"
+    },
+    {
+      "id": "ch16-q04",
+      "type": "single",
+      "objectiveId": "ch16-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "16.3.3 项目目录结构",
+      "purpose": "解释清晰目录怎样连接运行入口、示例输入和输出产物。"
+    },
+    {
+      "id": "ch16-q05",
+      "type": "single",
+      "objectiveId": "ch16-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "16.3.1 安装必要工具",
+      "purpose": "辨认Python、Git与Notebook分别支持的开发活动。"
+    },
+    {
+      "id": "ch16-q06",
+      "type": "single",
+      "objectiveId": "ch16-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "16.4.2 编写 requirements.txt",
+      "purpose": "解释requirements.txt如何为项目依赖提供可安装说明，避免遗漏示例实际使用的库。"
+    },
+    {
+      "id": "ch16-q07",
+      "type": "single",
+      "objectiveId": "ch16-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "16.4.4 测试你的项目",
+      "purpose": "区分代码可运行、输出符合预期和处理常见异常三种检查。"
+    },
+    {
+      "id": "ch16-q08",
+      "type": "single",
+      "objectiveId": "ch16-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "16.4.3 开发 Jupyter Notebook",
+      "purpose": "解释从用户输入到工具及Agent输出的功能演示如何暴露集成问题。"
+    },
+    {
+      "id": "ch16-q09",
+      "type": "single",
+      "objectiveId": "ch16-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "16.4.5 大文件处理指南",
+      "purpose": "识别示例数据、完整数据和模型视频资源应采取的不同存放方式。"
+    },
+    {
+      "id": "ch16-q10",
+      "type": "single",
+      "objectiveId": "ch16-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "16.4.5 大文件处理指南",
+      "purpose": "分析外部链接、独立资源仓库和小样例在可获取性与仓库体积之间的取舍。"
+    },
+    {
+      "id": "ch16-q11",
+      "type": "single",
+      "objectiveId": "ch16-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "16.5.1 提交代码到 GitHub",
+      "purpose": "判断提交前检查修改及限定项目文件范围的可审查性收益。"
+    },
+    {
+      "id": "ch16-q12",
+      "type": "single",
+      "objectiveId": "ch16-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "16.5.2 创建 Pull Request",
+      "purpose": "比较Fork的功能分支与上游目标分支，以及push与创建PR的作用。"
+    },
+    {
+      "id": "ch16-q13",
+      "type": "multiple",
+      "objectiveId": "ch16-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "16.2.3 选题示例",
+      "purpose": "比较最小可完成的代码审查助手与范围失控的全能平台，选取能验证价值的功能边界。"
+    },
+    {
+      "id": "ch16-q14",
+      "type": "multiple",
+      "objectiveId": "ch16-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "16.4.1 编写 README 文档",
+      "purpose": "比较项目简介、快速开始、已完成能力和未来计划，识别误把待办功能写成现有能力。"
+    },
+    {
+      "id": "ch16-q15",
+      "type": "multiple",
+      "objectiveId": "ch16-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "16.4.3 开发 Jupyter Notebook",
+      "purpose": "比较Notebook中的环境、工具定义、Agent构建与功能演示步骤，识别依赖隐式状态的运行顺序问题。"
+    },
+    {
+      "id": "ch16-q16",
+      "type": "multiple",
+      "objectiveId": "ch16-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "16.4.4 测试你的项目",
+      "purpose": "针对空输入、工具失败或缺少配置选择必要异常案例和可核验结果，不虚构测试通过。"
+    },
+    {
+      "id": "ch16-q17",
+      "type": "multiple",
+      "objectiveId": "ch16-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "16.4.5 大文件处理指南",
+      "purpose": "为含大数据集的项目选择小样例、下载说明、放置路径和忽略规则的组合，保证读者可启动。"
+    },
+    {
+      "id": "ch16-q18",
+      "type": "multiple",
+      "objectiveId": "ch16-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "16.5.3 响应 Review 意见",
+      "purpose": "对Review意见选择修改、验证、推送同一分支和说明修改的闭环，避免把提出PR称已合并。"
+    },
+    {
+      "id": "ch16-q19",
+      "type": "reflection",
+      "objectiveId": "ch16-o01",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "16.2.3 选题示例",
+      "purpose": "写出自己的项目问题、目标用户、最小功能、智能体分工及验收标准，解释采用哪些已学机制与不加入哪些可延期功能。"
+    },
+    {
+      "id": "ch16-q20",
+      "type": "reflection",
+      "objectiveId": "ch16-o04",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "16.4.4 测试你的项目",
+      "purpose": "给出毕业项目的真实交付检查表：运行命令、输入输出、异常案例、证据文件和待验证项；不能用计划或模板替代已执行证据。"
+    }
+  ],
+  "notes": "本章是综合交付，五维映射到项目概念、交付机制、方案比较、应用与工程取舍；不靠目录名称、PR标题格式或5MB数字背诵凑题。模板代码与依赖版本不视为当前已验证；测评不能替代实际毕业项目审查。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

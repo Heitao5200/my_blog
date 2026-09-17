@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch11-o01",
+      "title": "将LLM智能体映射为可学习策略",
+      "sections": [
+        "11.1.1 从强化学习到 Agentic RL",
+        "11.1.3 Agentic RL 的核心理念",
+        "11.1.2 LLM 训练全景图"
+      ],
+      "reason": "训练对象是策略及其任务反馈，不能把所有调参都称作Agentic RL。"
+    },
+    {
+      "id": "ch11-o02",
+      "title": "设计数据与奖励的任务契约",
+      "sections": [
+        "11.2.1 GSM8K 数学推理数据集",
+        "11.2.2 奖励函数设计",
+        "11.2.3 自定义数据集和奖励函数"
+      ],
+      "reason": "数据字段与奖励标准决定学到的行为，格式奖励不能替代正确性。"
+    },
+    {
+      "id": "ch11-o03",
+      "title": "理解SFT起点与LoRA参数更新",
+      "sections": [
+        "11.3.1 为什么需要 SFT",
+        "11.3.2 LoRA:参数高效微调",
+        "11.3.3 SFT 训练实战"
+      ],
+      "reason": "训练格式能力和参数效率是不同设计目标。"
+    },
+    {
+      "id": "ch11-o04",
+      "title": "追踪GRPO组内比较与策略约束",
+      "sections": [
+        "11.4.1 从 PPO 到 GRPO",
+        "11.4.3 GRPO 训练过程解析",
+        "11.4.2 GRPO 训练实战"
+      ],
+      "reason": "理解奖励相对性比记公式符号更重要。"
+    },
+    {
+      "id": "ch11-o05",
+      "title": "依据多维指标诊断训练问题",
+      "sections": [
+        "11.5.1 评估指标体系",
+        "11.5.3 错误分析",
+        "11.5.4 改进方向"
+      ],
+      "reason": "平均奖励上升不能单独证明正确率和泛化都提高。"
+    },
+    {
+      "id": "ch11-o06",
+      "title": "组织可比较的训练评估与部署",
+      "sections": [
+        "11.6.1 端到端训练流程",
+        "11.6.2 超参数调优",
+        "11.6.4 生产部署"
+      ],
+      "reason": "先验证小流程再扩规模，训练完成与上线有效是不同证据。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch11-q01",
+      "type": "single",
+      "objectiveId": "ch11-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "11.1.1 从强化学习到 Agentic RL",
+      "purpose": "辨认状态、行动、奖励与策略在数学或工具任务中的对应关系。"
+    },
+    {
+      "id": "ch11-q02",
+      "type": "single",
+      "objectiveId": "ch11-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "11.1.3 Agentic RL 的核心理念",
+      "purpose": "解释历史观察如何改变多步智能体的状态及后续决策。"
+    },
+    {
+      "id": "ch11-q03",
+      "type": "single",
+      "objectiveId": "ch11-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "11.2.1 GSM8K 数学推理数据集",
+      "purpose": "识别数学任务可核对标准答案为何便于自动评估。"
+    },
+    {
+      "id": "ch11-q04",
+      "type": "single",
+      "objectiveId": "ch11-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "11.2.2 奖励函数设计",
+      "purpose": "解释准确性、步骤或长度奖励如何组合，并识别奖励欺骗。"
+    },
+    {
+      "id": "ch11-q05",
+      "type": "single",
+      "objectiveId": "ch11-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "11.3.1 为什么需要 SFT",
+      "purpose": "辨认SFT学习任务格式、推理示例和初始能力的作用。"
+    },
+    {
+      "id": "ch11-q06",
+      "type": "single",
+      "objectiveId": "ch11-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "11.3.2 LoRA:参数高效微调",
+      "purpose": "用W加BA解释冻结基础权重与训练低秩增量的机制。"
+    },
+    {
+      "id": "ch11-q07",
+      "type": "single",
+      "objectiveId": "ch11-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "11.4.1 从 PPO 到 GRPO",
+      "purpose": "识别GRPO以同问题多答案组相对奖励替代独立价值模型的核心思路。"
+    },
+    {
+      "id": "ch11-q08",
+      "type": "single",
+      "objectiveId": "ch11-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "11.4.3 GRPO 训练过程解析",
+      "purpose": "追踪生成多答案、算奖励、形成组内相对信号及KL约束更新的循环。"
+    },
+    {
+      "id": "ch11-q09",
+      "type": "single",
+      "objectiveId": "ch11-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "11.5.1 评估指标体系",
+      "purpose": "为模型对比选择准确率、采样预算、延迟和推理质量等相关指标。"
+    },
+    {
+      "id": "ch11-q10",
+      "type": "single",
+      "objectiveId": "ch11-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "11.5.3 错误分析",
+      "purpose": "分析只优化容易获取的格式或长度奖励可能牺牲任务成功的风险。"
+    },
+    {
+      "id": "ch11-q11",
+      "type": "single",
+      "objectiveId": "ch11-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "11.6.1 端到端训练流程",
+      "purpose": "判断小样本流程验证与大规模训练的计算成本、证据力度差异。"
+    },
+    {
+      "id": "ch11-q12",
+      "type": "single",
+      "objectiveId": "ch11-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "11.6.2 超参数调优",
+      "purpose": "比较网格、随机和贝叶斯调参的搜索方法与预算需求，不声称有限网格证明全局最优。"
+    },
+    {
+      "id": "ch11-q13",
+      "type": "multiple",
+      "objectiveId": "ch11-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "11.1.2 LLM 训练全景图",
+      "purpose": "比较预训练、SFT、偏好优化与多步任务强化学习的监督来源和目标。"
+    },
+    {
+      "id": "ch11-q14",
+      "type": "multiple",
+      "objectiveId": "ch11-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "11.2.3 自定义数据集和奖励函数",
+      "purpose": "比较SFT的期望completion与RL的ground_truth等字段职责，选择适合训练阶段的数据。"
+    },
+    {
+      "id": "ch11-q15",
+      "type": "multiple",
+      "objectiveId": "ch11-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "11.3.3 SFT 训练实战",
+      "purpose": "比较全量微调与LoRA的可训练参数和资源取舍，选择与显存约束匹配的配置。"
+    },
+    {
+      "id": "ch11-q16",
+      "type": "multiple",
+      "objectiveId": "ch11-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "11.4.2 GRPO 训练实战",
+      "purpose": "在组内答案无差异、输出被截断或策略偏移场景下选择需检查的生成与优化参数。"
+    },
+    {
+      "id": "ch11-q17",
+      "type": "multiple",
+      "objectiveId": "ch11-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "11.5.4 改进方向",
+      "purpose": "根据计算、推理、理解和格式错误分布选择数据、奖励或训练方案的改进方向。"
+    },
+    {
+      "id": "ch11-q18",
+      "type": "multiple",
+      "objectiveId": "ch11-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "11.6.4 生产部署",
+      "purpose": "在部署前选择模型导出、LoRA合并、推理优化及服务验证步骤，并考虑质量与效率变化。"
+    },
+    {
+      "id": "ch11-q19",
+      "type": "reflection",
+      "objectiveId": "ch11-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "11.2.2 奖励函数设计",
+      "purpose": "为代码调试智能体定义状态、行动和奖励，举例说明如何防止仅迎合格式或测试表象而未修复问题。"
+    },
+    {
+      "id": "ch11-q20",
+      "type": "reflection",
+      "objectiveId": "ch11-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "11.6.3 分布式训练",
+      "purpose": "设计从单机小样本到分布式训练的升级条件，明确验证集、资源预算、SFT/GRPO对照及部署回归指标。"
+    }
+  ],
+  "notes": "GSM8K作为本章教学任务，不把数学成绩直接外推真实工具能力；不考固定GPU显存、准确率承诺或“必须先SFT”的普遍定律。分布式策略置于思考题，正式数学推导覆盖有限。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

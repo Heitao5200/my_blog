@@ -1,0 +1,1274 @@
+{
+  "id": 7,
+  "title": "第七章 构建你的Agent框架",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第七章 构建你的Agent框架",
+    "path": "docs/chapter7/第七章 构建你的Agent框架.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md",
+    "sha256": "4e3953750d723086620c036e8419766e879787ffba8c3d52801519f76d750fd2",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "a5e9ee6c-9a75-4027-833b-8bcf713425d0",
+    "artifactId": "bd45b5a1-2376-4ff1-b099-6bcd4f2f2132"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch07-o01",
+        "title": "解释轻量框架的分层与统一抽象",
+        "sections": [
+          "7.1.2 HelloAgents框架的设计理念",
+          "7.1.3 本章学习目标",
+          "7.1.1 为何需要自建Agent框架"
+        ],
+        "reason": "防止把抽象层数量误当成框架质量，并明确Agent与工具的职责边界。"
+      },
+      {
+        "id": "ch07-o02",
+        "title": "扩展统一LLM接口并判断配置来源",
+        "sections": [
+          "7.2.1 支持多提供商",
+          "7.2.3 自动检测机制",
+          "7.2.2 本地模型调用"
+        ],
+        "reason": "迁移模型服务需要理解兼容接口、继承和配置解析，而非记住网址端口。"
+      },
+      {
+        "id": "ch07-o03",
+        "title": "说明Message、Config与Agent的接口契约",
+        "sections": [
+          "7.3.1 Message 类",
+          "7.3.2 Config 类",
+          "7.3.3 Agent 抽象基类"
+        ],
+        "reason": "这些接口决定历史记录、运行入口和部署配置能否被各范式复用。"
+      },
+      {
+        "id": "ch07-o04",
+        "title": "理解范式框架化与工具调用控制流",
+        "sections": [
+          "7.4.1 SimpleAgent",
+          "7.4.2 ReActAgent",
+          "7.4.5 FunctionCallAgent"
+        ],
+        "reason": "统一接口保留范式差异；不能把SimpleAgent、ReAct和原生函数调用混为一谈。"
+      },
+      {
+        "id": "ch07-o05",
+        "title": "按任务结构选用规划与反思并估计代价",
+        "sections": [
+          "7.4.3 ReflectionAgent",
+          "7.4.4 PlanAndSolveAgent",
+          "7.4.4 PlanAndSolveAgent"
+        ],
+        "reason": "考查范式选择及结构化计划的工程作用，补齐统一实现之外的策略差异。"
+      },
+      {
+        "id": "ch07-o06",
+        "title": "设计可发现、可执行且可降级的工具系统",
+        "sections": [
+          "7.5.1 工具基类与注册机制设计",
+          "7.5.2 自定义工具开发",
+          "7.5.3 多源搜索工具",
+          "7.5.4 工具系统的高级特性"
+        ],
+        "reason": "工具接口、注册方式和失败路径共同决定真实可用性。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch07-q01",
+        "type": "single",
+        "objectiveId": "ch07-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "7.1.2 HelloAgents框架的设计理念",
+        "purpose": "辨认万物皆工具简化的是扩展模块的调用接口，不是取消Agent核心。"
+      },
+      {
+        "id": "ch07-q02",
+        "type": "single",
+        "objectiveId": "ch07-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "7.1.3 本章学习目标",
+        "purpose": "分析核心层、Agent实现层和工具层为何能通过统一接口解耦。"
+      },
+      {
+        "id": "ch07-q03",
+        "type": "single",
+        "objectiveId": "ch07-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "7.2.1 支持多提供商",
+        "purpose": "辨认provider封装服务商默认配置的职责，区分客户端统一与模型能力相同。"
+      },
+      {
+        "id": "ch07-q04",
+        "type": "single",
+        "objectiveId": "ch07-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "7.2.3 自动检测机制",
+        "purpose": "给出同时存在服务商环境变量和base_url的配置，按原文检测优先级推导；区分检测与凭证解析。"
+      },
+      {
+        "id": "ch07-q05",
+        "type": "single",
+        "objectiveId": "ch07-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "7.3.1 Message 类",
+        "purpose": "识别Message内部元数据与to_dict对外兼容格式的不同职责。"
+      },
+      {
+        "id": "ch07-q06",
+        "type": "single",
+        "objectiveId": "ch07-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "7.3.2 Config 类",
+        "purpose": "追踪Config.from_env覆盖默认值的过程，分析为什么环境配置不需改业务代码。"
+      },
+      {
+        "id": "ch07-q07",
+        "type": "single",
+        "objectiveId": "ch07-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "7.4.1 SimpleAgent",
+        "purpose": "区分基础SimpleAgent与本节自定义工具扩展，避免把演示注释当原版能力。"
+      },
+      {
+        "id": "ch07-q08",
+        "type": "single",
+        "objectiveId": "ch07-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "7.4.2 ReActAgent",
+        "purpose": "追踪ReAct的单步Action、Observation和max_steps，识别为何终止控制必须在程序侧。"
+      },
+      {
+        "id": "ch07-q09",
+        "type": "single",
+        "objectiveId": "ch07-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "7.4.3 ReflectionAgent",
+        "purpose": "给定需要迭代改稿的需求，识别Reflection的生成、评估与修订职责。"
+      },
+      {
+        "id": "ch07-q10",
+        "type": "single",
+        "objectiveId": "ch07-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "7.4.4 PlanAndSolveAgent",
+        "purpose": "分析计划输出改为Python列表后可解析性收益与异常处理需求，不能认为格式约束保证计划正确。"
+      },
+      {
+        "id": "ch07-q11",
+        "type": "single",
+        "objectiveId": "ch07-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "7.5.1 工具基类与注册机制设计",
+        "purpose": "判断简单函数注册与完整Tool参数描述的开发成本及验证能力取舍。"
+      },
+      {
+        "id": "ch07-q12",
+        "type": "single",
+        "objectiveId": "ch07-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "7.5.2 自定义工具开发",
+        "purpose": "比较AST白名单计算与任意表达式执行；按示例支持范围判断输入限制，不宣称示例覆盖全部安全边界。"
+      },
+      {
+        "id": "ch07-q13",
+        "type": "multiple",
+        "objectiveId": "ch07-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "7.1.1 为何需要自建Agent框架",
+        "purpose": "在教学透明度、定制控制和维护成本约束下比较自建与成熟框架，避免绝对优劣。"
+      },
+      {
+        "id": "ch07-q14",
+        "type": "multiple",
+        "objectiveId": "ch07-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "7.2.2 本地模型调用",
+        "purpose": "比较本地Transformers、vLLM和Ollama的接入与部署侧重点；不把PagedAttention归到全部后端。"
+      },
+      {
+        "id": "ch07-q15",
+        "type": "multiple",
+        "objectiveId": "ch07-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "7.3.3 Agent 抽象基类",
+        "purpose": "比较抽象run契约与共用历史管理；判断具体子类必须实现和可以继承的行为。"
+      },
+      {
+        "id": "ch07-q16",
+        "type": "multiple",
+        "objectiveId": "ch07-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "7.4.5 FunctionCallAgent",
+        "purpose": "给出原生tool_calls响应，选择schema构造、参数解析、工具执行和结果回传的必要环节；比较prompt约束边界。"
+      },
+      {
+        "id": "ch07-q17",
+        "type": "multiple",
+        "objectiveId": "ch07-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "7.4.4 PlanAndSolveAgent",
+        "purpose": "面对可分解任务和需要评审的产物，选择计划执行或反思的组合并考虑调用预算。"
+      },
+      {
+        "id": "ch07-q18",
+        "type": "multiple",
+        "objectiveId": "ch07-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "7.5.3 多源搜索工具",
+        "purpose": "在Tavily失败、SerpApi可用或全部不可用时选出合理降级结果；区分顺序回退与并行结果融合。"
+      },
+      {
+        "id": "ch07-q19",
+        "type": "reflection",
+        "objectiveId": "ch07-o04",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "7.4.5 FunctionCallAgent",
+        "purpose": "为同一工具任务比较ReAct文本解析与FunctionCallAgent原生调用，提出错误注入、终止和结果回传检查；明确0.1.1与0.2.8之后的版本边界。"
+      },
+      {
+        "id": "ch07-q20",
+        "type": "reflection",
+        "objectiveId": "ch07-o06",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "7.5.4 工具系统的高级特性",
+        "purpose": "设计先搜索后计算的依赖工具链，以及两项独立搜索的并发执行；解释数据依赖、失败传播、输入验证和资源回收。"
+      }
+    ],
+    "notes": "覆盖设计、LLM、三类接口、五种Agent与工具系统；高级工具链和异步执行主要置于思考题，不能据此单独诊断并发编码能力。课件混有0.1.1示例与0.2.8之后新增FunctionCallAgent，生成必须限定版本。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:29:24.951545+00:00",
+    "notes": [
+      "对20题逐题进行课件语义、选项与答案核对；以本地锁定源码验证所有连续引文、章节与蓝图配额，非学习者人工测评或运行可靠性验证。",
+      "保留NotebookLM题目来源、ID和蓝图配额；编辑修正拼接引文、版本边界、参数字符串误解、未实测性能/可靠性保证、hybrid异常边界及财报计算输入依赖。",
+      "补齐两道思考题来源，移除虚构分值，以自查要点替代评分。validate_bank.py --chapters 7通过，0 errors。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch07-q01",
+      "stem": "在 HelloAgents 的架构设计中，将 Memory、RAG、MCP 等模块统一抽象为“工具（Tools）”的核心初衷是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "为了通过增加抽象层级来对标 LangChain 等工业级框架的复杂度"
+        },
+        {
+          "id": "b",
+          "text": "为了消除不必要的抽象层，让学习者回归“智能体调用工具”的核心逻辑"
+        },
+        {
+          "id": "c",
+          "text": "因为在技术实现上，Memory 模块的 RAG 检索与普通 API 工具完全一致"
+        },
+        {
+          "id": "d",
+          "text": "为了强制开发者弃用内置模块，转而完全依赖自定义工具编写"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "HelloAgents 追求轻量化与教学友好。通过将复杂的 Memory 或 RAG 模块抽象为工具，学习者可以像调用普通 API 一样调用它们，从而降低了理解 Chain、Retriever 等十几个不同概念的门槛。",
+      "optionExplanations": {
+        "a": "可能误以为框架设计的目的是模仿成熟框架的复杂抽象，实际上是为了简化。",
+        "b": "正确项，对应 7.1.2 节关于“万物皆为工具”的简化逻辑。",
+        "c": "错误，虽然抽象接口一致，但内部逻辑（如向量检索与 REST 调用）存在本质差异。",
+        "d": "误解，抽象为工具是为了降低上手难度并提高统一性，而非限制开发者。"
+      },
+      "evidence": [
+        {
+          "section": "7.1.2 HelloAgents框架的设计理念",
+          "quote": "为了彻底贯彻轻量级与教学友好的理念，HelloAgents在架构上做出了一个关键的简化：除了核心的Agent类，一切皆为Tools。在许多其他框架中需要独立学习的Memory（记忆）、RAG（检索增强生成）、RL（强化学习）、MCP（协议）等模块，在HelloAgents中都被统一抽象为一种“工具”。这种设计的初衷是消除不必要的抽象层，让学习者可以回归到最直观的“智能体调用工具”这一核心逻辑上，从而真正实现快速上手和深入理解的统一。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对框架核心简化理念“万物皆工具”的深刻理解",
+        "misconception": "可能误以为模块化的复杂抽象是衡量 Agent 框架优劣的唯一标准"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch07-q02",
+      "stem": "根据 7.1.3 节的架构蓝图，负责定义所有智能体通用行为（如历史记录管理）并强制子类实现统一接口的是哪一个类？",
+      "options": [
+        {
+          "id": "a",
+          "text": "SimpleAgent"
+        },
+        {
+          "id": "b",
+          "text": "HelloAgentsLLM"
+        },
+        {
+          "id": "c",
+          "text": "Agent 抽象基类"
+        },
+        {
+          "id": "d",
+          "text": "ToolRegistry"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "Agent 抽象基类利用 Python 的 abc 模块定义了智能体应具备的通用属性（name, llm, history）和方法接口（run），具体逻辑由其子类实现。",
+      "optionExplanations": {
+        "a": "SimpleAgent 是继承自 Agent 的具体对话实现类。",
+        "b": "HelloAgentsLLM 负责模型调用，属于基础设施层。",
+        "c": "正确项，基类提供通用逻辑（如 add_message）并强制 run 方法的实现。",
+        "d": "ToolRegistry 负责管理工具系统的发现与执行。"
+      },
+      "evidence": [
+        {
+          "section": "7.3.3 Agent 抽象基类",
+          "quote": "该类的设计体现了面向对象中的抽象原则。首先，它通过继承 `ABC` 被定义为一个不能直接实例化的抽象类。其构造函数 `__init__` 清晰地定义了 Agent 的核心依赖：名称、LLM 实例、系统提示词和配置。最重要的部分是使用 `@abstractmethod` 装饰的 `run` 方法，它强制所有子类必须实现此方法，从而保证了所有智能体都有统一的执行入口。此外，基类还提供了通用的历史记录管理方法，这些方法与 `Message` 类协同工作，体现了组件间的联系。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对核心框架层中基类职责及面向对象设计的认知",
+        "misconception": "可能混淆具体业务实现类与底层抽象定义类的边界"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q03",
+      "stem": "HelloAgentsLLM 在迭代升级后引入 `provider` 参数，其在工程设计上的主要职责是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "负责执行模型推理的底层 CUDA 核函数调度"
+        },
+        {
+          "id": "b",
+          "text": "负责自动将用户输入转化为特定角色的 Prompt 模板"
+        },
+        {
+          "id": "c",
+          "text": "在内部处理不同服务商的环境变量命名差异及默认 API 地址，提供统一调用体验"
+        },
+        {
+          "id": "d",
+          "text": "负责在多个本地 GPU 之间分配模型权重的并行推理任务"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "provider 参数的作用是封装不同服务商（OpenAI, ModelScope, Zhipu 等）的细节差异，如不同的环境变量名（MODELSCOPE_API_KEY vs OPENAI_API_KEY）和默认 URL。",
+      "optionExplanations": {
+        "a": "这是底层推理框架（如 PyTorch/CUDA）的职责。",
+        "b": "Prompt 模板的构建通常由具体的 Agent 类或消息系统管理。",
+        "c": "正确项，对应 7.2.1 节关于 provider 处理配置细节以提升开发效率的描述。",
+        "d": "这是推理加速库（如 vLLM）在模型部署层的功能。"
+      },
+      "evidence": [
+        {
+          "section": "7.2.1 支持多提供商",
+          "quote": "我们之前定义的 `HelloAgentsLLM` 类，已经能够通过 `api_key` 和 `base_url` 这两个核心参数，连接任何兼容 OpenAI 接口的服务。这在理论上保证了通用性，但在实际应用中，不同的服务商在环境变量命名、默认 API 地址和推荐模型等方面都存在差异。如果每次切换服务商都需要用户手动查询并修改代码，会极大影响开发效率。为了解决这一问题，我们引入 `provider`。其改进思路是：让 `HelloAgentsLLM` 在内部处理不同服务商的配置细节，从而为用户提供一个统一、简洁的调用体验。具体的实现细节我们将在7.2.3节“自动检测机制”中详细阐述，在这里，我们首先关注如何利用这一机制来扩展框架。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对 LLM 客户端层解耦及“对内处理差异，对外接口统一”原则的理解",
+        "misconception": "可能误以为 provider 涉及具体的推理算法或模型逻辑"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch07-q04",
+      "stem": "若未显式指定 provider，用户在 `.env` 中同时设置了 `MODELSCOPE_API_KEY` 和 `LLM_BASE_URL=\"http://localhost:11434/v1\"`（Ollama 默认地址），根据 7.2.3 节的自动检测机制，框架最终确定的 `provider` 是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "ollama"
+        },
+        {
+          "id": "b",
+          "text": "modelscope"
+        },
+        {
+          "id": "c",
+          "text": "local"
+        },
+        {
+          "id": "d",
+          "text": "openai"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "框架的自动检测机制中，“检查特定服务商的环境变量”具有最高优先级。一旦检测到 `MODELSCOPE_API_KEY`，即返回 'modelscope'，不再进行后续的 URL 特征分析。",
+      "optionExplanations": {
+        "a": "可能误以为 base_url 匹配优先级更高，但环境变量检查是第一顺位。",
+        "b": "正确项，环境变量检查是最高优先级且最可靠的依据。",
+        "c": "同 A 选项，虽然 URL 指向本地，但特定变量声明具有优先权。",
+        "d": "错误，即使还有其他环境变量，示例也会先检查并命中 MODELSCOPE_API_KEY。"
+      },
+      "evidence": [
+        {
+          "section": "7.2.3 自动检测机制",
+          "quote": "`_auto_detect_provider` 方法负责根据环境信息，按照下述优先级顺序，尝试自动推断服务商：\n\n1. **最高优先级：检查特定服务商的环境变量** 这是最直接、最可靠的判断依据。框架会依次检查 `MODELSCOPE_API_KEY`, `OPENAI_API_KEY`, `ZHIPU_API_KEY` 等环境变量是否存在。一旦发现任何一个，就会立即确定对应的服务商。\n\n2. **次高优先级：根据 `base_url` 进行判断** 如果用户没有设置特定服务商的密钥，但设置了通用的 `LLM_BASE_URL`，框架会转而解析这个 URL。\n\n   - **域名匹配**：通过检查 URL 中是否包含 `\"api-inference.modelscope.cn\"`, `\"api.openai.com\"` 等特征字符串来识别云服务商。\n\n   - **端口匹配**：通过检查 URL 中是否包含 `:11434` (Ollama), `:8000` (VLLM) 等本地服务的标准端口来识别本地部署方案。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对自动检测机制优先级顺序的精确掌握",
+        "misconception": "误以为 base_url 的显性特征（如 localhost）会覆盖环境变量的隐性判断"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q05",
+      "stem": "在 `Message` 类的设计中，`to_dict()` 方法体现了什么设计原则？",
+      "options": [
+        {
+          "id": "a",
+          "text": "强制暴露所有内部元数据（如 timestamp）给大模型 API"
+        },
+        {
+          "id": "b",
+          "text": "将消息对象持久化为 SQL 数据库兼容的二进制流"
+        },
+        {
+          "id": "c",
+          "text": "对内保持丰富的上下文属性，对外兼容标准的 OpenAI role/content 格式"
+        },
+        {
+          "id": "d",
+          "text": "将消息内容强制转换为 Base64 编码以处理特殊字符"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "为了确保对外的兼容性，to_dict 方法负责将包含时间戳和元数据的内部 Message 对象简化为 OpenAI API 要求的 role 和 content 字典格式。",
+      "optionExplanations": {
+        "a": "错误，示例 to_dict 只导出 role 和 content，没有导出 timestamp 或 metadata。",
+        "b": "字典转换是为 API 调用准备的，而非数据库持久化。",
+        "c": "正确项，对应 7.3.1 节关于“对内丰富，对外兼容”原则的描述。",
+        "d": "OpenAI 接口接受原始字符串，无需在此层进行 Base64 转换。"
+      },
+      "evidence": [
+        {
+          "section": "7.3.1 Message 类",
+          "quote": "该类的设计有几个关键点。首先，我们通过 typing.Literal 将 role 字段的取值严格限制为 \"user\", \"assistant\", \"system\", \"tool\" 四种，这直接对应 OpenAI API 的规范，保证了类型安全。除了 content 和 role 这两个核心字段外，我们还增加了 timestamp 和 metadata，为日志记录和未来功能扩展预留了空间。最后，to_dict() 方法是其核心功能之一，负责将内部使用的 Message 对象转换为与 OpenAI API 兼容的字典格式，体现了“对内丰富，对外兼容”的设计原则。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对消息系统数据协议封装与兼容性的理解",
+        "misconception": "可能认为所有内部元数据都应被传递给大模型以增强上下文"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch07-q06",
+      "stem": "关于 `Config.from_env()` 方法的工程意义，下列描述最准确的是哪一项？",
+      "options": [
+        {
+          "id": "a",
+          "text": "它会在启动时强制校验并报错所有缺失的环境变量"
+        },
+        {
+          "id": "b",
+          "text": "它支持通过环境变量动态覆盖类定义的默认配置，实现零代码修改的多环境部署"
+        },
+        {
+          "id": "c",
+          "text": "它仅负责读取 `LLM_API_KEY`，不支持温度（temperature）等参数的读取"
+        },
+        {
+          "id": "d",
+          "text": "它会自动将环境变量保存到本地的 config.json 文件中以持久化"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "Config 提供配置默认值，from_env 读取环境变量并覆盖相应默认项，便于多环境部署。这不代表无需配置模型服务或凭证即可成功调用。",
+      "optionExplanations": {
+        "a": "未设置的环境变量将沿用类中定义的合理默认值，不会强制报错。",
+        "b": "正确项，体现了中心化配置管理的灵活性。",
+        "c": "根据代码示例，它可以读取 temperature, max_tokens, debug 等多种配置。",
+        "d": "它是单向读取环境变量，不会自动回写到本地文件。"
+      },
+      "evidence": [
+        {
+          "section": "7.3.2 Config 类",
+          "quote": "首先，我们将配置项按逻辑划分为 `LLM配置`、`系统配置` 等，使结构一目了然。其次，每个配置项都设有合理的默认值，保证了框架在零配置下也能工作。最核心的是 `from_env()` 类方法，它允许用户通过设置环境变量来覆盖默认配置，无需修改代码，这在部署到不同环境时尤其有用。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查中心化配置管理系统的动态加载与默认值兜底机制",
+        "misconception": "可能忽略了默认值的兜底作用，误以为环境变量是唯一来源"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q07",
+      "stem": "在 `MySimpleAgent` 的工具调用实现中，解析逻辑是如何识别模型意图的？",
+      "options": [
+        {
+          "id": "a",
+          "text": "通过解析模型返回的 JSON Schema 对象"
+        },
+        {
+          "id": "b",
+          "text": "通过正则表达式匹配特定标记格式 `[TOOL_CALL:tool_name:parameters]`"
+        },
+        {
+          "id": "c",
+          "text": "通过监听底层的 API 回调事件（Events）"
+        },
+        {
+          "id": "d",
+          "text": "通过识别 XML 标签格式 `<action>tool_name</action>`"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "MySimpleAgent 属于基于文本解析的范式，它通过增强系统提示词，规定了特定的文本标记格式，并使用正则表达式进行解析。",
+      "optionExplanations": {
+        "a": "错误，本题的 MySimpleAgent 扩展示例解析文本标记，并未采用原生工具调用响应。",
+        "b": "正确项，对应代码中 `_parse_tool_calls` 方法定义的正则模式。",
+        "c": "错误，该示例直接对返回文本应用正则匹配，没有事件监听步骤。",
+        "d": "格式与代码实现不符，代码明确指定了方括号标记。"
+      },
+      "evidence": [
+        {
+          "section": "7.4.1 SimpleAgent",
+          "quote": "def _parse_tool_calls(self, text: str) -> list:\n        \"\"\"解析文本中的工具调用\"\"\"\n        pattern = r'\\[TOOL_CALL:([^:]+):([^\\]]+)\\]'\n        matches = re.findall(pattern, text)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对基于文本正则解析（Prompt-based Parsing）协议的理解",
+        "misconception": "可能混淆文本解析模式与原生函数调用模式（Native Function Call）"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch07-q08",
+      "stem": "在框架化的 `ReActAgent` 中，`max_steps` 参数的核心工程作用是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "设置大模型的单次请求超时时间"
+        },
+        {
+          "id": "b",
+          "text": "控制对话历史记录的最大字符长度"
+        },
+        {
+          "id": "c",
+          "text": "限制“思考-行动”循环的执行步数，防止因模型幻觉导致无限循环"
+        },
+        {
+          "id": "d",
+          "text": "定义工具执行失败后的自动重试次数"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "ReAct 循环是一个 while 循环过程，max_steps 限制了循环执行的最大次数，这是保证程序侧健壮性的关键参数。",
+      "optionExplanations": {
+        "a": "错误，max_steps 限制循环步数，不是单次请求超时。",
+        "b": "错误，该参数不负责历史消息字符长度限制。",
+        "c": "正确项，对应 run 方法中 while 循环的步数控制逻辑。",
+        "d": "工具侧的重试逻辑不在 max_steps 的控制范围内。"
+      },
+      "evidence": [
+        {
+          "section": "7.4.2 ReActAgent",
+          "quote": "- `max_steps`： ReAct循环的最大执行步数，防止无限循环。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对循环类 Agent 范式运行控制机制的掌握",
+        "misconception": "可能误以为所有退出机制都完全由大模型决定，忽略了程序侧的保护机制"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q09",
+      "stem": "在 `ReflectionAgent` 的三个核心 Prompt 阶段中，主要负责“指出不足之处并提出具体建议”的是哪一阶段？",
+      "options": [
+        {
+          "id": "a",
+          "text": "initial (初始生成阶段)"
+        },
+        {
+          "id": "b",
+          "text": "reflect (反思审查阶段)"
+        },
+        {
+          "id": "c",
+          "text": "refine (迭代优化阶段)"
+        },
+        {
+          "id": "d",
+          "text": "evaluate (质量打分阶段)"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "Reflection 范式的三个关键阶段中，reflect 阶段负责对已生成的回答进行批判性审查。",
+      "optionExplanations": {
+        "a": "initial 阶段仅负责根据任务提供原始回答。",
+        "b": "正确项，对应 reflect 提示词中“请分析这个回答的质量，指出不足之处”的逻辑。",
+        "c": "refine 阶段负责根据反馈意见生成最终改进后的稿件。",
+        "d": "不是 DEFAULT_PROMPTS 定义的三个核心阶段名称。"
+      },
+      "evidence": [
+        {
+          "section": "7.4.3 ReflectionAgent",
+          "quote": "\"reflect\": \"\"\"\n请仔细审查以下回答，并找出可能的问题或改进空间:\n\n# 原始任务:\n{task}\n\n# 当前回答:\n{content}\n\n请分析这个回答的质量，指出不足之处，并提出具体的改进建议。\n如果回答已经很好，请回答\"无需改进\"。\n\"\"\",",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对反思范式工作流中各阶段职责边界的理解",
+        "misconception": "可能混淆“反思动作”与“基于反思的改进动作”"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch07-q10",
+      "stem": "相较于自由文本，框架化后的 `PlanAndSolveAgent` 强制 Planner 输出 Python 列表格式的主要收益是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "为了让大模型在生成过程中节省 Token"
+        },
+        {
+          "id": "b",
+          "text": "为了通过结构化格式实现稳定的程序解析和异常处理，确保执行器按序处理子任务"
+        },
+        {
+          "id": "c",
+          "text": "为了利用 Python 解释器直接运行大模型生成的计划代码"
+        },
+        {
+          "id": "d",
+          "text": "为了支持多模型同时协作，因为列表格式是模型间通信的唯一标准"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "结构化的 Python 列表格式便于程序侧精准提取子任务，结合异常处理机制可大幅提升复杂任务分解执行的稳定性。但格式约束不保证模型始终遵守格式，也不保证计划内容正确。",
+      "optionExplanations": {
+        "a": "错误，课件强调程序解析和异常处理，没有给出节省 Token 的结论。",
+        "b": "正确项，对应 7.4.4 节关于输出格式强制要求及异常处理机制的描述。",
+        "c": "计划内容通常是自然语言子任务，不能直接作为代码运行，只是以列表形式容器承载。",
+        "d": "列表格式并非唯一标准，但其在 Python 框架中易于解析。"
+      },
+      "evidence": [
+        {
+          "section": "7.4.4 PlanAndSolveAgent",
+          "quote": "与第四章自由文本的计划输出不同，框架化版本强制要求Planner以Python列表的格式输出计划，并提供了完整的异常处理机制，确保了后续步骤能够稳定执行。框架化的Plan-and-Solve提示词：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查规划范式中结构化输出在工程稳定性上的意义",
+        "misconception": "可能认为自由文本更有利于大模型发挥创意，忽略了程序解析的难度"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q11",
+      "stem": "在 `ToolRegistry` 的设计中，对于无需复杂状态管理、仅需快速集成的现有函数，最推荐的注册方式是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "继承 Tool 基类并手动重写所有方法"
+        },
+        {
+          "id": "b",
+          "text": "使用 `register_function` 方法直接注册"
+        },
+        {
+          "id": "c",
+          "text": "将函数逻辑硬编码进 `agent.py`"
+        },
+        {
+          "id": "d",
+          "text": "修改 `llm.py` 以直接调用该函数"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "ToolRegistry 提供了两种集成路径。对于简单的数学函数或已有工具函数，register_function 是最快捷的手段。",
+      "optionExplanations": {
+        "a": "适合需要复杂自描述、参数验证或状态管理的复杂工具类。",
+        "b": "正确项，对应 7.5.1 节关于“简便方式”的描述。",
+        "c": "错误做法，会破坏框架的解耦结构。",
+        "d": "混淆项，LLM 客户端不应涉及具体的业务工具逻辑。"
+      },
+      "evidence": [
+        {
+          "section": "7.5.1 工具基类与注册机制设计",
+          "quote": "ToolRegistry支持两种注册方式：\n\n1. **Tool对象注册**：适合复杂工具，支持完整的参数定义和验证\n2. **函数直接注册**：适合简单工具，快速集成现有函数",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查工具系统在灵活性和易用性上的分层设计",
+        "misconception": "误以为所有工具都必须使用繁琐的类继承模式"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch07-q12",
+      "stem": "在自定义计算器工具 `my_calculator` 的实现中，使用 `ast.parse` 构建语法树的主要安全考量是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "提高数学表达式的解析和执行速度"
+        },
+        {
+          "id": "b",
+          "text": "通过白名单机制限制允许的运算和函数，防止大模型诱导执行危险的系统代码"
+        },
+        {
+          "id": "c",
+          "text": "支持复杂的 Python 多行脚本和类定义解析"
+        },
+        {
+          "id": "d",
+          "text": "自动并行化处理大规模矩阵运算"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "示例通过 AST 节点分支、运算符映射和函数白名单限制求值范围，而非直接执行任意 Python 表达式。这是限制性求值示例，不是完整安全沙盒，也未覆盖所有异常输入和资源限制。",
+      "optionExplanations": {
+        "a": "错误，示例限制可求值的节点和函数，课件未提供其速度与 eval 的比较。",
+        "b": "正确项，对应 7.5.2 节中通过 _eval_node 过滤节点的逻辑。",
+        "c": "计算器工具设计为执行简易表达式，而非解析复杂脚本。",
+        "d": "解析语法树与并行计算无直接关联。"
+      },
+      "evidence": [
+        {
+          "section": "7.5.2 自定义工具开发",
+          "quote": "def _eval_node(node, operators, functions):\n    \"\"\"简化的表达式求值\"\"\"\n    if isinstance(node, ast.Constant):\n        return node.value\n    elif isinstance(node, ast.BinOp):\n        left = _eval_node(node.left, operators, functions)\n        right = _eval_node(node.right, operators, functions)\n        op = operators.get(type(node.op))\n        return op(left, right)\n    elif isinstance(node, ast.Call):\n        func_name = node.func.id\n        if func_name in functions:\n            args = [_eval_node(arg, operators, functions) for arg in node.args]\n            return functions[func_name](*args)\n    elif isinstance(node, ast.Name):\n        if node.id in functions:\n            return functions[node.id]",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对智能体工具调用安全防范机制的深度认知",
+        "misconception": "可能认为 eval 是处理计算逻辑最通用、最高效的手段"
+      },
+      "type": "single",
+      "objectiveId": "ch07-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q13",
+      "stem": "根据 7.1.1 节，自建 HelloAgents 框架而非直接使用 LangChain 等成熟框架的合理理由包括（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "成熟框架往往存在过度抽象，导致初学者理解和维护成本极高"
+        },
+        {
+          "id": "b",
+          "text": "商业化框架 API 变更频繁，常导致版本升级后代码无法运行"
+        },
+        {
+          "id": "c",
+          "text": "成熟框架通常缺乏对 OpenAI 标准 API 的兼容支持"
+        },
+        {
+          "id": "d",
+          "text": "自建框架能通过亲手实现组件，帮助开发者实现从“使用者”到“构建者”的能力跃迁"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "课件从学习曲线、接口变更、内部逻辑透明度和依赖等角度解释自建框架的动机，并强调亲手构建的学习价值；并未把缺乏 OpenAI API 兼容支持列为理由。",
+      "optionExplanations": {
+        "a": "正确，对应“过度抽象的复杂性”。",
+        "b": "正确，对应“快速迭代带来的不稳定性”。",
+        "c": "错误，课件没有将成熟框架缺乏 OpenAI API 兼容支持列为自建理由，不能由抽象复杂推导出不兼容。",
+        "d": "正确，对应 7.1.1 (2) 节的深度理解价值。"
+      },
+      "evidence": [
+        {
+          "section": "7.1.1 为何需要自建Agent框架",
+          "quote": "- **过度抽象的复杂性**：许多框架为了追求通用性，引入了大量抽象层和配置选项。以LangChain为例，其链式调用机制虽然灵活，但对初学者而言学习曲线陡峭，往往需要理解大量概念才能完成简单任务。\n- **快速迭代带来的不稳定性**：商业化框架为了抢占市场，API接口变更频繁。开发者经常面临版本升级后代码无法运行的困扰，维护成本居高不下。\n- **黑盒化的实现逻辑**：许多框架将核心逻辑封装得过于严密，开发者难以理解Agent的内部工作机制，缺乏深度定制能力。遇到问题时只能依赖文档和社区支持，尤其是如果社区不够活跃，可能一个反馈意见会非常久也没有人推进，影响后续的开发效率。\n- **依赖关系的复杂性**：成熟框架往往携带大量依赖包，安装包体积庞大，在需要与别的项目代码配合使用可能出现依赖冲突问题。\n\n（2）从使用者到构建者的能力跃迁\n\n构建自己的Agent框架，实际上是一个从\"使用者\"向\"构建者\"转变的过程。这种转变带来的价值是长远的。\n\n- **深度理解Agent工作原理**：通过亲手实现每个组件，开发者能够真正理解Agent的思考过程、工具调用机制、以及各种设计模式的好坏与区别。\n- **获得完全的控制权**：自建框架意味着对每一行代码都有完全的掌控，可以根据具体需求进行精确调优，而不受第三方框架设计理念的束缚。\n- **培养系统设计能力**：框架构建过程涉及模块化设计、接口抽象、错误处理等软件工程核心技能，这些能力对开发者的长期成长具有重要价值。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对框架构建权衡逻辑的全局理解",
+        "misconception": "可能认为成熟框架在所有技术维度（如 API 兼容性）都存在短板"
+      },
+      "type": "multiple",
+      "objectiveId": "ch07-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q14",
+      "stem": "关于本地模型推理方案 VLLM 与 Ollama 的集成，下列说法正确的有（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "它们都能将本地开源模型封装为兼容 OpenAI 标准的 HTTP 服务"
+        },
+        {
+          "id": "b",
+          "text": "按课件介绍，VLLM 使用 PagedAttention 等技术提升推理吞吐量"
+        },
+        {
+          "id": "c",
+          "text": "Ollama 简化了模型下载、配置和硬件加速，极大降低了本地部署门槛"
+        },
+        {
+          "id": "d",
+          "text": "在 HelloAgentsLLM 中，接入这些本地服务必须手动修改核心源码以更改 API 端点"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "课件分别介绍 VLLM 的吞吐量优化与 Ollama 的部署简化。二者提供兼容 OpenAI 的服务，可通过客户端配置接入；仍需启动服务并匹配模型名、地址和凭证配置。",
+      "optionExplanations": {
+        "a": "正确，这是实现无缝集成的基础。",
+        "b": "正确，对应 7.2.2 节关于生产级推理的描述。",
+        "c": "正确，对应 Ollama 封装步骤的描述。",
+        "d": "错误，原文演示了通过配置 `LLM_BASE_URL` 即可让客户端自动检测并接入。"
+      },
+      "evidence": [
+        {
+          "section": "7.2.2 本地模型调用",
+          "quote": "VLLM 是一个为 LLM 推理设计的高性能 Python 库。它通过 PagedAttention 等先进技术，可以实现比标准 Transformers 实现高出数倍的吞吐量。下面是在本地部署一个 VLLM 服务的完整步骤：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        },
+        {
+          "section": "7.2.2 本地模型调用",
+          "quote": "Ollama 进一步简化了本地模型的管理和部署，它将模型下载、配置和服务启动等步骤封装到了一条命令中，非常适合快速上手。访问 Ollama [官方网站](https://ollama.com)下载并安装适用于你操作系统的客户端。\n\n安装后，打开终端，执行以下命令即可下载并运行一个模型（以 Llama 3 为例）。Ollama 会自动处理模型的下载、服务封装和硬件加速配置。\n\n```\n# 首次运行会自动下载模型，之后会直接启动服务\nollama run llama3\n```\n\n当你在终端看到模型的交互提示时，即表示服务已经成功在后台启动。Ollama 默认会在 `http://localhost:11434/v1` 地址上暴露 OpenAI 兼容的 API 接口。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        },
+        {
+          "section": "7.2.2 本地模型调用",
+          "quote": "服务启动后，便会在 `http://localhost:8000/v1` 地址上提供与 OpenAI 兼容的 API。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对生产级本地模型集成方案与性能优化技术的认知",
+        "misconception": "误以为本地模型只能通过低效的脚本库运行，或需要大幅修改代码才能集成"
+      },
+      "type": "multiple",
+      "objectiveId": "ch07-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q15",
+      "stem": "在 `Agent` 抽象基类的设计中，哪些功能是由基类预置实现并供子类继承复用的（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "对话历史记录的消息存储与清空逻辑"
+        },
+        {
+          "id": "b",
+          "text": "不同 Agent 范式特有的 `Thought` 推理逻辑"
+        },
+        {
+          "id": "c",
+          "text": "基础依赖组件（name, llm, config）的初始化与存储"
+        },
+        {
+          "id": "d",
+          "text": "模型输出结果的正则解析规则"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c"
+      ],
+      "explanation": "基类作为“状态与接口管理器”，负责共性的属性初始化和消息历史管理。具体的推理逻辑和解析规则属于不同范式（子类）的特性。",
+      "optionExplanations": {
+        "a": "正确，`_history` 管理是所有智能体的共有行为。",
+        "b": "错误，基类把 run 定义为抽象方法，具体推理流程由子类实现。",
+        "c": "正确，构造函数定义了所有智能体的核心依赖。",
+        "d": "错误，解析规则根据 Agent 类型（ReAct vs Simple）差异巨大。"
+      },
+      "evidence": [
+        {
+          "section": "7.3.3 Agent 抽象基类",
+          "quote": "其构造函数 __init__ 清晰地定义了 Agent 的核心依赖：名称、LLM 实例、系统提示词和配置。最重要的部分是使用 @abstractmethod 装饰的 run 方法，它强制所有子类必须实现此方法，从而保证了所有智能体都有统一的执行入口。此外，基类还提供了通用的历史记录管理方法，这些方法与 Message 类协同工作，体现了组件间的联系。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对面向对象设计中“共性提取”与“逻辑隔离”原则的理解",
+        "misconception": "可能误以为抽象基类会预置通用的大模型思考流程"
+      },
+      "type": "multiple",
+      "objectiveId": "ch07-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q16",
+      "stem": "根据 7.4.5 节，FunctionCallAgent 列出的原生函数调用支持功能包括哪些（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "将 Tool 对象定义转换为符合 OpenAI 标准的 JSON Schema"
+        },
+        {
+          "id": "b",
+          "text": "从模型返回的 `tool_calls` 中解析结构化的 JSON 参数"
+        },
+        {
+          "id": "c",
+          "text": "通过 `_convert_parameter_types` 进行参数类型转换"
+        },
+        {
+          "id": "d",
+          "text": "在 System Prompt 中手动编写复杂的正则表达式"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "该节列出了 schema 构造、JSON 字符串参数解析和参数类型转换。这不意味着 JSON 对象中的每个字段都是字符串，也不保证参数语义或工具执行必然正确。",
+      "optionExplanations": {
+        "a": "正确，这是让模型理解工具入参的必要元数据。",
+        "b": "正确，调用参数以 JSON 字符串传输，需要解析；响应也可能含普通文本。",
+        "c": "正确，课件明确列出了参数类型转换功能。",
+        "d": "错误，原生调用通过专用接口而非正则提取。"
+      },
+      "evidence": [
+        {
+          "section": "7.4.5 FunctionCallAgent",
+          "quote": "FunctionCallAgent是hello-agents在0.2.8之后引入的Agent，它基于OpenAI原生函数调用机制的Agent，展示了如何使用OpenAI的函数调用机制来构建Agent。\n它支持以下功能：\n\n- _build_tool_schemas:通过工具的description构建OpenAI的function calling schema\n- _extract_message_content:从OpenAI的响应中提取文本\n- _parse_function_call_arguments:解析模型返回的JSON字符串参数\n- _convert_parameter_types:转换参数类型\n\n这些功能可以使其具备原生的OpenAI Function Calling的能力，对比使用prompt约束的方式，具备更强的鲁棒性。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对原生 Function Call 相比文本解析在工程实现上的核心差异点（尤其是参数类型转换）的掌握",
+        "misconception": "将 JSON 字符串形式的参数载荷误当成所有字段值都必须是字符串。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch07-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch07-q17",
+      "stem": "面对可分解的多步骤任务和需要审查的产物，下列哪些组合策略符合本章示例（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "使用 PlanAndSolveAgent 按逻辑顺序分解任务，再执行各步骤"
+        },
+        {
+          "id": "b",
+          "text": "在关键输出环节引入 `ReflectionAgent` 实现“执行-反思-优化”"
+        },
+        {
+          "id": "c",
+          "text": "使用 AsyncToolExecutor 并行执行互不依赖的耗时工具任务"
+        },
+        {
+          "id": "d",
+          "text": "认定只要屏蔽 Thought 输出，就能保证复杂任务结果更准确"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "规划用于任务分解，反思用于审查并修订产物，异步执行用于独立任务的并发。组合时应考虑额外调用与时间预算；这些机制都不保证结果正确，不能仅由是否输出 Thought 判断质量。",
+      "optionExplanations": {
+        "a": "正确，适合处理多步骤任务。",
+        "b": "正确，有助于在交付前进行自我质量纠错。",
+        "c": "正确，对应 7.5.4 节关于高性能执行的描述。",
+        "d": "错误，课件未提供这一质量保证；结果需要按任务要求验证。"
+      },
+      "evidence": [
+        {
+          "section": "7.4.4 PlanAndSolveAgent",
+          "quote": "你是一个顶级的AI规划专家。你的任务是将用户提出的复杂问题分解成一个由多个简单步骤组成的行动计划。\n请确保计划中的每个步骤都是一个独立的、可执行的子任务，并且严格按照逻辑顺序排列。\n你的输出必须是一个Python列表，其中每个元素都是一个描述子任务的字符串。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        },
+        {
+          "section": "7.4.3 ReflectionAgent",
+          "quote": "\"reflect\": \"\"\"\n请仔细审查以下回答，并找出可能的问题或改进空间:\n\n# 原始任务:\n{task}\n\n# 当前回答:\n{content}\n\n请分析这个回答的质量，指出不足之处，并提出具体的改进建议。\n如果回答已经很好，请回答\"无需改进\"。\n\"\"\",\n    \"refine\": \"\"\"\n请根据反馈意见改进你的回答:\n\n# 原始任务:\n{task}\n\n# 上一轮回答:\n{last_attempt}\n\n# 反馈意见:\n{feedback}\n\n请提供一个改进后的回答。\n\"\"\"",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        },
+        {
+          "section": "7.5.4 工具系统的高级特性",
+          "quote": "async def execute_tools_parallel(self, tasks: List[Dict[str, str]]) -> List[str]:\n        \"\"\"并行执行多个工具\"\"\"\n        print(f\"🚀 开始并行执行 {len(tasks)} 个工具任务\")\n\n        # 创建异步任务\n        async_tasks = []\n        for task in tasks:\n            tool_name = task[\"tool_name\"]\n            input_data = task[\"input_data\"]\n            async_task = self.execute_tool_async(tool_name, input_data)\n            async_tasks.append(async_task)\n\n        # 等待所有任务完成\n        results = await asyncio.gather(*async_tasks)\n\n        print(f\"✅ 所有工具任务执行完成\")\n        return results",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对不同 Agent 范式与执行机制进行综合设计与策略调优的能力",
+        "misconception": "认为各范式是孤立存在的，或者认为简化推理过程能带来更好的工业效果"
+      },
+      "type": "multiple",
+      "objectiveId": "ch07-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch07-q18",
+      "stem": "按 SearchTool 的 hybrid 示例，在备选后端可用或未配置任何后端的情况下，哪些处理符合代码（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "优先使用针对 AI 场景优化的 Tavily 搜索后端"
+        },
+        {
+          "id": "b",
+          "text": "Tavily 调用失败且 SerpApi 可用时，尝试 SerpApi"
+        },
+        {
+          "id": "c",
+          "text": "当所有搜索引擎不可用时，系统会自动启动 RAG 本地知识库检索"
+        },
+        {
+          "id": "d",
+          "text": "未配置任何可用后端时，返回明确的 API 配置提示"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "示例优先使用 Tavily，失败且 SerpApi 可用时尝试后者；无可用后端时返回配置提示。这是顺序回退，不是并行融合。回退分支的 SerpApi 再次抛异常未在该分支捕获，不能声称所有失败都不会传播。",
+      "optionExplanations": {
+        "a": "正确，对应代码中的优先尝试逻辑。",
+        "b": "正确，体现了降级容错设计。",
+        "c": "错误，SearchTool 专注于网页搜索，RAG 属于不同的模块逻辑。",
+        "d": "正确，无可用后端时返回配置提示；这不是对所有运行异常的兜底保证。"
+      },
+      "evidence": [
+        {
+          "section": "7.5.3 多源搜索工具",
+          "quote": "def _search_hybrid(self, query: str) -> str:\n    \"\"\"混合搜索 - 智能选择最佳搜索源\"\"\"\n    # 优先使用Tavily（AI优化的搜索）\n    if \"tavily\" in self.available_backends:\n        try:\n            return self._search_tavily(query)\n        except Exception as e:\n            print(f\"⚠️ Tavily搜索失败: {e}\")\n            # 如果Tavily失败，尝试SerpApi\n            if \"serpapi\" in self.available_backends:\n                print(\"🔄 切换到SerpApi搜索\")\n                return self._search_serpapi(query)\n\n    # 如果Tavily不可用，使用SerpApi\n    elif \"serpapi\" in self.available_backends:\n        try:\n            return self._search_serpapi(query)\n        except Exception as e:\n            print(f\"⚠️ SerpApi搜索失败: {e}\")\n\n    # 如果都不可用，提示用户配置API\n    return \"❌ 没有可用的搜索源，请配置TAVILY_API_KEY或SERPAPI_API_KEY环境变量\"",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对高可用工具系统设计中的“降级策略”与“职责单一”原则的掌握",
+        "misconception": "可能误以为一个工具应该自动整合所有其他类型的模块（如 RAG）来实现所谓的“超级对齐”"
+      },
+      "type": "multiple",
+      "objectiveId": "ch07-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch07-q19",
+      "stem": "请对比 ReActAgent 的文本 Action 解析与 FunctionCallAgent 的原生函数调用。结合课件的版本说明，提出参数解析失败、工具失败及循环终止的检查方案。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "比较调用接口与检查边界；本章示例基于 0.1.1，并补充介绍 0.2.8 之后引入的 FunctionCallAgent。课件未提供解析失败率或生产可靠性的实测。",
+      "referenceAnswer": "ReAct 通过提示词约定 Thought/Action 等文本，程序解析 Action 并执行工具，再利用 Observation 继续循环；FunctionCallAgent 构造工具 schema，解析原生调用的 JSON 字符串参数，并进行类型转换。课件称后者相对 prompt 约束更具鲁棒性，但未证明极低失败率或保证参数正确。检查方案可注入错误格式、未知工具、类型不匹配与工具异常，核对是否得到清晰错误、是否正确回传工具结果，并用最大步数限制循环。版本上必须区分本章 0.1.1 的教学示例与 0.2.8 之后新增的能力，不能据此断言框架已从教学转向生产或完成可靠性验证。",
+      "rubric": [
+        "能说明文本 Action 解析与原生 schema/JSON 参数解析的区别",
+        "能区分 0.1.1 示例与 0.2.8 之后新增功能，并避免虚构失败率",
+        "能提出参数错误、工具异常、结果回传和最大步数的检查方案"
+      ],
+      "design": {
+        "purpose": "比较工具调用协议、版本边界与错误检查方案",
+        "misconception": "将原生调用等同于零解析错误，或把新功能视为生产可靠性已验证。"
+      },
+      "type": "reflection",
+      "objectiveId": "ch07-o04",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "7.4.5 FunctionCallAgent",
+          "quote": "FunctionCallAgent是hello-agents在0.2.8之后引入的Agent，它基于OpenAI原生函数调用机制的Agent，展示了如何使用OpenAI的函数调用机制来构建Agent。\n它支持以下功能：\n\n- _build_tool_schemas:通过工具的description构建OpenAI的function calling schema\n- _extract_message_content:从OpenAI的响应中提取文本\n- _parse_function_call_arguments:解析模型返回的JSON字符串参数\n- _convert_parameter_types:转换参数类型\n\n这些功能可以使其具备原生的OpenAI Function Calling的能力，对比使用prompt约束的方式，具备更强的鲁棒性。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        },
+        {
+          "section": "7.4.2 ReActAgent",
+          "quote": "- `max_steps`： ReAct循环的最大执行步数，防止无限循环。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        },
+        {
+          "section": "7.4.2 ReActAgent",
+          "quote": "# 3. 解析输出\n        thought, action = self._parse_output(response_text)\n\n        # 4. 检查完成条件\n        if action and action.startswith(\"Finish\"):\n            final_answer = self._parse_action_input(action)\n            self.add_message(Message(input_text, \"user\"))\n            self.add_message(Message(final_answer, \"assistant\"))\n            return final_answer\n\n        # 5. 执行工具调用\n        if action:\n            tool_name, tool_input = self._parse_action(action)\n            observation = self.tool_registry.execute_tool(tool_name, tool_input)\n            self.current_history.append(f\"Action: {action}\")\n            self.current_history.append(f\"Observation: {observation}\")",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        },
+        {
+          "section": "7.1.3 本章学习目标",
+          "quote": "pip install \"hello-agents==0.1.1\"",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "optionExplanations": {}
+    },
+    {
+      "id": "ch07-q20",
+      "stem": "假设你需要为公司开发一个“高性能财报分析智能体”，该智能体需要：\n1. 同时从 Tavily 和 SerpApi 并行抓取多家公司的财报关键数据。\n2. 将搜索结果输入自定义计算工具进行比率汇总。\n请结合 7.5.4 节内容，阐述你将如何利用框架组件设计其工具链及并发方案，并特别说明资源回收的重要性。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "本题考查对高级特性 ToolChain、AsyncToolExecutor 及其背后资源管理逻辑的综合应用。",
+      "referenceAnswer": "设计先搜索、后提取并校验数值、再计算的依赖链。分别配置 Tavily 和 SerpApi 工具，把互不依赖的搜索任务交给 AsyncToolExecutor.execute_tools_parallel；hybrid 本身是顺序回退，不会自动并行两源。搜索结束后，将有效结果存入上下文，通过 ToolChain 的 output_key 和 input_template 传给后续步骤。示例计算器接收数学表达式，不能直接把整段财报文本当作有效表达式，需补充提取、单位对齐和输入验证。失败时应停止依赖计算或明确标记缺失，不能把错误字符串当财务数值。线程池用于执行工具，示例 __del__ 调用 shutdown(wait=True) 清理资源；这是示例清理路径，不能保证析构时机或推出不清理必然内存泄漏。实际应用应明确执行器生命周期和关闭方式；并发是否改善耗时需实际测量。",
+      "rubric": [
+        "能区分独立搜索可并行与搜索后计算的数据依赖",
+        "能解释上下文变量传递，并指出财报文本需提取、校验后再计算",
+        "能设计工具失败处理，避免错误结果继续参与计算",
+        "能说明线程池清理路径和生命周期，不宣称析构保证资源无泄漏"
+      ],
+      "design": {
+        "purpose": "考查对复杂工程问题（并发、数据流、资源管理）的综合解决能力",
+        "misconception": "忽略并发场景下的线程资源回收，认为程序能自动完美处理所有资源退出"
+      },
+      "type": "reflection",
+      "objectiveId": "ch07-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "7.5.4 工具系统的高级特性",
+          "quote": "async def execute_tools_parallel(self, tasks: List[Dict[str, str]]) -> List[str]:\n        \"\"\"并行执行多个工具\"\"\"\n        print(f\"🚀 开始并行执行 {len(tasks)} 个工具任务\")\n\n        # 创建异步任务\n        async_tasks = []\n        for task in tasks:\n            tool_name = task[\"tool_name\"]\n            input_data = task[\"input_data\"]\n            async_task = self.execute_tool_async(tool_name, input_data)\n            async_tasks.append(async_task)\n\n        # 等待所有任务完成\n        results = await asyncio.gather(*async_tasks)\n\n        print(f\"✅ 所有工具任务执行完成\")\n        return results\n\n    def __del__(self):\n        \"\"\"清理资源\"\"\"\n        if hasattr(self, 'executor'):\n            self.executor.shutdown(wait=True)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        },
+        {
+          "section": "7.5.4 工具系统的高级特性",
+          "quote": "# 替换模板中的变量\n            try:\n                tool_input = input_template.format(**context)\n            except KeyError as e:\n                return f\"❌ 工具链执行失败:模板变量 {e} 未找到\"\n\n            print(f\"  步骤 {i}: 使用 {tool_name} 处理 '{tool_input[:50]}...'\")\n\n            # 执行工具\n            result = registry.execute_tool(tool_name, tool_input)\n            context[output_key] = result\n\n            print(f\"  ✅ 步骤 {i} 完成，结果长度: {len(result)} 字符\")",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        },
+        {
+          "section": "7.5.4 工具系统的高级特性",
+          "quote": "基于以上的设计和实现经验，我们可以总结出工具系统开发的核心理念：在设计层面，每个工具都应该遵循单一职责原则，专注于特定功能的同时保持接口的统一性，并将完善的异常处理和安全优先的输入验证作为基本要求。在性能优化方面，利用异步执行提高并发处理能力，同时合理管理外部连接和系统资源。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md"
+        }
+      ],
+      "optionExplanations": {}
+    }
+  ]
+}

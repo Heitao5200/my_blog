@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch08-o01",
+      "title": "区分交互记忆和外部知识检索",
+      "sections": [
+        "8.1.2 为何智能体需要记忆与RAG",
+        "8.1.3 记忆与RAG系统架构设计",
+        "8.3.1 RAG的基础知识"
+      ],
+      "reason": "无状态调用和知识局限是两种不同问题，分别需要连续性与证据。"
+    },
+    {
+      "id": "ch08-o02",
+      "title": "理解记忆统一入口及管理层",
+      "sections": [
+        "8.2.3 MemoryTool详解",
+        "8.2.4 MemoryManager详解",
+        "8.2.5 四种记忆类型"
+      ],
+      "reason": "参数处理、分发协调和实际存储属于不同层。"
+    },
+    {
+      "id": "ch08-o03",
+      "title": "解释记忆保留与检索评分",
+      "sections": [
+        "8.2.1 记忆系统的工作流程",
+        "8.2.5 四种记忆类型",
+        "8.2.5 四种记忆类型"
+      ],
+      "reason": "保留所有信息和仅检索最新信息都不能保证相关性。"
+    },
+    {
+      "id": "ch08-o04",
+      "title": "追踪RAG索引与查询管线",
+      "sections": [
+        "8.3.1 RAG的基础知识",
+        "8.3.4 RAG系统架构设计",
+        "8.3.4 RAG系统架构设计"
+      ],
+      "reason": "生成前应有可检索文档，检索结果只是回答证据。"
+    },
+    {
+      "id": "ch08-o05",
+      "title": "选择查询扩展策略",
+      "sections": [
+        "8.3.5 高级检索策略",
+        "8.3.5 高级检索策略",
+        "8.4.3 智能问答功能"
+      ],
+      "reason": "召回提升伴随额外调用与潜在噪声，假设文档不是事实来源。"
+    },
+    {
+      "id": "ch08-o06",
+      "title": "组合文档问答的用户隔离与记忆",
+      "sections": [
+        "8.4.2 核心助手类的实现",
+        "8.4.4 其他核心功能",
+        "8.4.2 核心助手类的实现"
+      ],
+      "reason": "个性化与知识复用必须保持用户和会话边界。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch08-q01",
+      "type": "single",
+      "objectiveId": "ch08-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "8.1.2 为何智能体需要记忆与RAG",
+      "purpose": "识别模型调用无状态与预训练知识局限的区别。"
+    },
+    {
+      "id": "ch08-q02",
+      "type": "single",
+      "objectiveId": "ch08-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "8.1.3 记忆与RAG系统架构设计",
+      "purpose": "解释memory_tool与rag_tool分工及检索结果可以进入记忆的路径。"
+    },
+    {
+      "id": "ch08-q03",
+      "type": "single",
+      "objectiveId": "ch08-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "8.2.3 MemoryTool详解",
+      "purpose": "辨认MemoryTool的action入口与会话元数据作用。"
+    },
+    {
+      "id": "ch08-q04",
+      "type": "single",
+      "objectiveId": "ch08-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "8.2.4 MemoryManager详解",
+      "purpose": "追踪MemoryManager将操作分发给启用记忆模块的过程。"
+    },
+    {
+      "id": "ch08-q05",
+      "type": "single",
+      "objectiveId": "ch08-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "8.2.1 记忆系统的工作流程",
+      "purpose": "辨认编码、存储、检索与整合的不同作用。"
+    },
+    {
+      "id": "ch08-q06",
+      "type": "single",
+      "objectiveId": "ch08-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "8.2.5 四种记忆类型",
+      "purpose": "分析工作记忆TTL、时间衰减、相关性和重要性对可取回信息的影响。"
+    },
+    {
+      "id": "ch08-q07",
+      "type": "single",
+      "objectiveId": "ch08-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "8.3.1 RAG的基础知识",
+      "purpose": "区分数据准备与在线查询生成两个阶段。"
+    },
+    {
+      "id": "ch08-q08",
+      "type": "single",
+      "objectiveId": "ch08-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "8.3.4 RAG系统架构设计",
+      "purpose": "追踪MarkItDown统一转换、结构分块、嵌入、存储与检索的依赖。"
+    },
+    {
+      "id": "ch08-q09",
+      "type": "single",
+      "objectiveId": "ch08-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "8.3.5 高级检索策略",
+      "purpose": "识别查询用词和文档表述不匹配时可使用MQE或HyDE。"
+    },
+    {
+      "id": "ch08-q10",
+      "type": "single",
+      "objectiveId": "ch08-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "8.3.5 高级检索策略",
+      "purpose": "解释多次扩展检索的额外延迟与召回收益，及假设答案偏差风险。"
+    },
+    {
+      "id": "ch08-q11",
+      "type": "single",
+      "objectiveId": "ch08-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "8.4.2 核心助手类的实现",
+      "purpose": "判断独立user_id、rag_namespace带来的隔离收益与管理成本。"
+    },
+    {
+      "id": "ch08-q12",
+      "type": "single",
+      "objectiveId": "ch08-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "8.4.4 其他核心功能",
+      "purpose": "比较学习笔记、学习历程检索和会话统计的作用。"
+    },
+    {
+      "id": "ch08-q13",
+      "type": "multiple",
+      "objectiveId": "ch08-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "8.3.1 RAG的基础知识",
+      "purpose": "比较保存用户交互、检索文档与更新模型参数，避免混同。"
+    },
+    {
+      "id": "ch08-q14",
+      "type": "multiple",
+      "objectiveId": "ch08-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "8.2.5 四种记忆类型",
+      "purpose": "比较工作、情景、语义和感知记忆在临时信息、经历、知识及多模态内容上的适用性。"
+    },
+    {
+      "id": "ch08-q15",
+      "type": "multiple",
+      "objectiveId": "ch08-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "8.2.5 四种记忆类型",
+      "purpose": "比较TF-IDF词法匹配、稠密向量及关系图检索；不能把工作记忆的词法检索称作嵌入语义检索。"
+    },
+    {
+      "id": "ch08-q16",
+      "type": "multiple",
+      "objectiveId": "ch08-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "8.3.4 RAG系统架构设计",
+      "purpose": "面对文档结构丢失或答非所问，选择检查转换、分块、检索和上下文组装的合理环节。"
+    },
+    {
+      "id": "ch08-q17",
+      "type": "multiple",
+      "objectiveId": "ch08-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "8.4.3 智能问答功能",
+      "purpose": "选择保留真实检索证据、合并去重和检查相关性的措施，拒绝直接引用HyDE虚构答案。"
+    },
+    {
+      "id": "ch08-q18",
+      "type": "multiple",
+      "objectiveId": "ch08-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "8.4.2 核心助手类的实现",
+      "purpose": "对多用户上传文档选择记忆隔离、知识命名空间和会话追踪的必要配置。"
+    },
+    {
+      "id": "ch08-q19",
+      "type": "reflection",
+      "objectiveId": "ch08-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "8.2.5 四种记忆类型",
+      "purpose": "为长期学习助手设计哪些临时信息应整合到长期记忆，解释保留、过期、检索及冲突更新策略。"
+    },
+    {
+      "id": "ch08-q20",
+      "type": "reflection",
+      "objectiveId": "ch08-o05",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "8.3.5 高级检索策略",
+      "purpose": "设计比较基础检索、MQE和HyDE的实验，说明相关性、召回、耗时和证据真实性如何验证；不要复述未实测的提升百分比。"
+    }
+  ],
+  "notes": "四类记忆、RAG管线、扩展检索与隔离均覆盖；多模态编码和图存储实现未充分展开，不能单独形成能力结论。避开课件宣称的固定召回提升幅度。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

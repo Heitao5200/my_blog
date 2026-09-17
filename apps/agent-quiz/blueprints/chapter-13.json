@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch13-o01",
+      "title": "理解旅行应用的分层和数据契约",
+      "sections": [
+        "13.1.2 技术架构概览",
+        "13.2.1 Web 应用中的数据流转",
+        "13.2.2 从字典到 Pydantic 模型"
+      ],
+      "reason": "模型产物需穿过API及前端，类型边界是可靠集成的基础。"
+    },
+    {
+      "id": "ch13-o02",
+      "title": "设计嵌套模型与前后端一致性",
+      "sections": [
+        "13.2.3 Pydantic 的核心概念",
+        "13.2.4 自底向上的模型设计",
+        "13.2.5 数据模型在 Web 应用中的应用"
+      ],
+      "reason": "结构验证不等于真实事实正确，需要分清约束层次。"
+    },
+    {
+      "id": "ch13-o03",
+      "title": "分解搜索与行程整合职责",
+      "sections": [
+        "13.3.1 为何需要多智能体",
+        "13.3.3 Agent 协作流程",
+        "13.3.4 查询构建"
+      ],
+      "reason": "多Agent价值在于任务及上下文分工，最终规划需要完整输入。"
+    },
+    {
+      "id": "ch13-o04",
+      "title": "集成并共享外部服务",
+      "sections": [
+        "13.4.2 高德地图 MCP 集成",
+        "13.4.3 共享 MCP 实例",
+        "13.4.4 Unsplash 图片 API 集成"
+      ],
+      "reason": "工具决策与确定的数据增强可以采用不同集成方式。"
+    },
+    {
+      "id": "ch13-o05",
+      "title": "实现长耗时请求与可编辑行程",
+      "sections": [
+        "13.5.3 API 服务封装",
+        "13.6.2 加载进度条",
+        "13.6.3 行程编辑功能"
+      ],
+      "reason": "用户界面应正确处理等待、失败和可撤回的状态修改。"
+    },
+    {
+      "id": "ch13-o06",
+      "title": "评估预算与导出功能的真实性",
+      "sections": [
+        "13.6.1 预算计算功能",
+        "13.5.5 Result 页面展示",
+        "13.6.4 导出功能"
+      ],
+      "reason": "估算、显示与导出各有不同正确性边界。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch13-q01",
+      "type": "single",
+      "objectiveId": "ch13-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "13.1.2 技术架构概览",
+      "purpose": "识别前端、FastAPI、Agent与外部工具在旅行应用中的职责。"
+    },
+    {
+      "id": "ch13-q02",
+      "type": "single",
+      "objectiveId": "ch13-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "13.2.1 Web 应用中的数据流转",
+      "purpose": "追踪用户表单、JSON请求、后端模型和JSON响应的数据路径。"
+    },
+    {
+      "id": "ch13-q03",
+      "type": "single",
+      "objectiveId": "ch13-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "13.2.3 Pydantic 的核心概念",
+      "purpose": "辨认必填、可选、默认值与范围验证的作用。"
+    },
+    {
+      "id": "ch13-q04",
+      "type": "single",
+      "objectiveId": "ch13-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "13.2.4 自底向上的模型设计",
+      "purpose": "解释Location、Attraction、DayPlan和TripPlan逐层组合的机制。"
+    },
+    {
+      "id": "ch13-q05",
+      "type": "single",
+      "objectiveId": "ch13-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "13.3.1 为何需要多智能体",
+      "purpose": "识别景点、天气、酒店和规划四类职责。"
+    },
+    {
+      "id": "ch13-q06",
+      "type": "single",
+      "objectiveId": "ch13-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "13.3.3 Agent 协作流程",
+      "purpose": "追踪顺序调用后各类结果汇入Planner的过程。"
+    },
+    {
+      "id": "ch13-q07",
+      "type": "single",
+      "objectiveId": "ch13-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "13.4.2 高德地图 MCP 集成",
+      "purpose": "识别地图MCP提供标准化工具访问的作用。"
+    },
+    {
+      "id": "ch13-q08",
+      "type": "single",
+      "objectiveId": "ch13-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "13.4.3 共享 MCP 实例",
+      "purpose": "解释三个子Agent共享MCPTool如何减少服务器进程和连接资源。"
+    },
+    {
+      "id": "ch13-q09",
+      "type": "single",
+      "objectiveId": "ch13-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "13.5.3 API 服务封装",
+      "purpose": "识别长耗时规划对请求超时、loading状态和异常处理的要求。"
+    },
+    {
+      "id": "ch13-q10",
+      "type": "single",
+      "objectiveId": "ch13-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "13.6.2 加载进度条",
+      "purpose": "分析模拟进度缓解等待的收益与不能代表后端真实完成比例的限制。"
+    },
+    {
+      "id": "ch13-q11",
+      "type": "single",
+      "objectiveId": "ch13-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "13.6.1 预算计算功能",
+      "purpose": "判断Planner已获取费用信息时集中预算估算的收益及仍需核对的算术与事实。"
+    },
+    {
+      "id": "ch13-q12",
+      "type": "single",
+      "objectiveId": "ch13-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "13.5.5 Result 页面展示",
+      "purpose": "比较经纬度地图标记与文字行程展示对数据字段的依赖。"
+    },
+    {
+      "id": "ch13-q13",
+      "type": "multiple",
+      "objectiveId": "ch13-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "13.2.2 从字典到 Pydantic 模型",
+      "purpose": "比较自由字典与Pydantic模型在字段校验、可维护性及错误发现上的差异。"
+    },
+    {
+      "id": "ch13-q14",
+      "type": "multiple",
+      "objectiveId": "ch13-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "13.2.5 数据模型在 Web 应用中的应用",
+      "purpose": "比较Pydantic运行时验证与TypeScript静态类型，避免把声明类型当作外部数据已验证。"
+    },
+    {
+      "id": "ch13-q15",
+      "type": "multiple",
+      "objectiveId": "ch13-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "13.3.4 查询构建",
+      "purpose": "比较独立搜索子任务与依赖综合信息的规划步骤，识别不可缺失的用户偏好及日期约束。"
+    },
+    {
+      "id": "ch13-q16",
+      "type": "multiple",
+      "objectiveId": "ch13-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "13.4.4 Unsplash 图片 API 集成",
+      "purpose": "针对景点检索与图片补全选择Agent工具调用或路由中直接服务调用；不把MCP当唯一合法接入方式。"
+    },
+    {
+      "id": "ch13-q17",
+      "type": "multiple",
+      "objectiveId": "ch13-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "13.6.3 行程编辑功能",
+      "purpose": "选择独立原始副本、当前计划更新及取消恢复步骤，识别对象引用导致撤销失败。"
+    },
+    {
+      "id": "ch13-q18",
+      "type": "multiple",
+      "objectiveId": "ch13-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "13.6.4 导出功能",
+      "purpose": "面对地图Canvas和跨域导致导出缺图，选择静态地图、分开导出或服务端截图等替代及其成本。"
+    },
+    {
+      "id": "ch13-q19",
+      "type": "reflection",
+      "objectiveId": "ch13-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "13.3.3 Agent 协作流程",
+      "purpose": "设计天气查询失败时的行程生成策略，标记缺失事实、决定重试或降级，并说明Planner如何避免编造。"
+    },
+    {
+      "id": "ch13-q20",
+      "type": "reflection",
+      "objectiveId": "ch13-o05",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "13.6.3 行程编辑功能",
+      "purpose": "设计用户删除或调换景点后的状态一致性检查，涵盖预算、地图、导出与取消恢复；区分教程已有行为和拟扩展行为。"
+    }
+  ],
+  "notes": "覆盖模型、协作、共享MCP、前端状态、预算和导出；CSS和锚点API不占测评主额。避开原文关于FastAPI固定400状态码、SimpleAgent普遍只调一次工具等版本相关绝对陈述；模拟进度须明确。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

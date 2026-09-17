@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch10-o01",
+      "title": "按通信对象区分协议职责",
+      "sections": [
+        "10.1.1 为何需要通信协议",
+        "10.1.3 HelloAgents 通信协议架构设计",
+        "10.1.2 三种协议设计理念比较"
+      ],
+      "reason": "标准化工具、任务协作与网络发现是互补问题。"
+    },
+    {
+      "id": "ch10-o02",
+      "title": "理解MCP的角色及能力发现",
+      "sections": [
+        "10.2.1 MCP 协议概念介绍",
+        "10.2.2 使用 MCP 客户端",
+        "10.2.2 使用 MCP 客户端"
+      ],
+      "reason": "连接成功之后还需要发现能力、匹配参数并执行。"
+    },
+    {
+      "id": "ch10-o03",
+      "title": "选择传输方式与工具展开",
+      "sections": [
+        "10.2.3 MCP 传输方式详解",
+        "10.2.4 在智能体中使用 MCP 工具",
+        "10.2.3 MCP 传输方式详解"
+      ],
+      "reason": "本地进程通信和远程通信有不同生命周期，包装不是协议本身。"
+    },
+    {
+      "id": "ch10-o04",
+      "title": "理解Agent任务委托与工件",
+      "sections": [
+        "10.3.1 协议设计动机",
+        "10.3.3 使用 HelloAgents A2A 工具",
+        "10.3.4 在智能体中使用 A2A 工具"
+      ],
+      "reason": "跨Agent协作不是把远端模型当作普通函数名替换。"
+    },
+    {
+      "id": "ch10-o05",
+      "title": "应用服务发现与负载路由",
+      "sections": [
+        "10.4.1 协议目标",
+        "10.4.3 实战案例",
+        "10.4.2 使用 ANP 服务发现"
+      ],
+      "reason": "找到服务和选择服务是不同决策，需要动态状态。"
+    },
+    {
+      "id": "ch10-o06",
+      "title": "决定自建服务器及协议组合边界",
+      "sections": [
+        "10.5.1 创建你的第一个 MCP 服务器",
+        "10.3.2 使用 A2A 协议实战",
+        "10.5.2 上传 MCP 服务器"
+      ],
+      "reason": "标准化减少重复适配，但不自动解决认证、业务正确性或服务可用性。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch10-q01",
+      "type": "single",
+      "objectiveId": "ch10-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "10.1.1 为何需要通信协议",
+      "purpose": "识别重复适配、动态发现与跨Agent协作三种集成难题。"
+    },
+    {
+      "id": "ch10-q02",
+      "type": "single",
+      "objectiveId": "ch10-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "10.1.3 HelloAgents 通信协议架构设计",
+      "purpose": "解释协议实现、Tool包装和Agent集成三层如何解耦。"
+    },
+    {
+      "id": "ch10-q03",
+      "type": "single",
+      "objectiveId": "ch10-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "10.2.1 MCP 协议概念介绍",
+      "purpose": "区分Host、Client与Server以及Tools、Resources、Prompts。"
+    },
+    {
+      "id": "ch10-q04",
+      "type": "single",
+      "objectiveId": "ch10-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "10.2.2 使用 MCP 客户端",
+      "purpose": "追踪连接、列工具、读取schema、传参调用和处理结果的顺序。"
+    },
+    {
+      "id": "ch10-q05",
+      "type": "single",
+      "objectiveId": "ch10-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "10.2.3 MCP 传输方式详解",
+      "purpose": "辨认协议与具体传输通道的关系。"
+    },
+    {
+      "id": "ch10-q06",
+      "type": "single",
+      "objectiveId": "ch10-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "10.2.4 在智能体中使用 MCP 工具",
+      "purpose": "解释MCPTool如何将服务器工具展开为Agent可选择的独立工具。"
+    },
+    {
+      "id": "ch10-q07",
+      "type": "single",
+      "objectiveId": "ch10-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "10.3.1 协议设计动机",
+      "purpose": "辨认Task与Artifact在协作中的职责。"
+    },
+    {
+      "id": "ch10-q08",
+      "type": "single",
+      "objectiveId": "ch10-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "10.3.3 使用 HelloAgents A2A 工具",
+      "purpose": "追踪A2A服务端、客户端与工具包装之间的委托路径。"
+    },
+    {
+      "id": "ch10-q09",
+      "type": "single",
+      "objectiveId": "ch10-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "10.4.1 协议目标",
+      "purpose": "识别任务到达时需要按能力发现候选服务。"
+    },
+    {
+      "id": "ch10-q10",
+      "type": "single",
+      "objectiveId": "ch10-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "10.4.3 实战案例",
+      "purpose": "分析负载均衡在成本、可用性与能力匹配之间的取舍。"
+    },
+    {
+      "id": "ch10-q11",
+      "type": "single",
+      "objectiveId": "ch10-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "10.5.1 创建你的第一个 MCP 服务器",
+      "purpose": "判断内部业务与私有数据需求何时值得自建MCP服务器。"
+    },
+    {
+      "id": "ch10-q12",
+      "type": "single",
+      "objectiveId": "ch10-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "10.3.2 使用 A2A 协议实战",
+      "purpose": "比较本章A2A模拟思想的教学实现与完整协议互操作验证，避免混称生产实现。"
+    },
+    {
+      "id": "ch10-q13",
+      "type": "multiple",
+      "objectiveId": "ch10-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "10.1.2 三种协议设计理念比较",
+      "purpose": "按数据库访问、专家委托和网络服务发现比较MCP、A2A、ANP的章节定位。"
+    },
+    {
+      "id": "ch10-q14",
+      "type": "multiple",
+      "objectiveId": "ch10-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "10.2.2 使用 MCP 客户端",
+      "purpose": "比较工具执行、资源读取和提示模板获取的语义，避免将它们都视为修改外部数据。"
+    },
+    {
+      "id": "ch10-q15",
+      "type": "multiple",
+      "objectiveId": "ch10-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "10.2.3 MCP 传输方式详解",
+      "purpose": "比较本地Stdio和课件介绍的远程传输在部署与连接管理上的需求，不外推最新协议规范。"
+    },
+    {
+      "id": "ch10-q16",
+      "type": "multiple",
+      "objectiveId": "ch10-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "10.3.4 在智能体中使用 A2A 工具",
+      "purpose": "在客服接待、技术和销售专家场景中选择基于能力的分派及结果回传。"
+    },
+    {
+      "id": "ch10-q17",
+      "type": "multiple",
+      "objectiveId": "ch10-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "10.4.2 使用 ANP 服务发现",
+      "purpose": "对新Agent加入或候选服务变化选择注册、发现和路由更新的必要步骤。"
+    },
+    {
+      "id": "ch10-q18",
+      "type": "multiple",
+      "objectiveId": "ch10-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "10.5.2 上传 MCP 服务器",
+      "purpose": "在共享天气服务时权衡打包配置、可复用接口和部署维护；发布配置存在不等于服务可用。"
+    },
+    {
+      "id": "ch10-q19",
+      "type": "reflection",
+      "objectiveId": "ch10-o01",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "10.1.2 三种协议设计理念比较",
+      "purpose": "为研究协作系统画出工具访问、专家委托和服务发现三类连接，说明每个协议承担的职责及失败处理位置。"
+    },
+    {
+      "id": "ch10-q20",
+      "type": "reflection",
+      "objectiveId": "ch10-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "10.5.1 创建你的第一个 MCP 服务器",
+      "purpose": "为内部数据设计MCP服务器的工具、资源和参数契约，并列出客户端发现、调用与错误路径的验证方案。"
+    }
+  ],
+  "notes": "严格区分课件示例与正式协议规范；A2A采用模拟协议思想，不能生成完整兼容性保证题。避开“官方发布平台”、绝对无单点故障及最新传输支持等争议断言；认证实现深度覆盖不足。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

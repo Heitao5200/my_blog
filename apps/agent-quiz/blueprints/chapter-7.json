@@ -1,0 +1,268 @@
+{
+  "objectives": [
+    {
+      "id": "ch07-o01",
+      "title": "解释轻量框架的分层与统一抽象",
+      "sections": [
+        "7.1.2 HelloAgents框架的设计理念",
+        "7.1.3 本章学习目标",
+        "7.1.1 为何需要自建Agent框架"
+      ],
+      "reason": "防止把抽象层数量误当成框架质量，并明确Agent与工具的职责边界。"
+    },
+    {
+      "id": "ch07-o02",
+      "title": "扩展统一LLM接口并判断配置来源",
+      "sections": [
+        "7.2.1 支持多提供商",
+        "7.2.3 自动检测机制",
+        "7.2.2 本地模型调用"
+      ],
+      "reason": "迁移模型服务需要理解兼容接口、继承和配置解析，而非记住网址端口。"
+    },
+    {
+      "id": "ch07-o03",
+      "title": "说明Message、Config与Agent的接口契约",
+      "sections": [
+        "7.3.1 Message 类",
+        "7.3.2 Config 类",
+        "7.3.3 Agent 抽象基类"
+      ],
+      "reason": "这些接口决定历史记录、运行入口和部署配置能否被各范式复用。"
+    },
+    {
+      "id": "ch07-o04",
+      "title": "理解范式框架化与工具调用控制流",
+      "sections": [
+        "7.4.1 SimpleAgent",
+        "7.4.2 ReActAgent",
+        "7.4.5 FunctionCallAgent"
+      ],
+      "reason": "统一接口保留范式差异；不能把SimpleAgent、ReAct和原生函数调用混为一谈。"
+    },
+    {
+      "id": "ch07-o05",
+      "title": "按任务结构选用规划与反思并估计代价",
+      "sections": [
+        "7.4.3 ReflectionAgent",
+        "7.4.4 PlanAndSolveAgent",
+        "7.4.4 PlanAndSolveAgent"
+      ],
+      "reason": "考查范式选择及结构化计划的工程作用，补齐统一实现之外的策略差异。"
+    },
+    {
+      "id": "ch07-o06",
+      "title": "设计可发现、可执行且可降级的工具系统",
+      "sections": [
+        "7.5.1 工具基类与注册机制设计",
+        "7.5.2 自定义工具开发",
+        "7.5.3 多源搜索工具",
+        "7.5.4 工具系统的高级特性"
+      ],
+      "reason": "工具接口、注册方式和失败路径共同决定真实可用性。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch07-q01",
+      "type": "single",
+      "objectiveId": "ch07-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "7.1.2 HelloAgents框架的设计理念",
+      "purpose": "辨认万物皆工具简化的是扩展模块的调用接口，不是取消Agent核心。"
+    },
+    {
+      "id": "ch07-q02",
+      "type": "single",
+      "objectiveId": "ch07-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "7.1.3 本章学习目标",
+      "purpose": "分析核心层、Agent实现层和工具层为何能通过统一接口解耦。"
+    },
+    {
+      "id": "ch07-q03",
+      "type": "single",
+      "objectiveId": "ch07-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "7.2.1 支持多提供商",
+      "purpose": "辨认provider封装服务商默认配置的职责，区分客户端统一与模型能力相同。"
+    },
+    {
+      "id": "ch07-q04",
+      "type": "single",
+      "objectiveId": "ch07-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "7.2.3 自动检测机制",
+      "purpose": "给出同时存在服务商环境变量和base_url的配置，按原文检测优先级推导；区分检测与凭证解析。"
+    },
+    {
+      "id": "ch07-q05",
+      "type": "single",
+      "objectiveId": "ch07-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "7.3.1 Message 类",
+      "purpose": "识别Message内部元数据与to_dict对外兼容格式的不同职责。"
+    },
+    {
+      "id": "ch07-q06",
+      "type": "single",
+      "objectiveId": "ch07-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "7.3.2 Config 类",
+      "purpose": "追踪Config.from_env覆盖默认值的过程，分析为什么环境配置不需改业务代码。"
+    },
+    {
+      "id": "ch07-q07",
+      "type": "single",
+      "objectiveId": "ch07-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "7.4.1 SimpleAgent",
+      "purpose": "区分基础SimpleAgent与本节自定义工具扩展，避免把演示注释当原版能力。"
+    },
+    {
+      "id": "ch07-q08",
+      "type": "single",
+      "objectiveId": "ch07-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "7.4.2 ReActAgent",
+      "purpose": "追踪ReAct的单步Action、Observation和max_steps，识别为何终止控制必须在程序侧。"
+    },
+    {
+      "id": "ch07-q09",
+      "type": "single",
+      "objectiveId": "ch07-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "7.4.3 ReflectionAgent",
+      "purpose": "给定需要迭代改稿的需求，识别Reflection的生成、评估与修订职责。"
+    },
+    {
+      "id": "ch07-q10",
+      "type": "single",
+      "objectiveId": "ch07-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "7.4.4 PlanAndSolveAgent",
+      "purpose": "分析计划输出改为Python列表后可解析性收益与异常处理需求，不能认为格式约束保证计划正确。"
+    },
+    {
+      "id": "ch07-q11",
+      "type": "single",
+      "objectiveId": "ch07-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "7.5.1 工具基类与注册机制设计",
+      "purpose": "判断简单函数注册与完整Tool参数描述的开发成本及验证能力取舍。"
+    },
+    {
+      "id": "ch07-q12",
+      "type": "single",
+      "objectiveId": "ch07-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "7.5.2 自定义工具开发",
+      "purpose": "比较AST白名单计算与任意表达式执行；按示例支持范围判断输入限制，不宣称示例覆盖全部安全边界。"
+    },
+    {
+      "id": "ch07-q13",
+      "type": "multiple",
+      "objectiveId": "ch07-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "7.1.1 为何需要自建Agent框架",
+      "purpose": "在教学透明度、定制控制和维护成本约束下比较自建与成熟框架，避免绝对优劣。"
+    },
+    {
+      "id": "ch07-q14",
+      "type": "multiple",
+      "objectiveId": "ch07-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "7.2.2 本地模型调用",
+      "purpose": "比较本地Transformers、vLLM和Ollama的接入与部署侧重点；不把PagedAttention归到全部后端。"
+    },
+    {
+      "id": "ch07-q15",
+      "type": "multiple",
+      "objectiveId": "ch07-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "7.3.3 Agent 抽象基类",
+      "purpose": "比较抽象run契约与共用历史管理；判断具体子类必须实现和可以继承的行为。"
+    },
+    {
+      "id": "ch07-q16",
+      "type": "multiple",
+      "objectiveId": "ch07-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "7.4.5 FunctionCallAgent",
+      "purpose": "给出原生tool_calls响应，选择schema构造、参数解析、工具执行和结果回传的必要环节；比较prompt约束边界。"
+    },
+    {
+      "id": "ch07-q17",
+      "type": "multiple",
+      "objectiveId": "ch07-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "7.4.4 PlanAndSolveAgent",
+      "purpose": "面对可分解任务和需要评审的产物，选择计划执行或反思的组合并考虑调用预算。"
+    },
+    {
+      "id": "ch07-q18",
+      "type": "multiple",
+      "objectiveId": "ch07-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "7.5.3 多源搜索工具",
+      "purpose": "在Tavily失败、SerpApi可用或全部不可用时选出合理降级结果；区分顺序回退与并行结果融合。"
+    },
+    {
+      "id": "ch07-q19",
+      "type": "reflection",
+      "objectiveId": "ch07-o04",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "7.4.5 FunctionCallAgent",
+      "purpose": "为同一工具任务比较ReAct文本解析与FunctionCallAgent原生调用，提出错误注入、终止和结果回传检查；明确0.1.1与0.2.8之后的版本边界。"
+    },
+    {
+      "id": "ch07-q20",
+      "type": "reflection",
+      "objectiveId": "ch07-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "7.5.4 工具系统的高级特性",
+      "purpose": "设计先搜索后计算的依赖工具链，以及两项独立搜索的并发执行；解释数据依赖、失败传播、输入验证和资源回收。"
+    }
+  ],
+  "notes": "覆盖设计、LLM、三类接口、五种Agent与工具系统；高级工具链和异步执行主要置于思考题，不能据此单独诊断并发编码能力。课件混有0.1.1示例与0.2.8之后新增FunctionCallAgent，生成必须限定版本。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

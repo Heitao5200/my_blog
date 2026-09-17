@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch01-o01",
+      "title": "识别智能体与环境交互的必要构成",
+      "sections": [
+        "1.1 什么是智能体？",
+        "1.1.1 传统视角下的智能体",
+        "1.1.2 大语言模型驱动的新范式"
+      ],
+      "reason": "建立主体、感知、行动和目标的边界，避免把模型或算力直接等同智能体。"
+    },
+    {
+      "id": "ch01-o02",
+      "title": "用互补维度分类智能体",
+      "sections": [
+        "1.1.3 智能体的类型",
+        "1.1.1 传统视角下的智能体",
+        "1.1.3 智能体的类型"
+      ],
+      "reason": "架构、时间反应和协作方式是不同维度，不应相互排斥。"
+    },
+    {
+      "id": "ch01-o03",
+      "title": "描述任务环境与Agent Loop",
+      "sections": [
+        "1.2.1 任务环境定义",
+        "1.2.2 智能体的运行机制",
+        "1.2.3 智能体的感知与行动"
+      ],
+      "reason": "环境约束决定闭环所需的信息与行动，而非只决定提示词。"
+    },
+    {
+      "id": "ch01-o04",
+      "title": "读懂旅行助手的工具执行过程",
+      "sections": [
+        "1.3.1 准备工作",
+        "1.3.3 执行行动循环",
+        "1.3.4 运行案例分析"
+      ],
+      "reason": "从案例理解结果回传和终止，不能将自然语言意图当执行成功。"
+    },
+    {
+      "id": "ch01-o05",
+      "title": "依据自主程度选择人机协作形式",
+      "sections": [
+        "1.4.1 作为开发者工具的智能体",
+        "1.4.2 作为自主协作者的智能体",
+        "1.4.2 作为自主协作者的智能体"
+      ],
+      "reason": "识别高层目标委托与逐步辅助的责任分工，避开产品名称记忆。"
+    },
+    {
+      "id": "ch01-o06",
+      "title": "权衡Workflow与Agent的控制方式",
+      "sections": [
+        "1.4.3 Workflow 和 Agent 的差异",
+        "1.4.3 Workflow 和 Agent 的差异",
+        "1.4.3 Workflow 和 Agent 的差异"
+      ],
+      "reason": "可预测流程与动态决策各有适用条件，不将自由度当质量。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch01-q01",
+      "type": "single",
+      "objectiveId": "ch01-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "1.1 什么是智能体？",
+      "purpose": "辨认传感器、执行器、环境和目标在数字助手中的对应物。"
+    },
+    {
+      "id": "ch01-q02",
+      "type": "single",
+      "objectiveId": "ch01-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "1.1.1 传统视角下的智能体",
+      "purpose": "分析反射智能体为何仅凭当前感知无法处理需要历史状态的任务。"
+    },
+    {
+      "id": "ch01-q03",
+      "type": "single",
+      "objectiveId": "ch01-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "1.1.3 智能体的类型",
+      "purpose": "区分内部架构分类与学习这一可跨类别的能力。"
+    },
+    {
+      "id": "ch01-q04",
+      "type": "single",
+      "objectiveId": "ch01-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "1.1.1 传统视角下的智能体",
+      "purpose": "解释内部模型如何补充当前观察不足，以及目标和效用如何改变决策依据。"
+    },
+    {
+      "id": "ch01-q05",
+      "type": "single",
+      "objectiveId": "ch01-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "1.2.1 任务环境定义",
+      "purpose": "将旅行助手任务映射到PEAS四个组成，不考英文拼写。"
+    },
+    {
+      "id": "ch01-q06",
+      "type": "single",
+      "objectiveId": "ch01-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "1.2.2 智能体的运行机制",
+      "purpose": "追踪感知、决策、行动、反馈如何形成下一轮依据。"
+    },
+    {
+      "id": "ch01-q07",
+      "type": "single",
+      "objectiveId": "ch01-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "1.3.1 准备工作",
+      "purpose": "辨认天气查询与景点检索在任务中的不同职责。"
+    },
+    {
+      "id": "ch01-q08",
+      "type": "single",
+      "objectiveId": "ch01-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "1.3.3 执行行动循环",
+      "purpose": "沿主循环追踪Action解析、工具查找、结果加入历史和最终回答分支。"
+    },
+    {
+      "id": "ch01-q09",
+      "type": "single",
+      "objectiveId": "ch01-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "1.4.1 作为开发者工具的智能体",
+      "purpose": "给出开发者逐步审阅修改的场景，识别辅助工具模式。"
+    },
+    {
+      "id": "ch01-q10",
+      "type": "single",
+      "objectiveId": "ch01-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "1.4.2 作为自主协作者的智能体",
+      "purpose": "分析目标委托减少人工逐步指令后为何仍需规划、执行与结果检查。"
+    },
+    {
+      "id": "ch01-q11",
+      "type": "single",
+      "objectiveId": "ch01-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "1.4.3 Workflow 和 Agent 的差异",
+      "purpose": "识别固定步骤业务使用Workflow的可控性收益。"
+    },
+    {
+      "id": "ch01-q12",
+      "type": "single",
+      "objectiveId": "ch01-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "1.4.3 Workflow 和 Agent 的差异",
+      "purpose": "比较预先编排和运行时决定下一步两种控制逻辑。"
+    },
+    {
+      "id": "ch01-q13",
+      "type": "multiple",
+      "objectiveId": "ch01-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "1.1.2 大语言模型驱动的新范式",
+      "purpose": "比较显式规则与LLM驱动决策的知识来源和适用边界，避免称所有传统系统均无学习能力。"
+    },
+    {
+      "id": "ch01-q14",
+      "type": "multiple",
+      "objectiveId": "ch01-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "1.1.3 智能体的类型",
+      "purpose": "对一个兼具学习、规划和多角色协作的案例选择可同时成立的分类。"
+    },
+    {
+      "id": "ch01-q15",
+      "type": "multiple",
+      "objectiveId": "ch01-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "1.2.3 智能体的感知与行动",
+      "purpose": "区分模型产生Action文本、执行器实际执行、工具返回Observation三种事件。"
+    },
+    {
+      "id": "ch01-q16",
+      "type": "multiple",
+      "objectiveId": "ch01-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "1.3.4 运行案例分析",
+      "purpose": "在先查天气再推荐景点的轨迹中识别缺失Observation或越过工具执行的错误。"
+    },
+    {
+      "id": "ch01-q17",
+      "type": "multiple",
+      "objectiveId": "ch01-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "1.4.2 作为自主协作者的智能体",
+      "purpose": "为需专业分工的任务选择角色协作或单体循环，说明任务结构依据。"
+    },
+    {
+      "id": "ch01-q18",
+      "type": "multiple",
+      "objectiveId": "ch01-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "1.4.3 Workflow 和 Agent 的差异",
+      "purpose": "在稳定审批步骤与开放信息探索混合的任务中选择可预测性、灵活性和成本的合理取舍。"
+    },
+    {
+      "id": "ch01-q19",
+      "type": "reflection",
+      "objectiveId": "ch01-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "1.2.1 任务环境定义",
+      "purpose": "为一个自选生活任务建立PEAS，并画出一次行动改变环境后的反馈闭环；明确无法直接观察的信息。"
+    },
+    {
+      "id": "ch01-q20",
+      "type": "reflection",
+      "objectiveId": "ch01-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "1.4.3 Workflow 和 Agent 的差异",
+      "purpose": "把旅行助手拆成固定流程和需要自主决策的部分，解释何时终止、何时由用户补充信息及如何验证工具结果。"
+    }
+  ],
+  "notes": "强调定义、分类、任务环境、闭环和协作模式；安装命令、API品牌、产品最新能力不作考点。图中独有信息没有文字佐证时不得造引文。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

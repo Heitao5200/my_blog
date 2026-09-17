@@ -1,0 +1,1271 @@
+{
+  "id": 6,
+  "title": "第六章 框架开发实践",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第六章 框架开发实践",
+    "path": "docs/chapter6/第六章 框架开发实践.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md",
+    "sha256": "c64a45f38520d5e1de9896a344a0245e07de72144e60116766bea3b033cc205c",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "9b484a03-391d-43c8-8c23-4332374b8cf3",
+    "artifactId": "1b9de977-ca5b-4c45-bde1-60e7df03855e"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch06-o01",
+        "title": "说明框架复用与解耦的价值",
+        "sections": [
+          "6.1.1 为何需要智能体框架",
+          "6.1.1 为何需要智能体框架",
+          "6.1.2 主流框架的选型与对比"
+        ],
+        "reason": "从手写循环到框架需要理解职责边界及抽象成本。"
+      },
+      {
+        "id": "ch06-o02",
+        "title": "追踪AutoGen团队的对话调度",
+        "sections": [
+          "6.2.1 AutoGen 的核心机制",
+          "6.2.3 核心代码实现",
+          "6.2.4 AutoGen 的优势与局限性分析"
+        ],
+        "reason": "角色说明不能替代调度和终止控制。"
+      },
+      {
+        "id": "ch06-o03",
+        "title": "理解AgentScope的消息与角色约束",
+        "sections": [
+          "6.3.1 AgentScope 的设计",
+          "6.3.2 三国狼人杀游戏",
+          "6.3.3 AgentScope 的优势与局限性分析"
+        ],
+        "reason": "狼人杀案例的关键是结构化消息和信息边界，不是人物名称。"
+      },
+      {
+        "id": "ch06-o04",
+        "title": "解释CAMEL互补角色协作",
+        "sections": [
+          "6.4.1 CAMEL 的自主协作",
+          "6.4.1 CAMEL 的自主协作",
+          "6.4.2 AI科普电子书"
+        ],
+        "reason": "自主协作来自任务和角色边界，不能只靠两个无约束聊天者。"
+      },
+      {
+        "id": "ch06-o05",
+        "title": "用图状态表达任务数据依赖",
+        "sections": [
+          "6.5.2 三步问答助手",
+          "6.5.3 LangGraph 的优势与局限性分析",
+          "6.5.1 LangGraph 的结构梳理"
+        ],
+        "reason": "节点连接顺序之外，共享状态是信息正确传递的基础。"
+      },
+      {
+        "id": "ch06-o06",
+        "title": "依据任务约束选择协作控制方式",
+        "sections": [
+          "6.4.3 CAMEL 的优势与局限性分析",
+          "6.5.3 LangGraph 的优势与局限性分析",
+          "6.2.4 AutoGen 的优势与局限性分析"
+        ],
+        "reason": "涌现式协作和显式控制不是互相替代的优劣序列。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch06-q01",
+        "type": "single",
+        "objectiveId": "ch06-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "6.1.1 为何需要智能体框架",
+        "purpose": "识别框架对Agent Loop、模型、工具和记忆的复用作用。"
+      },
+      {
+        "id": "ch06-q02",
+        "type": "single",
+        "objectiveId": "ch06-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "6.1.1 为何需要智能体框架",
+        "purpose": "解释替换模型或新增工具不应修改全部业务流程的原因。"
+      },
+      {
+        "id": "ch06-q03",
+        "type": "single",
+        "objectiveId": "ch06-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "6.2.1 AutoGen 的核心机制",
+        "purpose": "辨认core与agentchat层的职责分工。"
+      },
+      {
+        "id": "ch06-q04",
+        "type": "single",
+        "objectiveId": "ch06-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "6.2.3 核心代码实现",
+        "purpose": "解释RoundRobinGroupChat中角色消息、轮询顺序和终止条件如何共同工作。"
+      },
+      {
+        "id": "ch06-q05",
+        "type": "single",
+        "objectiveId": "ch06-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "6.3.1 AgentScope 的设计",
+        "purpose": "识别组合式、消息驱动架构的基本组织方式。"
+      },
+      {
+        "id": "ch06-q06",
+        "type": "single",
+        "objectiveId": "ch06-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "6.3.2 三国狼人杀游戏",
+        "purpose": "追踪游戏状态、角色Agent和消息传递在一次行动中的职责。"
+      },
+      {
+        "id": "ch06-q07",
+        "type": "single",
+        "objectiveId": "ch06-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "6.4.1 CAMEL 的自主协作",
+        "purpose": "区分AI User与AI Assistant的任务职责。"
+      },
+      {
+        "id": "ch06-q08",
+        "type": "single",
+        "objectiveId": "ch06-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "6.4.1 CAMEL 的自主协作",
+        "purpose": "解释Inception Prompting如何稳定角色、目标及交互约定。"
+      },
+      {
+        "id": "ch06-q09",
+        "type": "single",
+        "objectiveId": "ch06-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "6.5.2 三步问答助手",
+        "purpose": "识别理解、搜索、回答各步骤需要的输入和产生的状态字段。"
+      },
+      {
+        "id": "ch06-q10",
+        "type": "single",
+        "objectiveId": "ch06-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "6.5.3 LangGraph 的优势与局限性分析",
+        "purpose": "分析显式图提高审计性时增加的状态与边设计成本。"
+      },
+      {
+        "id": "ch06-q11",
+        "type": "single",
+        "objectiveId": "ch06-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "6.4.3 CAMEL 的优势与局限性分析",
+        "purpose": "判断轻架构重提示在灵活协作和可控性之间的取舍。"
+      },
+      {
+        "id": "ch06-q12",
+        "type": "single",
+        "objectiveId": "ch06-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "6.5.3 LangGraph 的优势与局限性分析",
+        "purpose": "比较LangGraph的状态边控制与基于对话的流程协调。"
+      },
+      {
+        "id": "ch06-q13",
+        "type": "multiple",
+        "objectiveId": "ch06-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "6.1.2 主流框架的选型与对比",
+        "purpose": "比较多智能体对话、工程化消息、角色扮演和显式图控制的定位。"
+      },
+      {
+        "id": "ch06-q14",
+        "type": "multiple",
+        "objectiveId": "ch06-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "6.2.4 AutoGen 的优势与局限性分析",
+        "purpose": "比较轮询对话的可预测性与需求动态回退时所需的流程变更。"
+      },
+      {
+        "id": "ch06-q15",
+        "type": "multiple",
+        "objectiveId": "ch06-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "6.3.3 AgentScope 的优势与局限性分析",
+        "purpose": "比较工程化并发容错与简单应用的复杂性成本。"
+      },
+      {
+        "id": "ch06-q16",
+        "type": "multiple",
+        "objectiveId": "ch06-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "6.4.2 AI科普电子书",
+        "purpose": "针对科普电子书选择专业内容与表达加工的互补角色和交付约束。"
+      },
+      {
+        "id": "ch06-q17",
+        "type": "multiple",
+        "objectiveId": "ch06-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "6.5.1 LangGraph 的结构梳理",
+        "purpose": "为搜索失败后的重试或回退选择条件边、状态更新与退出条件。"
+      },
+      {
+        "id": "ch06-q18",
+        "type": "multiple",
+        "objectiveId": "ch06-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "6.2.4 AutoGen 的优势与局限性分析",
+        "purpose": "面对需要人工介入和可审计交付的任务，选择角色、终止及审核机制，避免无限对话。"
+      },
+      {
+        "id": "ch06-q19",
+        "type": "reflection",
+        "objectiveId": "ch06-o05",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "6.5.2 三步问答助手",
+        "purpose": "将三步问答扩成搜索失败可回退的图，列明状态、条件边、终止条件，并区分示例模拟搜索与真实外部检索。"
+      },
+      {
+        "id": "ch06-q20",
+        "type": "reflection",
+        "objectiveId": "ch06-o06",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "6.2.3 核心代码实现",
+        "purpose": "为软件开发团队设计审查不通过后的回退与人工接管，说明比固定轮询新增的控制规则和成本。"
+      }
+    ],
+    "notes": "框架行为限定本章版本，尤其AutoGen 0.7.4；不考最新API、品牌排名。分布式部署细节仅概念覆盖，不能据此认证部署能力。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:37:01.362190+00:00",
+    "notes": [
+      "逐题对照本地课件审阅20题，修复原产物question字段、字符串选项、数字答案与字符串rubric等契约错误；补全全部四项解析。",
+      "连续原文替换拼接和改字引文，为两道思考题补充证据；保留来源、ID及蓝图配额。",
+      "移除UserProxy自动执行代码的版本混淆、TypedDict必须使用的绝对表述、提示保证不循环及动态回退必然节省研发成本等推断。",
+      "题目对齐蓝图，明确Tavily为原示例真实外部调用、循环为设计扩展，终止不等于测试通过。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch06-q01",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "自动优化大语言模型的权重，以提升局部任务的推理精度"
+        },
+        {
+          "id": "b",
+          "text": "提供了通用的 Agent 基类或执行器，封装了智能体运行的核心循环（Agent Loop）"
+        },
+        {
+          "id": "c",
+          "text": "强制将所有同步代码转换为多线程模式，以解决 Python 的 GIL 性能瓶颈"
+        },
+        {
+          "id": "d",
+          "text": "将本地运行的 Python 脚本直接转换为零成本调用的私有模型"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "6.1.1 为何需要智能体框架",
+          "quote": "1. <strong>提升代码复用与开发效率</strong>：这是最直接的价值。一个好的框架会提供一个通用的 `Agent` 基类或执行器，它封装了智能体运行的核心循环（Agent Loop）。无论是 ReAct 还是 Plan-and-Solve，都可以基于框架提供的标准组件快速搭建，从而避免重复劳动。\n2. <strong>实现核心组件的解耦与可扩展性</strong>：一个健壮的智能体系统应该由多个松散耦合的模块组成。框架的设计会强制我们分离不同的关注点：\n   - <strong>模型层 (Model Layer)</strong>：负责与大语言模型交互，可以轻松替换不同的模型（OpenAI, Anthropic, 本地模型）。\n   - <strong>工具层 (Tool Layer)</strong>：提供标准化的工具定义、注册和执行接口，添加新工具不会影响其他代码。\n   - <strong>记忆层 (Memory Layer)</strong>：处理短期和长期记忆，可以根据需求切换不同的记忆策略（如滑动窗口、摘要记忆）。 这种模块化的设计使得整个系统极具可扩展性，更换或升级任何一个组件都变得简单。\n3. <strong>标准化复杂的状态管理</strong>：我们在 `ReflectionAgent` 中实现的 `Memory` 类只是一个简单的开始。在真实的、长时运行的智能体应用中，状态管理是一个巨大的挑战，它需要处理上下文窗口限制、历史信息持久化、多轮对话状态跟踪等问题。一个框架可以提供一套强大而通用的状态管理机制，开发者无需每次都重新处理这些复杂问题。\n4. <strong>简化可观测性与调试过程</strong>：当智能体的行为变得复杂时，理解其决策过程变得至关重要。一个精心设计的框架可以内置强大的可观测性能力。例如，通过引入事件回调机制（Callbacks），我们可以在智能体生命周期的关键节点（如 `on_llm_start`, `on_tool_end`, `on_agent_finish`）自动触发日志记录或数据上报，从而轻松地追踪和调试智能体的完整运行轨迹。这远比在代码中手动添加 `print` 语句要高效和系统化。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "框架封装 Agent Loop，避免反复实现通用运行循环。",
+      "objectiveId": "ch06-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "框架复用不等于优化模型权重。",
+        "b": "框架封装 Agent Loop，避免反复实现通用运行循环。",
+        "c": "框架不以解决 Python GIL 为核心定义。",
+        "d": "框架不将脚本自动转成模型。"
+      },
+      "design": {
+        "purpose": "识别框架对Agent Loop、模型、工具和记忆的复用作用。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "根据教材 6.1.1 节，使用智能体框架相比于直接编写原生脚本，其最直接的复用价值体现在："
+    },
+    {
+      "id": "ch06-q02",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "工具层提供标准化的定义、注册和执行接口"
+        },
+        {
+          "id": "b",
+          "text": "模型权重自动包含所有新工具"
+        },
+        {
+          "id": "c",
+          "text": "记忆层替代了工具执行"
+        },
+        {
+          "id": "d",
+          "text": "业务流程与底层实现必须写在同一个函数中"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "evidence": [
+        {
+          "section": "6.1.1 为何需要智能体框架",
+          "quote": "1. <strong>提升代码复用与开发效率</strong>：这是最直接的价值。一个好的框架会提供一个通用的 `Agent` 基类或执行器，它封装了智能体运行的核心循环（Agent Loop）。无论是 ReAct 还是 Plan-and-Solve，都可以基于框架提供的标准组件快速搭建，从而避免重复劳动。\n2. <strong>实现核心组件的解耦与可扩展性</strong>：一个健壮的智能体系统应该由多个松散耦合的模块组成。框架的设计会强制我们分离不同的关注点：\n   - <strong>模型层 (Model Layer)</strong>：负责与大语言模型交互，可以轻松替换不同的模型（OpenAI, Anthropic, 本地模型）。\n   - <strong>工具层 (Tool Layer)</strong>：提供标准化的工具定义、注册和执行接口，添加新工具不会影响其他代码。\n   - <strong>记忆层 (Memory Layer)</strong>：处理短期和长期记忆，可以根据需求切换不同的记忆策略（如滑动窗口、摘要记忆）。 这种模块化的设计使得整个系统极具可扩展性，更换或升级任何一个组件都变得简单。\n3. <strong>标准化复杂的状态管理</strong>：我们在 `ReflectionAgent` 中实现的 `Memory` 类只是一个简单的开始。在真实的、长时运行的智能体应用中，状态管理是一个巨大的挑战，它需要处理上下文窗口限制、历史信息持久化、多轮对话状态跟踪等问题。一个框架可以提供一套强大而通用的状态管理机制，开发者无需每次都重新处理这些复杂问题。\n4. <strong>简化可观测性与调试过程</strong>：当智能体的行为变得复杂时，理解其决策过程变得至关重要。一个精心设计的框架可以内置强大的可观测性能力。例如，通过引入事件回调机制（Callbacks），我们可以在智能体生命周期的关键节点（如 `on_llm_start`, `on_tool_end`, `on_agent_finish`）自动触发日志记录或数据上报，从而轻松地追踪和调试智能体的完整运行轨迹。这远比在代码中手动添加 `print` 语句要高效和系统化。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "通过稳定接口隔离工具实现，降低模块耦合。",
+      "objectiveId": "ch06-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "通过稳定接口隔离工具实现，降低模块耦合。",
+        "b": "新工具仍需定义与注册，不来自权重自动更新。",
+        "c": "记忆管理与工具执行职责不同。",
+        "d": "集中耦合会增加修改范围。"
+      },
+      "design": {
+        "purpose": "解释替换模型或新增工具不应修改全部业务流程的原因。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "新增一个业务工具时，为什么模块化框架可以减少对既有流程的修改？"
+    },
+    {
+      "id": "ch06-q03",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "autogen-core 是面向用户的高级 API，而 agentchat 负责底层消息传递"
+        },
+        {
+          "id": "b",
+          "text": "autogen-core 封装了与模型交互、消息传递等核心功能，agentchat 构建于其上提供高级接口"
+        },
+        {
+          "id": "c",
+          "text": "0.7.4 版本依然强制使用类继承设计，开发者必须重写 core 中的基类方法来定义 Team"
+        },
+        {
+          "id": "d",
+          "text": "agentchat 主要负责 GUI 界面展示，core 负责所有异步逻辑执行"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "6.2.1 AutoGen 的核心机制",
+          "quote": "- <strong>分层设计：</strong> 框架被拆分为两个核心模块：\n  - `autogen-core`：作为框架的底层基础，封装了与语言模型交互、消息传递等核心功能。它的存在保证了框架的稳定性和未来扩展性。\n  - `autogen-agentchat`：构建于 `core` 之上，提供了用于开发对话式智能体应用的高级接口，简化了多智能体应用的开发流程。 这种分层策略使得各组件职责明确，降低了系统的耦合度。\n- <strong>异步优先：</strong> 新架构全面转向异步编程 (`async/await`)。在多智能体协作场景中，网络请求（如调用 LLM API）是主要耗时操作。异步模式允许系统在等待一个智能体响应时处理其他任务，从而避免了线程阻塞，显著提升了并发处理能力和系统资源的利用效率。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "在课件采用的 0.7.4 示例中，core 提供底层能力，agentchat 提供对话应用高级接口。",
+      "objectiveId": "ch06-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "此项倒置了层级。",
+        "b": "在课件采用的 0.7.4 示例中，core 提供底层能力，agentchat 提供对话应用高级接口。",
+        "c": "分层不意味着必须重写底层基类来定义团队。",
+        "d": "agentchat 是对话应用接口，不是 GUI 层。"
+      },
+      "design": {
+        "purpose": "辨认core与agentchat层的职责分工。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "根据课件采用的 AutoGen 0.7.4 示例，core 与 agentchat 的职责关系是哪项？"
+    },
+    {
+      "id": "ch06-q04",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "角色提示决定任务职责，列表决定轮询顺序，终止条件和轮次上限控制结束"
+        },
+        {
+          "id": "b",
+          "text": "角色提示中写“交给工程师”即可改变任何轮询顺序"
+        },
+        {
+          "id": "c",
+          "text": "participants 只记录日志，不影响顺序"
+        },
+        {
+          "id": "d",
+          "text": "模型生成 TERMINATE 就证明代码通过了测试"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "evidence": [
+        {
+          "section": "6.2.3 核心代码实现",
+          "quote": "- <strong>参与者顺序:</strong> `participants` 列表的顺序决定了智能体发言的先后次序。\n- <strong>终止条件:</strong> `termination_condition` 是控制协作流程何时结束的关键。这里我们设定，当任何消息中包含关键词 \"TERMINATE\" 时，对话便结束。在我们的设计中，这个指令由 `UserProxy` 在完成最终测试后发出。\n- <strong>最大轮次:</strong> `max_turns` 是一个安全阀，用于防止对话陷入无限循环，避免不必要的资源消耗。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "三者分别约束职责、调度和停止条件。",
+      "objectiveId": "ch06-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "三者分别约束职责、调度和停止条件。",
+        "b": "轮询调度由参与者顺序控制，提示不自动重写控制流。",
+        "c": "课件明确列表顺序决定发言先后。",
+        "d": "终止字符串是控制信号，不能替代测试证据。"
+      },
+      "design": {
+        "purpose": "解释RoundRobinGroupChat中角色消息、轮询顺序和终止条件如何共同工作。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "AutoGen 软件团队的角色提示、participants 和终止配置如何协作？"
+    },
+    {
+      "id": "ch06-q05",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "取消了智能体的 reply 方法，改为全自动的任务分发机制"
+        },
+        {
+          "id": "b",
+          "text": "强制要求所有消息必须在发送前进行加密，以确保分布式安全"
+        },
+        {
+          "id": "c",
+          "text": "所有的交互都被抽象为 Msg 对象的发送和接收，实现了消息驱动架构"
+        },
+        {
+          "id": "d",
+          "text": "仅支持同步调用，以避免多智能体协作中的状态竞态问题"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "6.3.1 AgentScope 的设计",
+          "quote": "AgentScope 的核心创新在于其<strong>消息驱动架构</strong>。在这个架构中，所有的智能体交互都被抽象为<strong>消息</strong>的发送和接收，而不是传统的函数调用。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "课件把智能体交互建模为消息发送与接收。",
+      "objectiveId": "ch06-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "开发者仍需实现或配置智能体的回应逻辑。",
+        "b": "强制消息加密不是本题所述架构创新。",
+        "c": "课件把智能体交互建模为消息发送与接收。",
+        "d": "课件强调异步能力。"
+      },
+      "design": {
+        "purpose": "识别组合式、消息驱动架构的基本组织方式。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "AgentScope 与传统基于“函数调用”模式的框架相比，其核心创新点在于："
+    },
+    {
+      "id": "ch06-q06",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "通过给特定智能体添加特殊的系统提示词来过滤公开消息"
+        },
+        {
+          "id": "b",
+          "text": "利用 MsgHub 动态创建一个临时的、仅包含狼人玩家的私密通信频道"
+        },
+        {
+          "id": "c",
+          "text": "狼人之间通过修改共享的全局 JSON 状态进行静默通信"
+        },
+        {
+          "id": "d",
+          "text": "强制挂起所有平民智能体的运行，直到狼人完成发言"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "6.3.2 三国狼人杀游戏",
+          "quote": "例如，狼人阶段的实现，并非一个简单的函数调用，而是通过 `MsgHub` 动态创建一个临时的、仅包含狼人玩家的私密通信频道：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "案例将狼人加入临时 MsgHub，使该阶段消息只在相应参与者间流转。",
+      "objectiveId": "ch06-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "仅靠提示不能替代消息接收方控制。",
+        "b": "案例将狼人加入临时 MsgHub，使该阶段消息只在相应参与者间流转。",
+        "c": "此项不是案例采用的消息组织方式。",
+        "d": "控制通信范围不要求挂起所有其他玩家。"
+      },
+      "design": {
+        "purpose": "追踪游戏状态、角色Agent和消息传递在一次行动中的职责。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "在“三国狼人杀”案例中，狼人阶段的私密通信是如何通过框架实现的？"
+    },
+    {
+      "id": "ch06-q07",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "AI User 是执行者，负责编写代码；AI Assistant 是需求方，负责构思步骤"
+        },
+        {
+          "id": "b",
+          "text": "AI User 负责提出需求和构思任务步骤；AI Assistant 负责执行操作和提供方案"
+        },
+        {
+          "id": "c",
+          "text": "两者均只需接收用户指令，相互之间不进行信息传递"
+        },
+        {
+          "id": "d",
+          "text": "角色在每一轮对话后会自动互换，以防止模型陷入单向思维"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "6.4.1 CAMEL 的自主协作",
+          "quote": "在 CAMEL 最初的设计中，一个任务通常由两个智能体协作完成。这两个智能体被赋予了互补的、明确定义的“角色”。一个扮演<strong>“AI 用户” (AI User)</strong>，负责提出需求、下达指令和构思任务步骤；另一个则扮演<strong>“AI 助理” (AI Assistant)</strong>，负责根据指令执行具体操作和提供解决方案。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "AI User 推动需求与步骤，AI Assistant 执行并提供方案。",
+      "objectiveId": "ch06-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "此项颠倒 AI User 与 AI Assistant 的分工。",
+        "b": "AI User 推动需求与步骤，AI Assistant 执行并提供方案。",
+        "c": "角色之间会多轮交流。",
+        "d": "课件没有规定每轮自动交换角色。"
+      },
+      "design": {
+        "purpose": "区分AI User与AI Assistant的任务职责。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "在 CAMEL 的双智能体协作范式中，关于 AI User 与 AI Assistant 的分工，描述正确的是："
+    },
+    {
+      "id": "ch06-q08",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "通过显存占用量判断任务是否完成"
+        },
+        {
+          "id": "b",
+          "text": "在初始指令中定义双方角色、共同目标和沟通约定"
+        },
+        {
+          "id": "c",
+          "text": "自动提供所有外部工具权限"
+        },
+        {
+          "id": "d",
+          "text": "只限制回复字数就能保证没有循环"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "6.4.1 CAMEL 的自主协作",
+          "quote": "- <strong>明确自身角色</strong>：例如，“你是一位资深的股票交易员...”\n- <strong>告知协作者角色</strong>：例如，“你正在与一位优秀的 Python 程序员合作...”\n- <strong>定义共同目标</strong>：例如，“你们的共同目标是开发一个股票交易策略分析工具。”\n- <strong>设定行为约束和沟通协议</strong>：这是最关键的一环。例如，指令会要求 AI 用户“一次只提出一个清晰、具体的步骤”，并要求 AI 助理“在完成上一步之前不要追问更多细节”，同时规定双方需在回复的末尾使用特定标志（如 `<SOLUTION>`）来标识任务的完成。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "这些提示为协作提供明确约定，但不构成无偏题或无循环的保证。",
+      "objectiveId": "ch06-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "显存不是任务目标或完成协议。",
+        "b": "这些提示为协作提供明确约定，但不构成无偏题或无循环的保证。",
+        "c": "工具接入与提示约定不同。",
+        "d": "字数限制不能保证任务推进，还需停止与监测机制。"
+      },
+      "design": {
+        "purpose": "解释Inception Prompting如何稳定角色、目标及交互约定。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "CAMEL 的 Inception Prompting 如何引导角色围绕共同目标协作？"
+    },
+    {
+      "id": "ch06-q09",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "为了满足 Annotated[list, add_messages] 的 reducer 函数对历史记录合并的语法要求"
+        },
+        {
+          "id": "b",
+          "text": "search_query 仅作为 user_query 的加密副本，用于通过安全审查节点"
+        },
+        {
+          "id": "c",
+          "text": "允许智能体将用户的自然语言提问优化成更适合搜索引擎的精炼关键词"
+        },
+        {
+          "id": "d",
+          "text": "防止在 search 节点崩溃时，导致 START 节点的原始输入数据丢失"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "6.5.2 三步问答助手",
+          "quote": "我们创建了 `SearchState` 这个 `TypedDict`，为状态对象定义了一个清晰的数据模式（Schema）。一个关键的设计是同时包含了 `user_query` 和 `search_query` 字段。这允许智能体先将用户的自然语言提问，优化成更适合搜索引擎的精炼关键词，从而显著提升搜索结果的质量。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "保留原问题并另存精炼关键词，便于将意图理解与搜索连接。",
+      "objectiveId": "ch06-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "这两个字段不由消息 reducer 的语法要求决定。",
+        "b": "search_query 是优化后的搜索查询，不是加密副本。",
+        "c": "保留原问题并另存精炼关键词，便于将意图理解与搜索连接。",
+        "d": "保留两个字段的核心目的不是 START 故障恢复。"
+      },
+      "design": {
+        "purpose": "识别理解、搜索、回答各步骤需要的输入和产生的状态字段。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "在 LangGraph 的 SearchState 设计中，同时保留 user_query 和 search_query 字段的核心意义在于："
+    },
+    {
+      "id": "ch06-q10",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "图结构的引入导致系统运行速度降低了至少 50%"
+        },
+        {
+          "id": "b",
+          "text": "需要开发者编写更多的前期样板代码 (Boilerplate)，如定义状态、节点与边"
+        },
+        {
+          "id": "c",
+          "text": "无法处理包含分支的逻辑，只能实现线性流程"
+        },
+        {
+          "id": "d",
+          "text": "仅支持 LangChain 内置的模型客户端，无法适配本地 LLM"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "6.5.3 LangGraph 的优势与局限性分析",
+          "quote": "- 与基于对话的框架相比，LangGraph 需要开发者编写更多的<strong>前期代码（Boilerplate）</strong>。定义状态、节点、边等一系列操作，使得对于简单任务而言，开发过程显得更为繁琐。开发者需要更多地思考“如何控制流程（how）”，而不仅仅是“做什么（what）”。由于工作流是预先定义的，LangGraph 的行为虽然可控，但也缺少了对话式智能体那种动态的、<strong>“涌现”式的交互</strong>。它的强项在于执行一个确定的、可靠的流程，而非模拟开放式的、不可预测的社会性协作。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "显式定义状态、节点和边会增加前期设计与代码成本。",
+      "objectiveId": "ch06-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "课件未给出这一性能降幅。",
+        "b": "显式定义状态、节点和边会增加前期设计与代码成本。",
+        "c": "条件边支持分支，图也支持循环。",
+        "d": "本题论述的是控制方式的成本，不能由此推出模型限制。"
+      },
+      "design": {
+        "purpose": "分析显式图提高审计性时增加的状态与边设计成本。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "根据教材 6.5.3 节，LangGraph 相对于 AutoGen/CAMEL 在开发上的主要牺牲是："
+    },
+    {
+      "id": "ch06-q11",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "框架源代码使用了混淆加密技术，无法通过 Python 调试器跟踪"
+        },
+        {
+          "id": "b",
+          "text": "很难定位问题究竟出在角色定义、任务描述还是交互规则（提示工程）上"
+        },
+        {
+          "id": "c",
+          "text": "对话中出现的 <CAMEL_TASK_DONE> 标签会导致调试进程自动强行关闭"
+        },
+        {
+          "id": "d",
+          "text": "模型在异步模式下生成的日志会自动覆盖之前的运行状态"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "evidence": [
+        {
+          "section": "6.4.3 CAMEL 的优势与局限性分析",
+          "quote": "- <strong>提示设计门槛</strong>：需要深入理解目标领域和 LLM 的行为特性\n- <strong>调试复杂性</strong>：当协作效果不佳时，很难定位是角色定义、任务描述还是交互规则的问题\n- <strong>一致性挑战</strong>：不同的 LLM 对相同提示的理解可能存在差异",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "提示的角色、任务和交互约定相互影响，故障定位可能困难。",
+      "objectiveId": "ch06-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "optionExplanations": {
+        "a": "课件没有以代码混淆解释调试难点。",
+        "b": "提示的角色、任务和交互约定相互影响，故障定位可能困难。",
+        "c": "任务标志控制协作终止，不是调试器关闭指令。",
+        "d": "异步不意味着日志必然覆盖。"
+      },
+      "design": {
+        "purpose": "判断轻架构重提示在灵活协作和可控性之间的取舍。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "当 CAMEL 协作效果不佳时，开发者面临的“调试复杂性”主要源于："
+    },
+    {
+      "id": "ch06-q12",
+      "type": "single",
+      "options": [
+        {
+          "id": "a",
+          "text": "AutoGen 通过显式状态机确保每一轮对话都绝对符合预设路径"
+        },
+        {
+          "id": "b",
+          "text": "LangGraph 通过定义角色目标，让复杂的协作行为从简单的对话规则中“涌现”"
+        },
+        {
+          "id": "c",
+          "text": "LangGraph 要求明确定义步骤和跳转，牺牲了“涌现”的惊喜以换取可靠性"
+        },
+        {
+          "id": "d",
+          "text": "CAMEL 抛弃了所有提示工程，转而追求完全确定性的硬编码流程"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "6.5.3 LangGraph 的优势与局限性分析",
+          "quote": "- 如我们的智能搜索助手案例所示，LangGraph 将一个完整的实时问答流程，显式地定义为一个由状态、节点和边构成的“流程图”。这种设计的最大优势是<strong>高度的可控性与可预测性</strong>。开发者可以精确地规划智能体的每一步行为，这对于构建需要高可靠性和可审计性的生产级应用至关重要。其最强大的特性在于对<strong>循环（Cycles）的原生支持</strong>。通过条件边，我们可以轻松构建“反思-修正”循环，例如在我们的案例中，如果搜索失败，可以设计一个回退到备用方案的路径。这是构建能够自我优化和具备容错能力的智能体的关键。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "显式步骤和跳转提高流程可审计性，但仍需验证节点逻辑与模型输出。",
+      "objectiveId": "ch06-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "对话输出仍具有不确定性。",
+        "b": "显式图通过状态与边控制流程，非仅定义角色目标。",
+        "c": "显式步骤和跳转提高流程可审计性，但仍需验证节点逻辑与模型输出。",
+        "d": "CAMEL 高度依赖初始提示设计。"
+      },
+      "design": {
+        "purpose": "比较LangGraph的状态边控制与基于对话的流程协调。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "关于“涌现式协作”与“显式控制”的权衡，以下描述正确的是："
+    },
+    {
+      "id": "ch06-q13",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "AutoGen：将多智能体系统抽象为一个由多个“可对话”智能体组成的群聊"
+        },
+        {
+          "id": "b",
+          "text": "AgentScope：内置了分布式部署支持，适合构建大规模、工业级的生产环境应用"
+        },
+        {
+          "id": "c",
+          "text": "CAMEL：基于图 (Graph) 结构，强制智能体按照节点和边的跳转逻辑运行"
+        },
+        {
+          "id": "d",
+          "text": "LangGraph：天然支持循环 (Cycles)，使得实现 Reflection 等迭代工作流非常直观"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "6.1.2 主流框架的选型与对比",
+          "quote": "- <strong>AutoGen</strong>：AutoGen 的核心思想是通过对话实现协作<sup>[1]</sup>。它将多智能体系统抽象为一个由多个“可对话”智能体组成的群聊。开发者可以定义不同角色（如 `Coder`, `ProductManager`, `Tester`），并设定它们之间的交互规则（例如，`Coder` 写完代码后由 `Tester` 自动接管）。任务的解决过程，就是这些智能体在群聊中通过自动化消息传递，不断对话、协作、迭代直至最终目标达成的过程。\n- <strong>AgentScope</strong>：AgentScope 是一个专为多智能体应用设计的、功能全面的开发平台<sup>[2]</sup>。它的核心特点是<strong>易用性</strong>和<strong>工程化</strong>。它提供了一套非常友好的编程接口，让开发者可以轻松定义智能体、构建通信网络，并管理整个应用的生命周期。其内置的<strong>消息传递机制</strong>和对分布式部署的支持，使其非常适合构建和运维复杂、大规模的多智能体系统。\n- <strong>CAMEL</strong>：CAMEL 提供了一种新颖的、名为<strong>角色扮演 (Role-Playing)</strong> 的协作方法<sup>[3]</sup>。其核心理念是，我们只需要为两个智能体（例如，`AI研究员` 和 `Python程序员`）设定好各自的角色和共同的任务目标，它们就能在“<strong>初始提示 (Inception Prompting)</strong>”的引导下，自主地进行多轮对话，相互启发、相互配合，共同完成任务。它极大地降低了设计多智能体对话流程的复杂度。\n- <strong>LangGraph</strong>：作为 LangChain 生态的扩展，LangGraph 另辟蹊径，将智能体的执行流程建模为<strong>图 (Graph)</strong><sup>[4]</sup>。在传统的链式结构中，信息只能单向流动。而 LangGraph 将每一步操作（如调用LLM、执行工具）定义为图中的一个<strong>节点 (Node)</strong>，并用<strong>边 (Edge)</strong> 来定义节点之间的跳转逻辑。这种设计天然支持<strong>循环 (Cycles)</strong>，使得实现如 Reflection 这样的迭代、修正、自我反思的复杂工作流变得异常简单和直观。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        },
+        {
+          "section": "6.1.2 主流框架的选型与对比",
+          "quote": "- <strong>AutoGen</strong>：AutoGen 的核心思想是通过对话实现协作<sup>[1]</sup>。它将多智能体系统抽象为一个由多个“可对话”智能体组成的群聊。开发者可以定义不同角色（如 `Coder`, `ProductManager`, `Tester`），并设定它们之间的交互规则（例如，`Coder` 写完代码后由 `Tester` 自动接管）。任务的解决过程，就是这些智能体在群聊中通过自动化消息传递，不断对话、协作、迭代直至最终目标达成的过程。\n- <strong>AgentScope</strong>：AgentScope 是一个专为多智能体应用设计的、功能全面的开发平台<sup>[2]</sup>。它的核心特点是<strong>易用性</strong>和<strong>工程化</strong>。它提供了一套非常友好的编程接口，让开发者可以轻松定义智能体、构建通信网络，并管理整个应用的生命周期。其内置的<strong>消息传递机制</strong>和对分布式部署的支持，使其非常适合构建和运维复杂、大规模的多智能体系统。\n- <strong>CAMEL</strong>：CAMEL 提供了一种新颖的、名为<strong>角色扮演 (Role-Playing)</strong> 的协作方法<sup>[3]</sup>。其核心理念是，我们只需要为两个智能体（例如，`AI研究员` 和 `Python程序员`）设定好各自的角色和共同的任务目标，它们就能在“<strong>初始提示 (Inception Prompting)</strong>”的引导下，自主地进行多轮对话，相互启发、相互配合，共同完成任务。它极大地降低了设计多智能体对话流程的复杂度。\n- <strong>LangGraph</strong>：作为 LangChain 生态的扩展，LangGraph 另辟蹊径，将智能体的执行流程建模为<strong>图 (Graph)</strong><sup>[4]</sup>。在传统的链式结构中，信息只能单向流动。而 LangGraph 将每一步操作（如调用LLM、执行工具）定义为图中的一个<strong>节点 (Node)</strong>，并用<strong>边 (Edge)</strong> 来定义节点之间的跳转逻辑。这种设计天然支持<strong>循环 (Cycles)</strong>，使得实现如 Reflection 这样的迭代、修正、自我反思的复杂工作流变得异常简单和直观。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        },
+        {
+          "section": "6.1.2 主流框架的选型与对比",
+          "quote": "- <strong>AutoGen</strong>：AutoGen 的核心思想是通过对话实现协作<sup>[1]</sup>。它将多智能体系统抽象为一个由多个“可对话”智能体组成的群聊。开发者可以定义不同角色（如 `Coder`, `ProductManager`, `Tester`），并设定它们之间的交互规则（例如，`Coder` 写完代码后由 `Tester` 自动接管）。任务的解决过程，就是这些智能体在群聊中通过自动化消息传递，不断对话、协作、迭代直至最终目标达成的过程。\n- <strong>AgentScope</strong>：AgentScope 是一个专为多智能体应用设计的、功能全面的开发平台<sup>[2]</sup>。它的核心特点是<strong>易用性</strong>和<strong>工程化</strong>。它提供了一套非常友好的编程接口，让开发者可以轻松定义智能体、构建通信网络，并管理整个应用的生命周期。其内置的<strong>消息传递机制</strong>和对分布式部署的支持，使其非常适合构建和运维复杂、大规模的多智能体系统。\n- <strong>CAMEL</strong>：CAMEL 提供了一种新颖的、名为<strong>角色扮演 (Role-Playing)</strong> 的协作方法<sup>[3]</sup>。其核心理念是，我们只需要为两个智能体（例如，`AI研究员` 和 `Python程序员`）设定好各自的角色和共同的任务目标，它们就能在“<strong>初始提示 (Inception Prompting)</strong>”的引导下，自主地进行多轮对话，相互启发、相互配合，共同完成任务。它极大地降低了设计多智能体对话流程的复杂度。\n- <strong>LangGraph</strong>：作为 LangChain 生态的扩展，LangGraph 另辟蹊径，将智能体的执行流程建模为<strong>图 (Graph)</strong><sup>[4]</sup>。在传统的链式结构中，信息只能单向流动。而 LangGraph 将每一步操作（如调用LLM、执行工具）定义为图中的一个<strong>节点 (Node)</strong>，并用<strong>边 (Edge)</strong> 来定义节点之间的跳转逻辑。这种设计天然支持<strong>循环 (Cycles)</strong>，使得实现如 Reflection 这样的迭代、修正、自我反思的复杂工作流变得异常简单和直观。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "AutoGen 强調对话驱动的团队协作。 课件强调 AgentScope 的工程化消息与分布式支持，具体系统仍需配置和验证。 循环支持适合反思与修正流程。",
+      "objectiveId": "ch06-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "AutoGen 强調对话驱动的团队协作。",
+        "b": "课件强调 AgentScope 的工程化消息与分布式支持，具体系统仍需配置和验证。",
+        "c": "以图与边显式控制是 LangGraph 的核心范式。",
+        "d": "循环支持适合反思与修正流程。"
+      },
+      "design": {
+        "purpose": "比较多智能体对话、工程化消息、角色扮演和显式图控制的定位。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "根据教材 6.1.2 节及后续实战，以下哪些框架定位的描述是准确的？"
+    },
+    {
+      "id": "ch06-q14",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "固定 participants 顺序让发言顺序更清楚"
+        },
+        {
+          "id": "b",
+          "text": "在提示中增加“返回工程师”就必然改变轮询调度"
+        },
+        {
+          "id": "c",
+          "text": "动态回退需要明确修改调度或路由机制"
+        },
+        {
+          "id": "d",
+          "text": "仍需监测对话偏离与循环，固定顺序不消除模型不确定性"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "6.2.4 AutoGen 的优势与局限性分析",
+          "quote": "- 虽然 `RoundRobinGroupChat` 提供了顺序化的流程，但基于 LLM 的对话本质上具有不确定性。智能体可能会产生偏离预期的回复，导致对话走向意外的分支，甚至陷入循环。\n- 当智能体团队的工作结果未达预期时，调试过程可能非常棘手。与传统程序不同，我们得到的不是清晰的错误堆栈，而是一长串的对话历史。这被称为“对话式调试”的难题。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "轮询可以明确顺序。 任务要求按结果跳转时应设计相应调度。 课件明确指出轮询中的 LLM 对话仍有不确定性。",
+      "objectiveId": "ch06-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "轮询可以明确顺序。",
+        "b": "提示不自动改变程序控制流。",
+        "c": "任务要求按结果跳转时应设计相应调度。",
+        "d": "课件明确指出轮询中的 LLM 对话仍有不确定性。"
+      },
+      "design": {
+        "purpose": "比较轮询对话的可预测性与需求动态回退时所需的流程变更。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "固定轮询的软件团队加入“审查不通过时先修复”的需求，下列判断哪些合理？"
+    },
+    {
+      "id": "ch06-q15",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "复杂并发协作可利用消息驱动和容错设计"
+        },
+        {
+          "id": "b",
+          "text": "简单双角色原型也必须采用完整分布式部署"
+        },
+        {
+          "id": "c",
+          "text": "工程能力伴随异步与分布式概念的学习成本"
+        },
+        {
+          "id": "d",
+          "text": "应按任务规模评估是否过度工程化"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "6.3.3 AgentScope 的优势与局限性分析",
+          "quote": "然而，AgentScope 的工程化优势也带来了一定的复杂性成本。其消息驱动架构虽然强大，但对开发者的技术要求较高，需要理解异步编程、分布式通信等概念。对于简单的多智能体对话场景，这种架构可能显得过于复杂，存在\"过度工程化\"的风险。此外，作为相对较新的框架，其生态系统和社区资源还有待进一步完善。因此，AgentScope 更适合需要构建大规模、高可靠性的生产级多智能体系统，而对于快速原型开发或简单应用场景，选择更轻量级的框架可能更为合适。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "课件强调并发与容错的工程价值。 工程化能力不是零成本的。 课件明确提醒简单场景存在过度工程化风险。",
+      "objectiveId": "ch06-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "课件强调并发与容错的工程价值。",
+        "b": "简单任务不必承担不必要的架构复杂度。",
+        "c": "工程化能力不是零成本的。",
+        "d": "课件明确提醒简单场景存在过度工程化风险。"
+      },
+      "design": {
+        "purpose": "比较工程化并发容错与简单应用的复杂性成本。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "团队考虑 AgentScope，下列取舍哪些合理？"
+    },
+    {
+      "id": "ch06-q16",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "心理学家负责提供实证研究支持，担任“事实核查员”角色"
+        },
+        {
+          "id": "b",
+          "text": "作家负责将晦涩概念比喻化，将学术语言进行“知识转译”"
+        },
+        {
+          "id": "c",
+          "text": "双方的对话由 init_chat() 方法基于任务和角色自动开启"
+        },
+        {
+          "id": "d",
+          "text": "协作流程强制固定为：心理学家每写一段，作家必须重写三遍"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "evidence": [
+        {
+          "section": "6.4.2 AI科普电子书",
+          "quote": "这段 `while` 循环是自动化协作的核心。对话由 `init_chat()` 方法基于任务和角色自动开启，无需人工编写开场白。循环的每一步都通过调用 `step()` 来驱动一轮完整的交互（作家提需求、心理学家给内容），并将上一轮心理学家的输出作为下一轮的输入，形成环-环相扣的创作链。整个过程将持续进行，直到达到预设的对话轮次上限，或任一智能体输出任务完成标志 `<CAMEL_TASK_DONE>` 后自动终止。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        },
+        {
+          "section": "6.4.2 AI科普电子书",
+          "quote": "- <strong>心理学家</strong>：负责提供“硬核”的专业知识，如对“时间折扣理论”、“执行功能缺陷”等核心概念的科学解释，并引用相关的实验研究来支撑观点。\n- <strong>作家</strong>：则发挥其“翻译官”的作用，将这些严谨但可能晦涩的学术概念，转化为生动、形象的比喻和贴近生活的案例。例如，它可能会将“大脑中的‘现在偏见’”这个概念，比作“一个只顾眼前糖果、不顾长远健康的任性孩子”。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        },
+        {
+          "section": "6.4.2 AI科普电子书",
+          "quote": "- <strong>心理学家</strong>：负责提供“硬核”的专业知识，如对“时间折扣理论”、“执行功能缺陷”等核心概念的科学解释，并引用相关的实验研究来支撑观点。\n- <strong>作家</strong>：则发挥其“翻译官”的作用，将这些严谨但可能晦涩的学术概念，转化为生动、形象的比喻和贴近生活的案例。例如，它可能会将“大脑中的‘现在偏见’”这个概念，比作“一个只顾眼前糖果、不顾长远健康的任性孩子”。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "心理学家角色提供专业内容与核查职责，但实际事实仍需核实。 作家负责将专业知识转为易读表达。 案例用 init_chat 开始会话，再由 step 驱动。",
+      "objectiveId": "ch06-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "心理学家角色提供专业内容与核查职责，但实际事实仍需核实。",
+        "b": "作家负责将专业知识转为易读表达。",
+        "c": "案例用 init_chat 开始会话，再由 step 驱动。",
+        "d": "案例没有强制三次重写规则。"
+      },
+      "design": {
+        "purpose": "针对科普电子书选择专业内容与表达加工的互补角色和交付约束。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "在“拖延症心理学”电子书创作案例中，两位角色的协作细节包括："
+    },
+    {
+      "id": "ch06-q17",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "在状态中记录搜索结果、失败状态和重试次数"
+        },
+        {
+          "id": "b",
+          "text": "用条件边根据状态选择重试、回答或结束"
+        },
+        {
+          "id": "c",
+          "text": "只要有循环边就无需退出条件"
+        },
+        {
+          "id": "d",
+          "text": "达到重试上限后进入说明限制的回退或结束分支"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "6.5.1 LangGraph 的结构梳理",
+          "quote": "<strong>最后，是边（Edges）</strong>。边负责连接节点，定义工作流的方向。最简单的边是常规边，它指定了一个节点的输出总是流向另一个固定的节点。而 LangGraph 最强大的功能在于<strong>条件边（Conditional Edges）</strong>。它通过一个函数来判断当前的状态，然后动态地决定下一步应该跳转到哪个节点。这正是实现循环和复杂逻辑分支的关键。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        },
+        {
+          "section": "6.5.1 LangGraph 的结构梳理",
+          "quote": "<strong>首先，是全局状态（State）</strong>。整个图的执行过程都围绕一个共享的状态对象进行。这个状态通常被定义为一个 Python 的 `TypedDict`，它可以包含任何你需要追踪的信息，如对话历史、中间结果、迭代次数等。所有的节点都能读取和更新这个中心状态。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "路由需要可读取的结果和控制状态。 条件边用于基于状态动态选择路径。 上限与退出路径为扩展流程提供边界，需自行实现。",
+      "objectiveId": "ch06-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "optionExplanations": {
+        "a": "路由需要可读取的结果和控制状态。",
+        "b": "条件边用于基于状态动态选择路径。",
+        "c": "无退出限制的循环可能无限执行。",
+        "d": "上限与退出路径为扩展流程提供边界，需自行实现。"
+      },
+      "design": {
+        "purpose": "为搜索失败后的重试或回退选择条件边、状态更新与退出条件。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "把 LangGraph 搜索流程扩为失败可重试的图，哪些设计合理？"
+    },
+    {
+      "id": "ch06-q18",
+      "type": "multiple",
+      "options": [
+        {
+          "id": "a",
+          "text": "保留人类在环的验收接口"
+        },
+        {
+          "id": "b",
+          "text": "同时设计终止条件与最大轮次"
+        },
+        {
+          "id": "c",
+          "text": "检测到终止字符串就直接断言程序功能正确"
+        },
+        {
+          "id": "d",
+          "text": "记录对话与测试结果，区分停止和验收通过"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "evidence": [
+        {
+          "section": "6.2.4 AutoGen 的优势与局限性分析",
+          "quote": "- 如案例所示，我们无需为智能体团队设计复杂的状态机或控制流逻辑，而是将一个完整的软件开发流程，自然地映射为产品经理、工程师和审查员之间的对话。这种方式更贴近人类团队的协作模式，显著降低了为复杂任务建模的门槛。开发者可以将更多精力聚焦于定义“谁（角色）”以及“做什么（职责）”，而非“如何做（流程控制）”。\n- 框架允许通过系统消息（System Message）为每个智能体赋予高度专业化的角色。在案例中，`ProductManager` 专注于需求，而 `CodeReviewer` 则专注于质量。一个精心设计的智能体可以在不同项目中被复用，易于维护和扩展。\n- 对于流程化任务，`RoundRobinGroupChat` 这样机制提供了清晰、可预测的协作流程。同时，`UserProxyAgent` 的设计为“人类在环”（Human-in-the-loop）提供了天然的接口。它既可以作为任务的发起者，也可以是流程的监督者和最终的验收者。这种设计确保了自动化系统始终处于人类的监督之下。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        },
+        {
+          "section": "6.2.3 核心代码实现",
+          "quote": "- <strong>参与者顺序:</strong> `participants` 列表的顺序决定了智能体发言的先后次序。\n- <strong>终止条件:</strong> `termination_condition` 是控制协作流程何时结束的关键。这里我们设定，当任何消息中包含关键词 \"TERMINATE\" 时，对话便结束。在我们的设计中，这个指令由 `UserProxy` 在完成最终测试后发出。\n- <strong>最大轮次:</strong> `max_turns` 是一个安全阀，用于防止对话陷入无限循环，避免不必要的资源消耗。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "explanation": "UserProxy 可提供人类参与接口，但验收仍需具体流程。 课件把终止条件和轮次上限作为控制手段。 审计需知道发生了什么以及结果是否通过检查。",
+      "objectiveId": "ch06-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "optionExplanations": {
+        "a": "UserProxy 可提供人类参与接口，但验收仍需具体流程。",
+        "b": "课件把终止条件和轮次上限作为控制手段。",
+        "c": "停止信号不能替代实际测试结果。",
+        "d": "审计需知道发生了什么以及结果是否通过检查。"
+      },
+      "design": {
+        "purpose": "面对需要人工介入和可审计交付的任务，选择角色、终止及审核机制，避免无限对话。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "软件团队需要人工验收且不能无限对话，哪些措施合理？"
+    },
+    {
+      "id": "ch06-q19",
+      "type": "reflection",
+      "options": [],
+      "answerIds": [],
+      "referenceAnswer": "原示例搜索节点实际调用 Tavily API，失败时记录 search_failed，回答节点说明失败并用内部知识作有限回答。可新增 retry_count、quality_ok 和错误信息，使用条件边在成功回答、修改查询重试和达到上限后回退之间选择。必须限制次数并防止把内部知识回答冒充实时检索结果。循环与质量检查是设计扩展，需要实际测试，原示例三步连接本身是线性的。",
+      "rubric": [
+        "准确识别原示例有真实 Tavily 调用",
+        "状态包含结果、失败信息与重试计数",
+        "条件边有重试和明确退出路径",
+        "回退明确信息来源和时效限制"
+      ],
+      "objectiveId": "ch06-o05",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "6.5.2 三步问答助手",
+          "quote": "此节点通过 `tavily_client.search` 发起真实的 API 调用。它被包裹在 `try...except` 块中，用于捕获可能的异常。如果搜索失败，它会更新 `step` 状态为 `\"search_failed\"`，这个状态将被下一个节点用来触发备用方案。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        },
+        {
+          "section": "6.5.1 LangGraph 的结构梳理",
+          "quote": "<strong>最后，是边（Edges）</strong>。边负责连接节点，定义工作流的方向。最简单的边是常规边，它指定了一个节点的输出总是流向另一个固定的节点。而 LangGraph 最强大的功能在于<strong>条件边（Conditional Edges）</strong>。它通过一个函数来判断当前的状态，然后动态地决定下一步应该跳转到哪个节点。这正是实现循环和复杂逻辑分支的关键。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "optionExplanations": {},
+      "design": {
+        "purpose": "将三步问答扩成搜索失败可回退的图，列明状态、条件边、终止条件，并区分示例模拟搜索与真实外部检索。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "在三步问答助手中扩展搜索失败或结果不足时的重试与回退。列出状态字段、路由和退出条件，并区分原示例的外部调用与自己设计的扩展。",
+      "explanation": "本题为开放性设计题，参考答案是基于课件机制提出的方案，不代表已经运行验证。"
+    },
+    {
+      "id": "ch06-q20",
+      "type": "reflection",
+      "options": [],
+      "answerIds": [],
+      "referenceAnswer": "可结构化记录审查结果和待修复项；失败时按显式路由返回工程师，通过后进入测试与人工验收。设定修复次数、总轮次和重复失败阈值，超限交给人类，并保留测试证据。固定轮询的调度较简单；动态反馈能减少部分无效流转，但增加路由、状态、测试和调试成本，是否降低总调用成本需测量，不能一概保证。终止标志只控制停止，不证明交付正确。",
+      "rubric": [
+        "区分提示职责与程序调度",
+        "回退携带具体反馈并安排复审",
+        "具备上限、人工接管和验收证据",
+        "同时评价新增实现成本与潜在效率收益"
+      ],
+      "objectiveId": "ch06-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "6.2.3 核心代码实现",
+          "quote": "- <strong>参与者顺序:</strong> `participants` 列表的顺序决定了智能体发言的先后次序。\n- <strong>终止条件:</strong> `termination_condition` 是控制协作流程何时结束的关键。这里我们设定，当任何消息中包含关键词 \"TERMINATE\" 时，对话便结束。在我们的设计中，这个指令由 `UserProxy` 在完成最终测试后发出。\n- <strong>最大轮次:</strong> `max_turns` 是一个安全阀，用于防止对话陷入无限循环，避免不必要的资源消耗。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        },
+        {
+          "section": "6.2.4 AutoGen 的优势与局限性分析",
+          "quote": "- 虽然 `RoundRobinGroupChat` 提供了顺序化的流程，但基于 LLM 的对话本质上具有不确定性。智能体可能会产生偏离预期的回复，导致对话走向意外的分支，甚至陷入循环。\n- 当智能体团队的工作结果未达预期时，调试过程可能非常棘手。与传统程序不同，我们得到的不是清晰的错误堆栈，而是一长串的对话历史。这被称为“对话式调试”的难题。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md"
+        }
+      ],
+      "optionExplanations": {},
+      "design": {
+        "purpose": "为软件开发团队设计审查不通过后的回退与人工接管，说明比固定轮询新增的控制规则和成本。",
+        "misconception": "混淆框架职责与运行保证。"
+      },
+      "stem": "为 AutoGen 软件团队设计“审查失败→工程师修复→复审”及人工接管。说明相对固定轮询新增的控制规则、停止条件和成本。",
+      "explanation": "本题为开放性设计题，参考答案是基于课件机制提出的方案，不代表已经运行验证。"
+    }
+  ]
+}

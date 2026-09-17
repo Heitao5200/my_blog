@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch05-o01",
+      "title": "理解低代码抽象与平台选型",
+      "sections": [
+        "5.1.1 为何需要低代码平台",
+        "5.1.1 为何需要低代码平台",
+        "5.1.2 低代码平台的选择"
+      ],
+      "reason": "平台选择应依据业务约束而非界面记忆。"
+    },
+    {
+      "id": "ch05-o02",
+      "title": "构建多源简报的数据链路",
+      "sections": [
+        "5.2.1 Coze 的功能模块",
+        "5.2.2 构建“每日AI简报”助手",
+        "5.2.3 Coze 的优势与局限性分析"
+      ],
+      "reason": "信息获取、内容加工与输出发布属于不同步骤。"
+    },
+    {
+      "id": "ch05-o03",
+      "title": "解释Dify的应用组织与模型中立",
+      "sections": [
+        "5.3.1 Dify 的介绍与生态",
+        "5.3.2 构建一个超级智能体个人助手",
+        "5.3.3 Dify 的优势与局限性分析"
+      ],
+      "reason": "统一模型和工具能力需要配置，不等于所有能力由单次提示提供。"
+    },
+    {
+      "id": "ch05-o04",
+      "title": "将知识检索与实时工具组合",
+      "sections": [
+        "5.4.1 FastGPT 介绍与核心功能",
+        "5.4.2 构建\"智能投顾助手\"",
+        "5.4.2 构建\"智能投顾助手\""
+      ],
+      "reason": "私有知识和实时行情不能用同一种数据获取路径替代。"
+    },
+    {
+      "id": "ch05-o05",
+      "title": "搭建n8n知识准备与邮件处理流程",
+      "sections": [
+        "5.5.3 构建 Agent 的私有知识库",
+        "5.5.4 创建 Agent 主工作流",
+        "5.5.4 创建 Agent 主工作流"
+      ],
+      "reason": "离线建库和在线查询分离能避免重复处理及错误连接。"
+    },
+    {
+      "id": "ch05-o06",
+      "title": "评估平台抽象的工程边界",
+      "sections": [
+        "5.5.5 n8n 的优势与局限性分析",
+        "5.5.1 n8n 的节点与工作流",
+        "5.4.3 FastGPT 的优势与局限性分析"
+      ],
+      "reason": "低门槛不消除复杂流程和生产维护要求。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch05-q01",
+      "type": "single",
+      "objectiveId": "ch05-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "5.1.1 为何需要低代码平台",
+      "purpose": "辨认低代码将API、状态与编排封装成节点所解决的开发问题。"
+    },
+    {
+      "id": "ch05-q02",
+      "type": "single",
+      "objectiveId": "ch05-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "5.1.1 为何需要低代码平台",
+      "purpose": "解释节点输入输出和可视化调试如何降低集成成本。"
+    },
+    {
+      "id": "ch05-q03",
+      "type": "single",
+      "objectiveId": "ch05-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "5.2.1 Coze 的功能模块",
+      "purpose": "识别插件、知识库和工作流的不同作用。"
+    },
+    {
+      "id": "ch05-q04",
+      "type": "single",
+      "objectiveId": "ch05-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "5.2.2 构建“每日AI简报”助手",
+      "purpose": "追踪每日AI简报从多源插件获取到提示处理、结构化输出的过程。"
+    },
+    {
+      "id": "ch05-q05",
+      "type": "single",
+      "objectiveId": "ch05-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "5.3.1 Dify 的介绍与生态",
+      "purpose": "识别LLMOps、模型接入及RAG在应用平台中的职责。"
+    },
+    {
+      "id": "ch05-q06",
+      "type": "single",
+      "objectiveId": "ch05-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "5.3.2 构建一个超级智能体个人助手",
+      "purpose": "根据个人助手的不同需求分析工具选择与应用编排关系。"
+    },
+    {
+      "id": "ch05-q07",
+      "type": "single",
+      "objectiveId": "ch05-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "5.4.1 FastGPT 介绍与核心功能",
+      "purpose": "识别知识库问答的导入、分块、检索、生成链路。"
+    },
+    {
+      "id": "ch05-q08",
+      "type": "single",
+      "objectiveId": "ch05-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "5.4.2 构建\"智能投顾助手\"",
+      "purpose": "解释投顾案例中知识库、MCP行情工具与用户风险画像如何共同提供上下文。"
+    },
+    {
+      "id": "ch05-q09",
+      "type": "single",
+      "objectiveId": "ch05-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "5.5.3 构建 Agent 的私有知识库",
+      "purpose": "识别更新知识时运行的建库流程与每封邮件触发的问答流程。"
+    },
+    {
+      "id": "ch05-q10",
+      "type": "single",
+      "objectiveId": "ch05-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "5.5.4 创建 Agent 主工作流",
+      "purpose": "分析Agent节点自主选工具在固定外层邮件链路中的灵活性和额外调试成本。"
+    },
+    {
+      "id": "ch05-q11",
+      "type": "single",
+      "objectiveId": "ch05-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "5.5.5 n8n 的优势与局限性分析",
+      "purpose": "识别快速搭建与复杂流程维护、性能之间的权衡。"
+    },
+    {
+      "id": "ch05-q12",
+      "type": "single",
+      "objectiveId": "ch05-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "5.5.1 n8n 的节点与工作流",
+      "purpose": "比较事件触发节点与处理节点，以及固定工作流和其中Agent的决策职责。"
+    },
+    {
+      "id": "ch05-q13",
+      "type": "multiple",
+      "objectiveId": "ch05-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "5.1.2 低代码平台的选择",
+      "purpose": "按快速原型、知识问答、通用自动化和自托管要求比较四平台定位。"
+    },
+    {
+      "id": "ch05-q14",
+      "type": "multiple",
+      "objectiveId": "ch05-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "5.2.3 Coze 的优势与局限性分析",
+      "purpose": "比较插件生态带来的开发便利与平台依赖、定制边界。"
+    },
+    {
+      "id": "ch05-q15",
+      "type": "multiple",
+      "objectiveId": "ch05-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "5.3.3 Dify 的优势与局限性分析",
+      "purpose": "比较本地部署和云服务在运维、数据控制和扩展上的成本。"
+    },
+    {
+      "id": "ch05-q16",
+      "type": "multiple",
+      "objectiveId": "ch05-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "5.4.2 构建\"智能投顾助手\"",
+      "purpose": "为理论提问、当前行情和个性化报告分别选择适合的数据来源和工作流步骤。"
+    },
+    {
+      "id": "ch05-q17",
+      "type": "multiple",
+      "objectiveId": "ch05-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "5.5.4 创建 Agent 主工作流",
+      "purpose": "在邮件触发、知识检索、Agent判断与回复节点间选择正确数据依赖。"
+    },
+    {
+      "id": "ch05-q18",
+      "type": "multiple",
+      "objectiveId": "ch05-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "5.4.3 FastGPT 的优势与局限性分析",
+      "purpose": "在知识检索精细控制、工具兼容及团队开发能力约束下选择平台方案，拒绝将宣传能力当无条件保证。"
+    },
+    {
+      "id": "ch05-q19",
+      "type": "reflection",
+      "objectiveId": "ch05-o04",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "5.4.2 构建\"智能投顾助手\"",
+      "purpose": "为案例设计知识过期、行情工具失败和风险画像缺失时的流程，分别说明证据来源与输出限制；不要求给投资建议。"
+    },
+    {
+      "id": "ch05-q20",
+      "type": "reflection",
+      "objectiveId": "ch05-o05",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "5.5.4 创建 Agent 主工作流",
+      "purpose": "绘制邮件助手的建库与在线两条数据流，解释如何定位错误来自触发、检索、模型或回复节点。"
+    }
+  ],
+  "notes": "各平台按本章历史快照描述，不考当前价格、工具数量和UI按钮位置；避开课件中n8n只能有一个触发器等绝对化断言。截图独有操作不能伪造成文字证据。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

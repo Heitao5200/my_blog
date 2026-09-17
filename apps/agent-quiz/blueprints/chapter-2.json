@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch02-o01",
+      "title": "解释符号系统如何表示知识并推理",
+      "sections": [
+        "2.1.1 物理符号系统假说",
+        "2.1.2 专家系统",
+        "2.1.3 SHRDLU"
+      ],
+      "reason": "历史应解释能力来源，避免人物年份记忆。"
+    },
+    {
+      "id": "ch02-o02",
+      "title": "理解规则聊天的匹配替换机制",
+      "sections": [
+        "2.2.1 ELIZA 的设计思想",
+        "2.2.2 模式匹配与文本替换",
+        "2.2.3 核心逻辑的实现"
+      ],
+      "reason": "流畅对话不等于语义理解，规则实例可以检验这一误区。"
+    },
+    {
+      "id": "ch02-o03",
+      "title": "解释符号主义的开放世界瓶颈",
+      "sections": [
+        "2.1.4 符号主义面临的根本性挑战",
+        "2.1.4 符号主义面临的根本性挑战",
+        "2.4.1 从符号到联结"
+      ],
+      "reason": "把局限归因于知识获取及表示，而非简单归因于算力不够。"
+    },
+    {
+      "id": "ch02-o04",
+      "title": "说明协作体如何产生整体能力",
+      "sections": [
+        "2.3.1 对单一整体智能模型的反思",
+        "2.3.2 作为协作体的智能",
+        "2.3.3 对多智能体系统的理论启发"
+      ],
+      "reason": "心智社会为分工协作提供概念启发，但不等于每个子过程都是现代LLM。"
+    },
+    {
+      "id": "ch02-o05",
+      "title": "把强化学习用于序贯决策",
+      "sections": [
+        "2.4.2 基于强化学习的智能体",
+        "2.4.2 基于强化学习的智能体",
+        "2.4.3 基于大规模数据的预训练"
+      ],
+      "reason": "奖励与环境交互解释策略学习，区分静态规则和预训练。"
+    },
+    {
+      "id": "ch02-o06",
+      "title": "从范式演进推导现代系统的组合设计",
+      "sections": [
+        "2.4.3 基于大规模数据的预训练",
+        "2.4.4 基于大语言模型的智能体",
+        "2.4.5 智能体发展关键节点概览"
+      ],
+      "reason": "历史是思想交织，不能把新范式理解为完全替代旧范式。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch02-q01",
+      "type": "single",
+      "objectiveId": "ch02-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "2.1.1 物理符号系统假说",
+      "purpose": "识别物理符号系统假说中符号操作与智能行为的关系。"
+    },
+    {
+      "id": "ch02-q02",
+      "type": "single",
+      "objectiveId": "ch02-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "2.1.2 专家系统",
+      "purpose": "追踪专家系统知识库与推理机的分工。"
+    },
+    {
+      "id": "ch02-q03",
+      "type": "single",
+      "objectiveId": "ch02-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "2.2.1 ELIZA 的设计思想",
+      "purpose": "识别ELIZA模拟交流的目标与脚本定位。"
+    },
+    {
+      "id": "ch02-q04",
+      "type": "single",
+      "objectiveId": "ch02-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "2.2.2 模式匹配与文本替换",
+      "purpose": "根据关键词优先级、分解和重组规则推导响应生成过程。"
+    },
+    {
+      "id": "ch02-q05",
+      "type": "single",
+      "objectiveId": "ch02-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "2.1.4 符号主义面临的根本性挑战",
+      "purpose": "识别常识知识与知识获取瓶颈。"
+    },
+    {
+      "id": "ch02-q06",
+      "type": "single",
+      "objectiveId": "ch02-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "2.1.4 符号主义面临的根本性挑战",
+      "purpose": "分析规则扩展为何在开放环境遇到脆弱性和维护负担。"
+    },
+    {
+      "id": "ch02-q07",
+      "type": "single",
+      "objectiveId": "ch02-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "2.3.1 对单一整体智能模型的反思",
+      "purpose": "区分单一中央智能假设与专门化心智过程。"
+    },
+    {
+      "id": "ch02-q08",
+      "type": "single",
+      "objectiveId": "ch02-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "2.3.2 作为协作体的智能",
+      "purpose": "解释简单智能体组成Agency及更高层协作的过程。"
+    },
+    {
+      "id": "ch02-q09",
+      "type": "single",
+      "objectiveId": "ch02-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "2.4.2 基于强化学习的智能体",
+      "purpose": "识别需要通过试错优化长期收益的任务。"
+    },
+    {
+      "id": "ch02-q10",
+      "type": "single",
+      "objectiveId": "ch02-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "2.4.2 基于强化学习的智能体",
+      "purpose": "分析稀缺先验知识使从零交互学习付出的样本成本。"
+    },
+    {
+      "id": "ch02-q11",
+      "type": "single",
+      "objectiveId": "ch02-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "2.4.3 基于大规模数据的预训练",
+      "purpose": "判断预训练广泛知识与特定任务交互成本之间的取舍。"
+    },
+    {
+      "id": "ch02-q12",
+      "type": "single",
+      "objectiveId": "ch02-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "2.4.4 基于大语言模型的智能体",
+      "purpose": "比较LLM作为决策中枢与单独文本模型的工具、记忆和行动闭环。"
+    },
+    {
+      "id": "ch02-q13",
+      "type": "multiple",
+      "objectiveId": "ch02-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "2.1.3 SHRDLU",
+      "purpose": "比较专家系统领域推理与SHRDLU封闭积木世界的任务边界。"
+    },
+    {
+      "id": "ch02-q14",
+      "type": "multiple",
+      "objectiveId": "ch02-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "2.2.3 核心逻辑的实现",
+      "purpose": "用同义表达、未知关键词或语义冲突输入比较规则匹配与内容理解。"
+    },
+    {
+      "id": "ch02-q15",
+      "type": "multiple",
+      "objectiveId": "ch02-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "2.4.1 从符号到联结",
+      "purpose": "比较手工编码知识与通过数据学习分布式表示，避免断言后一范式消除所有推理问题。"
+    },
+    {
+      "id": "ch02-q16",
+      "type": "multiple",
+      "objectiveId": "ch02-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "2.3.3 对多智能体系统的理论启发",
+      "purpose": "给定任务选择可分工的子职责和协作接口，并避免只增加智能体数量。"
+    },
+    {
+      "id": "ch02-q17",
+      "type": "multiple",
+      "objectiveId": "ch02-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "2.4.3 基于大规模数据的预训练",
+      "purpose": "为需要背景常识和任务反馈的系统分别安排预训练与交互学习的职责。"
+    },
+    {
+      "id": "ch02-q18",
+      "type": "multiple",
+      "objectiveId": "ch02-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "2.4.5 智能体发展关键节点概览",
+      "purpose": "选择同时使用规则约束、学习表示及反馈决策的合理设计，辨别技术万能论。"
+    },
+    {
+      "id": "ch02-q19",
+      "type": "reflection",
+      "objectiveId": "ch02-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "2.2.3 核心逻辑的实现",
+      "purpose": "设计能暴露ELIZA不理解语义的成对输入，解释匹配轨迹；不能仅凭一次自然回复认定理解。"
+    },
+    {
+      "id": "ch02-q20",
+      "type": "reflection",
+      "objectiveId": "ch02-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "2.4.5 智能体发展关键节点概览",
+      "purpose": "围绕一个真实任务，说明符号规则、神经表示、强化学习和LLM工具系统分别解决的瓶颈及遗留问题。"
+    }
+  ],
+  "notes": "不考人物、年份和论文名；强化学习算法细节不超越本章概念范围。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

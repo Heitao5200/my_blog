@@ -1,0 +1,1271 @@
+{
+  "id": 13,
+  "title": "第十三章 智能旅行助手",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第十三章 智能旅行助手",
+    "path": "docs/chapter13/第十三章 智能旅行助手.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md",
+    "sha256": "bd5d7b365faabc174616adc2635b9985182f9df168f460ff924c280e95361bc3",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "52453598-9d70-45c8-b235-aee63ab16505",
+    "artifactId": "429823fe-3ded-49b6-a1ea-e2be45d82a44"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch13-o01",
+        "title": "理解旅行应用的分层和数据契约",
+        "sections": [
+          "13.1.2 技术架构概览",
+          "13.2.1 Web 应用中的数据流转",
+          "13.2.2 从字典到 Pydantic 模型"
+        ],
+        "reason": "模型产物需穿过API及前端，类型边界是可靠集成的基础。"
+      },
+      {
+        "id": "ch13-o02",
+        "title": "设计嵌套模型与前后端一致性",
+        "sections": [
+          "13.2.3 Pydantic 的核心概念",
+          "13.2.4 自底向上的模型设计",
+          "13.2.5 数据模型在 Web 应用中的应用"
+        ],
+        "reason": "结构验证不等于真实事实正确，需要分清约束层次。"
+      },
+      {
+        "id": "ch13-o03",
+        "title": "分解搜索与行程整合职责",
+        "sections": [
+          "13.3.1 为何需要多智能体",
+          "13.3.3 Agent 协作流程",
+          "13.3.4 查询构建"
+        ],
+        "reason": "多Agent价值在于任务及上下文分工，最终规划需要完整输入。"
+      },
+      {
+        "id": "ch13-o04",
+        "title": "集成并共享外部服务",
+        "sections": [
+          "13.4.2 高德地图 MCP 集成",
+          "13.4.3 共享 MCP 实例",
+          "13.4.4 Unsplash 图片 API 集成"
+        ],
+        "reason": "工具决策与确定的数据增强可以采用不同集成方式。"
+      },
+      {
+        "id": "ch13-o05",
+        "title": "实现长耗时请求与可编辑行程",
+        "sections": [
+          "13.5.3 API 服务封装",
+          "13.6.2 加载进度条",
+          "13.6.3 行程编辑功能"
+        ],
+        "reason": "用户界面应正确处理等待、失败和可撤回的状态修改。"
+      },
+      {
+        "id": "ch13-o06",
+        "title": "评估预算与导出功能的真实性",
+        "sections": [
+          "13.6.1 预算计算功能",
+          "13.5.5 Result 页面展示",
+          "13.6.4 导出功能"
+        ],
+        "reason": "估算、显示与导出各有不同正确性边界。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch13-q01",
+        "type": "single",
+        "objectiveId": "ch13-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "13.1.2 技术架构概览",
+        "purpose": "识别前端、FastAPI、Agent与外部工具在旅行应用中的职责。"
+      },
+      {
+        "id": "ch13-q02",
+        "type": "single",
+        "objectiveId": "ch13-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "13.2.1 Web 应用中的数据流转",
+        "purpose": "追踪用户表单、JSON请求、后端模型和JSON响应的数据路径。"
+      },
+      {
+        "id": "ch13-q03",
+        "type": "single",
+        "objectiveId": "ch13-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "13.2.3 Pydantic 的核心概念",
+        "purpose": "辨认必填、可选、默认值与范围验证的作用。"
+      },
+      {
+        "id": "ch13-q04",
+        "type": "single",
+        "objectiveId": "ch13-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "13.2.4 自底向上的模型设计",
+        "purpose": "解释Location、Attraction、DayPlan和TripPlan逐层组合的机制。"
+      },
+      {
+        "id": "ch13-q05",
+        "type": "single",
+        "objectiveId": "ch13-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "13.3.1 为何需要多智能体",
+        "purpose": "识别景点、天气、酒店和规划四类职责。"
+      },
+      {
+        "id": "ch13-q06",
+        "type": "single",
+        "objectiveId": "ch13-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "13.3.3 Agent 协作流程",
+        "purpose": "追踪顺序调用后各类结果汇入Planner的过程。"
+      },
+      {
+        "id": "ch13-q07",
+        "type": "single",
+        "objectiveId": "ch13-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "13.4.2 高德地图 MCP 集成",
+        "purpose": "识别地图MCP提供标准化工具访问的作用。"
+      },
+      {
+        "id": "ch13-q08",
+        "type": "single",
+        "objectiveId": "ch13-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "13.4.3 共享 MCP 实例",
+        "purpose": "解释三个子Agent共享MCPTool如何减少服务器进程和连接资源。"
+      },
+      {
+        "id": "ch13-q09",
+        "type": "single",
+        "objectiveId": "ch13-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "13.5.3 API 服务封装",
+        "purpose": "识别长耗时规划对请求超时、loading状态和异常处理的要求。"
+      },
+      {
+        "id": "ch13-q10",
+        "type": "single",
+        "objectiveId": "ch13-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "13.6.2 加载进度条",
+        "purpose": "分析模拟进度缓解等待的收益与不能代表后端真实完成比例的限制。"
+      },
+      {
+        "id": "ch13-q11",
+        "type": "single",
+        "objectiveId": "ch13-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "13.6.1 预算计算功能",
+        "purpose": "判断Planner已获取费用信息时集中预算估算的收益及仍需核对的算术与事实。"
+      },
+      {
+        "id": "ch13-q12",
+        "type": "single",
+        "objectiveId": "ch13-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "13.5.5 Result 页面展示",
+        "purpose": "比较经纬度地图标记与文字行程展示对数据字段的依赖。"
+      },
+      {
+        "id": "ch13-q13",
+        "type": "multiple",
+        "objectiveId": "ch13-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "13.2.2 从字典到 Pydantic 模型",
+        "purpose": "比较自由字典与Pydantic模型在字段校验、可维护性及错误发现上的差异。"
+      },
+      {
+        "id": "ch13-q14",
+        "type": "multiple",
+        "objectiveId": "ch13-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "13.2.5 数据模型在 Web 应用中的应用",
+        "purpose": "比较Pydantic运行时验证与TypeScript静态类型，避免把声明类型当作外部数据已验证。"
+      },
+      {
+        "id": "ch13-q15",
+        "type": "multiple",
+        "objectiveId": "ch13-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "13.3.4 查询构建",
+        "purpose": "比较独立搜索子任务与依赖综合信息的规划步骤，识别不可缺失的用户偏好及日期约束。"
+      },
+      {
+        "id": "ch13-q16",
+        "type": "multiple",
+        "objectiveId": "ch13-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "13.4.4 Unsplash 图片 API 集成",
+        "purpose": "针对景点检索与图片补全选择Agent工具调用或路由中直接服务调用；不把MCP当唯一合法接入方式。"
+      },
+      {
+        "id": "ch13-q17",
+        "type": "multiple",
+        "objectiveId": "ch13-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "13.6.3 行程编辑功能",
+        "purpose": "选择独立原始副本、当前计划更新及取消恢复步骤，识别对象引用导致撤销失败。"
+      },
+      {
+        "id": "ch13-q18",
+        "type": "multiple",
+        "objectiveId": "ch13-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "13.6.4 导出功能",
+        "purpose": "面对地图Canvas和跨域导致导出缺图，选择静态地图、分开导出或服务端截图等替代及其成本。"
+      },
+      {
+        "id": "ch13-q19",
+        "type": "reflection",
+        "objectiveId": "ch13-o03",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "13.3.3 Agent 协作流程",
+        "purpose": "设计天气查询失败时的行程生成策略，标记缺失事实、决定重试或降级，并说明Planner如何避免编造。"
+      },
+      {
+        "id": "ch13-q20",
+        "type": "reflection",
+        "objectiveId": "ch13-o05",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "13.6.3 行程编辑功能",
+        "purpose": "设计用户删除或调换景点后的状态一致性检查，涵盖预算、地图、导出与取消恢复；区分教程已有行为和拟扩展行为。"
+      }
+    ],
+    "notes": "覆盖模型、协作、共享MCP、前端状态、预算和导出；CSS和锚点API不占测评主额。避开原文关于FastAPI固定400状态码、SimpleAgent普遍只调一次工具等版本相关绝对陈述；模拟进度须明确。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:44:36.927333+00:00",
+    "notes": [
+      "逐项核对20题的题意、答案、逐项解释和课件依据；规范化选项ID为a-d且保持语义对应。",
+      "修正数据流遗漏结果解析、Pydantic可转换类型与Optional误述、MCP唯一自主调用论、预算准确性保证和0℃代替未知天气；补强地图导出取舍题。",
+      "思考题为无需代码的设计分析，区分已有编辑恢复/地图更新与需要扩展的预算重算；引文全部为对应小节连续原文。",
+      "通过validate_bank.py及额外原始连续子串检查；来源IDs、哈希和蓝图配额保持不变。内容审阅不代表示例代码、外部API或教学应用已端到端验证。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch13-q01",
+      "type": "single",
+      "stem": "根据智能旅行助手的系统架构设计（图 13.1），下列关于各层次分工的描述中，哪项是不准确的？",
+      "options": [
+        {
+          "id": "a",
+          "text": "前端层主要负责用户表单输入、行程结果展示以及基于地图 API 的可视化。"
+        },
+        {
+          "id": "b",
+          "text": "后端层主要利用 FastAPI 框架处理 API 路由分配、输入数据验证及业务逻辑调度。"
+        },
+        {
+          "id": "c",
+          "text": "智能体层作为核心逻辑驱动，直接负责与外部高德地图服务进行底层的 HTTP 通信协议封装。"
+        },
+        {
+          "id": "d",
+          "text": "外部服务层通过集成 Unsplash、LLM 以及高德地图 API 为系统提供原始数据与模型能力。"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "智能体层的主要职责是任务分解、工具调用与结果整合。底层的协议封装和外部 API 通信是由 Agent 调用封装好的 MCP 工具（或 Service 层）间接完成的，而非由 Agent 直接处理底层 HTTP 协议细节。",
+      "optionExplanations": {
+        "a": "符合架构概览中对前端层的职能定义。",
+        "b": "符合 FastAPI 在系统中所扮演的逻辑中枢角色。",
+        "c": "可能误以为智能体层需要感知网络层协议，实际上它通过调用抽象好的 Tool 接口实现目标。",
+        "d": "外部服务层是系统的数据源头，涵盖了地图、图片和模型服务。"
+      },
+      "evidence": [
+        {
+          "section": "13.1.2 技术架构概览",
+          "quote": "<strong>（1）前端层 (Vue3+TypeScript)</strong>：负责用户交互和数据展示，包括表单输入、结果展示、地图可视化。\n\n<strong>（2）后端层 (FastAPI)</strong>：负责 API 路由、数据验证、业务逻辑。\n\n<strong>（3）智能体层 (HelloAgents)</strong>：负责任务分解、工具调用、结果整合。包含 4 个专门的 Agent。\n\n<strong>（4）外部服务层</strong>：提供数据和能力，包括高德地图 API、Unsplash API、LLM API。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别前端、FastAPI、Agent与外部工具在旅行应用中的职责。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch13-q02",
+      "type": "single",
+      "stem": "用户提交旅行表单后，以下哪条数据路径符合本章设计？",
+      "options": [
+        {
+          "id": "a",
+          "text": "表单直接写入地图组件，后端不需接收任何数据"
+        },
+        {
+          "id": "b",
+          "text": "JSON请求经后端请求模型验证，Agent生成结果再解析为行程模型，序列化响应供前端展示"
+        },
+        {
+          "id": "c",
+          "text": "Planner只返回自然语言，前端必须猜测全部字段"
+        },
+        {
+          "id": "d",
+          "text": "前端TypeScript声明会自动在网络上传输Python对象"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "Planner生成并不是最后的全部工作，还要解析结果为约定数据结构，再经API返回。",
+      "optionExplanations": {
+        "a": "错误：后端API需要接收规划请求。",
+        "b": "正确：输入验证、规划及输出结构转换均有职责。",
+        "c": "错误：项目使用结构化TripPlan模型。",
+        "d": "错误：前后端通过JSON传递数据。"
+      },
+      "evidence": [
+        {
+          "section": "13.2.5 数据模型在 Web 应用中的应用",
+          "quote": "现在让我们看看这些数据模型如何在实际的 Web 应用中使用。在 FastAPI 中，Pydantic 模型可以直接用作请求和响应的类型定义。FastAPI 会自动进行数据验证、序列化和文档生成。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        },
+        {
+          "section": "13.3.3 Agent 协作流程",
+          "quote": "# 步骤1: 景点搜索\n        attraction_response = self.attraction_agent.run(\n            f\"请搜索{request.city}的{request.preferences}景点\"\n        )\n\n        # 步骤2: 天气查询\n        weather_response = self.weather_agent.run(\n            f\"请查询{request.city}的天气\"\n        )\n\n        # 步骤3: 酒店推荐\n        hotel_response = self.hotel_agent.run(\n            f\"请搜索{request.city}的{request.accommodation}酒店\"\n        )\n\n        # 步骤4: 整合生成计划\n        planner_query = self._build_planner_query(\n            request, attraction_response, weather_response, hotel_response\n        )\n        planner_response = self.planner_agent.run(planner_query)\n\n        # 步骤5: 解析JSON\n        trip_plan = self._parse_trip_plan(planner_response)\n        return trip_plan",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪用户表单、JSON请求、后端模型和JSON响应的数据路径。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "objectiveId": "ch13-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q03",
+      "type": "single",
+      "stem": "在定义 Pydantic 模型时，`Field(..., description=\"经度\")` 语句中的 `...`（省略号）具有什么特定的验证含义？",
+      "options": [
+        {
+          "id": "a",
+          "text": "代表该字段为可选字段，默认值将设为 None。"
+        },
+        {
+          "id": "b",
+          "text": "代表该字段为必填字段，若初始化时缺失则会抛出 ValidationError。"
+        },
+        {
+          "id": "c",
+          "text": "代表该字段的类型推断将由运行时根据传入数据动态决定。"
+        },
+        {
+          "id": "d",
+          "text": "代表该字段在模型序列化为 JSON 时将被自动过滤。"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "在 Pydantic 的 Field 函数中，省略号 `...` 是必填字段（Required field）的占位符。",
+      "optionExplanations": {
+        "a": "错误：Field(...)要求提供该字段；若要允许省略，可以设置合适默认值。Optional允许None本身不等于字段可省略。",
+        "b": "这是 Pydantic 框架强制执行必填项检查的标准语法。",
+        "c": "Pydantic 依赖静态类型注解进行验证，而非动态推断。",
+        "d": "序列化过滤由 exclude/include 参数控制。"
+      },
+      "evidence": [
+        {
+          "section": "13.2.3 Pydantic 的核心概念",
+          "quote": "字段定义使用`Field`函数，它可以指定默认值、描述、验证规则等。`...`表示这个字段是必填的，如果创建对象时没有提供这个字段，Pydantic 会抛出异常。我们也可以使用`Optional`来表示可选字段，或者直接提供默认值。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认必填、可选、默认值与范围验证的作用。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch13-q04",
+      "type": "single",
+      "stem": "关于本章推荐的“自底向上”模型设计原则，将 `Location` 模型嵌套进 `Attraction` 模型的主要工程价值是？",
+      "options": [
+        {
+          "id": "a",
+          "text": "实现多类 Agent 之间的强耦合通信。"
+        },
+        {
+          "id": "b",
+          "text": "通过构建复杂数据结构的组合，提高代码的复用性与可维护性。"
+        },
+        {
+          "id": "c",
+          "text": "在数据库层面强制建立外键约束，保证参照完整性。"
+        },
+        {
+          "id": "d",
+          "text": "利用 TypeScript 的反射机制自动生成后端模型。"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "自底向上的设计先定义基础原子模型（如 Location），再将其作为字段嵌入复杂模型，从而实现结构清晰的嵌套组合。",
+      "optionExplanations": {
+        "a": "工程设计追求解耦而非强耦合。",
+        "b": "嵌套模型允许我们在多个对象（景点、酒店、餐厅）中复用相同的位置结构。",
+        "c": "可能误以为此处的模型是 ORM 数据库模型，实际上是用于 Web 通信的数据模型。",
+        "d": "两者是不同语言的独立实现，不存在自动反射生成。"
+      },
+      "evidence": [
+        {
+          "section": "13.2.4 自底向上的模型设计",
+          "quote": "现在让我们开始设计智能旅行助手的数据模型。一个好的设计原则是<strong>自底向上</strong>：先定义最基础的模型，然后逐步组合成复杂的结构。这样做的好处是每个模型都很简单，容易理解和维护。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        },
+        {
+          "section": "13.2.4 自底向上的模型设计",
+          "quote": "接下来是<strong>景点信息</strong>。一个景点包含名称、地址、位置、游览时间、描述、评分、图片和门票价格等信息。注意我们使用了`Location`作为字段类型，这就是嵌套模型：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释Location、Attraction、DayPlan和TripPlan逐层组合的机制。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q05",
+      "type": "single",
+      "stem": "在多智能体系统分工中，`AttractionSearchAgent` 的主要职责辨析正确的是？",
+      "options": [
+        {
+          "id": "a",
+          "text": "负责计算行程单中所有景点的门票与交通费用汇总。"
+        },
+        {
+          "id": "b",
+          "text": "负责通过城市名称查询高德地图的 POI 搜索工具获取相关景点。"
+        },
+        {
+          "id": "c",
+          "text": "负责通过 Unsplash 服务为每个景点匹配高质量的背景图片。"
+        },
+        {
+          "id": "d",
+          "text": "负责解析用户提交的 start_date 并获取未来三天的气象详情。"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "AttractionSearchAgent 专注于理解用户偏好并调用地图搜索工具，是典型的“任务专家”角色。",
+      "optionExplanations": {
+        "a": "这是 PlannerAgent 在汇总阶段处理的逻辑。",
+        "b": "符合文中对景点搜索专家职能的明确描述。",
+        "c": "可能误以为图片匹配由 Agent 完成，实际上为了效率，图片搜索通常放在路由层直接处理。",
+        "d": "错误：天气查询属于WeatherQueryAgent，但未来可查询天数还取决于外部服务，不能仅凭Agent名称保证。"
+      },
+      "evidence": [
+        {
+          "section": "13.3.2 Agent 角色设计",
+          "quote": "- <strong>AttractionSearchAgent(景点搜索专家)</strong>专注于搜索景点信息。它只需要理解用户的偏好(比如\"历史文化\"、\"自然风光\")，然后调用高德地图的 POI 搜索工具，返回相关的景点列表。它的提示词很简单，只需要说明如何根据偏好选择关键词，如何调用工具。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别景点、天气、酒店和规划四类职责。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch13-q06",
+      "type": "single",
+      "stem": "分析 `TripPlannerAgent.plan_trip` 的代码流程，`PlannerAgent` 启动运行的前提条件是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "它必须作为第一个 Agent 启动，以确定搜索关键词的基调。"
+        },
+        {
+          "id": "b",
+          "text": "它仅在前端用户通过 UI 点击“确认调整”后才会被调用。"
+        },
+        {
+          "id": "c",
+          "text": "它必须接收到前序三个专家 Agent（景点、天气、酒店）的输出响应。"
+        },
+        {
+          "id": "d",
+          "text": "它需要在调用 WeatherQueryAgent 的同时进行并行异步运算。"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "PlannerAgent 作为整合者，其输入（planner_query）由前序三个步骤的输出共同构成，因此必须在它们之后串行运行。",
+      "optionExplanations": {
+        "a": "它是流程的最后整合环节而非起始点。",
+        "b": "规划发生在生成结果页面的后端流程中。",
+        "c": "正确：示例按顺序取得三个搜索结果后统一交给Planner；三个搜索步骤并不都依赖前一个搜索输出。",
+        "d": "可能误以为所有 Agent 都是并行的，实际上存在数据依赖关系。"
+      },
+      "evidence": [
+        {
+          "section": "13.3.3 Agent 协作流程",
+          "quote": "# 步骤1: 景点搜索\n        attraction_response = self.attraction_agent.run(\n            f\"请搜索{request.city}的{request.preferences}景点\"\n        )\n\n        # 步骤2: 天气查询\n        weather_response = self.weather_agent.run(\n            f\"请查询{request.city}的天气\"\n        )\n\n        # 步骤3: 酒店推荐\n        hotel_response = self.hotel_agent.run(\n            f\"请搜索{request.city}的{request.accommodation}酒店\"\n        )\n\n        # 步骤4: 整合生成计划\n        planner_query = self._build_planner_query(\n            request, attraction_response, weather_response, hotel_response\n        )\n        planner_response = self.planner_agent.run(planner_query)\n\n        # 步骤5: 解析JSON\n        trip_plan = self._parse_trip_plan(planner_response)\n        return trip_plan",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪顺序调用后各类结果汇入Planner的过程。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q07",
+      "type": "single",
+      "stem": "本章通过MCPTool接入高德地图，对Agent的主要价值是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "提供统一的工具描述与调用接口，减轻各Agent重复封装API的工作"
+        },
+        {
+          "id": "b",
+          "text": "消除外部API的速率限制"
+        },
+        {
+          "id": "c",
+          "text": "保证地图返回的数据永远正确"
+        },
+        {
+          "id": "d",
+          "text": "证明任何HTTP函数都无法被Agent自主选择"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "MCP简化标准化集成；Agent也能使用其他适当包装的工具，不能把直接HTTP与自主决策说成绝对互斥。",
+      "optionExplanations": {
+        "a": "正确：协议与工具包装使能力更易发现和复用。",
+        "b": "错误：服务端限制仍存在。",
+        "c": "错误：接口标准化不证明事实正确。",
+        "d": "错误：HTTP也可以包装为普通工具，MCP不是唯一实现方式。"
+      },
+      "evidence": [
+        {
+          "section": "13.4.2 高德地图 MCP 集成",
+          "quote": "MCP(Model Context Protocol)是 Anthropic 提出的标准化协议，用于连接 LLM 和外部工具。本节将介绍如何在项目中集成高德地图 MCP 服务器。我们的项目用的是`amap-mcp-server`，这是一个用 Node.js 实现的 MCP 服务器：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别地图MCP提供标准化工具访问的作用。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "objectiveId": "ch13-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch13-q08",
+      "type": "single",
+      "stem": "在 `TripPlannerAgent` 构造函数中，让所有子 Agent 共享同一个 `MCPTool` 实例的主要收益是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "使所有 Agent 能够共享 LLM 的上下文缓存窗口。"
+        },
+        {
+          "id": "b",
+          "text": "节省系统资源，避免启动多个冗余的 MCP 服务器进程。"
+        },
+        {
+          "id": "c",
+          "text": "允许 Agent 之间通过 MCP 协议直接进行点对点的内存通信。"
+        },
+        {
+          "id": "d",
+          "text": "自动合并所有 Agent 的系统提示词以提升推理精度。"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "共享 MCP 实例可以避免为每个 Agent 启动独立的服务器进程，从而优化系统资源并集中管理 API 调用频率。",
+      "optionExplanations": {
+        "a": "MCP 实例管理的是工具通信，而非 LLM 上下文。",
+        "b": "符合工程化实践中对进程管理和资源优化的描述。",
+        "c": "可能误以为 MCP 是 Agent 间通信协议，实际上它是 Agent 与工具间的协议。",
+        "d": "Agent 的提示词仍然保持独立。"
+      },
+      "evidence": [
+        {
+          "section": "13.4.3 共享 MCP 实例",
+          "quote": "更好的做法是让所有 Agent 共享同一个`MCPTool`实例。这样只需要启动一个 MCP 服务器进程，所有的 API 调用都通过这个进程进行。这不仅节省资源，还可以更好地控制 API 调用频率。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释三个子Agent共享MCPTool如何减少服务器进程和连接资源。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q09",
+      "type": "single",
+      "stem": "前端 Axios 实例配置中将 `timeout` 设定为 120,000ms 的技术考量是？",
+      "options": [
+        {
+          "id": "a",
+          "text": "为了适应高德地图 API 在导出图片时极其缓慢的渲染响应。"
+        },
+        {
+          "id": "b",
+          "text": "因为多 Agent 流程涉及多次 LLM 推理及外部工具调用，累积耗时较长。"
+        },
+        {
+          "id": "c",
+          "text": "这是 Ant Design Vue 框架对所有异步请求的强制性安全配置。"
+        },
+        {
+          "id": "d",
+          "text": "为了确保用户有充足时间在页面上完成验证码校验。"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "生成行程是一个长任务，由于需要多个 Agent 串行工作且涉及外部 API，整个过程耗时可能达到数十秒。",
+      "optionExplanations": {
+        "a": "图片导出主要在前端完成，与该超时配置无关。",
+        "b": "符合文中对长流程多 Agent 任务耗时特征的分析。",
+        "c": "超时时间由开发者根据业务场景决定，而非框架强制。",
+        "d": "可能误以为是为了等待用户交互，实际上是防止网络请求被过早中断。"
+      },
+      "evidence": [
+        {
+          "section": "13.5.3 API 服务封装",
+          "quote": "这里我们创建了一个 Axios 实例，配置了基础 URL、超时时间和请求头。为什么超时时间设置为 2 分钟？因为生成旅行计划需要调用多个 Agent，每个 Agent 都要调用 LLM 和外部 API，整个过程可能需要 10-30 秒。如果超时时间太短，请求会被中断。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别长耗时规划对请求超时、loading状态和异常处理的要求。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch13-q10",
+      "type": "single",
+      "stem": "前端在 `handleSubmit` 中通过 `setInterval` 设置的进度条更新逻辑，其本质作用是？",
+      "options": [
+        {
+          "id": "a",
+          "text": "实时监控后端 Python 进程的 CPU 占用率并可视化。"
+        },
+        {
+          "id": "b",
+          "text": "作为一种心理补偿机制，缓解用户因长等待产生的系统“卡死”焦虑。"
+        },
+        {
+          "id": "c",
+          "text": "利用浏览器的 Web Worker 提升后端多智能体协作的并发处理速度。"
+        },
+        {
+          "id": "d",
+          "text": "精准显示当前正在运行的特定子 Agent 实时任务状态。"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "由于无法精确获知后端 Agent 处理的每一步实时状态，前端采用模拟进度更新来提升用户体验。",
+      "optionExplanations": {
+        "a": "进度条与 CPU 占用率无关。",
+        "b": "符合文中对 UX 反馈设计逻辑的定义。",
+        "c": "进度条是纯 UI 层面的展示，不影响后端速度。",
+        "d": "可能误以为前端能感知后端 Agent 的细粒度状态，实际上文中明确提到这只是“模拟的进度”。"
+      },
+      "evidence": [
+        {
+          "section": "13.5.4 Home 表单设计",
+          "quote": "这段代码做了几件事。首先，设置`loading`为 true，显示加载状态。然后，启动一个定时器，每 500 毫秒更新一次进度条和状态文本。这是一个模拟的进度，因为我们无法准确知道后端的处理进度。但这样可以让用户知道系统正在工作，而不是卡住了。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "分析模拟进度缓解等待的收益与不能代表后端真实完成比例的限制。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q11",
+      "type": "single",
+      "stem": "项目中为什么将“预算计算”功能放置在后端的 `PlannerAgent` 提示词中实现，而不是由前端 JavaScript 模块计算？",
+      "options": [
+        {
+          "id": "a",
+          "text": "因为 JavaScript 在处理浮点数金额加减法时存在已知的内存溢出风险。"
+        },
+        {
+          "id": "b",
+          "text": "因为预算估算依赖于 PlannerAgent 已获取的非标景点/酒店档次等动态数据。"
+        },
+        {
+          "id": "c",
+          "text": "因为前端无法通过 `a-statistic` 组件显示超过三位数的数值。"
+        },
+        {
+          "id": "d",
+          "text": "为了防止用户通过浏览器开发者工具直接修改计算出的总价。"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "本章把预算估算放在已取得景点、酒店和餐饮信息的Planner侧，减少前端重复组织这些逻辑。模型估算仍需核对价格来源、天数和算术，不能据此保证最准确。",
+      "optionExplanations": {
+        "a": "JS 完全胜任此类计算，这不是架构选择的原因。",
+        "b": "符合 13.6.1 节关于业务逻辑划分与数据获取能力的分析。",
+        "c": "这是展示组件的通用能力，没有此限制。",
+        "d": "可能误以为是出于安全防护，实际上主要是为了数据处理的便捷性。"
+      },
+      "evidence": [
+        {
+          "section": "13.6.1 预算计算功能",
+          "quote": "预算计算的逻辑在哪里实现呢？我们选择在后端的 PlannerAgent 中实现。为什么不在前端计算？因为预算的估算需要基于景点的门票价格、酒店的价格范围、餐饮的标准等信息，这些信息都是 PlannerAgent 在生成行程时已经获取的。如果在前端计算，就需要重复这些逻辑，而且可能不准确。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "判断Planner已获取费用信息时集中预算估算的收益及仍需核对的算术与事实。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch13-q12",
+      "type": "single",
+      "stem": "行程卡片有景点名称和文字地址，但要在本章结果页直接放置地图Marker，还需要哪项数据？",
+      "options": [
+        {
+          "id": "a",
+          "text": "景点经纬度；文字展示和直接坐标定位依赖不同字段"
+        },
+        {
+          "id": "b",
+          "text": "仅有门票价格就足够定位"
+        },
+        {
+          "id": "c",
+          "text": "只需酒店星级就能推断位置"
+        },
+        {
+          "id": "d",
+          "text": "名称存在就意味着地图会自动获得准确坐标，无需额外数据"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "文字卡片可以显示名称地址，地图Marker则需要有效坐标；有文字结果不等于地图定位信息齐全。",
+      "optionExplanations": {
+        "a": "正确：Marker位置读取后端提供的经纬度。",
+        "b": "错误：价格不是坐标。",
+        "c": "错误：酒店星级不提供景点坐标。",
+        "d": "错误：本章Marker实现使用明确的经纬度，不自动由名称保证位置。"
+      },
+      "evidence": [
+        {
+          "section": "13.5.5 Result 页面展示",
+          "quote": "这段代码首先加载高德地图 SDK，然后创建地图实例，最后遍历所有景点，为每个景点创建一个标记(Marker)。标记的位置是景点的经纬度坐标，这些坐标是从后端的`Attraction`对象中获取的。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较经纬度地图标记与文字行程展示对数据字段的依赖。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "objectiveId": "ch13-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q13",
+      "type": "multiple",
+      "stem": "相比自由字典，本章Pydantic数据模型提供哪些工程帮助？",
+      "options": [
+        {
+          "id": "a",
+          "text": "依据字段类型、默认值和验证规则检查或转换输入"
+        },
+        {
+          "id": "b",
+          "text": "通过明确字段结构支持代码补全、减少拼写错误"
+        },
+        {
+          "id": "c",
+          "text": "用自定义验证器统一处理如带单位温度的外部数据"
+        },
+        {
+          "id": "d",
+          "text": "无需核对数据来源就能证明景点票价真实"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Pydantic改善结构和运行时验证；可转换输入不一定报错，也不能验证全部业务事实。",
+      "optionExplanations": {
+        "a": "正确：它可能转换兼容输入，并非所有字符串都立即报错。",
+        "b": "正确：显式结构改善维护性。",
+        "c": "正确：课件展示了temperature的预处理。",
+        "d": "错误：结构验证不保证外部事实真实。"
+      },
+      "evidence": [
+        {
+          "section": "13.2.3 Pydantic 的核心概念",
+          "quote": "在深入设计我们的数据模型之前，让我们先了解 Pydantic 的几个核心概念。Pydantic 的基础是`BaseModel`类，所有的数据模型都需要继承这个类。每个字段都可以指定类型，Pydantic 会自动进行类型检查和转换。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        },
+        {
+          "section": "13.2.3 Pydantic 的核心概念",
+          "quote": "最强大的功能之一是<strong>自定义验证器</strong>。有时候外部 API 返回的数据格式不符合我们的要求，我们可以使用`field_validator`装饰器来自定义验证和转换逻辑。比如，高德地图返回的温度是`\"16°C\"`这样的字符串，我们需要把它转换成数字：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        },
+        {
+          "section": "13.2.2 从字典到 Pydantic 模型",
+          "quote": "# 类型安全的访问\nlng = attraction.location.longitude  # IDE会提供代码补全\n```",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较自由字典与Pydantic模型在字段校验、可维护性及错误发现上的差异。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "objectiveId": "ch13-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q14",
+      "type": "multiple",
+      "stem": "前端TypeScript类型与后端Pydantic模型的关系，哪些理解正确？",
+      "options": [
+        {
+          "id": "a",
+          "text": "两端约定的数据字段应保持一致"
+        },
+        {
+          "id": "b",
+          "text": "Pydantic在请求处理中验证或转换数据"
+        },
+        {
+          "id": "c",
+          "text": "TypeScript接口声明能自动阻止所有非法网络响应进入页面"
+        },
+        {
+          "id": "d",
+          "text": "TypeScript可帮助开发时发现参数使用错误，但不等同后端验证"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "静态类型帮助开发，运行时验证检查实际输入；声明结构不会自动验证来自网络的全部数据。",
+      "optionExplanations": {
+        "a": "正确：一致的数据契约降低集成错误。",
+        "b": "正确：后端运行时承担验证。",
+        "c": "错误：静态声明不能替代外部数据的运行时检查。",
+        "d": "正确：两者发挥作用的阶段不同。"
+      },
+      "evidence": [
+        {
+          "section": "13.2.5 数据模型在 Web 应用中的应用",
+          "quote": "现在让我们看看这些数据模型如何在实际的 Web 应用中使用。在 FastAPI 中，Pydantic 模型可以直接用作请求和响应的类型定义。FastAPI 会自动进行数据验证、序列化和文档生成。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        },
+        {
+          "section": "13.5.3 API 服务封装",
+          "quote": "注意这个函数的类型签名：参数是`TripPlanRequest`类型，返回值是`Promise<TripPlan>`类型。这意味着 TypeScript 会检查调用者传递的参数是否符合要求，也会检查返回值的使用是否正确。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较Pydantic运行时验证与TypeScript静态类型，避免把声明类型当作外部数据已验证。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "objectiveId": "ch13-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q15",
+      "type": "multiple",
+      "stem": "在执行 `_build_planner_query` 函数时，为了让 PlannerAgent 生成合理的行程，必须包含哪些输入要素？",
+      "options": [
+        {
+          "id": "a",
+          "text": "用户的天数、预算、偏好等原始需求（TripPlanRequest）"
+        },
+        {
+          "id": "b",
+          "text": "前序专家获取的景点与酒店信息"
+        },
+        {
+          "id": "c",
+          "text": "WeatherQueryAgent取得的天气信息，并核对其适用日期"
+        },
+        {
+          "id": "d",
+          "text": "用户在高德地图 App 中的个人游玩足迹历史记录"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "PlannerAgent 扮演整合者，需要用户需求、景点、天气、酒店四类核心支撑信息。个人历史记录未包含在该系统的输入链条中。",
+      "optionExplanations": {
+        "a": "规划的边界约束条件。",
+        "b": "正确：景点和酒店信息均进入Planner查询，不只凭原始用户需求猜测。",
+        "c": "正确：天气是规划输入之一；实际服务的预报范围仍需核对，不能默认覆盖任意未来日期。",
+        "d": "可能误以为 Agent 能够读取任意外部 App 数据，实际上只依赖前序 Agent 提供的输出。"
+      },
+      "evidence": [
+        {
+          "section": "13.3.4 查询构建",
+          "quote": "**用户需求:**\n- 目的地: {request.city}\n- 日期: {request.start_date} 至 {request.end_date}\n- 天数: {request.days}天\n- 偏好: {request.preferences}\n- 预算: {request.budget}\n- 交通方式: {request.transportation}\n- 住宿类型: {request.accommodation}\n\n**景点信息:**\n{attraction_response}\n\n**天气信息:**\n{weather_response}\n\n**酒店信息:**\n{hotel_response}",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较独立搜索子任务与依赖综合信息的规划步骤，识别不可缺失的用户偏好及日期约束。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q16",
+      "type": "multiple",
+      "stem": "本章图片补全直接由UnsplashService在API路由调用，而景点检索可交给Agent工具。哪些理由成立？",
+      "options": [
+        {
+          "id": "a",
+          "text": "图片补全是确定的数据增强步骤，不必每次由模型决定"
+        },
+        {
+          "id": "b",
+          "text": "若需Agent自主选择是否找图或选择图源，可再封装为Tool"
+        },
+        {
+          "id": "c",
+          "text": "MCP不能传输图片URL，所以只能直接调用"
+        },
+        {
+          "id": "d",
+          "text": "直接调用可以减少不必要的模型决策环节，但仍要处理API失败"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "是否封装成Agent工具应看是否需要模型决策，而非所有外部服务都必须走MCP。",
+      "optionExplanations": {
+        "a": "正确：课件明确给出这一职责划分。",
+        "b": "正确：这是课件提出的扩展条件。",
+        "c": "错误：URL不构成这种协议限制。",
+        "d": "正确：业务逻辑可直接调用服务，可靠性责任仍在。"
+      },
+      "evidence": [
+        {
+          "section": "13.4.4 Unsplash 图片 API 集成",
+          "quote": "注意我们没有把 Unsplash 封装成 Tool 或 MCP 工具，而是直接在 API 路由中调用。这是因为图片搜索不需要 Agent 的智能决策，只是一个简单的数据增强步骤。如果你想让 Agent 能够自主决定是否需要图片，或者选择不同的图片来源，可以考虑把它封装成 Tool。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "针对景点检索与图片补全选择Agent工具调用或路由中直接服务调用；不把MCP当唯一合法接入方式。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "objectiveId": "ch13-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch13-q17",
+      "type": "multiple",
+      "stem": "在实现行程编辑功能时，关于状态管理与“深拷贝”的理解正确的是？",
+      "options": [
+        {
+          "id": "a",
+          "text": "若直接赋值引用，修改 `tripPlan` 会同时改变 `originalPlan` 的内容。"
+        },
+        {
+          "id": "b",
+          "text": "深拷贝是为了在用户点击“取消修改”时，能无损恢复到初始行程状态。"
+        },
+        {
+          "id": "c",
+          "text": "对于本章可JSON序列化的行程对象，JSON序列化再解析可得到独立副本"
+        },
+        {
+          "id": "d",
+          "text": "深拷贝主要目的是将数据转换为特定的二进制流以加快地图渲染速度。"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "深拷贝用于断开内存引用连接，从而在编辑场景中保护原始数据；它与渲染速度无关。",
+      "optionExplanations": {
+        "a": "这是 JavaScript 对象引用机制的必然结果。",
+        "b": "体现了撤销（Rollback）逻辑在状态管理中的应用。",
+        "c": "正确：本章数据可使用这种复制方式；它不是保留所有JavaScript特殊类型的通用深拷贝方案。",
+        "d": "可能误以为数据转换是为了性能，实际上是为了数据安全性。"
+      },
+      "evidence": [
+        {
+          "section": "13.6.3 行程编辑功能",
+          "quote": "注意这里使用了`JSON.parse(JSON.stringify(...))`来深拷贝对象。为什么不直接赋值？因为 JavaScript 中对象是引用类型，如果直接赋值，`originalPlan`和`tripPlan`会指向同一个对象，修改一个会影响另一个。深拷贝可以创建一个完全独立的副本。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "选择独立原始副本、当前计划更新及取消恢复步骤，识别对象引用导致撤销失败。",
+        "misconception": ""
+      },
+      "objectiveId": "ch13-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch13-q18",
+      "type": "multiple",
+      "stem": "行程导出时动态地图缺失，哪些替代方案及边界合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "用静态地图API生成图片，避免直接捕获动态地图Canvas"
+        },
+        {
+          "id": "b",
+          "text": "地图和行程分开导出，再在后端合并"
+        },
+        {
+          "id": "c",
+          "text": "采用服务端浏览器截图，并承担额外部署和运行成本"
+        },
+        {
+          "id": "d",
+          "text": "只增加LLM生成token数就能修复Canvas跨域问题"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "地图Canvas兼容性与跨域问题需要在导出链路处理，替代方案各有资源与集成成本。",
+      "optionExplanations": {
+        "a": "正确：课件列为替代，但仍需处理服务和图片获取。",
+        "b": "正确：增加合并处理但可绕开当前捕获障碍。",
+        "c": "正确：这是另一种替代方案。",
+        "d": "错误：模型输出长度无法改变浏览器渲染和跨域限制。"
+      },
+      "evidence": [
+        {
+          "section": "13.6.4 导出功能",
+          "quote": "我们尝试了多种解决方案，包括将地图 Canvas 转换成图片后再导出，但由于高德地图的 Canvas 渲染机制和跨域限制，这个方案并没有完全解决问题。在实际项目中，可能需要考虑以下替代方案：\n\n1. <strong>使用高德地图的静态地图 API</strong>：调用`maps_staticmap`工具生成静态地图图片，替代动态地图\n2. <strong>分开导出</strong>：地图和行程内容分开导出，最后在后端合并\n3. <strong>使用截图服务</strong>：使用 Puppeteer 等无头浏览器在服务端",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "design": {
+        "purpose": "面对地图Canvas和跨域导致导出缺图，选择静态地图、分开导出或服务端截图等替代及其成本。",
+        "misconception": "将局部结果或形式正确误当作完整能力与事实正确。"
+      },
+      "objectiveId": "ch13-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch13-q19",
+      "type": "reflection",
+      "stem": "天气查询失败或数据无法解析时，如何通过数据契约与Planner提示防止编造天气？请用文字说明未知状态、重试或降级与用户展示，不需要写代码。",
+      "referenceAnswer": "在数据层明确标记缺失或查询失败，可用允许None且有明确默认值的字段，或单独状态字段；不要用0℃代替未知。验证外部格式并保存错误原因；必要时有限重试，否则向Planner提供明确的不可用状态。提示要求仅依据有效天气证据规划，对缺失部分说明限制或使用不依赖天气的备选。Schema保证结构，不能证明天气真实；这是基于教程的扩展设计。",
+      "rubric": [
+        "未知天气与真实0℃明确区分",
+        "区分结构校验和事实正确性",
+        "提出有限重试或诚实降级",
+        "Planner与界面不把缺失信息包装成已知事实"
+      ],
+      "objectiveId": "ch13-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "13.2.3 Pydantic 的核心概念",
+          "quote": "最强大的功能之一是<strong>自定义验证器</strong>。有时候外部 API 返回的数据格式不符合我们的要求，我们可以使用`field_validator`装饰器来自定义验证和转换逻辑。比如，高德地图返回的温度是`\"16°C\"`这样的字符串，我们需要把它转换成数字：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        },
+        {
+          "section": "13.3.4 查询构建",
+          "quote": "PlannerAgent 需要整合所有信息，这个查询需要包含所有必要的信息，而且要组织得清晰有序，让 LLM 能够准确理解。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "optionExplanations": {},
+      "options": [],
+      "answerIds": [],
+      "design": {
+        "purpose": "设计天气查询失败时的行程生成策略，标记缺失事实、决定重试或降级，并说明Planner如何避免编造。",
+        "misconception": "方案设计不是已实现或已验证的结果。"
+      },
+      "explanation": "在数据层明确标记缺失或查询失败，可用允许None且有明确默认值的字段，或单独状态字段；不要用0℃代替未知。验证外部格式并保存错误原因；必要时有限重试，否则向Planner提供明确的不可用状态。提示要求仅依据有效天气证据规划，对缺失部分说明限制或使用不依赖天气的备选。Schema保证结构，不能证明天气真实；这是基于教程的扩展设计。"
+    },
+    {
+      "id": "ch13-q20",
+      "type": "reflection",
+      "stem": "用户删除或调换行程景点后，如何检查取消恢复、预算、地图和导出的数据一致性？请区分课件已有步骤与需要另外设计验证的部分。",
+      "referenceAnswer": "课件已有进入编辑时保存独立原始副本、取消时恢复、保存时重新初始化地图。测试可检查取消后顺序及内容恢复，保存后地图标记与当前景点一致，导出读取当前计划。费用重算或重新估算需要另行设计：删除收费景点后核对费用构成、保留费用来源，不能假设示例saveChanges已重算预算。无需编写代码，也不要把设计检查称已执行。",
+      "rubric": [
+        "明确原始副本与当前计划的作用",
+        "覆盖保存、取消及地图一致性",
+        "把预算更新标为需扩展或验证的行为",
+        "导出使用当前有效状态，保留未验证项"
+      ],
+      "objectiveId": "ch13-o05",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "13.6.3 行程编辑功能",
+          "quote": "编辑功能的核心是<strong>状态管理</strong>。我们需要维护两个状态：当前的行程计划和原始的行程计划。当用户进入编辑模式时，我们保存原始计划的副本。如果用户取消编辑，就恢复原始计划。如果用户保存修改，就更新当前计划：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        },
+        {
+          "section": "13.6.3 行程编辑功能",
+          "quote": "保存修改时，我们需要重新初始化地图，因为景点的位置可能发生了变化：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        },
+        {
+          "section": "13.6.1 预算计算功能",
+          "quote": "预算计算的逻辑在哪里实现呢？我们选择在后端的 PlannerAgent 中实现。为什么不在前端计算？因为预算的估算需要基于景点的门票价格、酒店的价格范围、餐饮的标准等信息，这些信息都是 PlannerAgent 在生成行程时已经获取的。如果在前端计算，就需要重复这些逻辑，而且可能不准确。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter13/%E7%AC%AC%E5%8D%81%E4%B8%89%E7%AB%A0%20%E6%99%BA%E8%83%BD%E6%97%85%E8%A1%8C%E5%8A%A9%E6%89%8B.md"
+        }
+      ],
+      "optionExplanations": {},
+      "options": [],
+      "answerIds": [],
+      "design": {
+        "purpose": "设计用户删除或调换景点后的状态一致性检查，涵盖预算、地图、导出与取消恢复；区分教程已有行为和拟扩展行为。",
+        "misconception": "方案设计不是已实现或已验证的结果。"
+      },
+      "explanation": "课件已有进入编辑时保存独立原始副本、取消时恢复、保存时重新初始化地图。测试可检查取消后顺序及内容恢复，保存后地图标记与当前景点一致，导出读取当前计划。费用重算或重新估算需要另行设计：删除收费景点后核对费用构成、保留费用来源，不能假设示例saveChanges已重算预算。无需编写代码，也不要把设计检查称已执行。"
+    }
+  ]
+}

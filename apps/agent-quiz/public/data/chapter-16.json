@@ -1,0 +1,1326 @@
+{
+  "id": 16,
+  "title": "第十六章 毕业设计",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第十六章 毕业设计",
+    "path": "docs/chapter16/第十六章 毕业设计.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md",
+    "sha256": "67ab4ffa675c82e84f74e94ecdb49c00e2fdce7ce20cd64962cd0cc5070676d7",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "369347ef-d5e7-42ea-8beb-0ea910a14f40",
+    "artifactId": "8a1bc326-5635-43e2-825c-f7b40d84a0ea"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch16-o01",
+        "title": "确定可交付的真实问题与项目边界",
+        "sections": [
+          "16.1.1 为什么要做毕业设计",
+          "16.2.1 选题原则",
+          "16.2.3 选题示例"
+        ],
+        "reason": "毕业设计检验知识迁移和完成度，不以堆叠技术数量评价。"
+      },
+      {
+        "id": "ch16-o02",
+        "title": "组织他人能理解的开源交付物",
+        "sections": [
+          "16.1.2 毕业设计的形式",
+          "16.3.3 项目目录结构",
+          "16.4.1 编写 README 文档"
+        ],
+        "reason": "项目结构和说明要支持复现，不能只有截图或口头宣称。"
+      },
+      {
+        "id": "ch16-o03",
+        "title": "形成可复现的运行与依赖流程",
+        "sections": [
+          "16.3.1 安装必要工具",
+          "16.4.2 编写 requirements.txt",
+          "16.4.3 开发 Jupyter Notebook"
+        ],
+        "reason": "示例能在作者机器运行不足以保证他人可用。"
+      },
+      {
+        "id": "ch16-o04",
+        "title": "用自检验证核心功能与异常",
+        "sections": [
+          "16.4.4 测试你的项目",
+          "16.4.3 开发 Jupyter Notebook",
+          "16.4.4 测试你的项目"
+        ],
+        "reason": "检验输出满足预期，比没有报错更接近项目成功。"
+      },
+      {
+        "id": "ch16-o05",
+        "title": "维护轻量仓库与完整资源入口",
+        "sections": [
+          "16.4.5 大文件处理指南",
+          "16.4.5 大文件处理指南",
+          "16.4.5 大文件处理指南"
+        ],
+        "reason": "不提交大文件并不意味着读者无需获取资源。"
+      },
+      {
+        "id": "ch16-o06",
+        "title": "完成可审查的贡献与反馈循环",
+        "sections": [
+          "16.5.1 提交代码到 GitHub",
+          "16.5.2 创建 Pull Request",
+          "16.5.3 响应 Review 意见"
+        ],
+        "reason": "本地提交、远端分支、PR和合并是不同交付状态。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch16-q01",
+        "type": "single",
+        "objectiveId": "ch16-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "16.1.1 为什么要做毕业设计",
+        "purpose": "识别项目应解决真实问题并展示综合应用能力。"
+      },
+      {
+        "id": "ch16-q02",
+        "type": "single",
+        "objectiveId": "ch16-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "16.2.1 选题原则",
+        "purpose": "解释问题、核心功能、技术选择和有限时间资源之间的依赖。"
+      },
+      {
+        "id": "ch16-q03",
+        "type": "single",
+        "objectiveId": "ch16-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "16.1.2 毕业设计的形式",
+        "purpose": "识别README、依赖、Notebook和必要资源的不同交付作用。"
+      },
+      {
+        "id": "ch16-q04",
+        "type": "single",
+        "objectiveId": "ch16-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "16.3.3 项目目录结构",
+        "purpose": "解释清晰目录怎样连接运行入口、示例输入和输出产物。"
+      },
+      {
+        "id": "ch16-q05",
+        "type": "single",
+        "objectiveId": "ch16-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "16.3.1 安装必要工具",
+        "purpose": "辨认Python、Git与Notebook分别支持的开发活动。"
+      },
+      {
+        "id": "ch16-q06",
+        "type": "single",
+        "objectiveId": "ch16-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "16.4.2 编写 requirements.txt",
+        "purpose": "解释requirements.txt如何为项目依赖提供可安装说明，避免遗漏示例实际使用的库。"
+      },
+      {
+        "id": "ch16-q07",
+        "type": "single",
+        "objectiveId": "ch16-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "16.4.4 测试你的项目",
+        "purpose": "区分代码可运行、输出符合预期和处理常见异常三种检查。"
+      },
+      {
+        "id": "ch16-q08",
+        "type": "single",
+        "objectiveId": "ch16-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "16.4.3 开发 Jupyter Notebook",
+        "purpose": "解释从用户输入到工具及Agent输出的功能演示如何暴露集成问题。"
+      },
+      {
+        "id": "ch16-q09",
+        "type": "single",
+        "objectiveId": "ch16-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "16.4.5 大文件处理指南",
+        "purpose": "识别示例数据、完整数据和模型视频资源应采取的不同存放方式。"
+      },
+      {
+        "id": "ch16-q10",
+        "type": "single",
+        "objectiveId": "ch16-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "16.4.5 大文件处理指南",
+        "purpose": "分析外部链接、独立资源仓库和小样例在可获取性与仓库体积之间的取舍。"
+      },
+      {
+        "id": "ch16-q11",
+        "type": "single",
+        "objectiveId": "ch16-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "16.5.1 提交代码到 GitHub",
+        "purpose": "判断提交前检查修改及限定项目文件范围的可审查性收益。"
+      },
+      {
+        "id": "ch16-q12",
+        "type": "single",
+        "objectiveId": "ch16-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "16.5.2 创建 Pull Request",
+        "purpose": "比较Fork的功能分支与上游目标分支，以及push与创建PR的作用。"
+      },
+      {
+        "id": "ch16-q13",
+        "type": "multiple",
+        "objectiveId": "ch16-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "16.2.3 选题示例",
+        "purpose": "比较最小可完成的代码审查助手与范围失控的全能平台，选取能验证价值的功能边界。"
+      },
+      {
+        "id": "ch16-q14",
+        "type": "multiple",
+        "objectiveId": "ch16-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "16.4.1 编写 README 文档",
+        "purpose": "比较项目简介、快速开始、已完成能力和未来计划，识别误把待办功能写成现有能力。"
+      },
+      {
+        "id": "ch16-q15",
+        "type": "multiple",
+        "objectiveId": "ch16-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "16.4.3 开发 Jupyter Notebook",
+        "purpose": "比较Notebook中的环境、工具定义、Agent构建与功能演示步骤，识别依赖隐式状态的运行顺序问题。"
+      },
+      {
+        "id": "ch16-q16",
+        "type": "multiple",
+        "objectiveId": "ch16-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "16.4.4 测试你的项目",
+        "purpose": "针对空输入、工具失败或缺少配置选择必要异常案例和可核验结果，不虚构测试通过。"
+      },
+      {
+        "id": "ch16-q17",
+        "type": "multiple",
+        "objectiveId": "ch16-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "16.4.5 大文件处理指南",
+        "purpose": "为含大数据集的项目选择小样例、下载说明、放置路径和忽略规则的组合，保证读者可启动。"
+      },
+      {
+        "id": "ch16-q18",
+        "type": "multiple",
+        "objectiveId": "ch16-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "16.5.3 响应 Review 意见",
+        "purpose": "对Review意见选择修改、验证、推送同一分支和说明修改的闭环，避免把提出PR称已合并。"
+      },
+      {
+        "id": "ch16-q19",
+        "type": "reflection",
+        "objectiveId": "ch16-o01",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "16.2.3 选题示例",
+        "purpose": "写出自己的项目问题、目标用户、最小功能、智能体分工及验收标准，解释采用哪些已学机制与不加入哪些可延期功能。"
+      },
+      {
+        "id": "ch16-q20",
+        "type": "reflection",
+        "objectiveId": "ch16-o04",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "16.4.4 测试你的项目",
+        "purpose": "给出毕业项目的真实交付检查表：运行命令、输入输出、异常案例、证据文件和待验证项；不能用计划或模板替代已执行证据。"
+      }
+    ],
+    "notes": "本章是综合交付，五维映射到项目概念、交付机制、方案比较、应用与工程取舍；不靠目录名称、PR标题格式或5MB数字背诵凑题。模板代码与依赖版本不视为当前已验证；测评不能替代实际毕业项目审查。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17",
+    "notes": [
+      "已逐题审核全部 20 题的蓝图目标、题干、正确答案、逐项解析与开放题自查标准。",
+      "引文逐条取自锁定课件连续原文，并通过实际小节范围与 URL 核验；保留原始 NotebookLM provenance 和蓝图配额。",
+      "区分课件示例、应用推论、待验证设计与已运行证据，未运行课程代码或宣称部署。",
+      "validate_bank.py --chapters 15,16：两章共 40 题，0 错误。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch16-q01",
+      "type": "single",
+      "stem": "毕业设计最应证明哪种能力？",
+      "options": [
+        {
+          "id": "a",
+          "text": "把尽可能多的技术名称放入介绍"
+        },
+        {
+          "id": "b",
+          "text": "围绕实际问题选择合适机制，完成可运行并能验证的项目"
+        },
+        {
+          "id": "c",
+          "text": "复述所有章节定义即可，无需产物"
+        },
+        {
+          "id": "d",
+          "text": "只要界面漂亮，就无需处理输出与异常"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "本章强调将所学知识选择性整合到完整项目，并面对真实问题和边界情况。",
+      "optionExplanations": {
+        "a": "技术数量不等于解决问题。",
+        "b": "符合综合应用与实践的目标。",
+        "c": "理论复述不证明项目交付。",
+        "d": "外观不能替代功能与异常验证。"
+      },
+      "evidence": [
+        {
+          "section": "16.1.1 为什么要做毕业设计",
+          "quote": "毕业设计的核心价值在于培养你的综合应用能力，将前面学到的所有知识（智能体范式、工具系统、记忆机制、通信协议等）选择性的整合到一个完整的项目中。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.1.1 为什么要做毕业设计",
+          "quote": "学习技术最好的方式不是看教程，而是<strong>动手实践</strong>。通过前面章节的学习，你已经掌握了构建智能体系统的理论知识和技术工具。但是，真正的挑战在于：<strong>如何将这些知识应用到实际问题中？如何设计一个完整的系统？如何处理各种边界情况和异常？</strong>",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别项目应解决真实问题并展示综合应用能力。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch16-q02",
+      "type": "single",
+      "stem": "项目时间有限时，应如何确定功能和技术？",
+      "options": [
+        {
+          "id": "a",
+          "text": "先选所有热门技术，再寻找能套用的问题"
+        },
+        {
+          "id": "b",
+          "text": "先列无限功能，假设时间会自动够用"
+        },
+        {
+          "id": "c",
+          "text": "从实际问题选出可验证的核心功能，再按资源选择必要技术"
+        },
+        {
+          "id": "d",
+          "text": "只做依赖安装，视为需求已经实现"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "选题要同时满足实用性、有限资源下可完成和可展示能力。由问题约束范围，再选技术，是对这些原则的应用。",
+      "optionExplanations": {
+        "a": "技术应服务问题而非倒置目的。",
+        "b": "无限扩展破坏可完成性。",
+        "c": "把价值、边界与实现条件连起来。",
+        "d": "安装只是准备，不是核心功能完成。"
+      },
+      "evidence": [
+        {
+          "section": "16.2.1 选题原则",
+          "quote": "一个好的毕业设计项目应该具有实用性，解决真实的问题而不是为了技术而技术，我们需要追求在有限的时间和资源内可以完成，并且能够清晰地展示你的技术能力。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释问题、核心功能、技术选择和有限时间资源之间的依赖。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q03",
+      "type": "single",
+      "stem": "哪组交付物职责匹配正确？",
+      "options": [
+        {
+          "id": "a",
+          "text": "README 说明使用，requirements.txt 列依赖，Notebook 或脚本承载运行入口，必要样例支撑演示"
+        },
+        {
+          "id": "b",
+          "text": "截图代替可运行代码，README 只放标题"
+        },
+        {
+          "id": "c",
+          "text": "requirements.txt 自动证明全部功能已通过测试"
+        },
+        {
+          "id": "d",
+          "text": "Notebook 保存了旧输出就不需要依赖说明"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "本章要求可运行入口、依赖列表和清晰 README；可选资源按演示需要提供。这些交付物互补，不能互相冒充。",
+      "optionExplanations": {
+        "a": "职责区分符合交付要求。",
+        "b": "截图无法替代运行入口和说明。",
+        "c": "依赖声明不是运行或测试证据。",
+        "d": "旧输出不能重建运行环境。"
+      },
+      "evidence": [
+        {
+          "section": "16.1.2 毕业设计的形式",
+          "quote": "2. <strong>项目内容</strong>：\n   - 一个可运行的 Jupyter Notebook（`.ipynb`文件）或 Python 脚本\n   - 完整的依赖列表（`requirements.txt`）\n   - 清晰的 README 文档（`README.md`）\n   - 可选：演示视频、截图、数据集等",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别README、依赖、Notebook和必要资源的不同交付作用。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch16-q04",
+      "type": "single",
+      "stem": "目录清晰如何帮助别人复现代码审查示例？",
+      "options": [
+        {
+          "id": "a",
+          "text": "把输入样例和输出报告混在一起且不说明"
+        },
+        {
+          "id": "b",
+          "text": "让读者能从说明找到运行入口、样例输入和生成结果的位置"
+        },
+        {
+          "id": "c",
+          "text": "只要文件夹名称与教材一致，运行内容可以缺失"
+        },
+        {
+          "id": "d",
+          "text": "只保留报告图片，删除运行入口"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "教材目录将 README、运行入口、data 与 outputs 分开。关键是这些资源的关系可追踪，而不是死记目录名称。",
+      "optionExplanations": {
+        "a": "混放且无说明增加复现歧义。",
+        "b": "明确入口、输入和产物，便于重跑对照。",
+        "c": "命名一致不证明文件内容可运行。",
+        "d": "产物不能替代生成它的入口。"
+      },
+      "evidence": [
+        {
+          "section": "16.3.3 项目目录结构",
+          "quote": "├── README.md              # 项目说明文档\n├── requirements.txt       # Python依赖列表\n├── main.ipynb            # 主要的Jupyter Notebook\n├── data/                 # 数据文件（可选）\n│   ├── sample_code.py\n│   └── test_cases.json\n├── outputs/              # 输出结果（可选）\n│   ├── review_report.md\n│   └── screenshots/",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释清晰目录怎样连接运行入口、示例输入和输出产物。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q05",
+      "type": "single",
+      "stem": "Python、Git 与 Jupyter Notebook 的职责，哪项正确？",
+      "options": [
+        {
+          "id": "a",
+          "text": "Git 执行智能体推理，Python 负责远端评审"
+        },
+        {
+          "id": "b",
+          "text": "Notebook 安装成功会自动把代码合并到上游"
+        },
+        {
+          "id": "c",
+          "text": "Python 支持程序运行，Git 管理版本，Notebook 组织可交互的开发与演示"
+        },
+        {
+          "id": "d",
+          "text": "三者都只负责显示 README"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "三者分别支撑运行环境、版本协作以及 Notebook 开发演示；安装工具是开发准备，不是交付完成。",
+      "optionExplanations": {
+        "a": "交换了运行与版本协作职责。",
+        "b": "安装工具没有提交或合并作用。",
+        "c": "对应教材分别准备的三个工具类别。",
+        "d": "它们的用途不局限于展示文档。"
+      },
+      "evidence": [
+        {
+          "section": "16.3.1 安装必要工具",
+          "quote": "<strong>（1）Python 环境</strong>\n\n```bash\n# 安装HelloAgents\npip install \"hello-agents[all]\"\n```",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.3.1 安装必要工具",
+          "quote": "<strong>（2）Git 和 GitHub</strong>\n\n```bash\n# 检查Git版本\ngit --version",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.3.1 安装必要工具",
+          "quote": "<strong>（3）Jupyter Notebook</strong>\n\n```bash\n# 安装Jupyter\npip install jupyter notebook",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认Python、Git与Notebook分别支持的开发活动。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch16-q06",
+      "type": "single",
+      "stem": "示例在作者机器运行，但新环境导入绘图库失败，应如何处理依赖说明？",
+      "options": [
+        {
+          "id": "a",
+          "text": "因为作者机器能跑，所以使用者应自己猜缺什么"
+        },
+        {
+          "id": "b",
+          "text": "删掉报错截图即可"
+        },
+        {
+          "id": "c",
+          "text": "只把框架名称列出，不必检查示例其他导入"
+        },
+        {
+          "id": "d",
+          "text": "核对实际使用的库与 requirements.txt，补齐并在干净环境验证安装和运行"
+        }
+      ],
+      "answerIds": [
+        "d"
+      ],
+      "explanation": "requirements.txt 是可安装的依赖说明。应覆盖项目实际需要的库；模板中的可选库不等于项目的完整依赖，也不保证当前环境兼容。",
+      "optionExplanations": {
+        "a": "已有环境可能隐含未声明依赖。",
+        "b": "删除证据不会修复缺失依赖。",
+        "c": "运行示例用到的额外库也需声明。",
+        "d": "从实际导入与运行验证依赖完整性。"
+      },
+      "evidence": [
+        {
+          "section": "16.4.2 编写 requirements.txt",
+          "quote": "列出项目所需的所有 Python 依赖：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释requirements.txt如何为项目依赖提供可安装说明，避免遗漏示例实际使用的库。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q07",
+      "type": "single",
+      "stem": "一次正常运行没有报错，能否据此完成项目自检？",
+      "options": [
+        {
+          "id": "a",
+          "text": "能，异常处理和输出内容都无需再检查"
+        },
+        {
+          "id": "b",
+          "text": "不能，还需核对输出符合预期，并检查常见异常情况"
+        },
+        {
+          "id": "c",
+          "text": "能，只需把测试清单勾满"
+        },
+        {
+          "id": "d",
+          "text": "不能，必须先实现所有未来计划"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "自检清单分别列出正常运行、输出预期和异常处理，它们不是同一证据。",
+      "optionExplanations": {
+        "a": "程序结束不保证结果正确或边界可用。",
+        "b": "正确区分三个检查层面。",
+        "c": "勾选记录不能替代执行与核验。",
+        "d": "自检针对承诺范围，不要求全部未来功能。"
+      },
+      "evidence": [
+        {
+          "section": "16.4.4 测试你的项目",
+          "quote": "- [ ] 代码能够正常运行，没有报错\n- [ ] README文档完整，说明清晰\n- [ ] requirements.txt包含所有依赖\n- [ ] 有清晰的使用示例\n- [ ] 代码有适当的注释\n- [ ] 输出结果符合预期\n- [ ] 处理了常见的异常情况",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "区分代码可运行、输出符合预期和处理常见异常三种检查。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch16-q08",
+      "type": "single",
+      "stem": "Notebook 已分别定义工具和 Agent，为什么仍需从用户输入开始做功能演示？",
+      "options": [
+        {
+          "id": "a",
+          "text": "因为集成演示可检查工具是否接入 Agent、调用结果是否进入最终输出"
+        },
+        {
+          "id": "b",
+          "text": "因为定义类就等同于执行了真实工具调用"
+        },
+        {
+          "id": "c",
+          "text": "因为演示只需打印固定的“成功”"
+        },
+        {
+          "id": "d",
+          "text": "因为功能演示不需要任何输入或预期"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "工具定义、Agent 构建与 agent.run 是不同阶段。以明确输入贯穿流程能暴露连接和输出问题；模板本身不是已执行证据。",
+      "optionExplanations": {
+        "a": "从输入到输出能核验组件协作。",
+        "b": "类定义并未证明工具运行。",
+        "c": "固定字符串不证明任务完成。",
+        "d": "输入和预期是判断功能的依据。"
+      },
+      "evidence": [
+        {
+          "section": "16.4.3 开发 Jupyter Notebook",
+          "quote": "# 添加工具\nagent.add_tool(CustomTool())",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.3 开发 Jupyter Notebook",
+          "quote": "# 示例1:基础功能\nprint(\"=== 示例1:基础功能 ===\")\nresult = agent.run(\"用户输入\")\nprint(result)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释从用户输入到工具及Agent输出的功能演示如何暴露集成问题。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q09",
+      "type": "single",
+      "stem": "项目需要大型数据集、模型文件和演示视频，怎样交付更符合本章原则？",
+      "options": [
+        {
+          "id": "a",
+          "text": "全部直接放入主仓库，越全越好"
+        },
+        {
+          "id": "b",
+          "text": "主仓库只放截图，完全不提供资源入口"
+        },
+        {
+          "id": "c",
+          "text": "保留可启动的小样例，大资源通过外部链接或独立资源仓库获取"
+        },
+        {
+          "id": "d",
+          "text": "删除全部数据，声称使用者可直接运行"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "主仓库保持轻量，同时通过小样例与资源入口保障可用性；大文件不入主仓库不等于省略使用说明。",
+      "optionExplanations": {
+        "a": "违反轻量与大文件处理原则。",
+        "b": "缺少资源入口会阻碍复现。",
+        "c": "兼顾仓库体积与必要资源。",
+        "d": "删除资源却声称可用没有依据。"
+      },
+      "evidence": [
+        {
+          "section": "16.4.5 大文件处理指南",
+          "quote": "- **禁止直接提交**： 视频文件、大型数据集、模型文件",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.5 大文件处理指南",
+          "quote": "将大文件上传到外部平台，在 README 中提供下载链接：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.5 大文件处理指南",
+          "quote": "在主仓库中只提供小规模的示例数据：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别示例数据、完整数据和模型视频资源应采取的不同存放方式。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch16-q10",
+      "type": "single",
+      "stem": "外部资源方案相对直接塞进主仓库的主要取舍是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "它能减少主仓库体积，但要维护下载入口、访问条件和放置说明"
+        },
+        {
+          "id": "b",
+          "text": "外部链接永远有效，完全无需维护"
+        },
+        {
+          "id": "c",
+          "text": "独立资源仓库会自动出现在使用者的项目目录"
+        },
+        {
+          "id": "d",
+          "text": "小样例的效果可直接代表完整数据集表现"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "教材提供链接、独立资源仓库和小样例三种方式。仓库轻量化的同时仍需保证使用者获取资源；链接可用性维护是对此流程的实践要求。",
+      "optionExplanations": {
+        "a": "明确了节省体积与获取资源的责任。",
+        "b": "外部资源可能变化，不能保证永久有效。",
+        "c": "仍需下载或克隆并放置资源。",
+        "d": "样例运行只能证明对应样例的行为。"
+      },
+      "evidence": [
+        {
+          "section": "16.4.5 大文件处理指南",
+          "quote": "将大文件上传到外部平台，在 README 中提供下载链接：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.5 大文件处理指南",
+          "quote": "# 将数据放到项目目录\ncp -r 项目名称-resources/data ./data",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "分析外部链接、独立资源仓库和小样例在可获取性与仓库体积之间的取舍。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q11",
+      "type": "single",
+      "stem": "提交毕业项目时，工作区还存在无关改动，怎样更便于审查？",
+      "options": [
+        {
+          "id": "a",
+          "text": "直接添加所有文件，无需查看差异"
+        },
+        {
+          "id": "b",
+          "text": "只改提交标题，无关文件也会自动消失"
+        },
+        {
+          "id": "c",
+          "text": "删除其他人的修改，保证目录整齐"
+        },
+        {
+          "id": "d",
+          "text": "先检查改动，再只添加本项目应交付的文件并核对暂存范围"
+        }
+      ],
+      "answerIds": [
+        "d"
+      ],
+      "explanation": "教材先检查修改，并提供按特定项目目录添加的方式。限定贡献范围能减少无关内容，便于评审和回溯；核对差异是这一流程的合理落实。",
+      "optionExplanations": {
+        "a": "可能混入非本次贡献内容。",
+        "b": "标题不改变提交文件集合。",
+        "c": "不应通过删除无关工作来限定提交。",
+        "d": "范围明确有利于审查与协作。"
+      },
+      "evidence": [
+        {
+          "section": "16.5.1 提交代码到 GitHub",
+          "quote": "# 查看修改的文件\ngit status",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.5.1 提交代码到 GitHub",
+          "quote": "# 或者添加特定文件\ngit add Co-creation-projects/你的用户名-项目名称/",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "判断提交前检查修改及限定项目文件范围的可审查性收益。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch16-q12",
+      "type": "single",
+      "stem": "将功能分支 push 到自己的 Fork 后，创建面向上游的 PR 起什么作用？",
+      "options": [
+        {
+          "id": "a",
+          "text": "push 已自动合并上游，PR 只是重复展示"
+        },
+        {
+          "id": "b",
+          "text": "以自己的功能分支为变更来源，向上游目标分支提出可审查的合并请求"
+        },
+        {
+          "id": "c",
+          "text": "PR 会把上游所有文件删掉，只留下功能分支"
+        },
+        {
+          "id": "d",
+          "text": "PR 创建后无需评审即可声称上游已接收"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "push 更新自己远端分支；PR 连接 head/compare 与上游 base，进入评审流程，尚不等于合并。",
+      "optionExplanations": {
+        "a": "自己的远端更新不等于上游合并。",
+        "b": "准确区分来源分支、目标分支与请求。",
+        "c": "合并请求并非删除上游所有文件。",
+        "d": "创建请求与完成合并是不同状态。"
+      },
+      "evidence": [
+        {
+          "section": "16.5.2 创建 Pull Request",
+          "quote": "- Base repository： `datawhalechina/hello-agents`\n- Base branch： `main`\n- Head repository： `你的用户名/hello-agents`\n- Compare branch： `feature/你的项目名称`",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.1.2 毕业设计的形式",
+          "quote": "4. <strong>评审流程</strong>：社区成员会 review 你的代码，提出改进建议，通过后合并到主仓库",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较Fork的功能分支与上游目标分支，以及push与创建PR的作用。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q13",
+      "type": "multiple",
+      "stem": "把代码审查助手收敛为有限时间可完成的项目，哪些选择合理？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "先限定一种语言和几类可验证的问题，输出结构化报告"
+        },
+        {
+          "id": "b",
+          "text": "对照示例输入定义报告必须包含的发现依据与建议"
+        },
+        {
+          "id": "c",
+          "text": "必须同时实现多语言、自动修复、部署和团队管理，否则没有价值"
+        },
+        {
+          "id": "d",
+          "text": "把尚未完成的扩展列为后续计划，优先打通核心审查流程"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "教材代码审查助手是选题示例；依据可完成原则可以缩小语言和检查范围，用明确产物验证价值，不必一次完成全能平台。",
+      "optionExplanations": {
+        "a": "限定边界有利于完成与核验。",
+        "b": "输入、发现依据和报告构成可评估产物。",
+        "c": "堆叠范围可能挤压核心功能完成度。",
+        "d": "区分当前承诺与后续能力。"
+      },
+      "evidence": [
+        {
+          "section": "16.2.3 选题示例",
+          "quote": "<strong>预期成果</strong>：最终将交付一个可运行的 Jupyter Notebook 展示完整的审查流程，支持 Python、JavaScript 等主流语言，能够生成结构化的 Markdown 格式审查报告，并提供具体的代码示例和改进建议。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.2.1 选题原则",
+          "quote": "一个好的毕业设计项目应该具有实用性，解决真实的问题而不是为了技术而技术，我们需要追求在有限的时间和资源内可以完成，并且能够清晰地展示你的技术能力。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较最小可完成的代码审查助手与范围失控的全能平台，选取能验证价值的功能边界。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q14",
+      "type": "multiple",
+      "stem": "编写 README 时，哪些做法支持他人准确理解项目？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "项目简介说明实际问题、目标场景和特色"
+        },
+        {
+          "id": "b",
+          "text": "快速开始包含依赖、配置与运行步骤"
+        },
+        {
+          "id": "c",
+          "text": "将待实现功能标成已支持，使介绍显得完整"
+        },
+        {
+          "id": "d",
+          "text": "明确区分已完成能力、已测结果与未来计划"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "README 同时承担范围说明和复现入口。模板中的待办和未来计划不能当作已实现证据，评估占位符也不能当作实测结果。",
+      "optionExplanations": {
+        "a": "让读者知道项目用途。",
+        "b": "帮助重建运行条件。",
+        "c": "会误导使用者和评审者。",
+        "d": "避免把计划或模板包装为结果。"
+      },
+      "evidence": [
+        {
+          "section": "16.4.1 编写 README 文档",
+          "quote": "详细介绍你的项目:\n- 解决什么问题？\n- 有什么特色功能？\n- 适用于什么场景？",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.1 编写 README 文档",
+          "quote": "## 🔮 未来计划\n\n- [ ] 待实现的功能1\n- [ ] 待实现的功能2\n- [ ] 待优化的部分",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.1 编写 README 文档",
+          "quote": "### 安装依赖\n\n\npip install -r requirements.txt",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较项目简介、快速开始、已完成能力和未来计划，识别误把待办功能写成现有能力。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q15",
+      "type": "multiple",
+      "stem": "Notebook 从上到下复现时，哪些检查有必要？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "环境与导入先于使用相关库，工具定义先于注册到 Agent"
+        },
+        {
+          "id": "b",
+          "text": "重启内核后顺序运行，检查是否依赖之前手动创建的变量"
+        },
+        {
+          "id": "c",
+          "text": "只要界面保留旧输出，单元格顺序就不重要"
+        },
+        {
+          "id": "d",
+          "text": "Agent 构建和工具接入后，再用示例输入验证实际输出"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "环境、工具、Agent 和演示具有依赖顺序。重启后重跑用于排除隐式状态，是基于教材结构建议的复现检查，不表示已实际执行。",
+      "optionExplanations": {
+        "a": "满足基本依赖关系。",
+        "b": "能够发现残留内核状态掩盖的问题。",
+        "c": "旧输出不能证明当前代码可复现。",
+        "d": "验证集成流程而非只完成定义。"
+      },
+      "evidence": [
+        {
+          "section": "16.4.3 开发 Jupyter Notebook",
+          "quote": "# 加载环境变量\nload_dotenv()",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.3 开发 Jupyter Notebook",
+          "quote": "class CustomTool(BaseTool):\n    \"\"\"自定义工具类\"\"\"",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.3 开发 Jupyter Notebook",
+          "quote": "# 添加工具\nagent.add_tool(CustomTool())",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.3 开发 Jupyter Notebook",
+          "quote": "result = agent.run(\"用户输入\")\nprint(result)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较Notebook中的环境、工具定义、Agent构建与功能演示步骤，识别依赖隐式状态的运行顺序问题。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q16",
+      "type": "multiple",
+      "stem": "为毕业项目补充异常自检，哪些做法合适？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "测试空输入时是否给出预定提示或拒绝无效任务"
+        },
+        {
+          "id": "b",
+          "text": "模拟工具失败或缺少必要配置，核对错误是否可理解、状态是否可恢复"
+        },
+        {
+          "id": "c",
+          "text": "尚未执行测试时，把预计结果记录为待验证"
+        },
+        {
+          "id": "d",
+          "text": "为了进度直接把所有异常案例写为通过"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "教材要求处理常见异常。具体用例应围绕项目契约，并记录真实执行状态；提出测试方案不等于测试通过。",
+      "optionExplanations": {
+        "a": "覆盖输入边界并给出预期。",
+        "b": "检验外部依赖失效时的行为。",
+        "c": "诚实区分预期与已观察结果。",
+        "d": "会虚构执行证据。"
+      },
+      "evidence": [
+        {
+          "section": "16.4.4 测试你的项目",
+          "quote": "- [ ] 输出结果符合预期\n- [ ] 处理了常见的异常情况",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "针对空输入、工具失败或缺少配置选择必要异常案例和可核验结果，不虚构测试通过。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch16-q17",
+      "type": "multiple",
+      "stem": "项目依赖大数据集，哪些交付组合有助于读者启动？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "主仓库附小样例与明确的快速运行路径"
+        },
+        {
+          "id": "b",
+          "text": "README 提供完整数据下载入口、解压位置和所需访问说明"
+        },
+        {
+          "id": "c",
+          "text": "设置忽略规则排除本地大资源，并检查必要样例没有被误排除"
+        },
+        {
+          "id": "d",
+          "text": "只写“自行寻找数据”，不说明结构也不提供样例"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "小样例支撑快速测试，外部入口和放置步骤支撑完整流程，忽略规则控制仓库体积；还需检查实际交付内容。",
+      "optionExplanations": {
+        "a": "降低初次复现门槛。",
+        "b": "让完整资源可定位并接入运行。",
+        "c": "兼顾仓库轻量与必要文件完整。",
+        "d": "无法保证使用者知道所需数据契约。"
+      },
+      "evidence": [
+        {
+          "section": "16.4.5 大文件处理指南",
+          "quote": "├── .gitignore            # 忽略大文件\n├── data/\n│   └── sample.csv        # 仅示例数据（<1MB）",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.4.5 大文件处理指南",
+          "quote": "### 示例数据\n项目包含小规模示例数据用于快速测试（位于`data/sample.csv`）\n\n### 完整数据集\n完整数据集（500MB）请从以下链接下载:\n- 百度网盘: [链接] 提取码: xxxx\n- 下载后解压到`data/`目录",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "为含大数据集的项目选择小样例、下载说明、放置路径和忽略规则的组合，保证读者可启动。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch16-q18",
+      "type": "multiple",
+      "stem": "收到 PR Review 意见后，哪些做法构成合理闭环？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "理解意见，修复相关问题并做对应验证"
+        },
+        {
+          "id": "b",
+          "text": "提交并推送到该 PR 的来源分支，让评审看到更新"
+        },
+        {
+          "id": "c",
+          "text": "说明具体修改与验证结果，直到平台确实合并前保持“待评审”等准确状态"
+        },
+        {
+          "id": "d",
+          "text": "每收到一条评论就声称已合并，无需查看平台状态"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "教材流程是查看意见、修改、提交更新和回复。对应验证与状态核对让这一流程可审查；更新 PR 不等于合并。",
+      "optionExplanations": {
+        "a": "修复需有针对性的检查。",
+        "b": "来源分支更新可进入同一 PR。",
+        "c": "说明证据并区分贡献状态。",
+        "d": "评论或推送都不是合并证据。"
+      },
+      "evidence": [
+        {
+          "section": "16.5.3 响应 Review 意见",
+          "quote": "1. <strong>查看评论</strong>：在 PR 页面查看 reviewer 的评论\n2. <strong>修改代码</strong>：根据建议修改代码\n3. <strong>提交更新</strong>：\n   ```bash\n   git add .\n   git commit -m \"fix: 根据review意见修改XXX\"\n   git push origin feature/你的项目名称\n   ```\n4. <strong>回复评论</strong>：在 GitHub 上回复 reviewer，说明你的修改",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.5.3 响应 Review 意见",
+          "quote": "4. <strong>回复评论</strong>：在 GitHub 上回复 reviewer，说明你的修改",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.1.2 毕业设计的形式",
+          "quote": "4. <strong>评审流程</strong>：社区成员会 review 你的代码，提出改进建议，通过后合并到主仓库",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "design": {
+        "purpose": "对Review意见选择修改、验证、推送同一分支和说明修改的闭环，避免把提出PR称已合并。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "objectiveId": "ch16-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch16-q19",
+      "type": "reflection",
+      "stem": "为你自己的毕业项目写一份最小方案：实际问题与目标用户、核心功能、Agent 与工具分工、可验收的输入输出、选用的已学机制，以及明确延期的功能。解释为什么该范围能在你的资源内完成。",
+      "options": [],
+      "answerIds": [],
+      "referenceAnswer": "例如为个人 Python 项目维护者做代码审查助手：输入一段受限长度的 Python 代码，输出结构化问题列表，每项含代码位置、发现依据和建议。先覆盖边界条件与资源使用两类问题；Agent 组织审查和解释，静态分析工具提供确定性检查依据。选用工具调用与结构化输出，暂不加入长期记忆或多 Agent，除非实测有需要。验收采用含已知问题和正常代码的样例集，检查发现是否有依据、误报情况及报告字段；空输入和工具失败需给出清楚提示。多语言、自动改代码和团队平台延期。估算开发及调用预算，优先保证一条可运行、可演示、可自检的流程。",
+      "rubric": [
+        "是否明确真实用户、问题与有限功能边界。",
+        "是否把所选 Agent/工具机制与需求对应，并说明可延期部分。",
+        "是否给出明确输入、输出以及成功/异常验收标准。",
+        "是否说明时间与调用资源约束，避免将示例方案当作已完成成果。"
+      ],
+      "design": {
+        "purpose": "写出自己的项目问题、目标用户、最小功能、智能体分工及验收标准，解释采用哪些已学机制与不加入哪些可延期功能。",
+        "misconception": "把设计设想或单步成功视作已验证的完整实现。"
+      },
+      "objectiveId": "ch16-o01",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "16.2.3 选题示例",
+          "quote": "<strong>预期成果</strong>：最终将交付一个可运行的 Jupyter Notebook 展示完整的审查流程，支持 Python、JavaScript 等主流语言，能够生成结构化的 Markdown 格式审查报告，并提供具体的代码示例和改进建议。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        },
+        {
+          "section": "16.2.1 选题原则",
+          "quote": "一个好的毕业设计项目应该具有实用性，解决真实的问题而不是为了技术而技术，我们需要追求在有限的时间和资源内可以完成，并且能够清晰地展示你的技术能力。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "optionExplanations": {},
+      "explanation": "开放题重在价值、边界和可验证性，不要求堆叠全部技术。下面只是示例方案，不代表学习者已经完成项目。"
+    },
+    {
+      "id": "ch16-q20",
+      "type": "reflection",
+      "stem": "给你的毕业项目制定真实交付检查表：运行命令或入口、正常输入与预期输出、至少两类异常、依赖和大资源入口、证据文件及待验证项。说明如何区分“计划执行”“已执行”和“通过”，并填写你确有证据的状态。",
+      "options": [],
+      "answerIds": [],
+      "referenceAnswer": "每项记录环境/版本、命令或 Notebook 单元格入口、输入文件、预期、实际结果、证据路径与状态。正常用例核对报告字段和任务结果；异常用例可选空输入、工具不可用或配置缺失，定义清楚错误提示与恢复行为。另列干净环境依赖安装、小样例运行及完整资源下载/放置检查。计划中的项目记“待执行”，运行后留日志或输出并记“已执行”，只有实际结果符合预期才记“通过”；失败保留原因，不凭旧截图覆盖。若尚无执行证据，明确写“所有运行结果待验证”，只提交检查方案，不能声称验收完成。",
+      "rubric": [
+        "是否列出可重现的入口、环境、输入及预期结果。",
+        "是否覆盖正常任务和至少两类相关异常。",
+        "是否记录真实输出或日志证据，并区分计划、执行与通过。",
+        "是否检查依赖和资源获取完整性，保留失败及待验证项。"
+      ],
+      "design": {
+        "purpose": "给出毕业项目的真实交付检查表：运行命令、输入输出、异常案例、证据文件和待验证项；不能用计划或模板替代已执行证据。",
+        "misconception": "把设计设想或单步成功视作已验证的完整实现。"
+      },
+      "objectiveId": "ch16-o04",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "evidence": [
+        {
+          "section": "16.4.4 测试你的项目",
+          "quote": "- [ ] 代码能够正常运行，没有报错\n- [ ] README文档完整，说明清晰\n- [ ] requirements.txt包含所有依赖\n- [ ] 有清晰的使用示例\n- [ ] 代码有适当的注释\n- [ ] 输出结果符合预期\n- [ ] 处理了常见的异常情况\n- [ ] 项目结构清晰，文件命名规范\n- [ ] 大文件已妥善处理（见下节）",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter16/%E7%AC%AC%E5%8D%81%E5%85%AD%E7%AB%A0%20%E6%AF%95%E4%B8%9A%E8%AE%BE%E8%AE%A1.md"
+        }
+      ],
+      "optionExplanations": {},
+      "explanation": "本题是自我检查而非自动评分。不要为获得完整表格而编造执行记录；尚未运行的项目可以完整制定用例，但结果必须标为待验证。"
+    }
+  ]
+}

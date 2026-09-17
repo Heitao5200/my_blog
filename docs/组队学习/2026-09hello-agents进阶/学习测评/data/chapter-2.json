@@ -1,0 +1,1256 @@
+{
+  "id": 2,
+  "title": "第二章 智能体发展史",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第二章 智能体发展史",
+    "path": "docs/chapter2/第二章 智能体发展史.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md",
+    "sha256": "20582b9c843c8a5c7968eb8f55abe0fca0a3ea22c61a30aba6f9e48a9b31c625",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "47a8a11e-722d-42f3-9e5a-320ffec02b2a",
+    "artifactId": "759dcc18-1f9e-4ab7-ae8b-dfdec12e759e"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch02-o01",
+        "title": "解释符号系统如何表示知识并推理",
+        "sections": [
+          "2.1.1 物理符号系统假说",
+          "2.1.2 专家系统",
+          "2.1.3 SHRDLU"
+        ],
+        "reason": "历史应解释能力来源，避免人物年份记忆。"
+      },
+      {
+        "id": "ch02-o02",
+        "title": "理解规则聊天的匹配替换机制",
+        "sections": [
+          "2.2.1 ELIZA 的设计思想",
+          "2.2.2 模式匹配与文本替换",
+          "2.2.3 核心逻辑的实现"
+        ],
+        "reason": "流畅对话不等于语义理解，规则实例可以检验这一误区。"
+      },
+      {
+        "id": "ch02-o03",
+        "title": "解释符号主义的开放世界瓶颈",
+        "sections": [
+          "2.1.4 符号主义面临的根本性挑战",
+          "2.1.4 符号主义面临的根本性挑战",
+          "2.4.1 从符号到联结"
+        ],
+        "reason": "把局限归因于知识获取及表示，而非简单归因于算力不够。"
+      },
+      {
+        "id": "ch02-o04",
+        "title": "说明协作体如何产生整体能力",
+        "sections": [
+          "2.3.1 对单一整体智能模型的反思",
+          "2.3.2 作为协作体的智能",
+          "2.3.3 对多智能体系统的理论启发"
+        ],
+        "reason": "心智社会为分工协作提供概念启发，但不等于每个子过程都是现代LLM。"
+      },
+      {
+        "id": "ch02-o05",
+        "title": "把强化学习用于序贯决策",
+        "sections": [
+          "2.4.2 基于强化学习的智能体",
+          "2.4.2 基于强化学习的智能体",
+          "2.4.3 基于大规模数据的预训练"
+        ],
+        "reason": "奖励与环境交互解释策略学习，区分静态规则和预训练。"
+      },
+      {
+        "id": "ch02-o06",
+        "title": "从范式演进推导现代系统的组合设计",
+        "sections": [
+          "2.4.3 基于大规模数据的预训练",
+          "2.4.4 基于大语言模型的智能体",
+          "2.4.5 智能体发展关键节点概览"
+        ],
+        "reason": "历史是思想交织，不能把新范式理解为完全替代旧范式。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch02-q01",
+        "type": "single",
+        "objectiveId": "ch02-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "2.1.1 物理符号系统假说",
+        "purpose": "识别物理符号系统假说中符号操作与智能行为的关系。"
+      },
+      {
+        "id": "ch02-q02",
+        "type": "single",
+        "objectiveId": "ch02-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "2.1.2 专家系统",
+        "purpose": "追踪专家系统知识库与推理机的分工。"
+      },
+      {
+        "id": "ch02-q03",
+        "type": "single",
+        "objectiveId": "ch02-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "2.2.1 ELIZA 的设计思想",
+        "purpose": "识别ELIZA模拟交流的目标与脚本定位。"
+      },
+      {
+        "id": "ch02-q04",
+        "type": "single",
+        "objectiveId": "ch02-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "2.2.2 模式匹配与文本替换",
+        "purpose": "根据关键词优先级、分解和重组规则推导响应生成过程。"
+      },
+      {
+        "id": "ch02-q05",
+        "type": "single",
+        "objectiveId": "ch02-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "2.1.4 符号主义面临的根本性挑战",
+        "purpose": "识别常识知识与知识获取瓶颈。"
+      },
+      {
+        "id": "ch02-q06",
+        "type": "single",
+        "objectiveId": "ch02-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "2.1.4 符号主义面临的根本性挑战",
+        "purpose": "分析规则扩展为何在开放环境遇到脆弱性和维护负担。"
+      },
+      {
+        "id": "ch02-q07",
+        "type": "single",
+        "objectiveId": "ch02-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "2.3.1 对单一整体智能模型的反思",
+        "purpose": "区分单一中央智能假设与专门化心智过程。"
+      },
+      {
+        "id": "ch02-q08",
+        "type": "single",
+        "objectiveId": "ch02-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "2.3.2 作为协作体的智能",
+        "purpose": "解释简单智能体组成Agency及更高层协作的过程。"
+      },
+      {
+        "id": "ch02-q09",
+        "type": "single",
+        "objectiveId": "ch02-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "2.4.2 基于强化学习的智能体",
+        "purpose": "识别需要通过试错优化长期收益的任务。"
+      },
+      {
+        "id": "ch02-q10",
+        "type": "single",
+        "objectiveId": "ch02-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "2.4.2 基于强化学习的智能体",
+        "purpose": "分析稀缺先验知识使从零交互学习付出的样本成本。"
+      },
+      {
+        "id": "ch02-q11",
+        "type": "single",
+        "objectiveId": "ch02-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "2.4.3 基于大规模数据的预训练",
+        "purpose": "判断预训练广泛知识与特定任务交互成本之间的取舍。"
+      },
+      {
+        "id": "ch02-q12",
+        "type": "single",
+        "objectiveId": "ch02-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "2.4.4 基于大语言模型的智能体",
+        "purpose": "比较LLM作为决策中枢与单独文本模型的工具、记忆和行动闭环。"
+      },
+      {
+        "id": "ch02-q13",
+        "type": "multiple",
+        "objectiveId": "ch02-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "2.1.3 SHRDLU",
+        "purpose": "比较专家系统领域推理与SHRDLU封闭积木世界的任务边界。"
+      },
+      {
+        "id": "ch02-q14",
+        "type": "multiple",
+        "objectiveId": "ch02-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "2.2.3 核心逻辑的实现",
+        "purpose": "用同义表达、未知关键词或语义冲突输入比较规则匹配与内容理解。"
+      },
+      {
+        "id": "ch02-q15",
+        "type": "multiple",
+        "objectiveId": "ch02-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "2.4.1 从符号到联结",
+        "purpose": "比较手工编码知识与通过数据学习分布式表示，避免断言后一范式消除所有推理问题。"
+      },
+      {
+        "id": "ch02-q16",
+        "type": "multiple",
+        "objectiveId": "ch02-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "2.3.3 对多智能体系统的理论启发",
+        "purpose": "给定任务选择可分工的子职责和协作接口，并避免只增加智能体数量。"
+      },
+      {
+        "id": "ch02-q17",
+        "type": "multiple",
+        "objectiveId": "ch02-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "2.4.3 基于大规模数据的预训练",
+        "purpose": "为需要背景常识和任务反馈的系统分别安排预训练与交互学习的职责。"
+      },
+      {
+        "id": "ch02-q18",
+        "type": "multiple",
+        "objectiveId": "ch02-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "2.4.5 智能体发展关键节点概览",
+        "purpose": "选择同时使用规则约束、学习表示及反馈决策的合理设计，辨别技术万能论。"
+      },
+      {
+        "id": "ch02-q19",
+        "type": "reflection",
+        "objectiveId": "ch02-o02",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "2.2.3 核心逻辑的实现",
+        "purpose": "设计能暴露ELIZA不理解语义的成对输入，解释匹配轨迹；不能仅凭一次自然回复认定理解。"
+      },
+      {
+        "id": "ch02-q20",
+        "type": "reflection",
+        "objectiveId": "ch02-o06",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "2.4.5 智能体发展关键节点概览",
+        "purpose": "围绕一个真实任务，说明符号规则、神经表示、强化学习和LLM工具系统分别解决的瓶颈及遗留问题。"
+      }
+    ],
+    "notes": "不考人物、年份和论文名；强化学习算法细节不超越本章概念范围。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:37:16.994689+00:00",
+    "notes": [
+      "逐题核对20题题干、选项、答案、逐项解释和思考参考答案，依据锁定的本地课件作语义编辑；此为代理编辑核验，不是人工课堂效度评价或课程示例运行证明。",
+      "区分ELIZA机制介绍与简化实现；收窄无状态与脆弱性断言；修正两轮对话指代和随机输出示例；工业质检改为有边界的教学设计，删除合规安全保证与默认生产试错。",
+      "保留NotebookLM来源ID、源文件哈希、题目ID与蓝图配额；所有证据改用对应课件连续片段与原始来源URL。思考题仅含自查要点。",
+      "AGENT_QUIZ_REPO=/Users/heitao/Colab/my_blog python3 apps/agent-quiz/scripts/validate_bank.py --chapters 1,2,3,4,7：100题，0 errors。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch02-q01",
+      "stem": "在人工智能的古典时代，艾伦·纽厄尔与赫伯特·西蒙提出的“物理符号系统假说（PSSH）”核心论断是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "只有具备生物神经网络结构的系统才可能产生智能"
+        },
+        {
+          "id": "b",
+          "text": "智能的本质在于对形式化符号的计算与处理"
+        },
+        {
+          "id": "c",
+          "text": "物理符号系统必须通过大规模数据训练来获取逻辑能力"
+        },
+        {
+          "id": "d",
+          "text": "智能行为仅在物理实体与外部环境产生力学交互时涌现"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "PSSH认为物理符号系统是产生通用智能行为的充分且必要条件，核心是将智能还原为符号的操作。 ",
+      "optionExplanations": {
+        "a": "可能误以为符号主义也强调生物基础，实际上PSSH认为物理符号系统与生物实现无关。",
+        "b": "正确，根据假说，符号的创建、修改、复制和销毁即是智能的本质。",
+        "c": "可能误以为早期符号系统也依赖大数据，实际上它们依赖预设的逻辑规则。",
+        "d": "可能误以为这是行为主义或具身智能的观点，符号主义侧重内部逻辑推理。"
+      },
+      "evidence": [
+        {
+          "section": "2.1.1",
+          "quote": "简而言之，PSSH大胆地宣称：<strong>智能的本质，就是符号的计算与处理。</strong>",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对符号主义理论基石PSSH的定义理解。",
+        "misconception": "易将符号处理与现代联结主义或具身智能混淆。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch02-q02",
+      "stem": "专家系统架构中，“知识库”与“推理机”的分工关系可以类比为：",
+      "options": [
+        {
+          "id": "a",
+          "text": "知识库负责实时收集传感器数据，推理机负责存储历史记录"
+        },
+        {
+          "id": "b",
+          "text": "知识库存储领域规则与经验，推理机应用相关规则进行推导"
+        },
+        {
+          "id": "c",
+          "text": "知识库负责与用户进行文本交互，推理机负责将自然语言转化为代码"
+        },
+        {
+          "id": "d",
+          "text": "知识库负责执行最终行动，推理机负责对行动结果进行评价"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "专家系统实现了知识与推理的分离，知识库存储规则，推理机作为计算引擎负责逻辑运行。",
+      "optionExplanations": {
+        "a": "可能误以为知识库是动态数据库，实际上它主要存放静态的专家经验和规则。",
+        "b": "正确，这是典型的“产生式规则”应用模式，推理机通过正向或反向链驱动逻辑。",
+        "c": "可能误以为推理机负责自然语言处理，实际上这属于用户界面的范畴。",
+        "d": "错误，知识库负责知识存储，推理机负责应用规则推导，不能类比为行动器与评价器。"
+      },
+      "evidence": [
+        {
+          "section": "2.1.2",
+          "quote": "- <strong>知识库（Knowledge Base）</strong>：这是专家系统的知识存储中心，用于存放领域专家的知识和经验。<strong>知识表示（Knowledge Representation）</strong>是构建知识库的关键。在专家系统中，最常用的一种知识表示方法是<strong>产生式规则（Production Rules）</strong>，即一系列“IF-THEN”形式的条件语句。例如：IF 病人有发烧症状 AND 咳嗽 THEN 可能患有呼吸道感染。这些规则将特定情境（IF部分，条件）与相应的结论或行动（THEN部分，结论）关联起来。一个复杂的专家系统可能包含成百上千条这样的规则，共同构成一个庞大的知识网络。\n- <strong>推理机（Inference Engine）</strong>：推理机是专家系统的核心计算引擎。它是一个通用的程序，其任务是根据用户提供的事实，在知识库中寻找并应用相关的规则，从而推导出新的结论。推理机的工作方式主要有两种：\n  - <strong>正向链（Forward Chaining）</strong>：从已知事实出发，不断匹配规则的IF部分，触发THEN部分的结论，并将新结论加入事实库，直到最终推导出目标或无新规则可匹配。这是一种“数据驱动”的推理方式。\n  - <strong>反向链（Backward Chaining）</strong>：从一个假设的目标（比如“病人是否患有肺炎”）出发，寻找能够推导出该目标的规则，然后将该规则的IF部分作为新的子目标，如此递归下去，直到所有子目标都能被已知事实所证明。这是一种“目标驱动”的推理方式。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨析符号主义系统核心组件的职责分工。",
+        "misconception": "混淆数据存储、逻辑推导与交互模块的界限。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q03",
+      "stem": "魏泽鲍姆开发 ELIZA 及其 DOCTOR 脚本的初衷是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "利用符号主义逻辑彻底解决人类心理障碍的诊断难题"
+        },
+        {
+          "id": "b",
+          "text": "通过简单的句式转换证明机器可以在不理解语义的情况下营造智能假象"
+        },
+        {
+          "id": "c",
+          "text": "测试神经网络在模拟罗杰斯心理治疗方法时的收敛速度"
+        },
+        {
+          "id": "d",
+          "text": "构建一个能够自我更新规则库的通用对话模型"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "ELIZA旨在揭示智能的幻觉，即简单的文本替换技巧即可骗过人类，而非实现真正的语义理解。",
+      "optionExplanations": {
+        "a": "可能误以为 ELIZA 是为了医疗实用性，实际上它的角色扮演是为了掩盖技术的无能。",
+        "b": "正确，作者试图通过揭示这种“智能”的肤浅来引发对机器理解能力的批判。",
+        "c": "可能误以为 ELIZA 使用了学习算法，实际上它是完全由硬编码规则驱动的。",
+        "d": "错误，本节讨论的规则实现不具备自动学习和更新规则库的机制。"
+      },
+      "evidence": [
+        {
+          "section": "2.2.1",
+          "quote": "魏泽鲍姆的设计思想并非要创造一个真正能够“理解”人类情感的智能体，恰恰相反，他想证明的是，通过一些简单的句式转换技巧，机器可以在完全不理解对话内容的情况下，营造出一种“智能”和“共情”的假象。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对早期对话机器人设计本质及其“智能”来源的认知。",
+        "misconception": "将“智能的幻觉”等同于“真正的理解”。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch02-q04",
+      "stem": "按 2.2.2 节介绍的 ELIZA 机制（区别于 2.2.3 的简化代码），同时出现多个预设关键词时，系统如何选择规则？",
+      "options": [
+        {
+          "id": "a",
+          "text": "按照输入句子中关键词出现的先后顺序选择"
+        },
+        {
+          "id": "b",
+          "text": "随机选择一个关键词以增加对话的不可预测性"
+        },
+        {
+          "id": "c",
+          "text": "根据规则库中为关键词预设的优先级（Priority）进行排序"
+        },
+        {
+          "id": "d",
+          "text": "忽略所有冲突的关键词并触发通配符 fallback 规则"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "ELIZA通过优先级机制来解决多关键词冲突，确保最重要的信息（如“母亲”）被优先响应。",
+      "optionExplanations": {
+        "a": "可能误以为逻辑处理是线性的，实际上优先级控制更为关键。",
+        "b": "可能误以为随机性用于解决冲突，实际上随机性仅用于同一规则下重组模板的选择。",
+        "c": "正确，依据预设优先级选择规则；这并不证明系统理解了信息的重要性。",
+        "d": "可能误以为系统无法处理冲突，实际上规则库设计了冲突解决策略。"
+      },
+      "evidence": [
+        {
+          "section": "2.2.2",
+          "quote": "1. <strong>关键词识别与排序：</strong>规则库为每个关键词（如 `mother`, `dreamed`, `depressed`）设定一个优先级。当输入包含多个关键词时，程序会选择优先级最高的关键词所对应的规则进行处理。\n2. <strong>分解规则：</strong>找到关键词后，程序使用带通配符（`*`）的分解规则来捕获句子的其余部分。\n   1. <strong>规则示例</strong>： `* my *`\n   2. <strong>用户输入</strong>： `\"My mother is afraid of me\"`\n   3. <strong>捕获结果</strong>： `[\"\", \"mother is afraid of me\"]`\n3. <strong>重组规则：</strong>程序从与分解规则关联的一组重组规则中，选择一条来生成回应（通常随机选择以增加多样性），并可选择性地使用上一步捕获的内容。\n   1. <strong>规则示例</strong>： `\"Tell me more about your family.\"`\n   2. <strong>生成输出</strong>： `\"Tell me more about your family.\"`\n4. <strong>代词转换：</strong>在重组前，程序会进行简单的代词转换（如 `I` → `you`, `my` → `your`），以维持对话的连贯性。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查模式匹配机制中冲突解决的逻辑细节。",
+        "misconception": "忽视了符号系统中规则权重的设计价值。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q05",
+      "stem": "像 Cyc 这样历经数十年研发的符号主义项目在解决“常识问题”上依然困难重重，其核心技术瓶颈在于：",
+      "options": [
+        {
+          "id": "a",
+          "text": "启发式搜索算法无法处理呈指数级爆炸的状态空间"
+        },
+        {
+          "id": "b",
+          "text": "人类大量的内隐、直觉性知识极难被清晰地编码为 IF-THEN 规则"
+        },
+        {
+          "id": "c",
+          "text": "一阶谓词逻辑在数学上被证明不具备描述常识的完备性"
+        },
+        {
+          "id": "d",
+          "text": "当时的计算机硬件时钟频率无法支持深度的逻辑递归"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "知识获取瓶颈是符号主义的软肋，特别是那些人类认为理所当然但难以显性化表达的常识。 ",
+      "optionExplanations": {
+        "a": "可能误以为算力导致的搜索爆炸是主因，实际上根本问题在于知识无法被高质量地输入系统。",
+        "b": "正确，文中强调了手工符号化常识的极端困难及人类专家知识的内隐性。",
+        "c": "可能误以为是底层数学理论的失败，实际上是工程化获取和表达的瓶颈。",
+        "d": "可能误以为是硬件性能限制，但这无法解释为何持续数十年的项目仍无法成功。"
+      },
+      "evidence": [
+        {
+          "section": "2.1.4",
+          "quote": "- <strong>知识获取瓶颈（Knowledge Acquisition Bottleneck）</strong>：专家系统的知识需要由人类专家和知识工程师通过繁琐的访谈、提炼和编码过程来构建。这个过程成本高昂、耗时漫长，且难以规模化。更重要的是，人类专家的许多知识是内隐的、直觉性的，很难被清晰地表达为“IF-THEN”规则。试图将整个世界的知识都进行手工符号化，被认为是一项几乎不可能完成的任务。\n- <strong>常识问题（Common-sense Problem）</strong>：人类行为依赖于庞大的常识背景（例如，“水是湿的”、“绳子可以拉不能推”），但符号系统除非被明确编码，否则对此一无所知。为广阔、模糊的常识建立完备的知识库至今仍是重大挑战，Cyc项目<sup>[4]</sup>历经数十年努力，其成果和应用仍然非常有限。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "分析符号主义在从封闭世界走向开放环境时的核心障碍。",
+        "misconception": "将“知识表达的深度难题”误认为“计算资源的广度不足”。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch02-q06",
+      "stem": "符号主义系统的“脆弱性（Brittleness）”在面对真实世界时主要体现为：",
+      "options": [
+        {
+          "id": "a",
+          "text": "遇到预设规则之外的新情况时可能失灵，缺乏灵活变通能力"
+        },
+        {
+          "id": "b",
+          "text": "软件在执行过程中频繁出现语法错误导致系统崩溃"
+        },
+        {
+          "id": "c",
+          "text": "多模块集成时通信接口不稳定导致的任务中断"
+        },
+        {
+          "id": "d",
+          "text": "模型对高维浮点数计算的精度损失过于敏感"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "课件所说的脆弱性是对规则覆盖范围的依赖，遇到新情况可能失灵，而非任何变化都会失败。",
+      "optionExplanations": {
+        "a": "正确，SHRDLU等系统的成功高度依赖于规则完备的封闭环境。",
+        "b": "可能误以为是软件工程中的常规Bug，实际上脆弱性是指逻辑适应能力的缺失。",
+        "c": "可能误以为是工程集成难题，实际上是针对其推理能力的局限。",
+        "d": "可能误以为是数值计算问题，符号主义主要处理离散符号而非连续数值。"
+      },
+      "evidence": [
+        {
+          "section": "2.1.4",
+          "quote": "- <strong>系统脆弱性（Brittleness）</strong>：符号系统完全依赖预设规则，导致其行为非常“脆弱”。一旦遇到规则之外的任何微小变化或新情况，系统便可能完全失灵，无法像人类一样灵活变通。SHRDLU的成功，也正是因为它运行在一个规则完备的封闭世界里，而真实世界充满了例外。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对符号系统逻辑僵化特性的理解。",
+        "misconception": "混淆逻辑局限性与软件稳定性。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q07",
+      "stem": "马文·明斯基在《心智社会》中认为，早期 AI 研究停滞不前的原因是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "尝试用单一、完美的中央逻辑框架来容纳多样化的心智活动"
+        },
+        {
+          "id": "b",
+          "text": "忽略了通过生物电脉冲模拟神经元交互的重要性"
+        },
+        {
+          "id": "c",
+          "text": "过于依赖分布式计算而导致了严重的同步损耗"
+        },
+        {
+          "id": "d",
+          "text": "未能利用海量互联网数据进行自监督预训练"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "明斯基主张智能是由多样化且可能冲突的简单心智过程构成的社会，反对自上而下的统一模型。",
+      "optionExplanations": {
+        "a": "正确，他认为“单一原则”无法产生真正的智能，智能源于多样性。",
+        "b": "可能误以为明斯基当时在提倡现代联结主义，实际上他构思的是功能性的社会化组织。",
+        "c": "可能误以为他反对分布式，实际上他正是分布式心智思想的先驱。",
+        "d": "可能误以为他预见了大数据时代，他的反思集中在设计哲学而非数据规模。"
+      },
+      "evidence": [
+        {
+          "section": "2.3.1",
+          "quote": "这些问题直指单一整体智能模型的核心弊端。该类模型试图用一种统一的表示和推理机制来解决所有问题，但这与我们观察到的自然智能（尤其是人类智能）的运作方式相去甚远。明斯基认为，强行将多样化的心智活动塞进一个僵化的逻辑框架中，正是导致早期人工智能研究停滞不前的根源。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "理解分布式智能理论对集中式符号推理的反思视角。",
+        "misconception": "误以为早期的失败仅是因为算力或数据不足。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch02-q08",
+      "stem": "根据“心智社会”理论，复杂的智能行为（如搭积木）是如何在系统中产生的？",
+      "options": [
+        {
+          "id": "a",
+          "text": "由一个预先规划好所有步骤的全局智能体统一调度"
+        },
+        {
+          "id": "b",
+          "text": "从大量简单、无心的底层智能体局部交互中自发涌现"
+        },
+        {
+          "id": "c",
+          "text": "通过对每一条物理定律进行高精度的符号逻辑推导"
+        },
+        {
+          "id": "d",
+          "text": "依靠中央处理器对所有传感器数据的实时同步解析"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "在心智社会理论的描述中，复杂智能行为由简单单元的局部交互涌现，不必由一个拥有全局计划的中央智能体直接规定。",
+      "optionExplanations": {
+        "a": "可能误以为存在一个全知的控制中心，这正是明斯基反对的观点。",
+        "b": "正确，涌现（Emergence）是理解该理论的关键，没有任何智能体拥有全局视角。",
+        "c": "可能误以为智能依赖物理模拟，实际上它关注的是功能单元的协作。",
+        "d": "可能误以为智能来自硬件同步速度，其实质是去中心化的逻辑流动。"
+      },
+      "evidence": [
+        {
+          "section": "2.3.2",
+          "quote": "<strong>涌现（Emergence）</strong>是理解心智社会理论的关键。复杂的、有目的性的智能行为，并非由某个高级智能体预先规划，而是从大量简单的底层智能体之间的局部交互中自发产生的。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对“涌现”机制及去中心化协作的掌握。",
+        "misconception": "习惯性地在复杂行为中寻找“总指挥”。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q09",
+      "stem": "强化学习（RL）智能体通过试错进行优化的最终目标是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "确保存储在记忆模块中的规则数量达到阈值"
+        },
+        {
+          "id": "b",
+          "text": "最大化每一个独立时间步所能获得的即时奖励"
+        },
+        {
+          "id": "c",
+          "text": "最大化从当前时刻到未来的长期累积奖励（Return）"
+        },
+        {
+          "id": "d",
+          "text": "完全模仿人类棋谱或标注数据集中的每一步行动"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "强化学习强调远见（Return），有时为了长远利益（赢棋）需要牺牲即时奖励（弃子）。",
+      "optionExplanations": {
+        "a": "可能误以为 RL 是在填充知识库，实际上它是在优化动作策略。",
+        "b": "可能误以为 RL 是贪婪算法，即时奖励最大化并不等同于全局最优。",
+        "c": "正确，课件把长期累积奖励作为强化学习的优化目标，而非仅追求单步奖励。",
+        "d": "可能误以为是监督学习，RL 通过自我试错而非单纯模仿标注数据。"
+      },
+      "evidence": [
+        {
+          "section": "2.4.2",
+          "quote": "智能体的学习目标，并非最大化某一个时间步的即时奖励，而是最大化从当前时刻开始到未来的<strong>累积奖励（Cumulative Reward）</strong>，也称为<strong>回报（Return）</strong>。这意味着智能体需要具备“远见”，有时为了获得未来更大的奖励，需要牺牲当前的即时奖励（例如，围棋中的“弃子”策略）。通过在上述循环中不断探索、收集反馈并优化策略，智能体最终能够学会在复杂动态环境中进行自主决策和长期规划。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查强化学习中长期收益与短期反馈的区别。",
+        "misconception": "将“贪婪搜索”与“强化学习”混淆。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch02-q10",
+      "stem": "按 2.4.3 节对从零交互学习的 RL 智能体的讨论，其学习新任务通常需要大量试错的原因是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "梯度下降算法无法处理非凸优化问题"
+        },
+        {
+          "id": "b",
+          "text": "缺乏先验知识和常识引导，必须从零开始通过海量交互试错"
+        },
+        {
+          "id": "c",
+          "text": "传感器数据无法通过神经元进行有效的特征提取"
+        },
+        {
+          "id": "d",
+          "text": "模型参数过多导致在本地计算设备上运行缓慢"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "由于缺乏世界知识，RL智能体必须经历漫长的“冷启动”，其本质是缺乏通用先验信息。 ",
+      "optionExplanations": {
+        "a": "可能误以为是数学计算难题，实际上是数据采样效率难题。",
+        "b": "正确，文中指出 RL 智能体在学习之初缺乏人类所具备的常识背景知识。",
+        "c": "错误，本节强调先验知识和交互数据效率，没有将神经元无法提取特征作为原因。",
+        "d": "可能误以为是硬件瓶颈，根本原因是其学习范式对数据的极度渴求。"
+      },
+      "evidence": [
+        {
+          "section": "2.4.3",
+          "quote": "强化学习赋予了智能体从交互中学习决策策略的能力，但这通常需要海量的、针对特定任务的交互数据，导致智能体在学习之初缺乏先验知识，需要从零开始构建对任务的理解。无论是符号主义试图手动编码的常识，还是人类在决策时所依赖的背景知识，在RL智能体中都是缺失的。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "分析纯强化学习在通用性上的局限，从而引出预训练的重要性。",
+        "misconception": "误以为强化学习的唯一门槛是算力资源。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q11",
+      "stem": "大型语言模型（LLM）主要通过哪种方式在预训练阶段“吸收”世界知识？",
+      "options": [
+        {
+          "id": "a",
+          "text": "由专家团队将维基百科转化为结构化的知识图谱"
+        },
+        {
+          "id": "b",
+          "text": "在海量文本上通过自监督学习预测下一个词的概率"
+        },
+        {
+          "id": "c",
+          "text": "通过执行人类标注的逻辑推理任务进行监督训练"
+        },
+        {
+          "id": "d",
+          "text": "模拟三维物理环境中的多智能体对话博弈"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "预训练不依赖手工标注，而是通过自监督学习发掘海量文本内在的语法、事实和逻辑。 ",
+      "optionExplanations": {
+        "a": "可能误以为是大规模知识工程，实际上预训练是自动化的隐式模型构建。",
+        "b": "正确，预测下一个词（Next Token Prediction）是其学习语言规律的核心手段。",
+        "c": "可能误以为是监督学习，监督学习（SFT）通常发生在微调阶段而非预训练阶段。",
+        "d": "可能误以为 LLM 是在交互环境中练就的，预训练基于的是静态的文本语料库。"
+      },
+      "evidence": [
+        {
+          "section": "2.4.3",
+          "quote": "1. <strong>预训练阶段</strong>：首先在一个包含互联网级别海量文本数据的通用语料库上，通过<strong>自监督学习（Self-supervised Learning）</strong>的方式训练一个超大规模的神经网络模型。这个阶段的目标不是完成任何特定任务，而是学习语言本身内在的规律、语法结构、事实知识以及上下文逻辑。最常见的目标是“预测下一个词”。\n2. <strong>微调阶段</strong>：完成预训练后，这个模型就已经学习到了和数据集有关的丰富知识。之后，针对特定的下游任务，只需使用少量该任务的标注数据对模型进行微调，即可让模型适应对应任务。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对预训练范式核心机制（自监督学习）的理解。",
+        "misconception": "混淆自监督（预训练）与人工标注（微调/监督学习）。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch02-q12",
+      "stem": "在现代 LLM 智能体的闭环架构中，由执行模块产生的“观察（Observation）”由哪些部分组成？",
+      "options": [
+        {
+          "id": "a",
+          "text": "模型权重参数的梯度更新值"
+        },
+        {
+          "id": "b",
+          "text": "工具执行后的结果以及改变后的环境状态"
+        },
+        {
+          "id": "c",
+          "text": "预训练语料库中的背景知识片段"
+        },
+        {
+          "id": "d",
+          "text": "系统开发者硬编码的 IF-THEN 安全规则"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "观察是行动的反馈，包括工具返回的显式结果和环境发生的隐式状态变化。",
+      "optionExplanations": {
+        "a": "可能误以为会涉及参数训练，智能体运行时通常不更新模型权重。",
+        "b": "正确，根据图 2.10，工具结果和环境状态共同构成了下一轮感知的输入。",
+        "c": "可能误以为观察来自内部存储，实际上观察必须来自外部环境或工具。",
+        "d": "可能误以为观察是规则，观察是数据事实，规则属于思考/逻辑模块。"
+      },
+      "evidence": [
+        {
+          "section": "2.4.4",
+          "quote": "- 工具执行后会返回一个<strong>工具结果 (Tool Result)</strong> 给LLM，这构成了对行动效果的直接反馈。同时，智能体的行动改变了环境，从而产生了一个全新的<strong>环境状态</strong>。\n   - 这个“工具结果”和“新的环境状态”共同构成了一轮全新的<strong>观察 (Observation)</strong>。这个新的观察会被感知模块再次捕获，同时LLM会根据行动结果<strong>更新记忆 (Memory Update)</strong>，从而启动下一轮“感知-思考-行动”的循环。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对现代智能体交互闭环（Perception-Thought-Action）流程的掌握。",
+        "misconception": "忽视了“工具反馈”在现代 Agent 架构中的关键角色。"
+      },
+      "type": "single",
+      "objectiveId": "ch02-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q13",
+      "stem": "关于早期符号主义项目 SHRDLU 的突破与局限，以下说法正确的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "它首次将语言解析、规划、记忆等模块集成在统一系统中"
+        },
+        {
+          "id": "b",
+          "text": "它证明了符号处理系统可以完美解决开放域的指代消解问题"
+        },
+        {
+          "id": "c",
+          "text": "它的“感知-思考-行动”闭环设计奠定了现代智能体研究的基础"
+        },
+        {
+          "id": "d",
+          "text": "它能力的成功仅限于一个规则明确、高度简化的“微观世界”"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c",
+        "d"
+      ],
+      "explanation": "SHRDLU 的突破在于模块集成，但其成功高度依赖封闭环境，无法泛化到真实世界。 ",
+      "optionExplanations": {
+        "a": "正确，它是集成 AI 模块的早期典范。",
+        "b": "错误，它仅能解决积木世界这一特定微观环境内的指代问题。",
+        "c": "正确，这种闭环思想是现代 Agent 设计的先驱。",
+        "d": "正确，这正是其被批评为“脆弱”的根本原因。"
+      },
+      "evidence": [
+        {
+          "section": "2.1.3",
+          "quote": "- <strong>综合性智能的典范</strong>：在SHRDLU之前，AI研究大多聚焦于单一功能。它首次将语言理解、推理规划与行动记忆等多个AI模块集成于统一系统，其“感知-思考-行动”的闭环设计，奠定了现代智能体研究的基础。\n- <strong>微观世界研究方法的普及</strong>：它的成功证明了在一个规则明确的简化环境中，探索和验证复杂智能体基本原理的可行性，这一方法深刻影响了后续的机器人学与AI规划研究。\n- <strong>引发的乐观与反思</strong>：SHRDLU的成功激发了对AGI的早期乐观预期，但其能力又严格局限于积木世界。这种局限性引发了AI领域关于“符号处理”与“真正理解”之间差异的长期思辨，揭示了通往通用智能的深层挑战。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对 AI 史上首个集成化智能体项目的多维度认知。",
+        "misconception": "误将“微观世界的成功”等同于“通用智能的解决”。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch02-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q14",
+      "stem": "针对 2.2.3 节的迷你 ELIZA 实现，下列哪些局限妨碍其扩展为通用、连贯的对话系统？",
+      "options": [
+        {
+          "id": "a",
+          "text": "系统是“无状态”的，无法跨轮次存储和引用历史信息"
+        },
+        {
+          "id": "b",
+          "text": "正则表达式匹配无法理解逻辑否定、代词歧义等深层语义"
+        },
+        {
+          "id": "c",
+          "text": "规则库的规模会随场景增加而爆炸式增长，导致维护与冲突难题"
+        },
+        {
+          "id": "d",
+          "text": "系统运行所依赖的布尔逻辑在处理多值语义时存在计算不可达性"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "该简化实现逐句遍历规则，不保存跨轮对话状态，也没有独立的语义解释机制。增加规则还会带来维护问题；这些结论不能推广为所有规则系统都不可能有记忆。",
+      "optionExplanations": {
+        "a": "正确，无状态（Stateless）导致其对每一句话的反应都是孤立的。",
+        "b": "正确，它只是机械匹配模式，无法解析“not”等逻辑词的内涵。",
+        "c": "正确，手工编码规则无法穷举自然语言的无限可能性。",
+        "d": "错误，虽然听起来很技术，但布尔逻辑的计算特性并非限制对话连贯性的科学根源。"
+      },
+      "evidence": [
+        {
+          "section": "2.2.3",
+          "quote": "- <strong>缺乏语义理解</strong>：系统不理解词义。例如，面对“I am <strong>not</strong> happy”的输入，它仍会机械地匹配 `I am (.*)` 规则并生成语义不通的回应，因为它无法理解否定词“not”的作用。\n- <strong>无上下文记忆</strong>：系统是<strong>无状态的（Stateless）</strong>，每次回应仅基于当前单句输入，无法进行连贯的多轮对话。\n- <strong>规则的扩展性问题</strong>：尝试增加更多规则会导致规则库的规模爆炸式增长，规则间的冲突与优先级管理将变得极其复杂，最终导致系统难以维护。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "深度剖析早期范式的技术瓶颈，用以理解现代范式的改进动机。",
+        "misconception": "误以为增加规则数量即可解决对话质量问题。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch02-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q15",
+      "stem": "关于联结主义与符号主义在知识处理上的根本分野，以下描述正确的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "符号主义追求知识的显式表达，联结主义追求知识的分布式表示"
+        },
+        {
+          "id": "b",
+          "text": "联结主义更擅长从非结构化原始数据（如图像）中自动提取特征"
+        },
+        {
+          "id": "c",
+          "text": "符号主义是自下而上的进化模仿，联结主义是自上而下的逻辑驱动"
+        },
+        {
+          "id": "d",
+          "text": "联结主义系统通过反向传播等算法根据经验自动调整内部权重"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "符号主义是显式、逻辑驱动、自上而下的；联结主义是隐式、数据驱动、自下而上的。",
+      "optionExplanations": {
+        "a": "正确，这是分布式存储与显式逻辑库的根本区别。",
+        "b": "正确，课件指出联结主义能从图像、声音、文本等原始数据中获得模式识别能力。",
+        "c": "错误，符号主义才是自上而下设计逻辑，联结主义是自下而上模仿神经网络。",
+        "d": "正确，这使得系统具备了从数据中“学习”而非被“编码”的能力。"
+      },
+      "evidence": [
+        {
+          "section": "2.4.1",
+          "quote": "1. <strong>知识的分布式表示</strong>：知识并非以明确的符号或规则形式存储在某个知识库中，而是以连接权重的形式，分布式地存储在大量简单的处理单元（即人工神经元）的连接之间。整个网络的连接模式本身就构成了知识。\n2. <strong>简单的处理单元</strong>：每个神经元只执行非常简单的计算，如接收来自其他神经元的加权输入，通过一个激活函数进行处理，然后将结果输出给下一个神经元。\n3. <strong>通过学习调整权重</strong>：系统的智能并非来自于设计者预先编写的复杂程序，而是来自于“学习”过程。系统通过接触大量样本，根据某种学习算法（如反向传播算法）自动、迭代地调整神经元之间的连接权重，从而使得整个网络的输出逐渐接近期望的目标。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        },
+        {
+          "section": "2.4.1",
+          "quote": "联结主义的兴起，特别是深度学习在21世纪的成功，为智能体赋予了强大的感知和模式识别能力，使其能够直接从原始数据（如图像、声音、文本）中理解世界，这是符号主义时代难以想象的。然而，如何让智能体学会在与环境的动态交互中做出最优的序贯决策，则需要另一种学习范式的补充。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对 AI 历史两大核心范式差异的深度理解。",
+        "misconception": "误认为符号主义同样可以具备强大的非结构化数据学习能力。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch02-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q16",
+      "stem": "马文·明斯基的“心智社会”理论直接启发了多智能体系统（MAS）的哪些研究方向？",
+      "options": [
+        {
+          "id": "a",
+          "text": "设计不存在中央控制器的去中心化协调机制"
+        },
+        {
+          "id": "b",
+          "text": "研究如何从简单局部交互规则中产生复杂的“涌现式计算”"
+        },
+        {
+          "id": "c",
+          "text": "开发通用的智能体通信语言（ACL）与交互协议"
+        },
+        {
+          "id": "d",
+          "text": "确保每个子智能体都拥有全能的、跨领域的通用逻辑推理机"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "MAS 继承了心智社会的去中心化、涌现性及社会化交互思想，而非要求单元全能。",
+      "optionExplanations": {
+        "a": "正确，去中心化控制是该理论的核心原则。",
+        "b": "正确，这启发了蚁群算法等群体智能优化技术。",
+        "c": "正确，对应理论中智能体之间的激活与抑制信号交互。",
+        "d": "错误，心智社会认为智能体应该是功能单一且“无心”的简单过程。"
+      },
+      "evidence": [
+        {
+          "section": "2.3.3",
+          "quote": "- <strong>去中心化控制（Decentralized Control）</strong>：理论的核心在于不存在中央控制器。这一思想被MAS领域完全继承，如何设计没有中心节点的协调机制和任务分配策略，成为了MAS的核心研究课题之一。\n- <strong>涌现式计算（Emergent Computation）</strong>：复杂问题的解决方案可以从简单的局部交互规则中自发产生。这启发了MAS中大量基于涌现思想的算法，如蚁群算法、粒子群优化等，用于解决复杂的优化和搜索问题。\n- <strong>智能体的社会性（Agent Sociality）</strong>：明斯基的理论强调了智能体之间的交互（激活、抑制）。MAS领域将其进一步扩展，系统地研究智能体之间的通信语言（如ACL）、交互协议（如契约网）、协商策略、信任模型乃至组织结构，从而构建起真正的计算社会。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查心智社会理论对后世分布式 AI 发展的奠基性贡献。",
+        "misconception": "混淆个体智能的全能性与群体协作的涌现性。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch02-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch02-q17",
+      "stem": "关于现代 AI 的“预训练-微调”范式，下列职责划分不准确的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "预训练的主要目标是让模型在特定下游任务上达到人类专家水平"
+        },
+        {
+          "id": "b",
+          "text": "微调阶段需要使用比预训练大数千倍的文本语料进行深度适配"
+        },
+        {
+          "id": "c",
+          "text": "预训练旨在构建关于通用语言规律和世界知识的隐式模型"
+        },
+        {
+          "id": "d",
+          "text": "微调是为了让通用的“大脑”适应特定的场景需求（如法律咨询）"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b"
+      ],
+      "explanation": "预训练提供通用知识，数据量巨大；微调针对特定任务，数据量相对较小且需标注。 ",
+      "optionExplanations": {
+        "a": "错误，预训练目标是通用规律而非特定任务表现。",
+        "b": "错误，微调通常只需要少量标注数据，预训练才是处理海量数据的阶段。",
+        "c": "正确，这是预训练的核心价值。",
+        "d": "正确，微调实现了从“通用能力”到“专业技能”的转化。"
+      },
+      "evidence": [
+        {
+          "section": "2.4.3",
+          "quote": "1. <strong>预训练阶段</strong>：首先在一个包含互联网级别海量文本数据的通用语料库上，通过<strong>自监督学习（Self-supervised Learning）</strong>的方式训练一个超大规模的神经网络模型。这个阶段的目标不是完成任何特定任务，而是学习语言本身内在的规律、语法结构、事实知识以及上下文逻辑。最常见的目标是“预测下一个词”。\n2. <strong>微调阶段</strong>：完成预训练后，这个模型就已经学习到了和数据集有关的丰富知识。之后，针对特定的下游任务，只需使用少量该任务的标注数据对模型进行微调，即可让模型适应对应任务。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨析现代主流深度学习范式的各阶段功能。",
+        "misconception": "误以为微调依然需要巨量数据投入。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch02-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch02-q18",
+      "stem": "按 2.4.4 节的 LLM 智能体架构，思考阶段的规划、反思与推理有哪些职责（多选）？",
+      "options": [
+        {
+          "id": "a",
+          "text": "结合观察与历史记忆，决定下一步具体工具调用"
+        },
+        {
+          "id": "b",
+          "text": "将宏观、模糊的任务分解为具体、可执行的原子操作步骤"
+        },
+        {
+          "id": "c",
+          "text": "通过对中间步骤的自我审查，提高最终决策的逻辑严密性"
+        },
+        {
+          "id": "d",
+          "text": "利用实时反向传播算法在线修正预训练模型对常识的认知偏差"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "课件将规划分解、反思自我批判和结合记忆进行推理放在思考阶段。这属于调用现有模型的架构流程，不等同于在线更新权重，也不保证完全消除预测错误。",
+      "optionExplanations": {
+        "a": "正确，对应推理与决策模块整合历史信息并决策工具调用。",
+        "b": "正确，这是规划模块的核心功能。",
+        "c": "正确，反思可以发现并纠正初步推理中的潜在谬误。",
+        "d": "错误，智能体运行时的“思考”属于推理范畴，不涉及权重的在线梯度更新。"
+      },
+      "evidence": [
+        {
+          "section": "2.4.4",
+          "quote": "- <strong>规划与分解</strong>：首先，规划模块接收观察信息，进行高级策略制定。它通过<strong>反思 (Reflection)</strong> 和<strong>自我批判 (Self-criticism)</strong> 等机制，将宏观目标分解为更具体、可执行的步骤。\n   - <strong>推理与决策</strong>：随后，作为中枢的<strong>LLM</strong> 接收来自规划模块的指令，并与<strong>记忆模块 (Memory)</strong> 交互以整合历史信息。LLM进行深度推理，最终决策出下一步要执行的具体操作，这通常表现为一个<strong>工具调用 (Tool Call)</strong>。\n3. <strong>行动 (Action)</strong> ：决策完成后，便进入行动阶段，由<strong>执行模块 (Execution Module)</strong> 负责。LLM生成的工具调用指令被发送到执行模块。该模块解析指令，从<strong>工具箱 (Tool Use)</strong> 中选择并调用合适的工具（如代码执行器、搜索引擎、API等）来与环境交互或执行任务。这个与环境的实际交互就是智能体的<strong>行动 (Action)</strong>。\n4. <strong>观察 (Observation)</strong> 与循环 ：行动会改变环境的状态，并产生结果。\n   - 工具执行后会返回一个<strong>工具结果 (Tool Result)</strong> 给LLM，这构成了对行动效果的直接反馈。同时，智能体的行动改变了环境，从而产生了一个全新的<strong>环境状态</strong>。\n   - 这个“工具结果”和“新的环境状态”共同构成了一轮全新的<strong>观察 (Observation)</strong>。这个新的观察会被感知模块再次捕获，同时LLM会根据行动结果<strong>更新记忆 (Memory Update)</strong>，从而启动下一轮“感知-思考-行动”的循环。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "理解“思考”模块作为设计模式的本质，挑战“模型预训练解决一切”的误区。",
+        "misconception": "误以为智能体的进步仅靠模型训练，忽视了推理侧架构设计的价值。"
+      },
+      "type": "multiple",
+      "objectiveId": "ch02-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch02-q19",
+      "stem": "请针对 2.2.3 节中实现的迷你版 ELIZA 逻辑，设计一组具体的两轮对话输入。第一轮输入要求能体现其“缺乏语义理解”，第二轮输入要求能体现其“无上下文记忆”。请写出输入内容并基于算法原理简述系统会如何失灵。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "此题考查对规则驱动系统核心缺陷的实践分析。学生需利用否定词破坏模式匹配，并利用代词关联验证其无状态性。",
+      "referenceAnswer": "可使用两轮输入：第一轮 “I am not happy about my exam.”，第二轮 “It still worries me.”。第一轮会匹配 I am (.*)，对捕获文本做代词替换，再随机选择该规则的模板；例如可能得到 “How long have you been not happy about your exam.?”。这只能说明机械文本变换，不能仅凭句子听起来合理就认定理解了否定。第二轮没有匹配具体规则，会进入通配符并随机选择追问模板；respond 只读取当前输入，没有存储并检索第一轮考试话题，因此不能据历史解析 It 的所指。随机模板意味着不能把某一句输出当作唯一确定结果。",
+      "rubric": [
+        "是否明确提供了一组针对性的两轮输入语句",
+        "是否指出了系统对逻辑否定词（如 not）的机械处理及其对应的正则表达式原理",
+        "是否说明了系统在第二轮对话中因缺乏状态存储而无法处理代词指代或话题关联的问题",
+        "回答是否基于 2.2.3 节所述的代码逻辑（如 re.search 和 rules 字典）"
+      ],
+      "evidence": [
+        {
+          "section": "2.2.3",
+          "quote": "- <strong>缺乏语义理解</strong>：系统不理解词义。例如，面对“I am <strong>not</strong> happy”的输入，它仍会机械地匹配 `I am (.*)` 规则并生成语义不通的回应，因为它无法理解否定词“not”的作用。\n- <strong>无上下文记忆</strong>：系统是<strong>无状态的（Stateless）</strong>，每次回应仅基于当前单句输入，无法进行连贯的多轮对话。\n- <strong>规则的扩展性问题</strong>：尝试增加更多规则会导致规则库的规模爆炸式增长，规则间的冲突与优先级管理将变得极其复杂，最终导致系统难以维护。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        },
+        {
+          "section": "2.2.3",
+          "quote": "def respond(user_input):\n    \"\"\"\n    根据规则库生成响应\n    \"\"\"\n    for pattern, responses in rules.items():\n        match = re.search(pattern, user_input, re.IGNORECASE)\n        if match:\n            # 捕获匹配到的部分\n            captured_group = match.group(1) if match.groups() else ''\n            # 进行代词转换\n            swapped_group = swap_pronouns(captured_group)\n            # 从模板中随机选择一个并格式化\n            response = random.choice(responses).format(swapped_group)\n            return response\n    # 如果没有匹配任何特定规则，使用最后的通配符规则\n    return random.choice(rules[r'.*'])",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "通过实验设计强化对符号主义系统“脆弱性”与“无状态性”的理解。",
+        "misconception": "误以为通过更多正则表达式分支可以模拟真正的语义理解。"
+      },
+      "type": "reflection",
+      "objectiveId": "ch02-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "optionExplanations": {}
+    },
+    {
+      "id": "ch02-q20",
+      "stem": "设计一个教学用“工业质检 Agent”方案：识别缺陷图像、检查预先定义的质量规则、利用历史漏检案例改进策略，并说明判断依据。请分配联结主义、符号主义、强化学习和 LLM 的职责，并指出各自的边界。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "此题考查学生对章节总结中“技术融合”趋势的系统性思考，要求根据任务特性选择最合适的 AI 范式。 ",
+      "referenceAnswer": "可用联结主义模型提取图像特征并给出缺陷候选；符号规则处理已明确且可形式化的质量条件；LLM 整合检测结果与规则依据并生成可核对的说明。历史漏检数据可用于离线评估和模型改进；若探索强化学习，应先定义动作、奖励和约束，在可控模拟或离线实验中验证策略，不能把生产试错默认当成安全的学习方式。规则仅覆盖已编码条件，视觉和语言模型仍可能误判，解释必须对应实际证据；这些模块的组合不自动保证合规、安全或最优质量。此为课程原理的设计应用，不是课程提供的已验证工业系统。",
+      "rubric": [
+        "能将非结构化图像识别分配给联结主义，并承认误判可能",
+        "能说明规则库适用已形式化条件且不能自动保证所有场景正确",
+        "能说明强化学习的长期奖励、动作约束和验证环境",
+        "能让 LLM 整合真实检测与规则依据，而非编造判定理由",
+        "能明确设计推演与已实测工业可靠性的区别"
+      ],
+      "evidence": [
+        {
+          "section": "2.4.5",
+          "quote": "进入21世纪20年代，这些思想流派以前所未有的方式深度融合。以GPT系列为代表的大语言模型，其本身是联结主义的产物，却成为了执行符号推理、进行工具调用和规划决策的核心“大脑”，形成了神经-符号结合的现代智能体架构。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        },
+        {
+          "section": "2.4.1",
+          "quote": "联结主义的兴起，特别是深度学习在21世纪的成功，为智能体赋予了强大的感知和模式识别能力，使其能够直接从原始数据（如图像、声音、文本）中理解世界，这是符号主义时代难以想象的。然而，如何让智能体学会在与环境的动态交互中做出最优的序贯决策，则需要另一种学习范式的补充。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        },
+        {
+          "section": "2.1.2",
+          "quote": "- <strong>知识库（Knowledge Base）</strong>：这是专家系统的知识存储中心，用于存放领域专家的知识和经验。<strong>知识表示（Knowledge Representation）</strong>是构建知识库的关键。在专家系统中，最常用的一种知识表示方法是<strong>产生式规则（Production Rules）</strong>，即一系列“IF-THEN”形式的条件语句。例如：IF 病人有发烧症状 AND 咳嗽 THEN 可能患有呼吸道感染。这些规则将特定情境（IF部分，条件）与相应的结论或行动（THEN部分，结论）关联起来。一个复杂的专家系统可能包含成百上千条这样的规则，共同构成一个庞大的知识网络。\n- <strong>推理机（Inference Engine）</strong>：推理机是专家系统的核心计算引擎。它是一个通用的程序，其任务是根据用户提供的事实，在知识库中寻找并应用相关的规则，从而推导出新的结论。推理机的工作方式主要有两种：\n  - <strong>正向链（Forward Chaining）</strong>：从已知事实出发，不断匹配规则的IF部分，触发THEN部分的结论，并将新结论加入事实库，直到最终推导出目标或无新规则可匹配。这是一种“数据驱动”的推理方式。\n  - <strong>反向链（Backward Chaining）</strong>：从一个假设的目标（比如“病人是否患有肺炎”）出发，寻找能够推导出该目标的规则，然后将该规则的IF部分作为新的子目标，如此递归下去，直到所有子目标都能被已知事实所证明。这是一种“目标驱动”的推理方式。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        },
+        {
+          "section": "2.4.2",
+          "quote": "智能体的学习目标，并非最大化某一个时间步的即时奖励，而是最大化从当前时刻开始到未来的<strong>累积奖励（Cumulative Reward）</strong>，也称为<strong>回报（Return）</strong>。这意味着智能体需要具备“远见”，有时为了获得未来更大的奖励，需要牺牲当前的即时奖励（例如，围棋中的“弃子”策略）。通过在上述循环中不断探索、收集反馈并优化策略，智能体最终能够学会在复杂动态环境中进行自主决策和长期规划。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md"
+        }
+      ],
+      "design": {
+        "purpose": "考查对 AI 发展历程中多种技术范式在实际工程中融合应用的能力。",
+        "misconception": "认为单一的大模型（LLM）可以完全替代专门化的符号逻辑或感知算法。"
+      },
+      "type": "reflection",
+      "objectiveId": "ch02-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "optionExplanations": {}
+    }
+  ]
+}

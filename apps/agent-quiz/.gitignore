@@ -1,0 +1,7 @@
+node_modules/
+.generation/
+.env.local
+.env
+notes/
+dist/
+*.tsbuildinfo

@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch15-o01",
+      "title": "理解游戏、后端与NPC智能分层",
+      "sections": [
+        "15.1.2 技术架构概览",
+        "15.4.1 FastAPI 应用结构",
+        "15.4.4 理解 Godot 的场景系统"
+      ],
+      "reason": "游戏渲染和智能体决策需要不同状态与实时性。"
+    },
+    {
+      "id": "ch15-o02",
+      "title": "设计有角色边界和记忆的NPC",
+      "sections": [
+        "15.2.1 基于 HelloAgents 的 SimpleAgent",
+        "15.2.2 NPC 角色设定与 Prompt 设计",
+        "15.2.3 记忆系统集成"
+      ],
+      "reason": "个性与历史来自提示和可取回记忆，不能只靠一个名字。"
+    },
+    {
+      "id": "ch15-o03",
+      "title": "把好感度状态反馈到对话",
+      "sections": [
+        "15.3.1 好感度等级划分",
+        "15.3.2 好感度计算逻辑",
+        "15.3.3 好感度影响对话"
+      ],
+      "reason": "分数更新与行为变化是两个环节，界面显示分数不等于生效。"
+    },
+    {
+      "id": "ch15-o04",
+      "title": "维护NPC交互与异步通信状态",
+      "sections": [
+        "15.4.3 状态管理与日志系统",
+        "15.6.1 API 客户端封装",
+        "15.5.3 NPC 行为与交互"
+      ],
+      "reason": "请求等待期间仍需保持游戏响应与一致的忙碌状态。"
+    },
+    {
+      "id": "ch15-o05",
+      "title": "整合场景与对话界面",
+      "sections": [
+        "15.5.1 场景设计与资源组织",
+        "15.6.3 主场景整合",
+        "15.6.2 对话 UI 实现"
+      ],
+      "reason": "独立组件必须由主场景连接，显示结果不等于状态已同步。"
+    },
+    {
+      "id": "ch15-o06",
+      "title": "评估批量生成与开放NPC的边界",
+      "sections": [
+        "15.2.4 批量对话生成：轻负载模式",
+        "15.7.2 扩展方向",
+        "15.7.3 思考与展望"
+      ],
+      "reason": "负载优化可能影响延迟、角色独立性和结果分发。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch15-q01",
+      "type": "single",
+      "objectiveId": "ch15-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "15.1.2 技术架构概览",
+      "purpose": "辨认Godot、FastAPI、HelloAgents与模型服务的职责。"
+    },
+    {
+      "id": "ch15-q02",
+      "type": "single",
+      "objectiveId": "ch15-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "15.4.1 FastAPI 应用结构",
+      "purpose": "追踪玩家交互经后端调用NPC Agent再返回界面的流程。"
+    },
+    {
+      "id": "ch15-q03",
+      "type": "single",
+      "objectiveId": "ch15-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "15.2.1 基于 HelloAgents 的 SimpleAgent",
+      "purpose": "识别独立NPC Agent对角色与对话管理的作用。"
+    },
+    {
+      "id": "ch15-q04",
+      "type": "single",
+      "objectiveId": "ch15-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "15.2.2 NPC 角色设定与 Prompt 设计",
+      "purpose": "解释职业、性格和行为约束如何进入系统提示并影响回复。"
+    },
+    {
+      "id": "ch15-q05",
+      "type": "single",
+      "objectiveId": "ch15-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "15.3.1 好感度等级划分",
+      "purpose": "辨认关系分数、等级及对应行为之间的映射。"
+    },
+    {
+      "id": "ch15-q06",
+      "type": "single",
+      "objectiveId": "ch15-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "15.3.2 好感度计算逻辑",
+      "purpose": "追踪LLM判断对话态度、更新分数再影响关系等级的流程。"
+    },
+    {
+      "id": "ch15-q07",
+      "type": "single",
+      "objectiveId": "ch15-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "15.4.3 状态管理与日志系统",
+      "purpose": "识别NPC位置、当前动作和是否忙碌的用途。"
+    },
+    {
+      "id": "ch15-q08",
+      "type": "single",
+      "objectiveId": "ch15-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "15.6.1 API 客户端封装",
+      "purpose": "解释HTTPRequest异步请求通过信号返回而非阻塞游戏主流程。"
+    },
+    {
+      "id": "ch15-q09",
+      "type": "single",
+      "objectiveId": "ch15-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "15.5.1 场景设计与资源组织",
+      "purpose": "识别Main、Player、NPC、DialogueUI的组合职责。"
+    },
+    {
+      "id": "ch15-q10",
+      "type": "single",
+      "objectiveId": "ch15-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "15.6.3 主场景整合",
+      "purpose": "分析定时获取NPC状态在更新及时性与网络负载之间的取舍。"
+    },
+    {
+      "id": "ch15-q11",
+      "type": "single",
+      "objectiveId": "ch15-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "15.2.4 批量对话生成：轻负载模式",
+      "purpose": "识别合并NPC请求减少LLM调用次数的收益与等待代价。"
+    },
+    {
+      "id": "ch15-q12",
+      "type": "single",
+      "objectiveId": "ch15-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "15.7.2 扩展方向",
+      "purpose": "比较当前单人游戏与多人在线扩展对实时通信、状态持久化和玩家隔离的额外需求。"
+    },
+    {
+      "id": "ch15-q13",
+      "type": "multiple",
+      "objectiveId": "ch15-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "15.4.4 理解 Godot 的场景系统",
+      "purpose": "比较Godot节点、可复用场景和后端Agent的组织层次，避免同名角色混淆。"
+    },
+    {
+      "id": "ch15-q14",
+      "type": "multiple",
+      "objectiveId": "ch15-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "15.2.3 记忆系统集成",
+      "purpose": "比较WorkingMemory保持近期语境与EpisodicMemory保留过去经历的职责。"
+    },
+    {
+      "id": "ch15-q15",
+      "type": "multiple",
+      "objectiveId": "ch15-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "15.3.3 好感度影响对话",
+      "purpose": "比较修改系统提示形成的回复风格变化与固定台词树，识别仅更新数字的缺陷。"
+    },
+    {
+      "id": "ch15-q16",
+      "type": "multiple",
+      "objectiveId": "ch15-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "15.5.3 NPC 行为与交互",
+      "purpose": "在玩家靠近、发起交谈和收到回复之间选择交互范围、忙碌检查和UI更新的必要步骤。"
+    },
+    {
+      "id": "ch15-q17",
+      "type": "multiple",
+      "objectiveId": "ch15-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "15.6.2 对话 UI 实现",
+      "purpose": "对发送中、返回回复和关闭对话的场景选择合适UI与玩家交互状态。"
+    },
+    {
+      "id": "ch15-q18",
+      "type": "multiple",
+      "objectiveId": "ch15-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "15.7.3 思考与展望",
+      "purpose": "在成本、延迟、回复质量和角色一致性约束下选择轻负载或逐请求生成，并规划验证。"
+    },
+    {
+      "id": "ch15-q19",
+      "type": "reflection",
+      "objectiveId": "ch15-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "15.2.3 记忆系统集成",
+      "purpose": "为同一玩家与不同NPC的长期交互设计记忆归属、当前上下文和关系状态，指出哪些跨角色共享需要显式设计。"
+    },
+    {
+      "id": "ch15-q20",
+      "type": "reflection",
+      "objectiveId": "ch15-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "15.2.4 批量对话生成：轻负载模式",
+      "purpose": "设计批量对话测试，检验回复映射、角色串扰、等待时间、API失败及回退；将多人扩展设想与当前单人实现分开。"
+    }
+  ],
+  "notes": "重点为NPC角色、记忆、好感度、状态及通信，不考角色姓名、精灵资源和按键。多人在线、数据库和WebSocket在本章属于扩展方向，不能当现有实现。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

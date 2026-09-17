@@ -1,0 +1,1307 @@
+{
+  "id": 5,
+  "title": "第五章 基于低代码平台的智能体搭建",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第五章 基于低代码平台的智能体搭建",
+    "path": "docs/chapter5/第五章 基于低代码平台的智能体搭建.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md",
+    "sha256": "0d97d4b3bc192488f2b012204285117d2f7644642f3aad28f3aef0d3ca2d0b37",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "f8c22a1c-2429-45c5-a2fa-7cb1cbd411b6",
+    "artifactId": "4777cdf0-d872-4251-95b1-e60abd0dc4fb"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch05-o01",
+        "title": "理解低代码抽象与平台选型",
+        "sections": [
+          "5.1.1 为何需要低代码平台",
+          "5.1.1 为何需要低代码平台",
+          "5.1.2 低代码平台的选择"
+        ],
+        "reason": "平台选择应依据业务约束而非界面记忆。"
+      },
+      {
+        "id": "ch05-o02",
+        "title": "构建多源简报的数据链路",
+        "sections": [
+          "5.2.1 Coze 的功能模块",
+          "5.2.2 构建“每日AI简报”助手",
+          "5.2.3 Coze 的优势与局限性分析"
+        ],
+        "reason": "信息获取、内容加工与输出发布属于不同步骤。"
+      },
+      {
+        "id": "ch05-o03",
+        "title": "解释Dify的应用组织与模型中立",
+        "sections": [
+          "5.3.1 Dify 的介绍与生态",
+          "5.3.2 构建一个超级智能体个人助手",
+          "5.3.3 Dify 的优势与局限性分析"
+        ],
+        "reason": "统一模型和工具能力需要配置，不等于所有能力由单次提示提供。"
+      },
+      {
+        "id": "ch05-o04",
+        "title": "将知识检索与实时工具组合",
+        "sections": [
+          "5.4.1 FastGPT 介绍与核心功能",
+          "5.4.2 构建\"智能投顾助手\"",
+          "5.4.2 构建\"智能投顾助手\""
+        ],
+        "reason": "私有知识和实时行情不能用同一种数据获取路径替代。"
+      },
+      {
+        "id": "ch05-o05",
+        "title": "搭建n8n知识准备与邮件处理流程",
+        "sections": [
+          "5.5.3 构建 Agent 的私有知识库",
+          "5.5.4 创建 Agent 主工作流",
+          "5.5.4 创建 Agent 主工作流"
+        ],
+        "reason": "离线建库和在线查询分离能避免重复处理及错误连接。"
+      },
+      {
+        "id": "ch05-o06",
+        "title": "评估平台抽象的工程边界",
+        "sections": [
+          "5.5.5 n8n 的优势与局限性分析",
+          "5.5.1 n8n 的节点与工作流",
+          "5.4.3 FastGPT 的优势与局限性分析"
+        ],
+        "reason": "低门槛不消除复杂流程和生产维护要求。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch05-q01",
+        "type": "single",
+        "objectiveId": "ch05-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "5.1.1 为何需要低代码平台",
+        "purpose": "辨认低代码将API、状态与编排封装成节点所解决的开发问题。"
+      },
+      {
+        "id": "ch05-q02",
+        "type": "single",
+        "objectiveId": "ch05-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "5.1.1 为何需要低代码平台",
+        "purpose": "解释节点输入输出和可视化调试如何降低集成成本。"
+      },
+      {
+        "id": "ch05-q03",
+        "type": "single",
+        "objectiveId": "ch05-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "5.2.1 Coze 的功能模块",
+        "purpose": "识别插件、知识库和工作流的不同作用。"
+      },
+      {
+        "id": "ch05-q04",
+        "type": "single",
+        "objectiveId": "ch05-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "5.2.2 构建“每日AI简报”助手",
+        "purpose": "追踪每日AI简报从多源插件获取到提示处理、结构化输出的过程。"
+      },
+      {
+        "id": "ch05-q05",
+        "type": "single",
+        "objectiveId": "ch05-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "5.3.1 Dify 的介绍与生态",
+        "purpose": "识别LLMOps、模型接入及RAG在应用平台中的职责。"
+      },
+      {
+        "id": "ch05-q06",
+        "type": "single",
+        "objectiveId": "ch05-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "5.3.2 构建一个超级智能体个人助手",
+        "purpose": "根据个人助手的不同需求分析工具选择与应用编排关系。"
+      },
+      {
+        "id": "ch05-q07",
+        "type": "single",
+        "objectiveId": "ch05-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "5.4.1 FastGPT 介绍与核心功能",
+        "purpose": "识别知识库问答的导入、分块、检索、生成链路。"
+      },
+      {
+        "id": "ch05-q08",
+        "type": "single",
+        "objectiveId": "ch05-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "5.4.2 构建\"智能投顾助手\"",
+        "purpose": "解释投顾案例中知识库、MCP行情工具与用户风险画像如何共同提供上下文。"
+      },
+      {
+        "id": "ch05-q09",
+        "type": "single",
+        "objectiveId": "ch05-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "5.5.3 构建 Agent 的私有知识库",
+        "purpose": "识别更新知识时运行的建库流程与每封邮件触发的问答流程。"
+      },
+      {
+        "id": "ch05-q10",
+        "type": "single",
+        "objectiveId": "ch05-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "5.5.4 创建 Agent 主工作流",
+        "purpose": "分析Agent节点自主选工具在固定外层邮件链路中的灵活性和额外调试成本。"
+      },
+      {
+        "id": "ch05-q11",
+        "type": "single",
+        "objectiveId": "ch05-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "5.5.5 n8n 的优势与局限性分析",
+        "purpose": "识别快速搭建与复杂流程维护、性能之间的权衡。"
+      },
+      {
+        "id": "ch05-q12",
+        "type": "single",
+        "objectiveId": "ch05-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "5.5.1 n8n 的节点与工作流",
+        "purpose": "比较事件触发节点与处理节点，以及固定工作流和其中Agent的决策职责。"
+      },
+      {
+        "id": "ch05-q13",
+        "type": "multiple",
+        "objectiveId": "ch05-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "5.1.2 低代码平台的选择",
+        "purpose": "按快速原型、知识问答、通用自动化和自托管要求比较四平台定位。"
+      },
+      {
+        "id": "ch05-q14",
+        "type": "multiple",
+        "objectiveId": "ch05-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "5.2.3 Coze 的优势与局限性分析",
+        "purpose": "比较插件生态带来的开发便利与平台依赖、定制边界。"
+      },
+      {
+        "id": "ch05-q15",
+        "type": "multiple",
+        "objectiveId": "ch05-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "5.3.3 Dify 的优势与局限性分析",
+        "purpose": "比较本地部署和云服务在运维、数据控制和扩展上的成本。"
+      },
+      {
+        "id": "ch05-q16",
+        "type": "multiple",
+        "objectiveId": "ch05-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "5.4.2 构建\"智能投顾助手\"",
+        "purpose": "为理论提问、当前行情和个性化报告分别选择适合的数据来源和工作流步骤。"
+      },
+      {
+        "id": "ch05-q17",
+        "type": "multiple",
+        "objectiveId": "ch05-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "5.5.4 创建 Agent 主工作流",
+        "purpose": "在邮件触发、知识检索、Agent判断与回复节点间选择正确数据依赖。"
+      },
+      {
+        "id": "ch05-q18",
+        "type": "multiple",
+        "objectiveId": "ch05-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "5.4.3 FastGPT 的优势与局限性分析",
+        "purpose": "在知识检索精细控制、工具兼容及团队开发能力约束下选择平台方案，拒绝将宣传能力当无条件保证。"
+      },
+      {
+        "id": "ch05-q19",
+        "type": "reflection",
+        "objectiveId": "ch05-o04",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "5.4.2 构建\"智能投顾助手\"",
+        "purpose": "为案例设计知识过期、行情工具失败和风险画像缺失时的流程，分别说明证据来源与输出限制；不要求给投资建议。"
+      },
+      {
+        "id": "ch05-q20",
+        "type": "reflection",
+        "objectiveId": "ch05-o05",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "5.5.4 创建 Agent 主工作流",
+        "purpose": "绘制邮件助手的建库与在线两条数据流，解释如何定位错误来自触发、检索、模型或回复节点。"
+      }
+    ],
+    "notes": "各平台按本章历史快照描述，不考当前价格、工具数量和UI按钮位置；避开课件中n8n只能有一个触发器等绝对化断言。截图独有操作不能伪造成文字证据。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:35:00.381098+00:00",
+    "notes": [
+      "逐题对照本地锁定课件审阅20题的题干、答案、全部选项解析及依据，恢复所有题目与蓝图目标/用途的对应关系。",
+      "以连续原文替换拼接、改字和中英混杂引用；补全每个客观题四项解析；保留ID、来源及全部配额。",
+      "移除n8n仅一个触发节点的绝对命题、插件数量记忆题和未经核实的官方SSE推荐；区分配置能力、实时来源覆盖与运行保证。",
+      "思考题按蓝图改为异常处理及双数据流诊断，参考答案明确为设计扩展，未声称已运行。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch05-q01",
+      "stem": "低代码平台降低智能体开发门槛的主要方式是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "完全取消代码开发"
+        },
+        {
+          "id": "b",
+          "text": "将 API 调用、状态管理等细节封装为节点或模块"
+        },
+        {
+          "id": "c",
+          "text": "自动证明所有业务逻辑正确"
+        },
+        {
+          "id": "d",
+          "text": "强制所有业务使用同一个模型"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "节点封装让开发者更专注于业务逻辑。",
+      "optionExplanations": {
+        "a": "平台与代码开发可以互补。",
+        "b": "节点封装让开发者更专注于业务逻辑。",
+        "c": "封装不能代替业务验证。",
+        "d": "模型选择不是低代码的定义。"
+      },
+      "evidence": [
+        {
+          "section": "5.1.1 为何需要低代码平台",
+          "quote": "1. <strong>降低技术门槛</strong>：低代码平台将复杂的技术细节（如 API 调用、状态管理、并发控制）封装成一个个易于理解的“节点”或“模块”。用户无需精通编程，只需通过拖拽、连接这些节点，就能构建出功能强大的工作流。这使得产品经理、设计师、业务专家等非技术人员也能参与到智能体的设计与创造中来，极大地拓宽了创新的边界。\n2. <strong>提升开发效率</strong>：对于专业开发者而言，平台同样能带来巨大的效率提升。在项目初期，当需要快速验证一个想法或搭建一个原型 (Prototype) 时，使用低代码平台可以在数小时甚至数分钟内完成原本需要数天编码的工作。开发者可以将精力更多地投入到业务逻辑梳理和提示工程优化上，而非底层的工程实现。\n3. <strong>提供更优的可视化与可观测性</strong>：相比于在终端中打印日志，图形化的平台天然提供了对智能体运行轨迹的端到端可视化。你可以清晰地看到数据在每一个节点之间如何流动，哪一个环节耗时最长，哪一个工具调用失败。这种直观的调试体验，是纯代码开发难以比拟的。\n4. <strong>标准化与最佳实践沉淀</strong>：优秀的低代码平台通常会内置许多行业内的最佳实践。例如，它会提供预设的 ReAct 模板、优化的知识库检索引擎、标准化的工具接入规范等。这不仅避免了开发者“踩坑”，也使得团队协作更加顺畅，因为所有人都基于同一套标准和组件进行开发。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认低代码将API、状态与编排封装成节点所解决的开发问题。",
+        "misconception": "混淆“自动代码生成”与“可视化模块封装”的概念。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch05-q02",
+      "stem": "一个工作流返回空简报。可视化运行轨迹如何帮助定位问题？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只看最终输出即可确定模型故障"
+        },
+        {
+          "id": "b",
+          "text": "查看各节点的数据流、耗时和失败位置"
+        },
+        {
+          "id": "c",
+          "text": "将所有节点合并即可消除故障"
+        },
+        {
+          "id": "d",
+          "text": "重复运行必然恢复数据"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "节点级轨迹可以帮助区分数据获取、处理与输出的问题。",
+      "optionExplanations": {
+        "a": "空输出也可能源于输入或工具失败。",
+        "b": "节点级轨迹可以帮助区分数据获取、处理与输出的问题。",
+        "c": "合并节点不保证排除故障。",
+        "d": "重试不能代替定位根因。"
+      },
+      "evidence": [
+        {
+          "section": "5.1.1 为何需要低代码平台",
+          "quote": "1. <strong>降低技术门槛</strong>：低代码平台将复杂的技术细节（如 API 调用、状态管理、并发控制）封装成一个个易于理解的“节点”或“模块”。用户无需精通编程，只需通过拖拽、连接这些节点，就能构建出功能强大的工作流。这使得产品经理、设计师、业务专家等非技术人员也能参与到智能体的设计与创造中来，极大地拓宽了创新的边界。\n2. <strong>提升开发效率</strong>：对于专业开发者而言，平台同样能带来巨大的效率提升。在项目初期，当需要快速验证一个想法或搭建一个原型 (Prototype) 时，使用低代码平台可以在数小时甚至数分钟内完成原本需要数天编码的工作。开发者可以将精力更多地投入到业务逻辑梳理和提示工程优化上，而非底层的工程实现。\n3. <strong>提供更优的可视化与可观测性</strong>：相比于在终端中打印日志，图形化的平台天然提供了对智能体运行轨迹的端到端可视化。你可以清晰地看到数据在每一个节点之间如何流动，哪一个环节耗时最长，哪一个工具调用失败。这种直观的调试体验，是纯代码开发难以比拟的。\n4. <strong>标准化与最佳实践沉淀</strong>：优秀的低代码平台通常会内置许多行业内的最佳实践。例如，它会提供预设的 ReAct 模板、优化的知识库检索引擎、标准化的工具接入规范等。这不仅避免了开发者“踩坑”，也使得团队协作更加顺畅，因为所有人都基于同一套标准和组件进行开发。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释节点输入输出和可视化调试如何降低集成成本。",
+        "misconception": "不了解各平台在分发渠道上的独特性。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch05-q03",
+      "stem": "在 Coze 中，插件、知识库和工作流的职责如何区分？",
+      "options": [
+        {
+          "id": "a",
+          "text": "插件是外部能力，知识库提供资料，工作流组织处理路径"
+        },
+        {
+          "id": "b",
+          "text": "知识库负责发布，插件只负责排版"
+        },
+        {
+          "id": "c",
+          "text": "工作流就是模型的训练参数"
+        },
+        {
+          "id": "d",
+          "text": "提示词本身可以替代所有信息源"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "课件用技能卡、百科全书和路线图分别比喻这三类组件。",
+      "optionExplanations": {
+        "a": "课件用技能卡、百科全书和路线图分别比喻这三类组件。",
+        "b": "发布管理与知识库的职责不同。",
+        "c": "工作流组织步骤，不是模型参数。",
+        "d": "提示词无法替代外部信息获取。"
+      },
+      "evidence": [
+        {
+          "section": "5.2.1 Coze 的功能模块",
+          "quote": "- 工作流： 关卡通关路线图\n- 对话流：NPC 对话通关\n- 插件：角色技能卡\n- 知识库：游戏百科全书\n- 卡片：快捷道具栏\n- 提示词：角色的移动键\n- 数据库：“云存档”\n- 发布管理：关卡审核员\n- 模型管理：游戏角色库或者叫捏脸系统\n- 效果评测：闯关评分系统",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别插件、知识库和工作流的不同作用。",
+        "misconception": "误认为开源平台在兼容性和部署方式上存在局限。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch05-q04",
+      "stem": "每日 AI 简报如何把 RSS、GitHub 和 arXiv 信息交给模型处理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只在提示中列出网站名"
+        },
+        {
+          "id": "b",
+          "text": "将配置好的信息源插件作为输入节点，连接后续模型处理模块"
+        },
+        {
+          "id": "c",
+          "text": "先生成结论，再让插件寻找一致的材料"
+        },
+        {
+          "id": "d",
+          "text": "用知识库文件名替代插件返回内容"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "先获取多源数据，再连接处理模块，形成数据路径。",
+      "optionExplanations": {
+        "a": "网站名不等于已经取得的数据。",
+        "b": "先获取多源数据，再连接处理模块，形成数据路径。",
+        "c": "应依据获取的信息加工，不应先定结论再挑证据。",
+        "d": "文件名不包含实际检索内容。"
+      },
+      "evidence": [
+        {
+          "section": "5.2.2 构建“每日AI简报”助手",
+          "quote": "3.  <strong>编排连接:</strong> 在智能体的可视化编排界面中，将这些已配置的信息源插件（例如 `rss_24Hbj`、`searchRepository`、`arxiv` 等）作为数据输入节点，并将其连接至后续的逻辑处理模块（例如<strong>大模型</strong>模块），以构建完整的数据处理路径，如图5.9所示。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪每日AI简报从多源插件获取到提示处理、结构化输出的过程。",
+        "misconception": "忽视了多模态索引在知识库构建中的作用。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch05-q05",
+      "stem": "课件所说的 Dify“模型中立”指什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "无需配置即可调用任何服务"
+        },
+        {
+          "id": "b",
+          "text": "可以配置接入不同模型，并通过统一接口使用其推理能力"
+        },
+        {
+          "id": "c",
+          "text": "模型切换后输出质量一定相同"
+        },
+        {
+          "id": "d",
+          "text": "Dify 本身就是一个固定的大语言模型"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "模型中立强调对不同模型服务的接入能力。",
+      "optionExplanations": {
+        "a": "接入仍需必要配置。",
+        "b": "模型中立强调对不同模型服务的接入能力。",
+        "c": "接口统一不保证模型能力相同。",
+        "d": "Dify 是应用开发平台。"
+      },
+      "evidence": [
+        {
+          "section": "5.3.1 Dify 的介绍与生态",
+          "quote": "Dify 对模型高度中立且兼容性强：无论开源或商业模型，用户都可通过简单配置将其接入，并通过统一接口调用其推理能力。其内置支持对数百种开源或专有 LLM 的集成，涵盖 GPT、Deepseek、Llama等模型，以及任何兼容 OpenAI API 的模型。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别LLMOps、模型接入及RAG在应用平台中的职责。",
+        "misconception": "误认为工作流可以有多个入口或触发方式受限。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch05-q06",
+      "stem": "Dify 个人助手同时提供文案、数据分析和地图服务，课件如何组织请求分发？",
+      "options": [
+        {
+          "id": "a",
+          "text": "每次把全部工具结果都拼进提示"
+        },
+        {
+          "id": "b",
+          "text": "为各模块定义功能范围，由问题分类器路由"
+        },
+        {
+          "id": "c",
+          "text": "只换角色名称便会自动获得工具权限"
+        },
+        {
+          "id": "d",
+          "text": "让数据库连接承担全部意图识别"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "分类器依据模块功能范围分发请求，工具仍需配置。",
+      "optionExplanations": {
+        "a": "无差别加载会混淆职责。",
+        "b": "分类器依据模块功能范围分发请求，工具仍需配置。",
+        "c": "角色名称不能替代工具接入。",
+        "d": "数据库连接与请求路由不同。"
+      },
+      "evidence": [
+        {
+          "section": "5.3.2 构建一个超级智能体个人助手",
+          "quote": "针对多智能体架构，我们使用问题分类器进行智能路由。在分类器中为每个智能体定义核心功能和任务范围，确保用户请求能够准确分发到对应的处理模块。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "根据个人助手的不同需求分析工具选择与应用编排关系。",
+        "misconception": "低估了插件在获取实时外部数据中的作用。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch05-q07",
+      "stem": "FastGPT 知识库问答的核心链路是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "数据导入—智能分块—向量检索—对话生成"
+        },
+        {
+          "id": "b",
+          "text": "直接训练一个新模型—删除文档"
+        },
+        {
+          "id": "c",
+          "text": "发布页面—自动获得所有知识"
+        },
+        {
+          "id": "d",
+          "text": "先生成答案—再随意添加引用"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "课件围绕文档处理、检索与生成优化知识库问答。",
+      "optionExplanations": {
+        "a": "课件围绕文档处理、检索与生成优化知识库问答。",
+        "b": "知识库问答不要求重新训练模型。",
+        "c": "发布页面不等于构建知识索引。",
+        "d": "引用应支持答案，不能事后随意拼接。"
+      },
+      "evidence": [
+        {
+          "section": "5.4.1 FastGPT 介绍与核心功能",
+          "quote": "FastGPT 是一个开源的、基于大语言模型的知识库问答平台与 Agent 构建工具，其核心定位是\"企业级 AI 生产力引擎\"，专注于提供简单易用的 RAG（检索增强生成）解决方案和可视化工作流编排能力。与 Coze 的零代码体验和 Dify 的全栈开发能力不同，FastGPT 将知识库问答作为第一等公民，围绕\"数据导入—智能分块—向量检索—对话生成\"这一完整链路进行了深度优化。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别知识库问答的导入、分块、检索、生成链路。",
+        "misconception": "误认为开源平台的工具链不如闭源平台丰富。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch05-q08",
+      "stem": "投顾教学案例为什么区分知识库、实时 MCP 工具和风险问卷？",
+      "options": [
+        {
+          "id": "a",
+          "text": "三者都只存储相同的股票价格"
+        },
+        {
+          "id": "b",
+          "text": "分别提供理论资料、外部行情和用户画像，供不同分支使用"
+        },
+        {
+          "id": "c",
+          "text": "问卷可以证明未来收益"
+        },
+        {
+          "id": "d",
+          "text": "知识库建成后可替代实时查询"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "意图识别将不同需求送入适合的资料和处理分支。",
+      "optionExplanations": {
+        "a": "三者的数据职责不同。",
+        "b": "意图识别将不同需求送入适合的资料和处理分支。",
+        "c": "问卷描述风险画像，不能证明收益。",
+        "d": "静态资料不能替代实时行情来源。"
+      },
+      "evidence": [
+        {
+          "section": "5.4.2 构建\"智能投顾助手\"",
+          "quote": "工作流的核心逻辑如下：\n\n1. **意图识别节点**：首先判断用户的输入类型。如果是金融概念咨询，走知识库检索分支；如果是股票查询，走 MCP 工具调用分支；如果是投资诊断，则进入风险问卷收集流程。\n2. **投资知识教育专员**：连接到预先构建的金融知识库，检索相关的投资理论、概念解释和案例分析。\n3. **风险评估分析师**：通过表单输入节点引导用户完成风险评估问卷，包括年龄、投资经验、月收入水平、风险承受能力和投资目标等维度，然后将数据传递给后续大模型节点进行市场环境、基本面、新闻情绪分析，整合用户画像、市场数据和新闻信息，调用大模型生成结构化的投资策略分析报告。\n4. **市场新闻情报专员**：根据用户需求调用实时股票 MCP 或图表生成 MCP，获取外部数据。\n5. **通用咨询专员**：根据用户咨询问题回复一下简单的内容，比如\"你好\"、\"你好吗\"等。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释投顾案例中知识库、MCP行情工具与用户风险画像如何共同提供上下文。",
+        "misconception": "误认为复杂任务只能由单一全能智能体处理。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch05-q09",
+      "stem": "n8n 邮件助手的私有知识发生更新时，课件建议先运行哪类流程？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只发送一封空邮件"
+        },
+        {
+          "id": "b",
+          "text": "知识源处理、向量化和写入向量存储的准备流程"
+        },
+        {
+          "id": "c",
+          "text": "清空模型参数"
+        },
+        {
+          "id": "d",
+          "text": "只修改 Gmail 收件人字段"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "课件把知识准备流程与邮件在线处理流程分开，更新知识时运行准备流程。",
+      "optionExplanations": {
+        "a": "空邮件不构建知识索引。",
+        "b": "课件把知识准备流程与邮件在线处理流程分开，更新知识时运行准备流程。",
+        "c": "此流程不修改模型参数。",
+        "d": "收件人字段与建库无关。"
+      },
+      "evidence": [
+        {
+          "section": "5.5.3 构建 Agent 的私有知识库",
+          "quote": "在 n8n 中，我们可以使用 `Simple Vector Store` 节点在内存中快速构建一个知识库。这个准备流程通常只需要在更新知识时运行一次。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别更新知识时运行的建库流程与每封邮件触发的问答流程。",
+        "misconception": "不理解 RAG 如何通过外部事实参考缓解大模型幻觉。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch05-q10",
+      "stem": "邮件外层流程固定为接收—处理—回复，内部使用 AI Agent 选择检索工具的权衡是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "外层固定便保证每次选工具正确"
+        },
+        {
+          "id": "b",
+          "text": "可以灵活选择工具，但需检查输入、工具结果与模型输出"
+        },
+        {
+          "id": "c",
+          "text": "可以省略工具的描述和配置"
+        },
+        {
+          "id": "d",
+          "text": "只要写好角色就不需要调试"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "Agent 整合模型、记忆和工具；复杂流程仍需逐节点调试。",
+      "optionExplanations": {
+        "a": "固定连接不保证模型决策正确。",
+        "b": "Agent 整合模型、记忆和工具；复杂流程仍需逐节点调试。",
+        "c": "工具用途和参数影响选择。",
+        "d": "提示词不能代替流程验证。"
+      },
+      "evidence": [
+        {
+          "section": "5.5.4 创建 Agent 主工作流",
+          "quote": "这是整个工作流的大脑。从节点菜单中拖出一个 `AI Agent` 节点，并进行如下配置：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        },
+        {
+          "section": "5.5.5 n8n 的优势与局限性分析",
+          "quote": "在<strong>开发效率</strong>的背后，是<strong>调试与错误处理的相对繁琐</strong>。当工作流变得复杂时，一旦出现数据格式错误，开发者可能需要逐个节点检查其输入输出来定位问题，这有时不如在代码中设置断点来得直接。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "分析Agent节点自主选工具在固定外层邮件链路中的灵活性和额外调试成本。",
+        "misconception": "低估了 Prompt 工程在低代码工作流中的逻辑控制权重。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch05-q11",
+      "stem": "如何理解 n8n 快速原型开发与生产维护之间的关系？",
+      "options": [
+        {
+          "id": "a",
+          "text": "原型能运行就无需考虑持久化"
+        },
+        {
+          "id": "b",
+          "text": "可视化加快搭建，但复杂流程的调试、持久化和性能仍需评估"
+        },
+        {
+          "id": "c",
+          "text": "私有部署自动消除所有外部数据传输"
+        },
+        {
+          "id": "d",
+          "text": "所有工作流都比代码服务更快"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "低代码降低搭建成本，同时保留工程维护与性能取舍。",
+      "optionExplanations": {
+        "a": "原型与生产可靠性要求不同。",
+        "b": "低代码降低搭建成本，同时保留工程维护与性能取舍。",
+        "c": "外部模型或服务调用仍可能传输数据。",
+        "d": "课件指出超高并发下可能存在节点调度开销。"
+      },
+      "evidence": [
+        {
+          "section": "5.5.5 n8n 的优势与局限性分析",
+          "quote": "在<strong>开发效率</strong>的背后，是<strong>调试与错误处理的相对繁琐</strong>。当工作流变得复杂时，一旦出现数据格式错误，开发者可能需要逐个节点检查其输入输出来定位问题，这有时不如在代码中设置断点来得直接。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别快速搭建与复杂流程维护、性能之间的权衡。",
+        "misconception": "不清楚 MCP 在特定平台上的最佳实践配置。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch05-q12",
+      "stem": "n8n 邮件工作流中，Gmail 接收事件与后续模型处理节点的区别是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "前者启动流程，后者处理输入并产生结果"
+        },
+        {
+          "id": "b",
+          "text": "前者执行所有推理，后者只启动流程"
+        },
+        {
+          "id": "c",
+          "text": "二者都必须是定时器"
+        },
+        {
+          "id": "d",
+          "text": "二者都直接修改模型训练权重"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "触发节点负责启动，常规节点负责具体数据处理。",
+      "optionExplanations": {
+        "a": "触发节点负责启动，常规节点负责具体数据处理。",
+        "b": "启动与处理的职责不可倒置。",
+        "c": "触发方式还可包括邮件事件和 Webhook。",
+        "d": "工作流节点不等于模型训练步骤。"
+      },
+      "evidence": [
+        {
+          "section": "5.5.1 n8n 的节点与工作流",
+          "quote": "- <strong>节点 (Node)</strong>：节点是工作流中执行具体操作的最小单元。你可以把它想象成一个具有特定功能的“积木块”。n8n 提供了数百种预置节点，涵盖了从发送邮件、读写数据库、调用 API 到处理文件等各种常见操作。每个节点都有输入和输出，并提供图形化的配置界面。节点大致可以分为两类：\n  - <strong>触发节点 (Trigger Node)</strong>：它是整个工作流的起点，负责启动流程。例如，“当收到一封新的 Gmail 邮件时”、“每小时定时触发一次”或“当接收到一个 Webhook 请求时”。一个工作流必须有且仅有一个触发节点。\n  - <strong>常规节点 (Regular Node)</strong>：负责处理具体的数据和逻辑。例如，“读取 Google Sheets 表格”、“调用 OpenAI 模型”或“在数据库中插入一条记录”。\n- <strong>工作流 (Workflow)</strong>：工作流是由多个节点连接而成的自动化流程图。它定义了数据从触发节点开始，如何一步步地在不同节点之间传递、被处理，并最终完成预设任务的完整路径。数据在节点之间以结构化的 JSON 格式进行传递，这使得我们可以精确地控制每一个环节的输入和输出。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较事件触发节点与处理节点，以及固定工作流和其中Agent的决策职责。",
+        "misconception": "忽视了低代码平台内存存储在可靠性上的致命风险。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch05-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch05-q13",
+      "stem": "根据本章的平台定位，下列需求与选型理由哪些合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "非技术团队快速验证交互助手，可考察 Coze"
+        },
+        {
+          "id": "b",
+          "text": "私有文档问答并关注 RAG 配置，可考察 FastGPT"
+        },
+        {
+          "id": "c",
+          "text": "连接多个已有业务系统，可考察 n8n"
+        },
+        {
+          "id": "d",
+          "text": "任何极端并发需求都应直接选择 n8n，无需测试"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Coze 强调可视化低门槛。 FastGPT 重点优化知识库问答。 n8n 强调服务和业务流程连接。",
+      "design": {
+        "purpose": "按快速原型、知识问答、通用自动化和自托管要求比较四平台定位。",
+        "misconception": "误认为低代码平台在所有极限性能维度上都等同于纯代码。"
+      },
+      "evidence": [
+        {
+          "section": "5.1.2 低代码平台的选择",
+          "quote": "- <strong>核心定位</strong>：由字节跳动推出的 Coze<sup>[1]</sup>，主打零代码/低代码的 Agent 的构建体验，让不具备编程背景的用户也能轻松创造。\n- <strong>特点分析</strong>：Coze 拥有极其友好的可视化界面，用户可以像搭建乐高积木一样，通过拖拽插件、配置知识库和设定工作流来创建智能体。其内置了极为丰富的插件库，并支持一键发布到抖音、飞书、微信公众号等多个主流平台，极大地简化了分发流程。\n- <strong>适用人群</strong>：AI 应用的入门用户、产品经理、运营人员，以及希望快速将创意变为可交互产品的个人创作者。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        },
+        {
+          "section": "5.1.2 低代码平台的选择",
+          "quote": "- <strong>核心定位</strong>：FastGPT 是一个开源的、基于 LLM 大语言模型的知识库问答平台与 Agent 构建工具<sup>[3]</sup>，专注于提供简单易用的 RAG（检索增强生成）解决方案和可视化工作流编排能力。\n- <strong>特点分析</strong>：FastGPT 最核心的优势在于其对知识库问答场景的极致优化。它提供了从数据导入、自动文本分块、向量化存储到智能检索的完整 RAG 链路，并支持通过直观的可视化界面（Flow 模块）编排复杂的对话流程和 Agent 工作流。平台采用模型中立设计，可灵活对接 OpenAI、Claude、通义千问等多种国内外主流大模型，同时提供了完善的 API 接口和插件市场，便于与企业微信、钉钉、飞书等现有系统快速集成。\n- <strong>适用人群</strong>：希望基于私有知识库快速搭建智能客服、企业内部知识助手、文档问答机器人的开发者和中小企业团队，以及对 RAG 技术感兴趣但希望降低实现门槛的技术爱好者。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        },
+        {
+          "section": "5.1.2 低代码平台的选择",
+          "quote": "- <strong>特点分析</strong>：n8n 的强项在于“连接”。它拥有数百个预置的节点，可以轻松地将各类 SaaS 服务、数据库、API 连接成复杂的自动化业务流程。你可以在这个流程中嵌入 LLM 节点，使其成为整个自动化链路中的一环。虽然在 LLM 功能的专一度上不如前两者，但其通用自动化能力是独一无二的。不过，其学习曲线也相对陡峭。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch05-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "Coze 强调可视化低门槛。",
+        "b": "FastGPT 重点优化知识库问答。",
+        "c": "n8n 强调服务和业务流程连接。",
+        "d": "定位不能替代并发性能测试。"
+      }
+    },
+    {
+      "id": "ch05-q14",
+      "stem": "团队用 Coze 做多源简报时，哪些取舍值得在实施前验证？",
+      "options": [
+        {
+          "id": "a",
+          "text": "插件生态有助于快速接入信息源"
+        },
+        {
+          "id": "b",
+          "text": "插件接入凭证和具体配置仍可能增加成本"
+        },
+        {
+          "id": "c",
+          "text": "丰富插件意味着跨平台迁移无需任何适配"
+        },
+        {
+          "id": "d",
+          "text": "应检查目标平台支持的配置导出与工具接入方式"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "本章展示了多源插件组合的便利。 插件丰富不代表所有配置都简单。 课件讨论了配置复杂度和导入导出限制，实际能力需按所用版本核实。",
+      "design": {
+        "purpose": "比较插件生态带来的开发便利与平台依赖、定制边界。",
+        "misconception": "误认为低代码是“功能阉割版”的开发方式。"
+      },
+      "evidence": [
+        {
+          "section": "5.2.3 Coze 的优势与局限性分析",
+          "quote": "* <strong>不支持MCP:</strong> 我觉得这是最致命的，尽管扣子的插件市场极其丰富，也极其有吸引力。但是不支持mcp可能会成为限制其发展的枷锁，如果放开那将是又一杀手锏。\n  * <strong>部分插件配置的复杂度高:</strong> 对于需要 API Key 或其他高级参数的插件，用户可能需要具备一定的技术背景才能完成正确的配置。复杂的工作流编排也不仅仅是零基础就可以掌握的，需要一定的js或者python的基础。\n  * <strong>无法直接导入编排json文件:</strong> 之前扣子是没有导出导入功能的，但是现在付费版是可以导出导入的，但是导出导入的不是像dify,n8n一样的json文件，而是一个zip。也就是说你只能在扣子导出然后扣子导入这个zip。不过你取巧的话也可以选择复制编排，在编排界面ctrl+a选中全部ctrl+c复制编排，然后到另一个空白的工作流或者其他工作流粘贴编排。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        },
+        {
+          "section": "5.2.2 构建“每日AI简报”助手",
+          "quote": "* <strong>多源信息聚合:</strong> 利用 Coze 的插件生态，实现跨平台、跨类型的数据流无缝集成。\n  * <strong>智能体行为定义:</strong> 通过角色设定和提示词（Prompt）工程，精准控制智能体的任务执行与内容生成，确保输出符合预设的专业标准。\n  * <strong>自动化工作流构建:</strong> 学习如何将数据获取、内容处理与格式化输出等多个步骤串联成一个高效、自动化的工作流。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch05-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "本章展示了多源插件组合的便利。",
+        "b": "插件丰富不代表所有配置都简单。",
+        "c": "生态丰富不能证明配置可无损迁移。",
+        "d": "课件讨论了配置复杂度和导入导出限制，实际能力需按所用版本核实。"
+      }
+    },
+    {
+      "id": "ch05-q15",
+      "stem": "选择 Dify 本地部署或云服务时，下列判断哪些合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "本地部署增加对运行环境的控制，也需要承担部署维护"
+        },
+        {
+          "id": "b",
+          "text": "云服务可降低自建运维负担，但仍需评估数据与服务边界"
+        },
+        {
+          "id": "c",
+          "text": "模型中立意味着所有插件和模型都能零配置运行"
+        },
+        {
+          "id": "d",
+          "text": "复杂业务和高并发仍需验证性能并优化"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "课件提供本地与云端选择，控制和维护责任需要一起考虑。 部署便利性与数据控制应按需求权衡。 课件明确提到高并发场景的性能挑战。",
+      "design": {
+        "purpose": "比较本地部署和云服务在运维、数据控制和扩展上的成本。",
+        "misconception": "误以为 Coze 彻底解决了跨平台编排文件的兼容性问题。"
+      },
+      "evidence": [
+        {
+          "section": "5.3.1 Dify 的介绍与生态",
+          "quote": "同时，Dify 支持本地部署（官方提供 Docker Compose 一键启动）和云端部署。用户可以选择将 Dify 自建部署在本地/私有环境（保障数据隐私），也可以使用官方 SaaS 云服务（下述商业模式部分详述）。这种部署灵活性使其适用于对安全性有要求的企业内网环境或对运维便利性有要求的开发者群体。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        },
+        {
+          "section": "5.3.3 Dify 的优势与局限性分析",
+          "quote": "- 学习曲线较陡：对于完全没有技术背景的用户，仍然存在一定的学习曲线​\n​\n- 性能瓶颈：在高并发场景下可能面临性能挑战，需要进行适当的优化​。Dify 系统的核心服务端组件由 Python 语言实现，与 C++、Golang、Rust 等语言相比，性能表现相对较差\n​\n- 多模态支持不足：当前主要以文本处理为主，对图像、视频、HTML等的支持有限​\n​\n- 企业版成本较高：Dify 的企业版定价相对较高，可能超出小型团队的预算​\n​\n- API 兼容性问题：Dify 的 API 格式不兼容 OpenAI，可能限制与某些第三方系统的集成​",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch05-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "课件提供本地与云端选择，控制和维护责任需要一起考虑。",
+        "b": "部署便利性与数据控制应按需求权衡。",
+        "c": "接入仍需要模型与工具配置。",
+        "d": "课件明确提到高并发场景的性能挑战。"
+      }
+    },
+    {
+      "id": "ch05-q16",
+      "stem": "为投顾教学助手设计三个请求分支，哪些数据依赖合理？",
+      "options": [
+        {
+          "id": "a",
+          "text": "概念解释检索金融知识库"
+        },
+        {
+          "id": "b",
+          "text": "当前行情调用相应实时数据工具"
+        },
+        {
+          "id": "c",
+          "text": "个性化分析先收集风险问卷并结合相关数据"
+        },
+        {
+          "id": "d",
+          "text": "缺少画像时直接假定所有用户承受能力相同"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "知识库适合检索理论与概念资料。 时效数据需由对应外部工具获取。 案例将问卷画像与市场等数据共同用于分析。",
+      "design": {
+        "purpose": "为理论提问、当前行情和个性化报告分别选择适合的数据来源和工作流步骤。",
+        "misconception": "混淆应用软件内置安全功能与物理基础设施安全。"
+      },
+      "evidence": [
+        {
+          "section": "5.4.2 构建\"智能投顾助手\"",
+          "quote": "工作流的核心逻辑如下：\n\n1. **意图识别节点**：首先判断用户的输入类型。如果是金融概念咨询，走知识库检索分支；如果是股票查询，走 MCP 工具调用分支；如果是投资诊断，则进入风险问卷收集流程。\n2. **投资知识教育专员**：连接到预先构建的金融知识库，检索相关的投资理论、概念解释和案例分析。\n3. **风险评估分析师**：通过表单输入节点引导用户完成风险评估问卷，包括年龄、投资经验、月收入水平、风险承受能力和投资目标等维度，然后将数据传递给后续大模型节点进行市场环境、基本面、新闻情绪分析，整合用户画像、市场数据和新闻信息，调用大模型生成结构化的投资策略分析报告。\n4. **市场新闻情报专员**：根据用户需求调用实时股票 MCP 或图表生成 MCP，获取外部数据。\n5. **通用咨询专员**：根据用户咨询问题回复一下简单的内容，比如\"你好\"、\"你好吗\"等。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch05-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "optionExplanations": {
+        "a": "知识库适合检索理论与概念资料。",
+        "b": "时效数据需由对应外部工具获取。",
+        "c": "案例将问卷画像与市场等数据共同用于分析。",
+        "d": "缺失画像不应被无依据的统一假设替代。"
+      }
+    },
+    {
+      "id": "ch05-q17",
+      "stem": "n8n 已完成知识写入，但邮件助手检索失败或串用历史。哪些检查有针对性？",
+      "options": [
+        {
+          "id": "a",
+          "text": "读取工具的 Memory Key 与写入时一致"
+        },
+        {
+          "id": "b",
+          "text": "读取时的 Embeddings 模型与建库时一致"
+        },
+        {
+          "id": "c",
+          "text": "对话记忆 Key 关联对应的邮件 threadId"
+        },
+        {
+          "id": "d",
+          "text": "将所有邮件统一设置同一个对话记忆 Key"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "Memory Key 用来访问对应知识库。 查询与文档向量需要匹配的嵌入配置。 课件通过 threadId 区分邮件对话线索。",
+      "design": {
+        "purpose": "在邮件触发、知识检索、Agent判断与回复节点间选择正确数据依赖。",
+        "misconception": "误认为金融智能体可以被授予越权的资产控制能力。"
+      },
+      "evidence": [
+        {
+          "section": "5.5.4 创建 Agent 主工作流",
+          "quote": "对于 `Simple Vector Store` 工具，我们需要进行关键配置，以确保它能正确“读取”我们之前存入的知识：\n\n- <strong>Operation Mode</strong>: `Retrieve Documents (As Tool for AI Agent)` (作为工具的读取模式)。\n- <strong>Memory Key</strong>: 必须填写与第一部分<strong>完全相同</strong>的 Key，即 `my-dailytime`。\n- <strong>Embeddings</strong>: 必须使用与第一部分<strong>完全相同</strong>的 `Embeddings Google Gemini` 模型。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        },
+        {
+          "section": "5.5.4 创建 Agent 主工作流",
+          "quote": "对于Memory唯一需要注意的是，这里我们使用每个邮箱的线程名作为唯一标识，能保证存储的唯一性，设置的Key为`{{ $('Gmail').item.json.threadId }}`",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch05-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "optionExplanations": {
+        "a": "Memory Key 用来访问对应知识库。",
+        "b": "查询与文档向量需要匹配的嵌入配置。",
+        "c": "课件通过 threadId 区分邮件对话线索。",
+        "d": "统一 Key 会混用不同对话的历史。"
+      }
+    },
+    {
+      "id": "ch05-q18",
+      "stem": "团队考虑 FastGPT 构建企业知识助手，下列判断哪些符合工程取舍？",
+      "options": [
+        {
+          "id": "a",
+          "text": "可利用分块、索引与召回配置优化私有文档问答"
+        },
+        {
+          "id": "b",
+          "text": "支持 MCP 并不省去寻找服务、认证和参数配置"
+        },
+        {
+          "id": "c",
+          "text": "免费套餐必然满足团队长期容量与并发需求"
+        },
+        {
+          "id": "d",
+          "text": "应把模板生态、用量限制与团队维护能力一起评估"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "精细 RAG 配置是课件强调的优势。 课件同时指出寻找和配置 MCP 服务存在门槛。 平台能力与使用成本需要共同评估。",
+      "design": {
+        "purpose": "在知识检索精细控制、工具兼容及团队开发能力约束下选择平台方案，拒绝将宣传能力当无条件保证。",
+        "misconception": "混淆应用层自动化与底层系统管理。"
+      },
+      "evidence": [
+        {
+          "section": "5.4.3 FastGPT 的优势与局限性分析",
+          "quote": "- **模板生态相对薄弱**：相比 Coze 丰富的插件商店和 Dify 超过 8000 个插件的 Marketplace，FastGPT 的官方模板和预置工具数量相对有限。虽然 MCP 协议在一定程度上弥补了这一短板，但对于非技术用户而言，寻找和配置合适的 MCP 服务仍存在一定门槛。\n- **免费版额度较为紧张**：免费版仅提供 100 积分和 30 QPM 的调用速率，对于需要频繁测试和迭代的开发者来说，额度消耗较快。知识库索引数量和团队成员数量的限制，也使得免费版难以支撑稍具规模的团队协作。\n- **社区与文档仍在完善中**：作为一个相对年轻的开源项目，FastGPT 的社区活跃度和英文文档完善度与 Dify、n8n 等成熟平台相比还有一定差距。遇到边缘问题时，可能需要深入源码或社区求助。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        },
+        {
+          "section": "5.4.3 FastGPT 的优势与局限性分析",
+          "quote": "- **极致的知识库体验**：FastGPT 最核心的优势在于其对 RAG 链路的深度打磨。从文件上传、智能分块、索引增强、图片识别到检索召回，每一个环节都提供了精细化的配置选项和透明化的调试界面。对于需要基于私有知识库构建问答系统的场景（如企业知识助手、智能客服、专业领域咨询），FastGPT 提供了开箱即用的优秀体验。\n- **原生 MCP 支持**：与 Coze 不同，FastGPT 原生支持 MCP 协议，能够无缝对接魔搭社区、阿里云百炼等生态中的大量 MCP 服务。这使得智能体的工具扩展能力不再受限于平台内置的插件库，开发者可以自由接入任何符合 MCP 标准的第三方工具。\n- **模型中立设计**：FastGPT 支持灵活对接 OpenAI、Claude、通义千问、DeepSeek 等多种国内外主流大模型，用户可以根据业务需求和成本考量自由切换底层模型，避免了被单一模型供应商绑定的风险。\n- **可视化工作流编排**：Flow 模块提供了直观的节点式编排界面，复杂的多分支逻辑（如本案例中的意图识别、问卷收集、报告生成）可以通过拖拽方式快速构建，降低了非开发者的上手门槛。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch05-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "optionExplanations": {
+        "a": "精细 RAG 配置是课件强调的优势。",
+        "b": "课件同时指出寻找和配置 MCP 服务存在门槛。",
+        "c": "套餐限制需要按需求核实，不能假定充足。",
+        "d": "平台能力与使用成本需要共同评估。"
+      }
+    },
+    {
+      "id": "ch05-q19",
+      "stem": "投顾教学助手遇到知识库过期、实时工具失败和风险画像缺失时，应如何分别处理？说明证据来源与输出限制，不需给出投资建议。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "本题为开放性设计题，参考答案是基于课件机制提出的方案，不代表已经运行验证。",
+      "optionExplanations": {},
+      "evidence": [
+        {
+          "section": "5.4.2 构建\"智能投顾助手\"",
+          "quote": "工作流的核心逻辑如下：\n\n1. **意图识别节点**：首先判断用户的输入类型。如果是金融概念咨询，走知识库检索分支；如果是股票查询，走 MCP 工具调用分支；如果是投资诊断，则进入风险问卷收集流程。\n2. **投资知识教育专员**：连接到预先构建的金融知识库，检索相关的投资理论、概念解释和案例分析。\n3. **风险评估分析师**：通过表单输入节点引导用户完成风险评估问卷，包括年龄、投资经验、月收入水平、风险承受能力和投资目标等维度，然后将数据传递给后续大模型节点进行市场环境、基本面、新闻情绪分析，整合用户画像、市场数据和新闻信息，调用大模型生成结构化的投资策略分析报告。\n4. **市场新闻情报专员**：根据用户需求调用实时股票 MCP 或图表生成 MCP，获取外部数据。\n5. **通用咨询专员**：根据用户咨询问题回复一下简单的内容，比如\"你好\"、\"你好吗\"等。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "为案例设计知识过期、行情工具失败和风险画像缺失时的流程，分别说明证据来源与输出限制；不要求给投资建议。",
+        "misconception": "误认为静态知识库一劳永逸，忽视了实时工具对金融场景的必要性。"
+      },
+      "referenceAnswer": "可将理论问题送入知识库，时效问题送入覆盖该类数据的实时工具，个性化分析先补齐问卷。知识过期时核验资料时间并更新；工具失败时明确未取得实时数据，避免用旧数据冒充当前事实；画像缺失时追问，暂缓个性化判断。股票报价工具未必提供政策新闻，需按工具实际覆盖范围选择来源。以上是根据案例分支设计的故障处理扩展，需测试。",
+      "rubric": [
+        "区分三类缺失及其影响",
+        "为问题选择实际覆盖所需数据的来源",
+        "失败时明确限制并保留待核验信息",
+        "画像不足时补充信息而非编造"
+      ],
+      "type": "reflection",
+      "objectiveId": "ch05-o04",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch05-q20",
+      "stem": "画出 n8n 邮件助手的建库和在线回复两条数据流，并说明如何区分触发、检索、模型与回复节点的故障。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "本题为开放性设计题，参考答案是基于课件机制提出的方案，不代表已经运行验证。",
+      "optionExplanations": {},
+      "evidence": [
+        {
+          "section": "5.5.3 构建 Agent 的私有知识库",
+          "quote": "在 n8n 中，我们可以使用 `Simple Vector Store` 节点在内存中快速构建一个知识库。这个准备流程通常只需要在更新知识时运行一次。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        },
+        {
+          "section": "5.5.4 创建 Agent 主工作流",
+          "quote": "最后一步是执行。将 `AI Agent` 节点的输出连接到一个 `Gmail` 节点，<strong>Operation</strong> 设为 `Send`。使用 n8n 表达式，将收件人、主题和正文分别关联到 `AI Agent` 输出的 JSON 数据中的相应字段，即可实现邮件的自动回复，如图5.63所示。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter5/%E7%AC%AC%E4%BA%94%E7%AB%A0%20%E5%9F%BA%E4%BA%8E%E4%BD%8E%E4%BB%A3%E7%A0%81%E5%B9%B3%E5%8F%B0%E7%9A%84%E6%99%BA%E8%83%BD%E4%BD%93%E6%90%AD%E5%BB%BA.md"
+        }
+      ],
+      "design": {
+        "purpose": "绘制邮件助手的建库与在线两条数据流，解释如何定位错误来自触发、检索、模型或回复节点。",
+        "misconception": "认为图形化开发在所有运维管理维度上都优于纯代码。"
+      },
+      "referenceAnswer": "建库：知识源→文档处理和 Embeddings→向量存储写入。在线：Gmail 新邮件→AI Agent（模型、按 threadId 区分的记忆及检索工具）→Gmail 发送。检查是否产生触发事件、知识库 Key 与嵌入配置是否匹配、模型是否得到有效工具结果以及发送节点的收件人/主题/正文映射。生成回复与成功发送应分别核验；长期使用还需验证持久化方案。",
+      "rubric": [
+        "清楚区分知识准备和逐邮件处理",
+        "说明知识库 Key、嵌入模型和对话 Key 的作用",
+        "逐环节检查输入输出而非只归因于模型",
+        "区分生成内容与发送结果"
+      ],
+      "type": "reflection",
+      "objectiveId": "ch05-o05",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard"
+    }
+  ]
+}

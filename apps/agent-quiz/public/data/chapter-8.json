@@ -1,0 +1,1357 @@
+{
+  "id": 8,
+  "title": "第八章 记忆与检索",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第八章 记忆与检索",
+    "path": "docs/chapter8/第八章 记忆与检索.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md",
+    "sha256": "7882c2d11eb67382a29ef6fb72369d776ba56a9fd357896a836b7833472ecff8",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "8e6ec8f8-1aaa-423a-9ebf-ae0d1cbd9adb",
+    "artifactId": "9e085b66-0bbb-483c-a842-9c1823c7358c"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch08-o01",
+        "title": "区分交互记忆和外部知识检索",
+        "sections": [
+          "8.1.2 为何智能体需要记忆与RAG",
+          "8.1.3 记忆与RAG系统架构设计",
+          "8.3.1 RAG的基础知识"
+        ],
+        "reason": "无状态调用和知识局限是两种不同问题，分别需要连续性与证据。"
+      },
+      {
+        "id": "ch08-o02",
+        "title": "理解记忆统一入口及管理层",
+        "sections": [
+          "8.2.3 MemoryTool详解",
+          "8.2.4 MemoryManager详解",
+          "8.2.5 四种记忆类型"
+        ],
+        "reason": "参数处理、分发协调和实际存储属于不同层。"
+      },
+      {
+        "id": "ch08-o03",
+        "title": "解释记忆保留与检索评分",
+        "sections": [
+          "8.2.1 记忆系统的工作流程",
+          "8.2.5 四种记忆类型",
+          "8.2.5 四种记忆类型"
+        ],
+        "reason": "保留所有信息和仅检索最新信息都不能保证相关性。"
+      },
+      {
+        "id": "ch08-o04",
+        "title": "追踪RAG索引与查询管线",
+        "sections": [
+          "8.3.1 RAG的基础知识",
+          "8.3.4 RAG系统架构设计",
+          "8.3.4 RAG系统架构设计"
+        ],
+        "reason": "生成前应有可检索文档，检索结果只是回答证据。"
+      },
+      {
+        "id": "ch08-o05",
+        "title": "选择查询扩展策略",
+        "sections": [
+          "8.3.5 高级检索策略",
+          "8.3.5 高级检索策略",
+          "8.4.3 智能问答功能"
+        ],
+        "reason": "召回提升伴随额外调用与潜在噪声，假设文档不是事实来源。"
+      },
+      {
+        "id": "ch08-o06",
+        "title": "组合文档问答的用户隔离与记忆",
+        "sections": [
+          "8.4.2 核心助手类的实现",
+          "8.4.4 其他核心功能",
+          "8.4.2 核心助手类的实现"
+        ],
+        "reason": "个性化与知识复用必须保持用户和会话边界。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch08-q01",
+        "type": "single",
+        "objectiveId": "ch08-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "8.1.2 为何智能体需要记忆与RAG",
+        "purpose": "识别模型调用无状态与预训练知识局限的区别。"
+      },
+      {
+        "id": "ch08-q02",
+        "type": "single",
+        "objectiveId": "ch08-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "8.1.3 记忆与RAG系统架构设计",
+        "purpose": "解释memory_tool与rag_tool分工及检索结果可以进入记忆的路径。"
+      },
+      {
+        "id": "ch08-q03",
+        "type": "single",
+        "objectiveId": "ch08-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "8.2.3 MemoryTool详解",
+        "purpose": "辨认MemoryTool的action入口与会话元数据作用。"
+      },
+      {
+        "id": "ch08-q04",
+        "type": "single",
+        "objectiveId": "ch08-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "8.2.4 MemoryManager详解",
+        "purpose": "追踪MemoryManager将操作分发给启用记忆模块的过程。"
+      },
+      {
+        "id": "ch08-q05",
+        "type": "single",
+        "objectiveId": "ch08-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "8.2.1 记忆系统的工作流程",
+        "purpose": "辨认编码、存储、检索与整合的不同作用。"
+      },
+      {
+        "id": "ch08-q06",
+        "type": "single",
+        "objectiveId": "ch08-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "8.2.5 四种记忆类型",
+        "purpose": "分析工作记忆TTL、时间衰减、相关性和重要性对可取回信息的影响。"
+      },
+      {
+        "id": "ch08-q07",
+        "type": "single",
+        "objectiveId": "ch08-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "8.3.1 RAG的基础知识",
+        "purpose": "区分数据准备与在线查询生成两个阶段。"
+      },
+      {
+        "id": "ch08-q08",
+        "type": "single",
+        "objectiveId": "ch08-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "8.3.4 RAG系统架构设计",
+        "purpose": "追踪MarkItDown统一转换、结构分块、嵌入、存储与检索的依赖。"
+      },
+      {
+        "id": "ch08-q09",
+        "type": "single",
+        "objectiveId": "ch08-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "8.3.5 高级检索策略",
+        "purpose": "识别查询用词和文档表述不匹配时可使用MQE或HyDE。"
+      },
+      {
+        "id": "ch08-q10",
+        "type": "single",
+        "objectiveId": "ch08-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "8.3.5 高级检索策略",
+        "purpose": "解释多次扩展检索的额外延迟与召回收益，及假设答案偏差风险。"
+      },
+      {
+        "id": "ch08-q11",
+        "type": "single",
+        "objectiveId": "ch08-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "8.4.2 核心助手类的实现",
+        "purpose": "判断独立user_id、rag_namespace带来的隔离收益与管理成本。"
+      },
+      {
+        "id": "ch08-q12",
+        "type": "single",
+        "objectiveId": "ch08-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "8.4.4 其他核心功能",
+        "purpose": "比较学习笔记、学习历程检索和会话统计的作用。"
+      },
+      {
+        "id": "ch08-q13",
+        "type": "multiple",
+        "objectiveId": "ch08-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "8.3.1 RAG的基础知识",
+        "purpose": "比较保存用户交互、检索文档与更新模型参数，避免混同。"
+      },
+      {
+        "id": "ch08-q14",
+        "type": "multiple",
+        "objectiveId": "ch08-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "8.2.5 四种记忆类型",
+        "purpose": "比较工作、情景、语义和感知记忆在临时信息、经历、知识及多模态内容上的适用性。"
+      },
+      {
+        "id": "ch08-q15",
+        "type": "multiple",
+        "objectiveId": "ch08-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "8.2.5 四种记忆类型",
+        "purpose": "比较TF-IDF词法匹配、稠密向量及关系图检索；不能把工作记忆的词法检索称作嵌入语义检索。"
+      },
+      {
+        "id": "ch08-q16",
+        "type": "multiple",
+        "objectiveId": "ch08-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "8.3.4 RAG系统架构设计",
+        "purpose": "面对文档结构丢失或答非所问，选择检查转换、分块、检索和上下文组装的合理环节。"
+      },
+      {
+        "id": "ch08-q17",
+        "type": "multiple",
+        "objectiveId": "ch08-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "8.4.3 智能问答功能",
+        "purpose": "选择保留真实检索证据、合并去重和检查相关性的措施，拒绝直接引用HyDE虚构答案。"
+      },
+      {
+        "id": "ch08-q18",
+        "type": "multiple",
+        "objectiveId": "ch08-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "8.4.2 核心助手类的实现",
+        "purpose": "对多用户上传文档选择记忆隔离、知识命名空间和会话追踪的必要配置。"
+      },
+      {
+        "id": "ch08-q19",
+        "type": "reflection",
+        "objectiveId": "ch08-o03",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "8.2.5 四种记忆类型",
+        "purpose": "为长期学习助手设计哪些临时信息应整合到长期记忆，解释保留、过期、检索及冲突更新策略。"
+      },
+      {
+        "id": "ch08-q20",
+        "type": "reflection",
+        "objectiveId": "ch08-o05",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "8.3.5 高级检索策略",
+        "purpose": "设计比较基础检索、MQE和HyDE的实验，说明相关性、召回、耗时和证据真实性如何验证；不要复述未实测的提升百分比。"
+      }
+    ],
+    "notes": "四类记忆、RAG管线、扩展检索与隔离均覆盖；多模态编码和图存储实现未充分展开，不能单独形成能力结论。避开课件宣称的固定召回提升幅度。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17T15:39:14.356103+00:00",
+    "notes": [
+      "逐题对照本地课件语义审查20题，复核session_id自动补充和enable_semantic条件实例化的原文代码。",
+      "替换全部拼接/改写引文为连续原文，修正两道全选四项题为2–3正确选项并保留配额。",
+      "区分TTL与评分衰减、TF-IDF词法与稠密嵌入、命名空间与认证授权；移除无依据的同一Collection推荐及无窗口限制表述。",
+      "思考题明确默认整合为工作到情景、自拟规则需验证；纠正Recall@K、Precision@K和MRR含义，不预设HyDE胜出或引用未实测提升比例。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch08-q01",
+      "stem": "若学习助手仅在 SimpleAgent 实例中暂存对话历史，重启且未重新载入历史后不记得学习进度，最直接的原因是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "内置知识的局限性，即训练数据存在时间截止点"
+        },
+        {
+          "id": "b",
+          "text": "模型调用不会自动持有上次状态，应用也未持久化并恢复交互历史"
+        },
+        {
+          "id": "c",
+          "text": "上下文窗口限制，导致早期的重要信息被自动剔除"
+        },
+        {
+          "id": "d",
+          "text": "模型幻觉问题，使其在没有检索增强时无法产生准确回答"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "教材明确指出，当前 LLM 在设计上是无状态的，这意味着每次请求都是独立的计算。虽然同一实例内可以暂存历史，但重启后属于新的会话，若无持久化的记忆系统，Agent 无法跨会话记住信息。",
+      "optionExplanations": {
+        "a": "可能误以为是知识过期，但“学习进度”属于交互状态而非通用知识。",
+        "b": "模型不会自动保存跨调用状态；同一实例的临时历史也不会在重启后自动恢复。",
+        "c": "可能误以为是窗口满了，但重启后窗口是空的，遗忘是由于缺乏持久化。",
+        "d": "可能误以为是幻觉，但这是关于记忆缺失而非逻辑错误。"
+      },
+      "evidence": [
+        {
+          "section": "8.1.2 为何智能体需要记忆与RAG",
+          "quote": "当前的大语言模型虽然强大，但设计上是<strong>无状态的</strong>。这意味着，每一次用户请求（或API调用）都是一次独立的、无关联的计算。模型本身不会自动“记住”上一次对话的内容。这带来了几个问题：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.1.2 为何智能体需要记忆与RAG",
+          "quote": "需要注意的是，第七章中的 `SimpleAgent` 会在同一个实例的 `_history` 中暂存当前对话，因此同一进程、同一实例内的连续对话可以携带最近上下文。但这种历史只是临时消息列表，不会跨会话持久化，也不能进行长期检索、遗忘和整合。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别模型调用无状态与预训练知识局限的区别。",
+        "misconception": "混淆“知识截止”与“会话状态遗忘”。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch08-q02",
+      "stem": "根据 Hello-Agents 的系统架构设计，关于 memory_tool 与 rag_tool 的分工与协作，下列描述准确的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "memory_tool 仅负责内存中的临时存储，rag_tool 负责所有磁盘持久化"
+        },
+        {
+          "id": "b",
+          "text": "rag_tool 负责从用户知识库检索，且其检索结果可根据需要自动存入记忆系统"
+        },
+        {
+          "id": "c",
+          "text": "memory_tool 负责文本嵌入，rag_tool 负责将向量存储到 Qdrant"
+        },
+        {
+          "id": "d",
+          "text": "两者互不干扰，rag_tool 的检索结果严禁进入 memory_tool 的作用范围"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "在架构设计中，memory_tool 管理对话交互信息，而 rag_tool 负责外部知识库检索。设计允许 rag_tool 的检索结果自动进入记忆系统实现知识转化。",
+      "optionExplanations": {
+        "a": "可能误以为记忆系统不包含持久化，实际上它也依赖 SQLite 和 Qdrant 进行长期存储。",
+        "b": "正确，描述了两者的独立职责及自动化协作。rag_tool 的结果可转化并存入记忆。",
+        "c": "可能误以为工具是按功能模块（如嵌入/存储）划分的，实际上是按业务目标划分，且两者都涉及向量化。",
+        "d": "可能误以为两者完全隔离，忽略了架构设计中“检索结果自动存储到记忆系统中”的描述。"
+      },
+      "evidence": [
+        {
+          "section": "8.1.3 记忆与RAG系统架构设计",
+          "quote": "基于第七章建立的框架基础和认知科学的启发，我们设计了一个分层的记忆与RAG系统架构，如图8.2所示。这个架构不仅借鉴了人类记忆系统的层次结构，还充分考虑了工程实现的可扩展性。在实现上，我们将记忆和RAG设计为两个独立的工具：`memory_tool`负责存储和维护对话过程中的交互信息，`rag_tool`则负责从用户提供的知识库中检索相关信息作为上下文，并可将重要的检索结果自动存储到记忆系统中。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释memory_tool与rag_tool分工及检索结果可以进入记忆的路径。",
+        "misconception": "误认为工具功能重叠或完全不互通。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q03",
+      "stem": "在使用 MemoryTool 的 execute 接口执行 add 操作时，关于 session_id 的管理机制，下列说法正确的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "session_id 必须由用户在调用 add 操作时手动传入，否则无法通过元数据校验"
+        },
+        {
+          "id": "b",
+          "text": "系统会自动管理 session_id，若当前不存在则会自动生成并更新到元数据中"
+        },
+        {
+          "id": "c",
+          "text": "session_id 仅用于工作记忆，在情景和语义记忆中不记录任何会话归属"
+        },
+        {
+          "id": "d",
+          "text": "session_id 主要用于 Qdrant 的命名空间隔离，而非元数据记录"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "在 _add_memory 的实现中，系统会检查 current_session_id，如果为 None 则自动生成，并统一更新到元数据（metadata）字典中。",
+      "optionExplanations": {
+        "a": "可能误以为必须手动传入，忽略了代码中自动检查和补充的逻辑。",
+        "b": "正确，符合代码实现中对 session_id 的自动补全与元数据打包逻辑。",
+        "c": "可能误以为不同记忆类型元数据格式不同，实际上 add 接口统一了元数据管理。",
+        "d": "可能误以为 session 级管理等同于 namespace 隔离，实际上 session 主要记录在元数据中。"
+      },
+      "evidence": [
+        {
+          "section": "8.2.3 MemoryTool详解",
+          "quote": "````python\ndef _add_memory(\n    self,\n    content: str = \"\",\n    memory_type: str = \"working\",\n    importance: float = 0.5,\n    file_path: str = None,\n    modality: str = None,\n    **metadata\n) -> str:\n    \"\"\"添加记忆\"\"\"\n    try:\n        # 确保会话ID存在\n        if self.current_session_id is None:\n            self.current_session_id = f\"session_{datetime.now().strftime('%Y%m%d_%H%M%S')}\"",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.2.3 MemoryTool详解",
+          "quote": "# 添加会话信息到元数据\n        metadata.update({\n            \"session_id\": self.current_session_id,\n            \"timestamp\": datetime.now().isoformat()\n        })",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认MemoryTool的action入口与会话元数据作用。",
+        "misconception": "误认为所有 ID 都需要外部显式指定。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch08-q04",
+      "stem": "MemoryManager 在初始化时根据配置实例化具体的记忆类型模块。如果配置参数中 enable_semantic 为 False，下列描述正确的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "MemoryManager 的 self.memory_types 字典中将不会包含 'semantic' 键"
+        },
+        {
+          "id": "b",
+          "text": "SemanticMemory 对象仍会被创建，但其内部的 Neo4j 连接将被关闭"
+        },
+        {
+          "id": "c",
+          "text": "系统将抛出异常，因为语义记忆是记忆管理器运行的必要核心组件"
+        },
+        {
+          "id": "d",
+          "text": "所有的检索请求将自动从工作记忆转发到 RAGTool 的 Qdrant 集合"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "MemoryManager 的构造函数通过条件判断（if enable_semantic）来选择性地向 memory_types 字典填充实例，从而实现按需启用和资源优化。",
+      "optionExplanations": {
+        "a": "正确，反映了框架按需实例化模块以节省资源的工程设计。",
+        "b": "可能误以为对象始终实例化，实际上构造函数采用了显式的 if 检查来决定是否创建对象。",
+        "c": "可能误以为语义记忆是强制依赖，实际上框架支持灵活配置（如 working, episodic 等）。",
+        "d": "可能误以为检索会自动跨工具转发，实际上记忆管理器只负责已启用的记忆模块。"
+      },
+      "evidence": [
+        {
+          "section": "8.2.4 MemoryManager详解",
+          "quote": "if enable_semantic:\n            self.memory_types['semantic'] = SemanticMemory(self.config)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪MemoryManager将操作分发给启用记忆模块的过程。",
+        "misconception": "误以为所有模块始终全局实例化。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q05",
+      "stem": "模仿人类记忆形成的五个核心认知阶段，将“工作记忆中的重要信息迁移至情景记忆”这一过程对应框架中的哪一阶段？",
+      "options": [
+        {
+          "id": "a",
+          "text": "编码 (Encoding)"
+        },
+        {
+          "id": "b",
+          "text": "存储 (Storage)"
+        },
+        {
+          "id": "c",
+          "text": "整合 (Consolidation)"
+        },
+        {
+          "id": "d",
+          "text": "遗忘 (Forgetting)"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "教材在 8.2.1 节明确定义，“整合”阶段负责将短期记忆转化为长期记忆（如工作记忆向情景/语义记忆转化），模仿人类大脑的记忆固化过程。",
+      "optionExplanations": {
+        "a": "可能误以为是信息的录入，编码只是信息的格式转换。",
+        "b": "可能误以为是数据的持久化，存储不涉及记忆类型的跃迁。",
+        "c": "正确，符合认知心理学定义及 consolidate 操作在框架中的技术设计。",
+        "d": "可能误以为是清理过程，遗忘旨在删除不重要的信息。"
+      },
+      "evidence": [
+        {
+          "section": "8.2.3 MemoryTool详解",
+          "quote": "consolidate操作借鉴了神经科学中的记忆固化概念，模拟人类大脑将短期记忆转化为长期记忆的过程。默认设置是将重要性超过0.7的工作记忆转换为情景记忆，这个阈值确保只有真正重要的信息才会被长期保存。整个过程是自动化的，用户无需手动选择具体的记忆，系统会智能地识别符合条件的记忆并执行类型转换。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认编码、存储、检索与整合的不同作用。",
+        "misconception": "不清楚“整合”在记忆分类层级中的具体功能。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch08-q06",
+      "stem": "根据本章 WorkingMemory 实现，以下哪项不属于检索评分使用的因素？",
+      "options": [
+        {
+          "id": "a",
+          "text": "组合词法检索得到的相关性"
+        },
+        {
+          "id": "b",
+          "text": "基于稠密嵌入（Dense Embedding）的余弦相似度"
+        },
+        {
+          "id": "c",
+          "text": "时间衰减系数（Time Decay）"
+        },
+        {
+          "id": "d",
+          "text": "重要性权重（Importance Weight）"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "示例采用 TF-IDF 与关键词匹配的组合词法检索，再结合时间衰减和重要性评分；TF-IDF 稀疏向量不等同于稠密嵌入。",
+      "optionExplanations": {
+        "a": "可能误以为词法检索是独立模块，实际上它是工作记忆的核心评分基础。",
+        "b": "正确，工作记忆的设计侧重于快速响应，并不使用 dense embedding。",
+        "c": "时间衰减参与评分；TTL 则用于过期清理，两者作用不同。",
+        "d": "可能误以为重要性仅用于长期记忆，实际上公式明确包含了重要性加权。"
+      },
+      "evidence": [
+        {
+          "section": "8.2.5 四种记忆类型",
+          "quote": "````python\nclass WorkingMemory:\n    \"\"\"工作记忆实现\n    特点：\n    - 容量有限（默认50条）+ TTL自动清理\n    - 纯内存存储，访问速度极快\n    - 组合词法检索：TF-IDF 词项权重相似度 + 关键词匹配\n    \"\"\"\n    \n    def __init__(self, config: MemoryConfig):\n        self.max_capacity = config.working_memory_capacity or 50\n        self.max_age_minutes = config.working_memory_ttl or 60\n        self.memories = []\n    \n    def add(self, memory_item: MemoryItem) -> str:\n        \"\"\"添加工作记忆\"\"\"\n        self._expire_old_memories()  # 过期清理\n        \n        if len(self.memories) >= self.max_capacity:\n            self._remove_lowest_priority_memory()  # 容量管理\n        \n        self.memories.append(memory_item)\n        return memory_item.id\n    \n    def retrieve(self, query: str, limit: int = 5, **kwargs) -> List[MemoryItem]:\n        \"\"\"组合词法检索：TF-IDF 词项权重相似度 + 关键词匹配\"\"\"\n        self._expire_old_memories()\n        \n        # 计算 TF-IDF 词项权重相似度\n        vector_scores = self._try_tfidf_search(query)\n        \n        # 计算综合分数\n        scored_memories = []\n        for memory in self.memories:\n            vector_score = vector_scores.get(memory.id, 0.0)\n            keyword_score = self._calculate_keyword_score(query, memory.content)\n            \n            # 混合评分\n            base_relevance = vector_score * 0.7 + keyword_score * 0.3 if vector_score > 0 else keyword_score\n            time_decay = self._calculate_time_decay(memory.timestamp)\n            importance_weight = 0.8 + (memory.importance * 0.4)\n            \n            final_score = base_relevance * time_decay * importance_weight\n            if final_score > 0:\n                scored_memories.append((final_score, memory))\n        \n        scored_memories.sort(key=lambda x: x[0], reverse=True)\n        return [memory for _, memory in scored_memories[:limit]]\n````\n工作记忆采用组合词法检索策略：使用 TF-IDF 将文本表示为稀疏词项向量并计算词法相似度，同时结合关键词匹配；当 TF-IDF 不可用或未产生有效得分时，则使用关键词得分。TF-IDF 的向量化表示来自词频和逆文档频率，并不等同于基于稠密嵌入的语义检索。评分算法结合了词法相关性、时间衰减和重要性权重，最终得分公式为：`(相关性 × 时间衰减) × (0.8 + 重要性 × 0.4)`。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "分析工作记忆TTL、时间衰减、相关性和重要性对可取回信息的影响。",
+        "misconception": "误以为框架内所有记忆模块的检索底层都是向量嵌入。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q07",
+      "stem": "在 RAG 系统的工作流中，下列任务通常属于“离线数据准备阶段”的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "利用 LLM 将用户模糊提问改写为多个语义等价的查询"
+        },
+        {
+          "id": "b",
+          "text": "对 PDF 文档进行 Markdown 结构感知分块并存入向量数据库"
+        },
+        {
+          "id": "c",
+          "text": "根据用户当前的提问实时生成假设性答案文档（HyDE）"
+        },
+        {
+          "id": "d",
+          "text": "将检索到的 Top-K 片段与系统提示词合并生成最终 Prompt"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "RAG 流程分为数据准备和应用阶段。文档的提取、解析、分块、向量化属于离线准备；而提问、扩展、检索和生成属于实时响应的应用阶段。",
+      "optionExplanations": {
+        "a": "可能误以为查询改写是预设的，实际上它是基于动态输入实时生成的（MQE）。",
+        "b": "正确，文档处理和索引构建是支撑后续检索的预处理环节。",
+        "c": "可能误以为 HyDE 结果是静态的，实际上它是针对特定提问的即时生成技术。",
+        "d": "可能误以为 Prompt 构建在离线完成，实际上必须结合检索出的实时上下文。"
+      },
+      "evidence": [
+        {
+          "section": "8.3.1 RAG的基础知识",
+          "quote": "一个完整的RAG应用流程主要分为两大核心环节。在<strong>数据准备阶段</strong>，系统通过<strong>数据提取</strong>、<strong>文本分割</strong>和<strong>向量化</strong>，将外部知识构建成一个可检索的数据库。随后在<strong>应用阶段</strong>，系统会响应用户的<strong>提问</strong>，从数据库中<strong>检索</strong>相关信息，将其<strong>注入Prompt</strong>，并最终驱动大语言模型<strong>生成答案</strong>。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "区分数据准备与在线查询生成两个阶段。",
+        "misconception": "混淆数据入库（索引构建）与检索策略执行的时点。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch08-q08",
+      "stem": "Hello-Agents RAG 系统使用 MarkItDown 作为统一文档转换引擎，其技术设计的关键考量是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "为了替代所有的向量嵌入算法，直接对 Markdown 文本进行字符串搜索"
+        },
+        {
+          "id": "b",
+          "text": "将多模态原始文档转化为标准 Markdown，以便利用其标题结构进行智能分块"
+        },
+        {
+          "id": "c",
+          "text": "利用 Markdown 格式实现数据的加密存储，防止向量库被未授权访问"
+        },
+        {
+          "id": "d",
+          "text": "主要是为了压缩存储空间，因为 Markdown 比 PDF 占用更小的磁盘字节"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "统一为 Markdown 后可以利用标题结构分块，再进入嵌入与存储流程；效果仍依赖转换质量。",
+      "optionExplanations": {
+        "a": "可能误以为不再需要嵌入，实际上 Markdown 是为了辅助更好的分块后再嵌入。",
+        "b": "正确，强调了统一格式对结构化、语义化分块的基础支撑作用。",
+        "c": "可能误以为与安全相关，实际上 Markdown 是一种纯文本标记语言，不具备加密特性。",
+        "d": "可能误以为存储是核心，实际上转换是为了优化后续的检索质量。"
+      },
+      "evidence": [
+        {
+          "section": "8.3.4 RAG系统架构设计",
+          "quote": "由于所有文档都已转换为Markdown格式，系统可以利用Markdown的标题结构（#、##、###等）进行精确的语义分割：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.3.4 RAG系统架构设计",
+          "quote": "RAG系统的核心优势之一是其强大的多模态文档处理能力。系统使用MarkItDown作为统一的文档转换引擎，支持几乎所有常见的文档格式。MarkItDown是微软开源的通用文档转换工具，它是HelloAgents RAG系统的核心组件，负责将任意格式的文档统一转换为结构化的Markdown文本。无论输入是PDF、Word、Excel、图片还是音频，最终都会转换为标准的Markdown格式，然后进入统一的分块、向量化和存储流程。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪MarkItDown统一转换、结构分块、嵌入、存储与检索的依赖。",
+        "misconception": "误认为 Markdown 转换仅是为了文本提取而非结构化分析。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q09",
+      "stem": "当用户提问“Python 入门教程”但文档中仅存在“零基础编程指南”时，为了克服这种词汇表述差异导致的召回不足，最适合启用的策略是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "TTL 自动过期清理 (TTL Expiration)"
+        },
+        {
+          "id": "b",
+          "text": "多查询扩展 (MQE)"
+        },
+        {
+          "id": "c",
+          "text": "工作记忆的词项频率统计"
+        },
+        {
+          "id": "d",
+          "text": "只把数据迁移到另一个集合，不改变检索查询"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "MQE 能够通过 LLM 生成语义等价但用词不同的查询（如将“入门”扩展为“基础”），从而提高检索系统的召回率，解决用词多样性问题。",
+      "optionExplanations": {
+        "a": "可能误以为清理能帮助匹配，实际上清理是减法，无法解决召回问题。",
+        "b": "正确，MQE 的核心洞察就是通过表述多样性覆盖更广泛的相关文档。",
+        "c": "可能误以为统计能解决匹配，实际上统计无法产生新的语义关联。",
+        "d": "单纯迁移集合不会自动解决查询表述差异。"
+      },
+      "evidence": [
+        {
+          "section": "8.3.5 高级检索策略",
+          "quote": "多查询扩展（Multi-Query Expansion）是一种通过生成语义等价的多样化查询来提高检索召回率的技术。这种方法的核心洞察是：同一个问题可以有多种不同的表述方式，而不同的表述可能匹配到不同的相关文档。例如，\"如何学习Python\"可以扩展为\"Python入门教程\"、\"Python学习方法\"、\"Python编程指南\"等多个查询。通过并行执行这些扩展查询并合并结果，系统能够覆盖更广泛的相关文档，避免因用词差异而遗漏重要信息。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别查询用词和文档表述不匹配时可使用MQE或HyDE。",
+        "misconception": "不了解 MQE 针对“词汇表述差异”的优化原理。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch08-q10",
+      "stem": "在使用假设文档嵌入（HyDE）策略进行专业领域检索时，需要特别关注的局限性是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "它要求 Qdrant 必须使用欧几里得距离，不能使用余弦相似度"
+        },
+        {
+          "id": "b",
+          "text": "它仅支持英文语境下的学术搜索，在中文环境下失效"
+        },
+        {
+          "id": "c",
+          "text": "它依赖 LLM 生成虚构答案，若生成的幻觉内容严重偏离事实，可能误导检索方向"
+        },
+        {
+          "id": "d",
+          "text": "它会强制要求关闭 MarkItDown 的 OCR 功能以确保速度"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "HyDE 的假设段落用于检索真实文档，并不是已验证事实。由此可推知，偏离问题的假设文本可能误导召回；额外生成与检索还需评估耗时。",
+      "optionExplanations": {
+        "a": "可能误以为与向量度量相关，实际上 HyDE 作用于向量空间分布而非度量标准。",
+        "b": "本章没有将 HyDE 限定为仅英文可用，实际效果需按模型和语料评估。",
+        "c": "正确，指出了 HyDE 依赖生成式模型带来的潜在幻觉误导风险。",
+        "d": "可能误以为影响预处理，实际上 HyDE 属于在线查询环节，与 OCR 无关。"
+      },
+      "evidence": [
+        {
+          "section": "8.3.5 高级检索策略",
+          "quote": "假设文档嵌入（Hypothetical Document Embeddings，HyDE）是一种创新的检索技术，它的核心思想是\"用答案找答案\"。传统的检索方法是用问题去匹配文档，但问题和答案在语义空间中的分布往往存在差异——问题通常是疑问句，而文档内容是陈述句。HyDE通过让LLM先生成一个假设性的答案段落，然后用这个答案段落去检索真实文档，从而缩小了查询和文档之间的语义鸿沟。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.3.5 高级检索策略",
+          "quote": "HelloAgents将MQE和HyDE两种策略整合到统一的扩展检索框架中。系统通过`enable_mqe`和`enable_hyde`参数让用户可以根据具体场景选择启用哪些策略：对于需要高召回率的场景可以同时启用两种策略，对于性能敏感的场景可以只使用基础检索。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释多次扩展检索的额外延迟与召回收益，及假设答案偏差风险。",
+        "misconception": "忽略了 HyDE 中间生成环节可能引入的负面噪声。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q11",
+      "stem": "PDFLearningAssistant 示例用哪个参数区分不同用户的知识库逻辑范围？",
+      "options": [
+        {
+          "id": "a",
+          "text": "在本地磁盘上通过创建带 user_id 后缀的隔离文件夹路径存储 PDF"
+        },
+        {
+          "id": "b",
+          "text": "利用 rag_namespace 参数为不同用户指定独立的逻辑分区（如 f'pdf_{user_id}'）"
+        },
+        {
+          "id": "c",
+          "text": "通过 session_id 在每次会话结束时强制执行 memory_tool.execute('clear_all')"
+        },
+        {
+          "id": "d",
+          "text": "要求用户在上传时手动指定 Qdrant 的物理 Collection 名称"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "示例用 rag_namespace 构建知识库命名空间。命名空间用于逻辑区分，不等同于已经具备完整的认证授权或底层隔离保证。",
+      "optionExplanations": {
+        "a": "可能误以为文件路径是检索核心，实际上向量库内的逻辑标识才是隔离关键。",
+        "b": "示例以用户 ID 组成命名空间，检索和写入仍需正确使用该范围。",
+        "c": "可能误以为隔离靠删除，实际上这破坏了持久化记忆的需求。",
+        "d": "可能误以为需要用户操作，实际上由助手类通过初始化参数自动化管理。"
+      },
+      "evidence": [
+        {
+          "section": "8.4.2 核心助手类的实现",
+          "quote": "<strong>RAGTool的初始化</strong>：通过`rag_namespace`参数实现知识库的命名空间隔离。使用`f\"pdf_{user_id}\"`作为命名空间，每个用户都有自己独立的PDF知识库。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "判断独立user_id、rag_namespace带来的隔离收益与管理成本。",
+        "misconception": "混淆本地文件系统隔离与数据库逻辑层隔离。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch08-q12",
+      "stem": "在 Hello-Agents 学习助手的功能实现中，关于“学习历程回顾”与“学习笔记记录”底层记忆类型的选择，下列描述最准确的是：",
+      "options": [
+        {
+          "id": "a",
+          "text": "历程回顾：依赖感知记忆；学习笔记：依赖工作记忆"
+        },
+        {
+          "id": "b",
+          "text": "历程回顾：依赖情景记忆；学习笔记：依赖语义记忆"
+        },
+        {
+          "id": "c",
+          "text": "历程回顾：依赖语义记忆；学习笔记：依赖感知记忆"
+        },
+        {
+          "id": "d",
+          "text": "历程回顾：依赖工作记忆；学习笔记：依赖情景记忆"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "情景记忆（Episodic）记录带有时间戳的具体交互事件（如“加载了文档”），适合回顾；语义记忆（Semantic）记录抽象知识点（如“概念笔记”），适合长期存储概念体系。",
+      "optionExplanations": {
+        "a": "可能误以为历程涉及多模态，笔记是短期的，实际上笔记需要高度持久化。",
+        "b": "正确，符合教材对情景（事件流）与语义（知识概念）的功能边界划分。",
+        "c": "学习笔记在本案例存入语义记忆；历程回顾关注情景事件。",
+        "d": "可能误以为历程是短期的工作状态，忽略了回顾通常涉及较长的时间跨度。"
+      },
+      "evidence": [
+        {
+          "section": "8.4.2 核心助手类的实现",
+          "quote": "<strong>为什么用情景记忆？</strong> 因为这是一个具体的、有时间戳的事件，适合用情景记忆记录。`session_id`参数将这个事件关联到当前学习会话，便于后续回顾学习历程。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.4.4 其他核心功能",
+          "quote": "- <strong>add_note</strong>：将学习笔记保存到语义记忆\n- <strong>recall</strong>：从记忆系统中检索学习历程\n- <strong>get_stats</strong>：获取当前会话的统计信息\n- <strong>generate_report</strong>：生成详细的学习报告并保存为JSON文件",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较学习笔记、学习历程检索和会话统计的作用。",
+        "misconception": "不清楚“事件序列”与“抽象概念”在记忆存储上的归属原则。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch08-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q13",
+      "stem": "比较用户交互记忆、RAG 与更新模型参数，下列理解哪些正确？",
+      "options": [
+        {
+          "id": "a",
+          "text": "记忆工具可保存用户偏好和交互历史"
+        },
+        {
+          "id": "b",
+          "text": "RAG 可以检索已入库的外部资料并提供回答上下文"
+        },
+        {
+          "id": "c",
+          "text": "向 RAG 知识库添加文档等同于更新模型训练权重"
+        },
+        {
+          "id": "d",
+          "text": "保存交互和检索文档是不同职责，可在同一助手中组合"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "记忆系统维护交互信息与用户相关状态。 RAG 在生成前提供检索材料，其质量依赖资料和检索。 本章分别封装 memory_tool 与 rag_tool 并允许协作。",
+      "optionExplanations": {
+        "a": "记忆系统维护交互信息与用户相关状态。",
+        "b": "RAG 在生成前提供检索材料，其质量依赖资料和检索。",
+        "c": "入库更新外部索引，不等同于改变模型参数。",
+        "d": "本章分别封装 memory_tool 与 rag_tool 并允许协作。"
+      },
+      "evidence": [
+        {
+          "section": "8.1.3 记忆与RAG系统架构设计",
+          "quote": "基于第七章建立的框架基础和认知科学的启发，我们设计了一个分层的记忆与RAG系统架构，如图8.2所示。这个架构不仅借鉴了人类记忆系统的层次结构，还充分考虑了工程实现的可扩展性。在实现上，我们将记忆和RAG设计为两个独立的工具：`memory_tool`负责存储和维护对话过程中的交互信息，`rag_tool`则负责从用户提供的知识库中检索相关信息作为上下文，并可将重要的检索结果自动存储到记忆系统中。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.3.1 RAG的基础知识",
+          "quote": "一个完整的RAG应用流程主要分为两大核心环节。在<strong>数据准备阶段</strong>，系统通过<strong>数据提取</strong>、<strong>文本分割</strong>和<strong>向量化</strong>，将外部知识构建成一个可检索的数据库。随后在<strong>应用阶段</strong>，系统会响应用户的<strong>提问</strong>，从数据库中<strong>检索</strong>相关信息，将其<strong>注入Prompt</strong>，并最终驱动大语言模型<strong>生成答案</strong>。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较保存用户交互、检索文档与更新模型参数，避免混同。",
+        "misconception": "误以为微调是处理动态知识的首选方案。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch08-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q14",
+      "stem": "在 Hello-Agents 智能助手的具体场景中，下列记忆任务与其底层模块映射关系准确的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "记录用户刚才询问的关于 Python 函数的临时问题 —— 工作记忆"
+        },
+        {
+          "id": "b",
+          "text": "保存 2024 年 3 月 15 日用户完成首个项目的里程碑事件 —— 情景记忆"
+        },
+        {
+          "id": "c",
+          "text": "存储“Python 是一种解释型面向对象语言”的通用知识 —— 语义记忆"
+        },
+        {
+          "id": "d",
+          "text": "把需要长期保留的截图只放入临时工作记忆，重启后无需恢复"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "工作记忆适合当前临时上下文，情景记忆记录具体经历，语义记忆记录抽象知识；长期保留还需匹配持久化策略。",
+      "optionExplanations": {
+        "a": "正确，反映了工作记忆作为短期缓存和对话上下文的定位。",
+        "b": "正确，符合情景记忆记录“具体、有时间戳”事件的定位。",
+        "c": "正确，符合语义记忆存储“抽象、通用、非事件性”规则的定位。",
+        "d": "多模态内容可考虑感知记忆；仅存临时工作记忆不满足跨重启保留需求。"
+      },
+      "evidence": [
+        {
+          "section": "8.2.1 记忆系统的工作流程",
+          "quote": "首先是<strong>工作记忆 (Working Memory)</strong>，它扮演着智能体“短期记忆”的角色，主要用于存储当前对话的上下文信息。为确保高速访问和响应，其容量被有意限制（例如，默认50条），并且生命周期与单个会话绑定，会话结束后便会自动清理。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.2.1 记忆系统的工作流程",
+          "quote": "其次是<strong>情景记忆 (Episodic Memory)</strong>，它负责长期存储具体的交互事件和智能体的学习经历。与工作记忆不同，情景记忆包含了丰富的上下文信息，并支持按时间序列或主题进行回顾式检索，是智能体“复盘”和学习过往经验的基础。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.2.1 记忆系统的工作流程",
+          "quote": "与具体事件相对应的是<strong>语义记忆 (Semantic Memory)</strong>，它存储的是更为抽象的知识、概念和规则。例如，通过对话了解到的用户偏好、需要长期遵守的指令或领域知识点，都适合存放在这里。这部分记忆具有高度的持久性和重要性，是智能体形成“知识体系”和进行关联推理的核心。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较工作、情景、语义和感知记忆在临时信息、经历、知识及多模态内容上的适用性。",
+        "misconception": "不清楚如何根据信息性质（时效、模态、抽象度）进行存储路由选择。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch08-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q15",
+      "stem": "关于工作记忆（WorkingMemory）与语义记忆（SemanticMemory）在存储与检索架构上的关键差异，描述正确的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "工作记忆基于纯内存存储，且在检索时侧重低延迟的词法相似度计算"
+        },
+        {
+          "id": "b",
+          "text": "语义记忆采用了 Qdrant 向量库与 Neo4j 图数据库的混合检索架构"
+        },
+        {
+          "id": "c",
+          "text": "两者在系统重启后均能通过 SQLiteDocumentStore 完整恢复会话状态"
+        },
+        {
+          "id": "d",
+          "text": "本章语义记忆示例将向量与图相似度组合，再用重要性权重调整"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "工作记忆采用内存和组合词法检索；语义记忆示例结合向量与图关系信息，再以重要性调节评分。",
+      "optionExplanations": {
+        "a": "正确，反映了工作记忆追求极高性能且使用 TF-IDF 方案的设计。",
+        "b": "正确，揭示了语义记忆在结构化关系处理上的复杂架构。",
+        "c": "错误，工作记忆是纯内存的，重启即丢失，这符合其“工作空间”的认知定位。",
+        "d": "示例公式是组合相似度乘以重要性权重，不能把示例比例当作通用固定标准。"
+      },
+      "evidence": [
+        {
+          "section": "8.2.5 四种记忆类型",
+          "quote": "````python\nclass WorkingMemory:\n    \"\"\"工作记忆实现\n    特点：\n    - 容量有限（默认50条）+ TTL自动清理\n    - 纯内存存储，访问速度极快\n    - 组合词法检索：TF-IDF 词项权重相似度 + 关键词匹配\n    \"\"\"\n    \n    def __init__(self, config: MemoryConfig):\n        self.max_capacity = config.working_memory_capacity or 50\n        self.max_age_minutes = config.working_memory_ttl or 60\n        self.memories = []\n    \n    def add(self, memory_item: MemoryItem) -> str:\n        \"\"\"添加工作记忆\"\"\"\n        self._expire_old_memories()  # 过期清理\n        \n        if len(self.memories) >= self.max_capacity:\n            self._remove_lowest_priority_memory()  # 容量管理\n        \n        self.memories.append(memory_item)\n        return memory_item.id\n    \n    def retrieve(self, query: str, limit: int = 5, **kwargs) -> List[MemoryItem]:\n        \"\"\"组合词法检索：TF-IDF 词项权重相似度 + 关键词匹配\"\"\"\n        self._expire_old_memories()\n        \n        # 计算 TF-IDF 词项权重相似度\n        vector_scores = self._try_tfidf_search(query)\n        \n        # 计算综合分数\n        scored_memories = []\n        for memory in self.memories:\n            vector_score = vector_scores.get(memory.id, 0.0)\n            keyword_score = self._calculate_keyword_score(query, memory.content)\n            \n            # 混合评分\n            base_relevance = vector_score * 0.7 + keyword_score * 0.3 if vector_score > 0 else keyword_score\n            time_decay = self._calculate_time_decay(memory.timestamp)\n            importance_weight = 0.8 + (memory.importance * 0.4)\n            \n            final_score = base_relevance * time_decay * importance_weight\n            if final_score > 0:\n                scored_memories.append((final_score, memory))\n        \n        scored_memories.sort(key=lambda x: x[0], reverse=True)\n        return [memory for _, memory in scored_memories[:limit]]\n````\n工作记忆采用组合词法检索策略：使用 TF-IDF 将文本表示为稀疏词项向量并计算词法相似度，同时结合关键词匹配；当 TF-IDF 不可用或未产生有效得分时，则使用关键词得分。TF-IDF 的向量化表示来自词频和逆文档频率，并不等同于基于稠密嵌入的语义检索。评分算法结合了词法相关性、时间衰减和重要性权重，最终得分公式为：`(相关性 × 时间衰减) × (0.8 + 重要性 × 0.4)`。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.2.5 四种记忆类型",
+          "quote": "语义记忆是记忆系统中最复杂的部分，它负责存储抽象的概念、规则和知识。语义记忆的设计重点在于知识的结构化表示和智能推理能力。语义记忆采用了Neo4j图数据库和Qdrant向量数据库的混合架构，这种设计让系统既能进行快速的语义检索，又能利用知识图谱进行复杂的关系推理。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.2.5 四种记忆类型",
+          "quote": "语义记忆的评分公式为：`(向量相似度 × 0.7 + 图相似度 × 0.3) × (0.8 + 重要性 × 0.4)`。这种设计的核心思想是：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较TF-IDF词法匹配、稠密向量及关系图检索；不能把工作记忆的词法检索称作嵌入语义检索。",
+        "misconception": "误以为所有记忆层级在工程实现上是对等的（如均可持久化）。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch08-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q16",
+      "stem": "若一个 RAG 系统在处理专业技术文档时返回了完全不相关的干扰信息，下列排查维度中合理的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "检查 MarkItDown 解析后的内容是否因 PDF 加密或格式异常而变为乱码"
+        },
+        {
+          "id": "b",
+          "text": "评估智能分块的大小（Chunk Size）是否因设定的过大而引入了过多的无关语义噪声"
+        },
+        {
+          "id": "c",
+          "text": "检查查询与索引的嵌入配置是否兼容，不能只看向量维度"
+        },
+        {
+          "id": "d",
+          "text": "跳过解析、分块和检索检查，只加长最终回答即可修复"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "可沿转换、分块、嵌入及检索管线逐步定位，检查实际中间输出。这些是从课件管线推导的诊断步骤，不是已验证故障结论。",
+      "optionExplanations": {
+        "a": "正确，数据解析是后续一切环节的基础，解析错误会导致无效索引。",
+        "b": "正确，分块过大会导致向量表示被非关键信息“冲淡”，降低匹配度。",
+        "c": "嵌入语义空间需兼容；仅维度相同不足以证明可比。",
+        "d": "加长回答不能修复上游资料和检索错误。"
+      },
+      "evidence": [
+        {
+          "section": "8.3.4 RAG系统架构设计",
+          "quote": "RAG系统的核心优势之一是其强大的多模态文档处理能力。系统使用MarkItDown作为统一的文档转换引擎，支持几乎所有常见的文档格式。MarkItDown是微软开源的通用文档转换工具，它是HelloAgents RAG系统的核心组件，负责将任意格式的文档统一转换为结构化的Markdown文本。无论输入是PDF、Word、Excel、图片还是音频，最终都会转换为标准的Markdown格式，然后进入统一的分块、向量化和存储流程。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.3.4 RAG系统架构设计",
+          "quote": "在Markdown段落分割的基础上，系统进一步根据Token数量进行智能分块。由于输入已经是结构化的Markdown文本，系统可以更精确地控制分块边界，确保每个分块既适合向量化处理，又保持Markdown结构的完整性：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.3.4 RAG系统架构设计",
+          "quote": "嵌入模型是RAG系统的核心，它负责将文本转换为高维向量，使得计算机能够理解和比较文本的语义相似性。RAG系统的检索能力很大程度上取决于嵌入模型的质量和向量存储的效率。HelloAgents实现了统一的嵌入接口。在这里为了演示，使用百炼API，如果尚未配置可以切换为本地的`all-MiniLM-L6-v2`模型，如果两种方案都不支持，也配置了TF-IDF算法来兜底。实际使用可以替换为自己想要的模型或者API，也可以尝试去扩展框架内容~",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "面对文档结构丢失或答非所问，选择检查转换、分块、检索和上下文组装的合理环节。",
+        "misconception": "认为 RAG 检索效果仅取决于最终生成模型的性能。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch08-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch08-q17",
+      "stem": "在智能问答助手的知识检索与证据处理环节，为了最大程度提升答案的事实性，下列逻辑合理的有：",
+      "options": [
+        {
+          "id": "a",
+          "text": "对检索出的重复片段进行去重合并，防止冗余信息对 LLM 推理产生干扰"
+        },
+        {
+          "id": "b",
+          "text": "直接将 HyDE 生成的假设性答案作为文档原始证据注入提示词中，以增加信息量"
+        },
+        {
+          "id": "c",
+          "text": "核验检索片段与问题的相关性，并保留真实文档出处"
+        },
+        {
+          "id": "d",
+          "text": "将笔记与真实文档对照，遇到矛盾继续核验而非视为互相证明"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c",
+        "d"
+      ],
+      "explanation": "保留实际检索材料、去重并检查相关性。HyDE 是检索辅助手段，其假设段落不能被标为原文证据；对照笔记也不免除来源核验。",
+      "optionExplanations": {
+        "a": "正确，减少 Token 浪费并降低模型关注冗余信息的概率。",
+        "b": "HyDE 假设文本用于引导检索，不能冒充真实文档证据。",
+        "c": "相关片段与出处可支持核查，但相似度本身不证明事实正确。",
+        "d": "交叉检查可以发现冲突，笔记仍可能包含错误。"
+      },
+      "evidence": [
+        {
+          "section": "8.3.5 高级检索策略",
+          "quote": "扩展检索的核心机制是\"扩展-检索-合并\"三步流程。首先，系统根据原始查询生成多个扩展查询（包括MQE生成的多样化查询和HyDE生成的假设文档）；然后，对每个扩展查询并行执行向量检索，获取候选文档池；最后，通过去重和分数排序合并所有结果，返回最相关的top-k文档。这种设计的巧妙之处在于，它通过`candidate_pool_multiplier`参数（默认为4）扩大候选池，确保有足够的候选文档进行筛选，同时通过智能去重避免返回重复内容。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.3.5 高级检索策略",
+          "quote": "假设文档嵌入（Hypothetical Document Embeddings，HyDE）是一种创新的检索技术，它的核心思想是\"用答案找答案\"。传统的检索方法是用问题去匹配文档，但问题和答案在语义空间中的分布往往存在差异——问题通常是疑问句，而文档内容是陈述句。HyDE通过让LLM先生成一个假设性的答案段落，然后用这个答案段落去检索真实文档，从而缩小了查询和文档之间的语义鸿沟。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "选择保留真实检索证据、合并去重和检查相关性的措施，拒绝直接引用HyDE虚构答案。",
+        "misconception": "混淆“辅助检索文本”与“可采信证据原文”。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch08-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch08-q18",
+      "stem": "为多用户 PDF 助手配置数据范围与会话追踪时，哪些做法符合本章示例？",
+      "options": [
+        {
+          "id": "a",
+          "text": "为每位用户分配独立的 rag_namespace（如 f'pdf_{uid}'）以实现逻辑隔离"
+        },
+        {
+          "id": "b",
+          "text": "为不同用户配置统一的 user_id，以便智能体学习所有用户的全局文档偏好"
+        },
+        {
+          "id": "c",
+          "text": "使用 session_id 追踪单次学习会话"
+        },
+        {
+          "id": "d",
+          "text": "在 MemoryTool 中启用情景记忆（Episodic）以追踪每个用户的独立学习历程"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "c",
+        "d"
+      ],
+      "explanation": "示例使用 user_id 区分记忆、rag_namespace 区分知识库，并用 session_id 追踪会话；实际产品还需验证认证、授权和范围过滤，不能仅凭参数名宣称安全隔离。",
+      "optionExplanations": {
+        "a": "正确，符合 RAGTool 设计中的命名空间隔离机制。",
+        "b": "错误，user_id 必须唯一以保证交互记录和偏好的个体独立性。",
+        "c": "session_id 用于关联单次会话，不替代用户标识和知识库范围。",
+        "d": "正确，情景记忆通过元数据区分，适合记录个体用户的事件流。"
+      },
+      "evidence": [
+        {
+          "section": "8.4.2 核心助手类的实现",
+          "quote": "<strong>MemoryTool的初始化</strong>：通过`user_id`参数实现用户级别的记忆隔离。不同用户的学习记忆是完全独立的，每个用户都有自己的工作记忆、情景记忆、语义记忆和感知记忆空间。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.4.2 核心助手类的实现",
+          "quote": "<strong>RAGTool的初始化</strong>：通过`rag_namespace`参数实现知识库的命名空间隔离。使用`f\"pdf_{user_id}\"`作为命名空间，每个用户都有自己独立的PDF知识库。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.4.2 核心助手类的实现",
+          "quote": "<strong>会话管理</strong>：`session_id`用于追踪单次学习会话的完整过程，便于后续的学习历程回顾和分析。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "对多用户上传文档选择记忆隔离、知识命名空间和会话追踪的必要配置。",
+        "misconception": "不了解如何利用逻辑命名空间平衡隔离安全性与底层存储效率。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch08-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch08-q19",
+      "stem": "为长期学习助手设计临时信息整合到长期记忆的方案，说明保留、过期、检索和冲突更新策略，并区分课件默认行为与自拟规则。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "本题为开放性设计题，参考答案是基于课件机制提出的方案，不代表已经运行验证。",
+      "optionExplanations": {},
+      "evidence": [
+        {
+          "section": "8.2.3 MemoryTool详解",
+          "quote": "consolidate操作借鉴了神经科学中的记忆固化概念，模拟人类大脑将短期记忆转化为长期记忆的过程。默认设置是将重要性超过0.7的工作记忆转换为情景记忆，这个阈值确保只有真正重要的信息才会被长期保存。整个过程是自动化的，用户无需手动选择具体的记忆，系统会智能地识别符合条件的记忆并执行类型转换。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.2.5 四种记忆类型",
+          "quote": "工作记忆采用了纯内存存储方案，配合TTL（Time To Live）机制进行自动清理。这种设计的优势在于访问速度极快，但也意味着工作记忆的内容在系统重启后会丢失。这种特性正好符合工作记忆的定位，存储临时的、易变的信息。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "为长期学习助手设计哪些临时信息应整合到长期记忆，解释保留、过期、检索及冲突更新策略。",
+        "misconception": "仅考虑时间维度或完全依赖手动操作进行记忆迁移。"
+      },
+      "referenceAnswer": "课件 consolidate 默认将重要性超过0.7的工作记忆转为情景记忆。可在此基础上设计扩展：临时问题按 TTL 清理，重要学习事件保留为情景，经过核验的稳定概念或偏好整理为语义记忆；按相关性、时间与重要性检索。冲突内容保留来源和时间，核验后更新而非静默覆盖。检索频率、会话结束触发等属于可试验的扩展规则，不是课件默认实现，也不存在适合所有任务的固定阈值。",
+      "rubric": [
+        "正确描述默认工作到情景的整合",
+        "依据事件与知识性质选择长期类型",
+        "解释过期与检索策略",
+        "冲突处理保留来源并区分自拟规则"
+      ],
+      "type": "reflection",
+      "objectiveId": "ch08-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch08-q20",
+      "stem": "设计一个比较基础检索、MQE、HyDE 的专业文档检索实验，说明控制变量、相关性与召回、耗时和证据真实性如何验证。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "本题为开放性设计题，参考答案是基于课件机制提出的方案，不代表已经运行验证。",
+      "optionExplanations": {},
+      "evidence": [
+        {
+          "section": "8.3.5 高级检索策略",
+          "quote": "多查询扩展（Multi-Query Expansion）是一种通过生成语义等价的多样化查询来提高检索召回率的技术。这种方法的核心洞察是：同一个问题可以有多种不同的表述方式，而不同的表述可能匹配到不同的相关文档。例如，\"如何学习Python\"可以扩展为\"Python入门教程\"、\"Python学习方法\"、\"Python编程指南\"等多个查询。通过并行执行这些扩展查询并合并结果，系统能够覆盖更广泛的相关文档，避免因用词差异而遗漏重要信息。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.3.5 高级检索策略",
+          "quote": "假设文档嵌入（Hypothetical Document Embeddings，HyDE）是一种创新的检索技术，它的核心思想是\"用答案找答案\"。传统的检索方法是用问题去匹配文档，但问题和答案在语义空间中的分布往往存在差异——问题通常是疑问句，而文档内容是陈述句。HyDE通过让LLM先生成一个假设性的答案段落，然后用这个答案段落去检索真实文档，从而缩小了查询和文档之间的语义鸿沟。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        },
+        {
+          "section": "8.3.5 高级检索策略",
+          "quote": "HelloAgents将MQE和HyDE两种策略整合到统一的扩展检索框架中。系统通过`enable_mqe`和`enable_hyde`参数让用户可以根据具体场景选择启用哪些策略：对于需要高召回率的场景可以同时启用两种策略，对于性能敏感的场景可以只使用基础检索。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md"
+        }
+      ],
+      "design": {
+        "purpose": "设计比较基础检索、MQE和HyDE的实验，说明相关性、召回、耗时和证据真实性如何验证；不要复述未实测的提升百分比。",
+        "misconception": "认为两者的优化维度完全重合，无法区分其适用边界。"
+      },
+      "referenceAnswer": "固定语料版本、分块、嵌入配置、测试问题和返回 K，并准备人工标注的相关文档集合。对比三种检索配置，分别记录 Recall@K（相关资料中被召回的比例）、Precision@K（前K条中相关结果的比例）、延迟与调用消耗；如使用 MRR，它衡量首个相关结果排名的倒数均值，不是首位命中率。按术语变化和口语表述分组分析，对实际检索原文核验支持关系，并检查扩展查询或假设文本是否偏题。不得预设 HyDE 一定胜出，也不得把假设答案当证据或复述未实测的提升百分比。",
+      "rubric": [
+        "固定语料、配置和测试集",
+        "正确区分召回与精确率并记录延迟成本",
+        "比较实际结果而非预设某策略优胜",
+        "真实来源核验与假设文本偏差检查"
+      ],
+      "type": "reflection",
+      "objectiveId": "ch08-o05",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard"
+    }
+  ]
+}

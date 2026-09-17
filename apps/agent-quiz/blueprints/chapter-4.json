@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch04-o01",
+      "title": "理解LLM封装与工具边界",
+      "sections": [
+        "4.1.3 封装基础 LLM 调用函数",
+        "4.2.2 工具的定义与实现",
+        "4.2.1 ReAct 的工作流程"
+      ],
+      "reason": "复用客户端与外部工具是范式实现的基础，配置记忆不应占据测评主体。"
+    },
+    {
+      "id": "ch04-o02",
+      "title": "追踪ReAct闭环与终止",
+      "sections": [
+        "4.2.1 ReAct 的工作流程",
+        "4.2.3 ReAct 智能体的编码实现",
+        "4.2.4 ReAct 的特点、局限性与调试技巧"
+      ],
+      "reason": "考查行动执行后的反馈而非Thought缩写。"
+    },
+    {
+      "id": "ch04-o03",
+      "title": "区分规划器与执行器的职责",
+      "sections": [
+        "4.3.1 Plan-and-Solve 的工作原理",
+        "4.3.2 规划阶段",
+        "4.3.3 执行器与状态管理"
+      ],
+      "reason": "计划不是结果；后续步骤必须有状态才能利用前序结论。"
+    },
+    {
+      "id": "ch04-o04",
+      "title": "构建反思驱动的迭代",
+      "sections": [
+        "4.4.1 Reflection 机制的核心思想",
+        "4.4.2 案例设定与记忆模块设计",
+        "4.4.3 Reflection 智能体的编码实现"
+      ],
+      "reason": "反思需要明确标准与历史，不等于重复生成。"
+    },
+    {
+      "id": "ch04-o05",
+      "title": "按任务结构选择经典范式",
+      "sections": [
+        "4.3.4 运行实例与分析",
+        "4.2.4 ReAct 的特点、局限性与调试技巧",
+        "4.4.4 运行实例与分析"
+      ],
+      "reason": "动态外部信息、稳定分解与质量改进需要不同控制方式。"
+    },
+    {
+      "id": "ch04-o06",
+      "title": "评估反思成本与结果证据",
+      "sections": [
+        "4.4.5 Reflection 机制的成本收益分析",
+        "4.4.4 运行实例与分析",
+        "4.4.5 Reflection 机制的成本收益分析"
+      ],
+      "reason": "反思增加成本且评价可能偏误，应有预算和独立检验。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch04-q01",
+      "type": "single",
+      "objectiveId": "ch04-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "4.1.3 封装基础 LLM 调用函数",
+      "purpose": "辨认LLM客户端封装模型交互细节的职责。"
+    },
+    {
+      "id": "ch04-q02",
+      "type": "single",
+      "objectiveId": "ch04-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "4.2.2 工具的定义与实现",
+      "purpose": "追踪工具描述、工具名称与执行函数的关联，以及结果如何回到模型。"
+    },
+    {
+      "id": "ch04-q03",
+      "type": "single",
+      "objectiveId": "ch04-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "4.2.1 ReAct 的工作流程",
+      "purpose": "辨认Thought、Action、Observation的职责。"
+    },
+    {
+      "id": "ch04-q04",
+      "type": "single",
+      "objectiveId": "ch04-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "4.2.3 ReAct 智能体的编码实现",
+      "purpose": "给出一段中间步骤，推导追加Observation、继续循环或输出最终答案的正确分支。"
+    },
+    {
+      "id": "ch04-q05",
+      "type": "single",
+      "objectiveId": "ch04-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "4.3.1 Plan-and-Solve 的工作原理",
+      "purpose": "识别先规划后执行的两阶段划分。"
+    },
+    {
+      "id": "ch04-q06",
+      "type": "single",
+      "objectiveId": "ch04-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "4.3.2 规划阶段",
+      "purpose": "解释结构化计划如何被解析为子任务而非直接当最终答案。"
+    },
+    {
+      "id": "ch04-q07",
+      "type": "single",
+      "objectiveId": "ch04-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "4.4.1 Reflection 机制的核心思想",
+      "purpose": "辨认执行、反思、优化三阶段。"
+    },
+    {
+      "id": "ch04-q08",
+      "type": "single",
+      "objectiveId": "ch04-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "4.4.2 案例设定与记忆模块设计",
+      "purpose": "解释Memory保存执行结果和反思为何能让下一轮修改有依据。"
+    },
+    {
+      "id": "ch04-q09",
+      "type": "single",
+      "objectiveId": "ch04-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "4.3.4 运行实例与分析",
+      "purpose": "为多步算术任务识别计划与中间结果管理的需求。"
+    },
+    {
+      "id": "ch04-q10",
+      "type": "single",
+      "objectiveId": "ch04-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "4.2.4 ReAct 的特点、局限性与调试技巧",
+      "purpose": "分析ReAct反复模型调用、错误行动和偏离目标的代价。"
+    },
+    {
+      "id": "ch04-q11",
+      "type": "single",
+      "objectiveId": "ch04-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "4.4.5 Reflection 机制的成本收益分析",
+      "purpose": "识别质量收益与额外调用、时延之间的权衡。"
+    },
+    {
+      "id": "ch04-q12",
+      "type": "single",
+      "objectiveId": "ch04-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "4.4.4 运行实例与分析",
+      "purpose": "比较模型自评通过与代码实际正确、复杂度改善的证据强度。"
+    },
+    {
+      "id": "ch04-q13",
+      "type": "multiple",
+      "objectiveId": "ch04-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "4.2.1 ReAct 的工作流程",
+      "purpose": "比较纯思维链、纯行动与ReAct的信息来源和纠错条件。"
+    },
+    {
+      "id": "ch04-q14",
+      "type": "multiple",
+      "objectiveId": "ch04-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "4.2.4 ReAct 的特点、局限性与调试技巧",
+      "purpose": "比较格式解析失败、无效工具和缺少事实信息三类失败的调试措施。"
+    },
+    {
+      "id": "ch04-q15",
+      "type": "multiple",
+      "objectiveId": "ch04-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "4.3.3 执行器与状态管理",
+      "purpose": "比较Planner分解全局任务与Executor携带历史结果解决当前子问题的职责。"
+    },
+    {
+      "id": "ch04-q16",
+      "type": "multiple",
+      "objectiveId": "ch04-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "4.4.3 Reflection 智能体的编码实现",
+      "purpose": "在代码优化案例中选择具体评审、针对性修订及合理终止的步骤。"
+    },
+    {
+      "id": "ch04-q17",
+      "type": "multiple",
+      "objectiveId": "ch04-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "4.4.4 运行实例与分析",
+      "purpose": "针对功能已正确但效率不足的素数代码，选择能利用明确评审意见的优化流程。"
+    },
+    {
+      "id": "ch04-q18",
+      "type": "multiple",
+      "objectiveId": "ch04-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "4.4.5 Reflection 机制的成本收益分析",
+      "purpose": "在低时延简单任务和高质量复杂任务间选择反思预算、停止条件和验证安排。"
+    },
+    {
+      "id": "ch04-q19",
+      "type": "reflection",
+      "objectiveId": "ch04-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "4.3.3 执行器与状态管理",
+      "purpose": "为一个多步骤任务设计执行状态，指出前序结果错误如何传播，并说明何时需要重新规划而非盲目继续。"
+    },
+    {
+      "id": "ch04-q20",
+      "type": "reflection",
+      "objectiveId": "ch04-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "4.4.5 Reflection 机制的成本收益分析",
+      "purpose": "比较同一编程任务采用ReAct、Plan-and-Solve、Reflection的流程、成本与测试证据；记录实际运行待验证项。"
+    }
+  ],
+  "notes": "重点为三范式控制流、状态和选型；环境安装不作为主要能力题。课件运行示例不视为学习者已实测。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

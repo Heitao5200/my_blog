@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch14-o01",
+      "title": "把开放研究转为可追踪TODO",
+      "sections": [
+        "14.2.1 什么是 TODO 驱动的研究",
+        "14.2.2 三阶段研究流程",
+        "14.1.1 为什么需要深度研究助手"
+      ],
+      "reason": "任务分解应有研究意图和查询，而非只生成一份目录。"
+    },
+    {
+      "id": "ch14-o02",
+      "title": "划分Agent与服务层职责",
+      "sections": [
+        "14.3.1 Agent 职责划分",
+        "14.3.3 Agent 协作模式",
+        "14.5.4 搜索调度服务"
+      ],
+      "reason": "规划总结报告的智能职责与数据调度解析的工程职责不同。"
+    },
+    {
+      "id": "ch14-o03",
+      "title": "保证计划可解析且研究证据可保留",
+      "sections": [
+        "14.5.1 任务规划服务",
+        "14.5.2 总结服务",
+        "14.5.3 报告生成服务"
+      ],
+      "reason": "结构正确的计划和来源完整的总结共同支撑后续报告。"
+    },
+    {
+      "id": "ch14-o04",
+      "title": "实现工具可观测与持久研究状态",
+      "sections": [
+        "14.3.2 ToolAwareSimpleAgent 的设计",
+        "14.4.3 ToolRegistry 工具管理",
+        "14.4.2 NoteTool 使用"
+      ],
+      "reason": "记录调用和保存结果服务不同的追踪需求。"
+    },
+    {
+      "id": "ch14-o05",
+      "title": "选择多源搜索和结果预算",
+      "sections": [
+        "14.4.1 SearchTool 扩展",
+        "14.5.4 搜索调度服务",
+        "14.5.4 搜索调度服务"
+      ],
+      "reason": "更多来源带来覆盖也增加重复、噪声与费用。"
+    },
+    {
+      "id": "ch14-o06",
+      "title": "呈现真实进度与可检查报告",
+      "sections": [
+        "14.6.2 实时进度展示",
+        "14.6.3 研究结果可视化",
+        "14.6.2 实时进度展示"
+      ],
+      "reason": "进度事件和报告渲染不能代替任务执行与引用正确性。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch14-q01",
+      "type": "single",
+      "objectiveId": "ch14-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "14.2.1 什么是 TODO 驱动的研究",
+      "purpose": "辨认TODO驱动研究的规划、执行、整合目标。"
+    },
+    {
+      "id": "ch14-q02",
+      "type": "single",
+      "objectiveId": "ch14-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "14.2.2 三阶段研究流程",
+      "purpose": "追踪title、intent、query在规划输出到执行输入中的作用。"
+    },
+    {
+      "id": "ch14-q03",
+      "type": "single",
+      "objectiveId": "ch14-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "14.3.1 Agent 职责划分",
+      "purpose": "识别TODO Planner、Task Summarizer和Report Writer各自产物。"
+    },
+    {
+      "id": "ch14-q04",
+      "type": "single",
+      "objectiveId": "ch14-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "14.3.3 Agent 协作模式",
+      "purpose": "解释DeepResearchAgent协调顺序执行及上一步输出作为下一步输入的过程。"
+    },
+    {
+      "id": "ch14-q05",
+      "type": "single",
+      "objectiveId": "ch14-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "14.5.1 任务规划服务",
+      "purpose": "辨认计划JSON字段验证与研究内容质量判断的区别。"
+    },
+    {
+      "id": "ch14-q06",
+      "type": "single",
+      "objectiveId": "ch14-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "14.5.2 总结服务",
+      "purpose": "追踪搜索结果格式化、任务总结和来源引用提取。"
+    },
+    {
+      "id": "ch14-q07",
+      "type": "single",
+      "objectiveId": "ch14-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "14.3.2 ToolAwareSimpleAgent 的设计",
+      "purpose": "识别tool_call_listener为工具调用提供调试、日志和进度事件的作用。"
+    },
+    {
+      "id": "ch14-q08",
+      "type": "single",
+      "objectiveId": "ch14-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "14.4.3 ToolRegistry 工具管理",
+      "purpose": "追踪工具指令解析、注册表查找和工具执行的路径。"
+    },
+    {
+      "id": "ch14-q09",
+      "type": "single",
+      "objectiveId": "ch14-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "14.4.1 SearchTool 扩展",
+      "purpose": "识别单引擎与Advanced组合模式适合的检索需求。"
+    },
+    {
+      "id": "ch14-q10",
+      "type": "single",
+      "objectiveId": "ch14-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "14.5.4 搜索调度服务",
+      "purpose": "解释去重、token限制和结果格式化为何位于搜索与总结之间。"
+    },
+    {
+      "id": "ch14-q11",
+      "type": "single",
+      "objectiveId": "ch14-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "14.6.2 实时进度展示",
+      "purpose": "判断SSE逐步显示研究进度的体验收益与连接、异常处理成本。"
+    },
+    {
+      "id": "ch14-q12",
+      "type": "single",
+      "objectiveId": "ch14-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "14.6.3 研究结果可视化",
+      "purpose": "比较Markdown呈现、可点击引用与已核实事实的不同含义。"
+    },
+    {
+      "id": "ch14-q13",
+      "type": "multiple",
+      "objectiveId": "ch14-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "14.1.1 为什么需要深度研究助手",
+      "purpose": "比较一次搜索摘要与覆盖多个研究子问题的流程及引用追踪需求。"
+    },
+    {
+      "id": "ch14-q14",
+      "type": "multiple",
+      "objectiveId": "ch14-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "14.5.4 搜索调度服务",
+      "purpose": "比较Agent直接调用工具与SearchService中间层统一调度的职责和可控性。"
+    },
+    {
+      "id": "ch14-q15",
+      "type": "multiple",
+      "objectiveId": "ch14-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "14.5.3 报告生成服务",
+      "purpose": "比较子任务总结与全局报告的整合职责，识别报告引用应能回溯原始来源。"
+    },
+    {
+      "id": "ch14-q16",
+      "type": "multiple",
+      "objectiveId": "ch14-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "14.4.2 NoteTool 使用",
+      "purpose": "对研究中断场景选择保存任务ID、意图、查询、搜索结果及总结的笔记内容。"
+    },
+    {
+      "id": "ch14-q17",
+      "type": "multiple",
+      "objectiveId": "ch14-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "14.5.4 搜索调度服务",
+      "purpose": "面对搜索失败、结果重复或上下文过长，选择合理的调度和结果处理措施。"
+    },
+    {
+      "id": "ch14-q18",
+      "type": "multiple",
+      "objectiveId": "ch14-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "14.6.2 实时进度展示",
+      "purpose": "在流式研究过程中选择区分进度、最终结果与错误事件的界面状态，避免把中间摘要当完成。"
+    },
+    {
+      "id": "ch14-q19",
+      "type": "reflection",
+      "objectiveId": "ch14-o03",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "14.5.3 报告生成服务",
+      "purpose": "设计一条报告结论回溯子任务总结和原始搜索来源的证据链，并说明来源冲突、缺失和过期时的处理。"
+    },
+    {
+      "id": "ch14-q20",
+      "type": "reflection",
+      "objectiveId": "ch14-o04",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "14.4.2 NoteTool 使用",
+      "purpose": "设计中断后恢复研究的状态记录与检查步骤，区分已有笔记、已完成任务和仍需重新查询的数据；不要假定保存笔记就已实现自动恢复。"
+    }
+  ],
+  "notes": "覆盖TODO、服务、工具、持久化与SSE；课件接口路径存在多种写法，不考路径背诵。开篇提出反思式续查，但核心示例为顺序三阶段，不把自适应迭代或完整断点恢复当已实现事实。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}

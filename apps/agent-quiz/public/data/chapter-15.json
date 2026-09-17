@@ -1,0 +1,1393 @@
+{
+  "id": 15,
+  "title": "第十五章 构建赛博小镇",
+  "version": "2026-09-17.1",
+  "source": {
+    "title": "第十五章 构建赛博小镇",
+    "path": "docs/chapter15/第十五章 构建赛博小镇.md",
+    "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md",
+    "sha256": "569d7e5ea2e08480f98b56cd1ab1db11c3b601cdb4e226422bfe6c0008b27a52",
+    "notebookId": "4d571461-2294-4f68-b36a-05c7f67e99a4",
+    "sourceId": "56077976-d8ee-4106-9010-ae4320a05340",
+    "artifactId": "bccf62c6-7ffe-4c6f-a3aa-2f2bb213939e"
+  },
+  "blueprint": {
+    "objectives": [
+      {
+        "id": "ch15-o01",
+        "title": "理解游戏、后端与NPC智能分层",
+        "sections": [
+          "15.1.2 技术架构概览",
+          "15.4.1 FastAPI 应用结构",
+          "15.4.4 理解 Godot 的场景系统"
+        ],
+        "reason": "游戏渲染和智能体决策需要不同状态与实时性。"
+      },
+      {
+        "id": "ch15-o02",
+        "title": "设计有角色边界和记忆的NPC",
+        "sections": [
+          "15.2.1 基于 HelloAgents 的 SimpleAgent",
+          "15.2.2 NPC 角色设定与 Prompt 设计",
+          "15.2.3 记忆系统集成"
+        ],
+        "reason": "个性与历史来自提示和可取回记忆，不能只靠一个名字。"
+      },
+      {
+        "id": "ch15-o03",
+        "title": "把好感度状态反馈到对话",
+        "sections": [
+          "15.3.1 好感度等级划分",
+          "15.3.2 好感度计算逻辑",
+          "15.3.3 好感度影响对话"
+        ],
+        "reason": "分数更新与行为变化是两个环节，界面显示分数不等于生效。"
+      },
+      {
+        "id": "ch15-o04",
+        "title": "维护NPC交互与异步通信状态",
+        "sections": [
+          "15.4.3 状态管理与日志系统",
+          "15.6.1 API 客户端封装",
+          "15.5.3 NPC 行为与交互"
+        ],
+        "reason": "请求等待期间仍需保持游戏响应与一致的忙碌状态。"
+      },
+      {
+        "id": "ch15-o05",
+        "title": "整合场景与对话界面",
+        "sections": [
+          "15.5.1 场景设计与资源组织",
+          "15.6.3 主场景整合",
+          "15.6.2 对话 UI 实现"
+        ],
+        "reason": "独立组件必须由主场景连接，显示结果不等于状态已同步。"
+      },
+      {
+        "id": "ch15-o06",
+        "title": "评估批量生成与开放NPC的边界",
+        "sections": [
+          "15.2.4 批量对话生成：轻负载模式",
+          "15.7.2 扩展方向",
+          "15.7.3 思考与展望"
+        ],
+        "reason": "负载优化可能影响延迟、角色独立性和结果分发。"
+      }
+    ],
+    "slots": [
+      {
+        "id": "ch15-q01",
+        "type": "single",
+        "objectiveId": "ch15-o01",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "15.1.2 技术架构概览",
+        "purpose": "辨认Godot、FastAPI、HelloAgents与模型服务的职责。"
+      },
+      {
+        "id": "ch15-q02",
+        "type": "single",
+        "objectiveId": "ch15-o01",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "15.4.1 FastAPI 应用结构",
+        "purpose": "追踪玩家交互经后端调用NPC Agent再返回界面的流程。"
+      },
+      {
+        "id": "ch15-q03",
+        "type": "single",
+        "objectiveId": "ch15-o02",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "15.2.1 基于 HelloAgents 的 SimpleAgent",
+        "purpose": "识别独立NPC Agent对角色与对话管理的作用。"
+      },
+      {
+        "id": "ch15-q04",
+        "type": "single",
+        "objectiveId": "ch15-o02",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "15.2.2 NPC 角色设定与 Prompt 设计",
+        "purpose": "解释职业、性格和行为约束如何进入系统提示并影响回复。"
+      },
+      {
+        "id": "ch15-q05",
+        "type": "single",
+        "objectiveId": "ch15-o03",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "15.3.1 好感度等级划分",
+        "purpose": "辨认关系分数、等级及对应行为之间的映射。"
+      },
+      {
+        "id": "ch15-q06",
+        "type": "single",
+        "objectiveId": "ch15-o03",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "15.3.2 好感度计算逻辑",
+        "purpose": "追踪LLM判断对话态度、更新分数再影响关系等级的流程。"
+      },
+      {
+        "id": "ch15-q07",
+        "type": "single",
+        "objectiveId": "ch15-o04",
+        "dimension": "concept",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "15.4.3 状态管理与日志系统",
+        "purpose": "识别NPC位置、当前动作和是否忙碌的用途。"
+      },
+      {
+        "id": "ch15-q08",
+        "type": "single",
+        "objectiveId": "ch15-o04",
+        "dimension": "mechanism",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "15.6.1 API 客户端封装",
+        "purpose": "解释HTTPRequest异步请求通过信号返回而非阻塞游戏主流程。"
+      },
+      {
+        "id": "ch15-q09",
+        "type": "single",
+        "objectiveId": "ch15-o05",
+        "dimension": "application",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "15.5.1 场景设计与资源组织",
+        "purpose": "识别Main、Player、NPC、DialogueUI的组合职责。"
+      },
+      {
+        "id": "ch15-q10",
+        "type": "single",
+        "objectiveId": "ch15-o05",
+        "dimension": "tradeoff",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "15.6.3 主场景整合",
+        "purpose": "分析定时获取NPC状态在更新及时性与网络负载之间的取舍。"
+      },
+      {
+        "id": "ch15-q11",
+        "type": "single",
+        "objectiveId": "ch15-o06",
+        "dimension": "tradeoff",
+        "level": "understand",
+        "difficulty": "easy",
+        "section": "15.2.4 批量对话生成：轻负载模式",
+        "purpose": "识别合并NPC请求减少LLM调用次数的收益与等待代价。"
+      },
+      {
+        "id": "ch15-q12",
+        "type": "single",
+        "objectiveId": "ch15-o06",
+        "dimension": "comparison",
+        "level": "mechanism",
+        "difficulty": "medium",
+        "section": "15.7.2 扩展方向",
+        "purpose": "比较当前单人游戏与多人在线扩展对实时通信、状态持久化和玩家隔离的额外需求。"
+      },
+      {
+        "id": "ch15-q13",
+        "type": "multiple",
+        "objectiveId": "ch15-o01",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "15.4.4 理解 Godot 的场景系统",
+        "purpose": "比较Godot节点、可复用场景和后端Agent的组织层次，避免同名角色混淆。"
+      },
+      {
+        "id": "ch15-q14",
+        "type": "multiple",
+        "objectiveId": "ch15-o02",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "15.2.3 记忆系统集成",
+        "purpose": "比较WorkingMemory保持近期语境与EpisodicMemory保留过去经历的职责。"
+      },
+      {
+        "id": "ch15-q15",
+        "type": "multiple",
+        "objectiveId": "ch15-o03",
+        "dimension": "comparison",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "15.3.3 好感度影响对话",
+        "purpose": "比较修改系统提示形成的回复风格变化与固定台词树，识别仅更新数字的缺陷。"
+      },
+      {
+        "id": "ch15-q16",
+        "type": "multiple",
+        "objectiveId": "ch15-o04",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "medium",
+        "section": "15.5.3 NPC 行为与交互",
+        "purpose": "在玩家靠近、发起交谈和收到回复之间选择交互范围、忙碌检查和UI更新的必要步骤。"
+      },
+      {
+        "id": "ch15-q17",
+        "type": "multiple",
+        "objectiveId": "ch15-o05",
+        "dimension": "application",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "15.6.2 对话 UI 实现",
+        "purpose": "对发送中、返回回复和关闭对话的场景选择合适UI与玩家交互状态。"
+      },
+      {
+        "id": "ch15-q18",
+        "type": "multiple",
+        "objectiveId": "ch15-o06",
+        "dimension": "tradeoff",
+        "level": "application",
+        "difficulty": "hard",
+        "section": "15.7.3 思考与展望",
+        "purpose": "在成本、延迟、回复质量和角色一致性约束下选择轻负载或逐请求生成，并规划验证。"
+      },
+      {
+        "id": "ch15-q19",
+        "type": "reflection",
+        "objectiveId": "ch15-o02",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "15.2.3 记忆系统集成",
+        "purpose": "为同一玩家与不同NPC的长期交互设计记忆归属、当前上下文和关系状态，指出哪些跨角色共享需要显式设计。"
+      },
+      {
+        "id": "ch15-q20",
+        "type": "reflection",
+        "objectiveId": "ch15-o06",
+        "dimension": null,
+        "level": "reflection",
+        "difficulty": "hard",
+        "section": "15.2.4 批量对话生成：轻负载模式",
+        "purpose": "设计批量对话测试，检验回复映射、角色串扰、等待时间、API失败及回退；将多人扩展设想与当前单人实现分开。"
+      }
+    ],
+    "notes": "重点为NPC角色、记忆、好感度、状态及通信，不考角色姓名、精灵资源和按键。多人在线、数据库和WebSocket在本章属于扩展方向，不能当现有实现。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+  },
+  "review": {
+    "status": "reviewed",
+    "checkedAt": "2026-09-17",
+    "notes": [
+      "已逐题审核全部 20 题的蓝图目标、题干、正确答案、逐项解析与开放题自查标准。",
+      "引文逐条取自锁定课件连续原文，并通过实际小节范围与 URL 核验；保留原始 NotebookLM provenance 和蓝图配额。",
+      "区分课件示例、应用推论、待验证设计与已运行证据，未运行课程代码或宣称部署。",
+      "validate_bank.py --chapters 15,16：两章共 40 题，0 错误。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "ch15-q01",
+      "stem": "赛博小镇的分层职责，哪项匹配正确？",
+      "options": [
+        {
+          "id": "a",
+          "text": "Godot 渲染和交互，FastAPI 路由与状态协调，HelloAgents 组织 NPC 智能，外部模型服务提供生成能力"
+        },
+        {
+          "id": "b",
+          "text": "Godot 负责训练模型，FastAPI 只显示精灵"
+        },
+        {
+          "id": "c",
+          "text": "所有 NPC 记忆都由图片资源文件承担"
+        },
+        {
+          "id": "d",
+          "text": "模型 API 直接替代游戏输入、物理移动和 UI"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "本章将游戏表现、后端协调、智能体逻辑和外部服务分层。分层便于分别管理实时交互与模型请求。",
+      "optionExplanations": {
+        "a": "符合架构职责。",
+        "b": "与引擎和后端实际分工不符。",
+        "c": "记忆依赖智能体及存储系统，不是精灵图片。",
+        "d": "语言生成不能替代整个游戏层。"
+      },
+      "evidence": [
+        {
+          "section": "15.1.2 技术架构概览",
+          "quote": "前端层使用 Godot 4.5 游戏引擎，负责游戏渲染、玩家控制、NPC 显示和对话 UI。Godot 是一个开源的 2D/3D 游戏引擎，非常适合快速开发像素风格的游戏。后端层使用 FastAPI 框架，负责 API 路由、NPC 状态管理、对话处理和日志记录。FastAPI 是一个现代化的 Python Web 框架，性能优秀且易于开发。智能体层使用我们自己构建的 HelloAgents 框架，负责 NPC 智能、记忆管理和好感度计算。每个 NPC 都是一个 SimpleAgent 实例，拥有独立的记忆和状态。外部服务层提供 LLM 能力、向量存储和数据持久化，包括 LLM API、Qdrant 向量数据库和 SQLite 关系数据库。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认Godot、FastAPI、HelloAgents与模型服务的职责。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch15-q02",
+      "stem": "玩家向 NPC 发消息后，哪条处理链符合本章架构？",
+      "options": [
+        {
+          "id": "a",
+          "text": "UI 先把预设文字当成真实模型回复，再忽略后端"
+        },
+        {
+          "id": "b",
+          "text": "Godot 发请求，后端调用 NPC Agent 并协调记忆/状态，返回结果供 UI 显示"
+        },
+        {
+          "id": "c",
+          "text": "后端只记录日志，不需要调用 Agent"
+        },
+        {
+          "id": "d",
+          "text": "模型直接修改游戏引擎源代码来显示回复"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "FastAPI 协调前端请求与 NPC Agent，完整流程还包括检索、模型生成、状态和好感度更新，再返回前端。具体端点样例须按接口契约接线，不能由概述断言代码已联调。",
+      "optionExplanations": {
+        "a": "显示占位内容不等于收到生成结果。",
+        "b": "符合从交互到返回 UI 的职责链。",
+        "c": "日志只是一环，不代替对话处理。",
+        "d": "UI 应通过响应更新，不需要修改引擎源码。"
+      },
+      "evidence": [
+        {
+          "section": "15.4.1 FastAPI 应用结构",
+          "quote": "赛博小镇的后端使用 FastAPI 框架构建，负责处理 Godot 前端的请求，调用 HelloAgents 的 NPC Agent，管理 NPC 状态和好感度，以及记录日志。一个清晰的应用结构能够让代码更易于维护和扩展。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.1.2 技术架构概览",
+          "quote": "玩家在 Godot 中按 E 键与 NPC 互动，Godot 通过 HTTP API 发送对话请求到 FastAPI 后端。后端调用 HelloAgents 的 SimpleAgent 处理对话，Agent 从记忆系统中检索相关历史，然后调用 LLM 生成回复。后端更新 NPC 状态和好感度，记录日志到控制台和文件，最后返回回复给 Godot 前端。Godot 显示 NPC 回复并更新 UI，完成一次完整的交互循环。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪玩家交互经后端调用NPC Agent再返回界面的流程。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q03",
+      "stem": "为每个 NPC 创建独立 SimpleAgent 的主要作用是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只改变屏幕名字，不需要角色或消息管理"
+        },
+        {
+          "id": "b",
+          "text": "让所有 NPC 无条件共享同一份私人对话"
+        },
+        {
+          "id": "c",
+          "text": "分别配置角色提示与对话/记忆管理，保持角色边界"
+        },
+        {
+          "id": "d",
+          "text": "自动保证所有多玩家并发和持久化问题都已解决"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "独立实例为每个角色配置提示和记忆提供组织边界。它不是自动完成玩家隔离、并发控制或持久化的证明。",
+      "optionExplanations": {
+        "a": "名字只是外观标识，智能行为还需配置。",
+        "b": "无条件共享会混淆角色经历。",
+        "c": "符合本章独立 NPC Agent 的设计。",
+        "d": "这些工程问题仍需显式设计与验证。"
+      },
+      "evidence": [
+        {
+          "section": "15.2.1 基于 HelloAgents 的 SimpleAgent",
+          "quote": "在赛博小镇中，每个 NPC 都是一个独立的智能体。我们使用 HelloAgents 框架中的 SimpleAgent 来实现 NPC 的智能。SimpleAgent 是一个轻量级的智能体实现，它封装了 LLM 调用、消息管理和工具调用等核心功能。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.1 基于 HelloAgents 的 SimpleAgent",
+          "quote": "让我们看看如何创建一个 NPC Agent。首先，我们需要定义 NPC 的基本信息，包括 ID、名称、职业和性格。然后，我们根据这些信息构建系统提示词，让 LLM 扮演这个 NPC 的角色。最后，我们创建 SimpleAgent 实例，并配置记忆系统。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别独立NPC Agent对角色与对话管理的作用。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch15-q04",
+      "stem": "想让 NPC 表现为谨慎的工程师，应如何将角色设定用于回复生成？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只修改精灵颜色，提示保持无角色信息"
+        },
+        {
+          "id": "b",
+          "text": "把职业、性格和行为要求写入系统提示，生成时使用该提示"
+        },
+        {
+          "id": "c",
+          "text": "仅更改数据库文件名就必然改变说话方式"
+        },
+        {
+          "id": "d",
+          "text": "把角色信息放在不会进入模型上下文的注释中"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "职业与性格资料需转成实际传入 Agent 的系统提示，才能影响生成；提示仍需通过对话样例检验一致性，不能保证每次完全遵循。",
+      "optionExplanations": {
+        "a": "视觉变化不直接传达给文本生成模型。",
+        "b": "把设定转成实际生成条件。",
+        "c": "存储命名不是角色行为机制。",
+        "d": "未进入上下文的注释无法作为提示约束。"
+      },
+      "evidence": [
+        {
+          "section": "15.2.2 NPC 角色设定与 Prompt 设计",
+          "quote": "张三是一位资深的 Python 工程师，负责 HelloAgents 框架的核心开发。他性格严谨，说话直接，喜欢用技术术语。他对代码质量有很高的要求，经常会分享一些编程技巧和最佳实践。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.1 基于 HelloAgents 的 SimpleAgent",
+          "quote": "让我们看看如何创建一个 NPC Agent。首先，我们需要定义 NPC 的基本信息，包括 ID、名称、职业和性格。然后，我们根据这些信息构建系统提示词，让 LLM 扮演这个 NPC 的角色。最后，我们创建 SimpleAgent 实例，并配置记忆系统。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释职业、性格和行为约束如何进入系统提示并影响回复。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q05",
+      "stem": "好感度中的分数、等级和对话行为是什么关系？",
+      "options": [
+        {
+          "id": "a",
+          "text": "分数按区间映射等级，等级对应预期的态度风格，再由对话机制使用"
+        },
+        {
+          "id": "b",
+          "text": "等级是独立随机字符串，与分数没有关系"
+        },
+        {
+          "id": "c",
+          "text": "只显示更高数字就能证明模型更亲切"
+        },
+        {
+          "id": "d",
+          "text": "一旦分数增加，所有 NPC 对所有玩家都同步变亲密"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "分数表征特定关系，等级将分数映射成行为指导；实际风格变化还需要进入生成流程并验证。",
+      "optionExplanations": {
+        "a": "准确区分量化状态与行为指引。",
+        "b": "教材明确按分数范围划分等级。",
+        "c": "显示状态不是模型行为生效证据。",
+        "d": "不同 NPC/玩家的关系不能无条件同步。"
+      },
+      "evidence": [
+        {
+          "section": "15.3.1 好感度等级划分",
+          "quote": "在赛博小镇中，NPC 对玩家的态度会随着互动而变化。我们设计了一个五级好感度系统，从陌生到挚友，每个等级都有不同的分数范围和对应的行为表现。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.3.1 好感度等级划分",
+          "quote": "好感度系统的核心思想是：通过量化 NPC 与玩家的关系，让 NPC 的回复更加真实和有层次感。当玩家刚进入游戏时，所有 NPC 对玩家都是陌生的态度，回复比较礼貌但疏远。随着对话的进行，如果玩家表现友好，NPC 的好感度会逐渐提升，回复也会变得更加亲切和详细。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "辨认关系分数、等级及对应行为之间的映射。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch15-q06",
+      "stem": "本章好感度更新的顺序，哪项正确？",
+      "options": [
+        {
+          "id": "a",
+          "text": "每次固定加分，不看对话内容"
+        },
+        {
+          "id": "b",
+          "text": "先随机选择等级，之后不保存分数"
+        },
+        {
+          "id": "c",
+          "text": "由 LLM 分析对话态度得到变化值，限制并更新分数，再据新分数确定等级"
+        },
+        {
+          "id": "d",
+          "text": "只更新 UI 标签，不保留关系状态"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "管理器分析玩家消息和 NPC 回复，处理变化值，再更新对应关系的分数与等级。LLM 判断可能出错，示例的限制和默认值也不能保证语义判断准确。",
+      "optionExplanations": {
+        "a": "教材希望根据态度动态变化。",
+        "b": "等级由新分数映射，不是随机选择。",
+        "c": "符合分析、数值更新和等级映射过程。",
+        "d": "UI 不是关系管理器的数据更新。"
+      },
+      "evidence": [
+        {
+          "section": "15.3.2 好感度计算逻辑",
+          "quote": "在赛博小镇中，我们使用 LLM 来分析对话内容，判断玩家的态度是友好、中立还是不友好。然后根据判断结果调整好感度分数。这个过程是自动的，不需要玩家刻意选择选项，让互动更加自然。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.3.2 好感度计算逻辑",
+          "quote": "        # 更新分数\n        current_score = self.affinity_data[key][\"score\"]\n        new_score = max(0, min(100, current_score + score_change))\n\n        # 更新等级\n        level = self.get_affinity_level(new_score)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "追踪LLM判断对话态度、更新分数再影响关系等级的流程。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q07",
+      "stem": "NPC 状态中的位置、当前动作和 is_busy 主要用于什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "替代 NPC 的全部长期记忆"
+        },
+        {
+          "id": "b",
+          "text": "表示空间与行为状态，并为是否接纳交互提供判断依据"
+        },
+        {
+          "id": "c",
+          "text": "证明模型 API 永远不会失败"
+        },
+        {
+          "id": "d",
+          "text": "只要有 is_busy 字段，就能保证跨进程原子互斥"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "这些字段描述当前状态，忙碌标记可辅助交互协调。示例的检查与设置是分开方法，不能把普通布尔字段当作已实现原子锁。",
+      "optionExplanations": {
+        "a": "运行状态不等同于历史记忆。",
+        "b": "与状态管理职责一致。",
+        "c": "状态字段无法保证外部服务可用。",
+        "d": "原子并发控制需要额外机制和验证。"
+      },
+      "evidence": [
+        {
+          "section": "15.4.3 状态管理与日志系统",
+          "quote": "状态管理器负责跟踪每个 NPC 的当前状态，包括位置、是否忙碌、当前动作等。这对于防止并发问题很重要,比如避免一个 NPC 同时与多个玩家对话。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.4.3 状态管理与日志系统",
+          "quote": "    def is_npc_busy(self, npc_id: str) -> bool:\n        \"\"\"检查NPC是否忙碌\"\"\"\n        npc = self.npc_states.get(npc_id)\n        return npc[\"is_busy\"] if npc else False\n\n    def set_npc_busy(self, npc_id: str, busy: bool):\n        \"\"\"设置NPC忙碌状态\"\"\"\n        if npc_id in self.npc_states:\n            self.npc_states[npc_id][\"is_busy\"] = busy",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别NPC位置、当前动作和是否忙碌的用途。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch15-q08",
+      "stem": "HTTPRequest 发出对话请求后，如何避免等待模型回复时阻塞游戏主流程？",
+      "options": [
+        {
+          "id": "a",
+          "text": "在主循环反复同步等待直到网络返回"
+        },
+        {
+          "id": "b",
+          "text": "不接收响应，永远显示加载中"
+        },
+        {
+          "id": "c",
+          "text": "异步发送请求，完成后通过信号通知对应界面处理结果"
+        },
+        {
+          "id": "d",
+          "text": "每次请求结束前都暂停整个游戏进程"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "HTTPRequest 的异步请求与完成信号将网络等待和 UI 处理分开。此机制减少等待对主流程的阻塞，不保证任何代码和设备下都绝不卡顿。",
+      "optionExplanations": {
+        "a": "同步阻塞等待会影响主流程。",
+        "b": "不处理完成事件无法完成交互。",
+        "c": "符合本章异步与信号机制。",
+        "d": "暂停整个进程不符合异步设计目的。"
+      },
+      "evidence": [
+        {
+          "section": "15.6.1 API 客户端封装",
+          "quote": "API 客户端使用 Godot 的 HTTPRequest 节点来发送 HTTP 请求。HTTPRequest 是一个异步节点，发送请求后不会阻塞游戏，而是通过信号通知请求完成。这样可以保证游戏的流畅性，即使网络延迟较高也不会卡顿。我们使用信号机制来通知其他脚本 API 响应，而不是使用 await，这样可以让多个脚本同时监听同一个 API 响应。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "解释HTTPRequest异步请求通过信号返回而非阻塞游戏主流程。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q09",
+      "stem": "组合可测试的玩家、NPC 与对话界面时，Main 场景承担什么作用？",
+      "options": [
+        {
+          "id": "a",
+          "text": "直接替代所有后端 Agent"
+        },
+        {
+          "id": "b",
+          "text": "只保存音效，与其他场景没有关系"
+        },
+        {
+          "id": "c",
+          "text": "把所有实例合并成同一个共享位置对象"
+        },
+        {
+          "id": "d",
+          "text": "实例化并协调 Player、NPC 和 DialogueUI，连接游戏交互"
+        }
+      ],
+      "answerIds": [
+        "d"
+      ],
+      "explanation": "本章四个核心场景各自承担功能，Main 负责组合。多个 NPC 可以复用结构，但实例的位置和状态各自独立。",
+      "optionExplanations": {
+        "a": "游戏主场景与后端智能体分层。",
+        "b": "Main 负责组件整合。",
+        "c": "复用场景结构不等于所有实例状态合一。",
+        "d": "符合模块化场景组合职责。"
+      },
+      "evidence": [
+        {
+          "section": "15.5.1 场景设计与资源组织",
+          "quote": "赛博小镇的场景组织采用了模块化设计。我们首先创建三个基础场景：Player(玩家)、NPC(非玩家角色)和 DialogueUI(对话界面)。然后在 Main(主场景)中将这些场景实例化并组合起来。特别值得注意的是，三个 NPC(张三、李四、王五)都是同一个 NPC 场景的实例，只是通过脚本参数设置了不同的角色信息。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别Main、Player、NPC、DialogueUI的组合职责。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch15-q10",
+      "stem": "缩短主场景获取 NPC 状态的轮询间隔，会带来什么取舍？",
+      "options": [
+        {
+          "id": "a",
+          "text": "可能更及时看到更新，但会增加请求负载，且还受后端生成频率和网络延迟限制"
+        },
+        {
+          "id": "b",
+          "text": "一定让后端模型推理速度同比提升"
+        },
+        {
+          "id": "c",
+          "text": "一定减少所有网络请求"
+        },
+        {
+          "id": "d",
+          "text": "只要轮询足够快，就不必处理尚未结束的请求"
+        }
+      ],
+      "answerIds": [
+        "a"
+      ],
+      "explanation": "轮询频率影响状态获取时机和请求量，不能独自决定状态的新鲜度。客户端示例还会检查状态请求是否正在处理。",
+      "optionExplanations": {
+        "a": "正确区分及时性、请求成本与上游更新限制。",
+        "b": "读取频率不会自动加速模型推理。",
+        "c": "更短间隔通常增加尝试请求次数。",
+        "d": "仍需避免请求重叠和处理失败。"
+      },
+      "evidence": [
+        {
+          "section": "15.6.3 主场景整合",
+          "quote": "主场景脚本的核心功能是定时从后端获取 NPC 状态。在`_ready()`中，我们获取 APIClient 单例的引用，并连接`npc_status_received`信号。然后立即调用`get_npc_status()`获取一次 NPC 状态。在`_process()`中，我们使用计时器每隔`Config.NPC_STATUS_UPDATE_INTERVAL`秒(默认 30 秒)调用一次`get_npc_status()`。当收到 NPC 状态更新时，`_on_npc_status_received()`回调函数会遍历所有 NPC，调用它们的`update_dialogue()`方法更新对话气泡。这样，即使玩家不与 NPC 交互，也能看到 NPC 之间的自主对话。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.6.1 API 客户端封装",
+          "quote": "    # 检查是否正在处理请求\n    if http_status.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED:\n        print(\"[WARN] NPC状态请求正在处理中,跳过本次请求\")\n        return",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "分析定时获取NPC状态在更新及时性与网络负载之间的取舍。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q11",
+      "stem": "本章轻负载混合模式的合理理解是什么？",
+      "options": [
+        {
+          "id": "a",
+          "text": "把每条玩家消息都替换为缓存背景台词，质量必然相同"
+        },
+        {
+          "id": "b",
+          "text": "背景台词批量生成可减少调用次数，但更新可能滞后；玩家对话仍走专属 Agent"
+        },
+        {
+          "id": "c",
+          "text": "批量生成保证费用严格降到固定比例且没有等待"
+        },
+        {
+          "id": "d",
+          "text": "只需要求 JSON，就可省略解析与异常处理"
+        }
+      ],
+      "answerIds": [
+        "b"
+      ],
+      "explanation": "批量主要面向场景背景内容，直接交互保留个性化路径。减少调用不等于固定费用或延迟收益，缓存频率也影响内容新鲜度。",
+      "optionExplanations": {
+        "a": "背景台词缺少当前玩家具体语境。",
+        "b": "正确区分用途和取舍。",
+        "c": "真实收益依赖 token、频率、延迟等条件。",
+        "d": "模型不保证输出永远合法。"
+      },
+      "evidence": [
+        {
+          "section": "15.2.4 批量对话生成：轻负载模式",
+          "quote": "当然，批量生成也有一些限制。它更适合生成 NPC 的\"背景对话\"或\"自言自语\"，而不是与玩家的直接互动。对于玩家发起的对话，我们仍然使用单独的 Agent 来处理，以保证回复的个性化和准确性。批量生成主要用于以下场景：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.4 批量对话生成：轻负载模式",
+          "quote": "具体来说，系统会在后台定期运行批量生成，为所有 NPC 生成当前场景下的\"背景对话\"。这些对话会被缓存起来，当玩家靠近 NPC 但还没有发起交互时，NPC 会显示这些背景对话，比如\"正在调试代码...\"、\"在看产品文档...\"等。这让 NPC 看起来是\"活着的\"，而不是静止的模型。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "识别合并NPC请求减少LLM调用次数的收益与等待代价。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy"
+    },
+    {
+      "id": "ch15-q12",
+      "stem": "与当前单人游戏相比，多人在线扩展增加了哪些核心要求？",
+      "options": [
+        {
+          "id": "a",
+          "text": "只换角色名字即可，无需改变数据或通信"
+        },
+        {
+          "id": "b",
+          "text": "只能删除所有记忆才能支持多人"
+        },
+        {
+          "id": "c",
+          "text": "更实时的通信、玩家与 NPC 状态持久化，以及按玩家区分关系和历史"
+        },
+        {
+          "id": "d",
+          "text": "当前定时背景台词已证明多人在线完整实现"
+        }
+      ],
+      "answerIds": [
+        "c"
+      ],
+      "explanation": "教材将多人在线列为扩展方向，提出 WebSocket、数据持久化和各玩家独立好感度。玩家历史隔离是扩展设计中也需落实的应用要求。",
+      "optionExplanations": {
+        "a": "身份、共享状态与并发交互需要额外设计。",
+        "b": "记忆可按身份组织，并非必须删除。",
+        "c": "概括扩展所需的通信与数据边界。",
+        "d": "背景内容显示不证明多用户架构完成。"
+      },
+      "evidence": [
+        {
+          "section": "15.7.2 扩展方向",
+          "quote": "目前的赛博小镇是单人游戏，但我们可以将其扩展为多人在线游戏。多个玩家可以同时进入同一个办公室，与 NPC 和其他玩家互动。这需要引入 WebSocket 进行实时通信，以及数据库来持久化玩家数据和 NPC 状态。NPC 可以记住与不同玩家的互动，对每个玩家保持独立的好感度。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较当前单人游戏与多人在线扩展对实时通信、状态持久化和玩家隔离的额外需求。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "single",
+      "objectiveId": "ch15-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q13",
+      "stem": "关于 Godot 场景、节点和后端 NPC Agent，哪些理解正确？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "节点是功能构建块，场景组织节点并可被实例化"
+        },
+        {
+          "id": "b",
+          "text": "多个 NPC 可复用同一场景结构，但拥有各自位置和状态"
+        },
+        {
+          "id": "c",
+          "text": "Godot 中两个实例显示同名，就必然指向同一个后端 Agent"
+        },
+        {
+          "id": "d",
+          "text": "前端 NPC 实例与后端角色身份的映射需要明确，不能仅因都称 NPC 就视为同一层对象"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "场景组织前端显示和交互，后端 Agent 组织角色生成与记忆。实例映射是跨层契约，显示名称本身不能证明一致身份。",
+      "optionExplanations": {
+        "a": "符合场景系统的组织层次。",
+        "b": "结构复用与实例状态独立可以同时成立。",
+        "c": "显示名称不构成自动映射保证。",
+        "d": "避免把前端对象和智能体混为一谈。"
+      },
+      "evidence": [
+        {
+          "section": "15.4.4 理解 Godot 的场景系统",
+          "quote": "节点是 Godot 中最基本的构建块。你可以把节点想象成乐高积木，每个节点都有特定的功能。比如，Sprite2D 节点用于显示图片，AudioStreamPlayer 节点用于播放音频，CharacterBody2D 节点用于处理角色的物理移动。Godot 提供了上百种不同类型的节点，每种节点都专注于做好一件事。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.4.4 理解 Godot 的场景系统",
+          "quote": "场景是一组节点的集合，保存在一个.tscn 文件中。你可以把场景理解为一个\"预制件\"。比如，我们可以创建一个\"玩家\"场景，包含角色的精灵、碰撞体、音效等所有相关节点。然后在游戏中多次使用这个场景，每次使用都会创建一个独立的实例。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.4.4 理解 Godot 的场景系统",
+          "quote": "当我们在主场景中实例化这个 Player 场景时，Godot 会创建这整个节点树的一个副本。我们可以创建多个玩家实例，每个实例都是独立的，有自己的位置、状态和行为。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.1 基于 HelloAgents 的 SimpleAgent",
+          "quote": "在赛博小镇中，每个 NPC 都是一个独立的智能体。我们使用 HelloAgents 框架中的 SimpleAgent 来实现 NPC 的智能。SimpleAgent 是一个轻量级的智能体实现，它封装了 LLM 调用、消息管理和工具调用等核心功能。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较Godot节点、可复用场景和后端Agent的组织层次，避免同名角色混淆。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch15-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q14",
+      "stem": "关于 NPC 的短期与长期记忆，哪些理解正确？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "WorkingMemory 支持近期上下文，例如解析“它”指的对象"
+        },
+        {
+          "id": "b",
+          "text": "EpisodicMemory 可按当前话题检索过去经历"
+        },
+        {
+          "id": "c",
+          "text": "把近期对话和相关历史加入生成上下文后，仍应验证是否正确利用并保存新互动"
+        },
+        {
+          "id": "d",
+          "text": "只要长期保存过对话，每次回复就自动拥有全部历史且永不遗忘"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "短期记忆保持当前语境，长期记忆通过检索补充相关经历。保存、检索和在回复中正确使用是不同环节，不能保证全量回忆。",
+      "optionExplanations": {
+        "a": "近期上下文有助于指代衔接。",
+        "b": "符合语义检索历史的用途。",
+        "c": "链路各环节都需有效连接。",
+        "d": "存储不等于每次全量注入或正确回忆。"
+      },
+      "evidence": [
+        {
+          "section": "15.2.3 记忆系统集成",
+          "quote": "短期记忆存储最近的对话内容，容量有限，会随着时间自动清理。它的作用是保持对话的连贯性，让 NPC 能够理解上下文。比如，当玩家说\"它是什么颜色的?\"时，NPC 需要从短期记忆中找到\"它\"指的是什么。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.3 记忆系统集成",
+          "quote": "长期记忆存储所有的对话历史，使用向量数据库进行语义检索。当玩家提到某个话题时，NPC 可以从长期记忆中检索相关的历史对话，回忆起之前讨论过的内容。比如，当玩家说\"还记得我们上次讨论的那个项目吗?\"，NPC 可以从长期记忆中找到相关的对话记录。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.3 记忆系统集成",
+          "quote": "在实际使用中，Agent 会先从短期记忆中获取最近的对话，然后从长期记忆中检索相关的历史对话，将这些信息一起发送给 LLM，生成更加准确和个性化的回复。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较WorkingMemory保持近期语境与EpisodicMemory保留过去经历的职责。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch15-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q15",
+      "stem": "比较好感度驱动提示与固定台词树，哪些判断合理？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "动态提示把关系等级转成回复风格要求，可生成不局限于固定台词的内容"
+        },
+        {
+          "id": "b",
+          "text": "若仅更新关系分数而未将关系信息用于生成，不能据此证明回复风格已改变"
+        },
+        {
+          "id": "c",
+          "text": "动态提示保证每条回复完全符合角色，无需样例验证"
+        },
+        {
+          "id": "d",
+          "text": "应在保持角色设定的同时测试不同关系等级下的回复差异"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "d"
+      ],
+      "explanation": "本章通过系统提示传递关系状态。生成式回复较灵活，但遵循程度需要验证；数字变化与行为变化并不等价。",
+      "optionExplanations": {
+        "a": "关系信息作为生成条件而非固定台词索引。",
+        "b": "区分状态更新与生成机制生效。",
+        "c": "提示约束并非严格保证。",
+        "d": "检验风格变化与角色一致性。"
+      },
+      "evidence": [
+        {
+          "section": "15.3.3 好感度影响对话",
+          "quote": "好感度不仅仅是一个数字，它应该真正影响 NPC 的行为。在赛博小镇中，我们通过修改 NPC 的系统提示词，让 NPC 根据当前的好感度等级调整回复风格。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.7.3 思考与展望",
+          "quote": "赛博小镇展示了 AI 技术在游戏中的巨大潜力。传统游戏中的 NPC 受限于预设的对话树和脚本，而 AI NPC 可以理解和生成自然语言，与玩家进行真正的对话。这不仅提升了游戏的沉浸感，也为游戏设计带来了新的可能性。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "比较修改系统提示形成的回复风格变化与固定台词树，识别仅更新数字的缺陷。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch15-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q16",
+      "stem": "玩家靠近 NPC 并发起交谈到收到回复，哪些处理合理？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "进入交互范围后标识可交互对象，离开时清除该引用"
+        },
+        {
+          "id": "b",
+          "text": "对话开始时协调交互/忙碌状态，避免仍按普通巡逻或可重复提交处理"
+        },
+        {
+          "id": "c",
+          "text": "回复返回后根据目标 NPC 更新对话显示，对话结束再恢复相应交互状态"
+        },
+        {
+          "id": "d",
+          "text": "只检查一次 is_busy，就能证明任何并发下都不会重复接纳请求"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "前端范围检测、交互状态和返回结果各有职责。忙碌检查是协调的一环，教材普通检查/设置不能视为原子锁；具体一致性需要进一步验证。",
+      "optionExplanations": {
+        "a": "对应进入和离开区域的处理。",
+        "b": "交谈期间需协调移动与请求状态。",
+        "c": "显示和状态恢复应对应当前会话。",
+        "d": "单次布尔检查不构成并发互斥保证。"
+      },
+      "evidence": [
+        {
+          "section": "15.5.3 NPC 行为与交互",
+          "quote": "NPC 需要实现三个核心功能：在场景中随机巡逻游走、响应玩家的交互、显示对话气泡。我们使用 Area2D 来检测玩家是否靠近 NPC，当玩家进入交互范围时通知玩家，玩家按 E 键即可开始对话。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.5.3 NPC 行为与交互",
+          "quote": "这个脚本实现了 NPC 的完整行为。NPC 会在出生位置附近的`wander_range`范围内随机巡逻，每隔`wander_interval_min`到`wander_interval_max`秒选择一个新的目标点并移动过去。移动时会播放 4 方向动画(walk_up/down/left/right)，到达目标后停止并播放 idle 动画。当玩家进入 InteractionArea 时，NPC 会调用玩家的`set_nearby_npc(self)`方法，将自己设置为可交互对象。玩家按 E 键后，对话系统会调用 NPC 的`set_interacting(true)`方法，NPC 停止移动。对话结束后调用`set_interacting(false)`，NPC 恢复巡逻。主场景会定时调用`update_dialogue()`方法更新 NPC 的对话气泡，显示 NPC 之间的自主对话内容。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.4.3 状态管理与日志系统",
+          "quote": "状态管理器负责跟踪每个 NPC 的当前状态，包括位置、是否忙碌、当前动作等。这对于防止并发问题很重要,比如避免一个 NPC 同时与多个玩家对话。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "在玩家靠近、发起交谈和收到回复之间选择交互范围、忙碌检查和UI更新的必要步骤。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch15-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium"
+    },
+    {
+      "id": "ch15-q17",
+      "stem": "对话发送中、返回回复和关闭界面时，哪些状态策略合理？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "等待响应时禁用重复发送，并显示发送中状态；失败时需设计恢复路径"
+        },
+        {
+          "id": "b",
+          "text": "返回回复应核对所属 NPC/会话后再显示，成功或失败结束后恢复可用输入"
+        },
+        {
+          "id": "c",
+          "text": "关闭对话时恢复玩家移动，并对迟到响应作会话归属检查"
+        },
+        {
+          "id": "d",
+          "text": "关闭窗口就证明服务端请求已取消，迟到响应不可能发生"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "教材示例包含禁用输入、NPC 名称匹配、关闭后恢复移动。失败恢复和更细会话标识是健壮性补充建议，不是示例已全部实现；同一 NPC 的旧会话也可能需要区分。",
+      "optionExplanations": {
+        "a": "等待控制防重复，异常出口防永久禁用。",
+        "b": "正确绑定返回内容与交互状态。",
+        "c": "关闭 UI 与网络请求生命周期不同。",
+        "d": "隐藏窗口不自动取消后端工作。"
+      },
+      "evidence": [
+        {
+          "section": "15.6.2 对话 UI 实现",
+          "quote": "    # 禁用输入\n    input_field.editable = false\n    send_button.disabled = true",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.6.2 对话 UI 实现",
+          "quote": "    if npc_name == current_npc_name:\n        # 显示NPC回复\n        dialogue_text.append_text(\"[color=yellow]\" + npc_name + \":[/color] \" + response + \"\\n\")\n\n        # 启用输入\n        input_field.editable = true\n        send_button.disabled = false",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.6.2 对话 UI 实现",
+          "quote": "    # 通知玩家退出交互状态(启用移动)\n    var player = get_tree().get_first_node_in_group(\"player\")\n    if player and player.has_method(\"set_interacting\"):\n        player.set_interacting(false)",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "对发送中、返回回复和关闭对话的场景选择合适UI与玩家交互状态。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch15-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch15-q18",
+      "stem": "面对 API 成本、延迟与角色一致性要求，哪些选择合理？（多选）",
+      "options": [
+        {
+          "id": "a",
+          "text": "背景内容尝试批量缓存，具体玩家交互保留专属 Agent 路径"
+        },
+        {
+          "id": "b",
+          "text": "实测调用量、token 成本、等待时间和回复相关性，再调生成频率"
+        },
+        {
+          "id": "c",
+          "text": "检查角色串扰与不合适内容，提示和过滤仍需验证"
+        },
+        {
+          "id": "d",
+          "text": "为了省调用，把所有玩家私人历史拼进共享背景提示，无需隔离"
+        }
+      ],
+      "answerIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "explanation": "生成策略需匹配任务用途并评估质量与成本。批量不是一切交互的替代方案，开放生成也不保证内容可控。",
+      "optionExplanations": {
+        "a": "符合教材混合模式的用途边界。",
+        "b": "收益和质量变化应实测。",
+        "c": "回应开放生成与角色约束的风险。",
+        "d": "不必要共享会破坏角色和玩家信息边界。"
+      },
+      "evidence": [
+        {
+          "section": "15.7.3 思考与展望",
+          "quote": "但 AI NPC 也面临一些挑战。首先是成本问题，每次对话都需要调用 LLM API，这会产生一定的费用。对于大型多人在线游戏，这个成本可能会很高。其次是延迟问题，LLM 的推理需要时间，如果网络延迟较高，玩家可能需要等待几秒才能看到 NPC 的回复。最后是内容控制问题，LLM 生成的内容可能不完全可控，需要设计好的提示词和内容过滤机制。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.4 批量对话生成：轻负载模式",
+          "quote": "当然，批量生成也有一些限制。它更适合生成 NPC 的\"背景对话\"或\"自言自语\"，而不是与玩家的直接互动。对于玩家发起的对话，我们仍然使用单独的 Agent 来处理，以保证回复的个性化和准确性。批量生成主要用于以下场景：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "在成本、延迟、回复质量和角色一致性约束下选择轻负载或逐请求生成，并规划验证。",
+        "misconception": "混淆本题各环节的职责、前提或完成证据。"
+      },
+      "referenceAnswer": "",
+      "rubric": [],
+      "type": "multiple",
+      "objectiveId": "ch15-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch15-q19",
+      "stem": "同一玩家分别与不同 NPC 长期交流时，如何设计记忆归属、当前上下文及关系状态？再说明若未来支持多个玩家，哪些身份键和共享规则必须新增，哪些内容不应默认跨角色共享。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "参考方案将本章每 NPC 的记忆组织与按 NPC/玩家维护关系扩展成明确边界。多人隔离和共享事件规则属于进一步设计，不代表教材当前单人示例已经实现。",
+      "optionExplanations": {},
+      "evidence": [
+        {
+          "section": "15.2.3 记忆系统集成",
+          "quote": "短期记忆存储最近的对话内容，容量有限，会随着时间自动清理。它的作用是保持对话的连贯性，让 NPC 能够理解上下文。比如，当玩家说\"它是什么颜色的?\"时，NPC 需要从短期记忆中找到\"它\"指的是什么。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.3 记忆系统集成",
+          "quote": "长期记忆存储所有的对话历史，使用向量数据库进行语义检索。当玩家提到某个话题时，NPC 可以从长期记忆中检索相关的历史对话，回忆起之前讨论过的内容。比如，当玩家说\"还记得我们上次讨论的那个项目吗?\"，NPC 可以从长期记忆中找到相关的对话记录。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.3.2 好感度计算逻辑",
+          "quote": "        key = f\"{npc_id}_{player_name}\"",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.7.2 扩展方向",
+          "quote": "目前的赛博小镇是单人游戏，但我们可以将其扩展为多人在线游戏。多个玩家可以同时进入同一个办公室，与 NPC 和其他玩家互动。这需要引入 WebSocket 进行实时通信，以及数据库来持久化玩家数据和 NPC 状态。NPC 可以记住与不同玩家的互动，对每个玩家保持独立的好感度。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "为同一玩家与不同NPC的长期交互设计记忆归属、当前上下文和关系状态，指出哪些跨角色共享需要显式设计。",
+        "misconception": "把设计设想或单步成功视作已验证的完整实现。"
+      },
+      "referenceAnswer": "每个 NPC 保留自己的角色提示与经历；近期上下文按当前会话管理，相关长期经历检索后才进入该 NPC 的回复上下文，结束后保存互动。关系状态与相应 NPC 和玩家绑定，并把等级用于生成。玩家告诉 NPC A 的私人信息不自动成为 NPC B 的亲历记忆；若设计小镇公共事件，应将事件来源、可见角色与共享范围明确标记。未来多人使用稳定 player_id、npc_id、session_id 组织记忆和请求，避免仅凭同名玩家识别。检索和更新时按归属过滤，测试 A/B 角色、不同玩家、会话切换及长期召回，验证没有串扰；不要把现有 npc_id 文件命名当作已完成全部多人隔离。",
+      "rubric": [
+        "是否区分角色长期经历、当前会话上下文与关系分数。",
+        "是否明确 NPC/玩家/会话身份及检索和更新归属。",
+        "是否给出可控的公共事件共享规则，而非默认共享私人历史。",
+        "是否提出跨角色与跨玩家隔离验证，并区分现有单人实现与扩展设想。"
+      ],
+      "type": "reflection",
+      "objectiveId": "ch15-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard"
+    },
+    {
+      "id": "ch15-q20",
+      "stem": "为轻负载批量背景对话设计验证方案：如何检查 JSON 与 NPC 回复映射、角色串扰、内容更新时间和等待成本、API 失败与回退？说明玩家直接交互如何测试，并把多人在线扩展与当前单人实现分开。",
+      "options": [],
+      "answerIds": [],
+      "explanation": "批量生成只负责背景内容，玩家专属 Agent 负责直接交互。参考答案中的结构校验、旧值回退、会话标识和多人压测是建议的验证/增强方案，不是教材已经执行或全部实现的功能。",
+      "optionExplanations": {},
+      "evidence": [
+        {
+          "section": "15.2.4 批量对话生成：轻负载模式",
+          "quote": "当然，批量生成也有一些限制。它更适合生成 NPC 的\"背景对话\"或\"自言自语\"，而不是与玩家的直接互动。对于玩家发起的对话，我们仍然使用单独的 Agent 来处理，以保证回复的个性化和准确性。批量生成主要用于以下场景：",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.4 批量对话生成：轻负载模式",
+          "quote": "具体来说，系统会在后台定期运行批量生成，为所有 NPC 生成当前场景下的\"背景对话\"。这些对话会被缓存起来，当玩家靠近 NPC 但还没有发起交互时，NPC 会显示这些背景对话，比如\"正在调试代码...\"、\"在看产品文档...\"等。这让 NPC 看起来是\"活着的\"，而不是静止的模型。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.2.4 批量对话生成：轻负载模式",
+          "quote": "但是，当玩家按下 E 键发起交互时，系统会立即切换到即时响应模式。此时，后端会调用该 NPC 的专属 Agent，根据玩家的具体消息、历史记忆和好感度，生成个性化的回复。这个过程是实时的，确保 NPC 的回复与玩家的输入高度相关。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        },
+        {
+          "section": "15.7.2 扩展方向",
+          "quote": "目前的赛博小镇是单人游戏，但我们可以将其扩展为多人在线游戏。多个玩家可以同时进入同一个办公室，与 NPC 和其他玩家互动。这需要引入 WebSocket 进行实时通信，以及数据库来持久化玩家数据和 NPC 状态。NPC 可以记住与不同玩家的互动，对每个玩家保持独立的好感度。",
+          "url": "https://github.com/datawhalechina/hello-agents/blob/4f7682ceafe573d07cd8a7d0b89908500e83227d/docs/chapter15/%E7%AC%AC%E5%8D%81%E4%BA%94%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E8%B5%9B%E5%8D%9A%E5%B0%8F%E9%95%87.md"
+        }
+      ],
+      "design": {
+        "purpose": "设计批量对话测试，检验回复映射、角色串扰、等待时间、API失败及回退；将多人扩展设想与当前单人实现分开。",
+        "misconception": "把设计设想或单步成功视作已验证的完整实现。"
+      },
+      "referenceAnswer": "先准备具有不同职业、语气和地点的 NPC，用同一场景批量生成，检查返回 JSON 可解析、键集合与 NPC 身份匹配、每条回复归属正确，发现缺失/多余键或错误类型时不直接覆盖有效缓存。检查角色口吻及内容是否越界引用另一角色或玩家私人信息。记录调用数、token、生成耗时、缓存年龄及玩家看到更新的时间，对比不同更新间隔；不预设成本必减至固定比例。注入超时、服务错误和坏 JSON，验证日志、错误提示及保留上次有效背景或安全默认文本等回退策略。玩家发起消息时应走专属 Agent，验证最新输入、历史与关系信息实际生效，区分发送、成功、失败及关闭后的迟到响应。当前单人路径先验证；多人阶段另设计身份隔离、并发接纳、持久化与实时同步测试，不能凭普通 is_busy 字段宣称跨进程互斥。",
+      "rubric": [
+        "是否检查结构合法性、完整映射与角色一致性。",
+        "是否测量等待、新鲜度和调用成本，而非承诺固定收益。",
+        "是否覆盖 API/解析失败并说明可检验的回退和恢复行为。",
+        "是否单独验证玩家即时交互及会话状态，不用背景缓存替代个性化回复。",
+        "是否明确当前单人能力与多人扩展测试边界。"
+      ],
+      "type": "reflection",
+      "objectiveId": "ch15-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard"
+    }
+  ]
+}

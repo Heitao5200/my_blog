@@ -1,0 +1,267 @@
+{
+  "objectives": [
+    {
+      "id": "ch03-o01",
+      "title": "解释序列建模向注意力架构演进",
+      "sections": [
+        "3.1.1 从 N-gram 到 RNN",
+        "3.1.2 Transformer 架构解析",
+        "3.1.1 从 N-gram 到 RNN"
+      ],
+      "reason": "理解建模假设和计算依赖，比模型名更能迁移。"
+    },
+    {
+      "id": "ch03-o02",
+      "title": "理解注意力与Decoder-Only的生成约束",
+      "sections": [
+        "3.1.2 Transformer 架构解析",
+        "3.1.2 Transformer 架构解析",
+        "3.1.3 Decoder-Only 架构"
+      ],
+      "reason": "因果遮罩和位置信息决定模型能看什么及如何生成。"
+    },
+    {
+      "id": "ch03-o03",
+      "title": "设计清晰提示并调节采样",
+      "sections": [
+        "3.2.1 提示工程",
+        "3.2.1 提示工程",
+        "3.2.1 提示工程"
+      ],
+      "reason": "提示结构和采样分别控制任务说明与输出分布，不能混同可靠性。"
+    },
+    {
+      "id": "ch03-o04",
+      "title": "理解token化与本地推理数据流",
+      "sections": [
+        "3.2.2 文本分词",
+        "3.2.3 调用开源大语言模型",
+        "3.2.3 调用开源大语言模型"
+      ],
+      "reason": "输入文本必须经模型匹配的编码解码流程，token不是字词的固定同义词。"
+    },
+    {
+      "id": "ch03-o05",
+      "title": "按任务和资源选择模型",
+      "sections": [
+        "3.2.4 模型的选择",
+        "3.3.1 缩放法则",
+        "3.2.4 模型的选择"
+      ],
+      "reason": "模型能力、部署资源和成本共同约束方案，不追逐榜单型号。"
+    },
+    {
+      "id": "ch03-o06",
+      "title": "识别幻觉并选择有边界的缓解方法",
+      "sections": [
+        "3.3.2 模型幻觉",
+        "3.3.2 模型幻觉",
+        "3.3.1 缩放法则"
+      ],
+      "reason": "区分事实正确性与语言流畅性，避免把提示或规模当保证。"
+    }
+  ],
+  "slots": [
+    {
+      "id": "ch03-q01",
+      "type": "single",
+      "objectiveId": "ch03-o01",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "3.1.1 从 N-gram 到 RNN",
+      "purpose": "识别语言模型对序列概率建模的目标及N-gram局部上下文限制。"
+    },
+    {
+      "id": "ch03-q02",
+      "type": "single",
+      "objectiveId": "ch03-o01",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "3.1.2 Transformer 架构解析",
+      "purpose": "解释RNN按时间步依赖如何限制训练并行性。"
+    },
+    {
+      "id": "ch03-q03",
+      "type": "single",
+      "objectiveId": "ch03-o02",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "3.1.2 Transformer 架构解析",
+      "purpose": "辨认注意力中的相关性加权与位置编码的不同作用。"
+    },
+    {
+      "id": "ch03-q04",
+      "type": "single",
+      "objectiveId": "ch03-o02",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "3.1.2 Transformer 架构解析",
+      "purpose": "追踪Q、K、V形成加权表示的过程，区分相似度与被聚合的信息。"
+    },
+    {
+      "id": "ch03-q05",
+      "type": "single",
+      "objectiveId": "ch03-o03",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "3.2.1 提示工程",
+      "purpose": "识别角色、任务、示例和输出约束在提示中的作用。"
+    },
+    {
+      "id": "ch03-q06",
+      "type": "single",
+      "objectiveId": "ch03-o03",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "3.2.1 提示工程",
+      "purpose": "解释temperature与top-p怎样影响候选token选择范围或随机性。"
+    },
+    {
+      "id": "ch03-q07",
+      "type": "single",
+      "objectiveId": "ch03-o04",
+      "dimension": "concept",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "3.2.2 文本分词",
+      "purpose": "辨认token、文本字符和token ID的区别。"
+    },
+    {
+      "id": "ch03-q08",
+      "type": "single",
+      "objectiveId": "ch03-o04",
+      "dimension": "mechanism",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "3.2.3 调用开源大语言模型",
+      "purpose": "追踪tokenizer、模型生成和decode之间的数据流。"
+    },
+    {
+      "id": "ch03-q09",
+      "type": "single",
+      "objectiveId": "ch03-o05",
+      "dimension": "application",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "3.2.4 模型的选择",
+      "purpose": "为隐私约束或低延迟任务识别需要优先比较的模型指标。"
+    },
+    {
+      "id": "ch03-q10",
+      "type": "single",
+      "objectiveId": "ch03-o05",
+      "dimension": "tradeoff",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "3.3.1 缩放法则",
+      "purpose": "解释参数、数据与计算资源配比为何影响扩大模型的收益。"
+    },
+    {
+      "id": "ch03-q11",
+      "type": "single",
+      "objectiveId": "ch03-o06",
+      "dimension": "tradeoff",
+      "level": "understand",
+      "difficulty": "easy",
+      "section": "3.3.2 模型幻觉",
+      "purpose": "识别额外验证、检索或约束输出带来的成本与可靠性收益。"
+    },
+    {
+      "id": "ch03-q12",
+      "type": "single",
+      "objectiveId": "ch03-o06",
+      "dimension": "comparison",
+      "level": "mechanism",
+      "difficulty": "medium",
+      "section": "3.3.2 模型幻觉",
+      "purpose": "比较事实性错误与违背提供上下文的错误。"
+    },
+    {
+      "id": "ch03-q13",
+      "type": "multiple",
+      "objectiveId": "ch03-o01",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "3.1.1 从 N-gram 到 RNN",
+      "purpose": "比较N-gram、RNN和注意力对上下文依赖的处理，避免将并行训练等同并行生成。"
+    },
+    {
+      "id": "ch03-q14",
+      "type": "multiple",
+      "objectiveId": "ch03-o02",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "3.1.3 Decoder-Only 架构",
+      "purpose": "比较完整编码器解码器与Decoder-Only，并判断因果遮罩、逐token生成的必要约束。"
+    },
+    {
+      "id": "ch03-q15",
+      "type": "multiple",
+      "objectiveId": "ch03-o03",
+      "dimension": "comparison",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "3.2.1 提示工程",
+      "purpose": "对结构化抽取与开放创作比较零样本、少样本和推理引导的适用性，不声称低温消除幻觉。"
+    },
+    {
+      "id": "ch03-q16",
+      "type": "multiple",
+      "objectiveId": "ch03-o04",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "medium",
+      "section": "3.2.3 调用开源大语言模型",
+      "purpose": "面对本地开源模型输出异常，选择核对分词器、输入格式、设备及生成配置的合理检查。"
+    },
+    {
+      "id": "ch03-q17",
+      "type": "multiple",
+      "objectiveId": "ch03-o05",
+      "dimension": "application",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "3.2.4 模型的选择",
+      "purpose": "给定资源、上下文和质量约束选择云端或本地及模型大小的可行组合。"
+    },
+    {
+      "id": "ch03-q18",
+      "type": "multiple",
+      "objectiveId": "ch03-o06",
+      "dimension": "tradeoff",
+      "level": "application",
+      "difficulty": "hard",
+      "section": "3.3.1 缩放法则",
+      "purpose": "评估扩大规模能改善平均损失但仍需事实验证等判断，拒绝用规模法则推出每个任务必然正确。"
+    },
+    {
+      "id": "ch03-q19",
+      "type": "reflection",
+      "objectiveId": "ch03-o02",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "3.1.3 Decoder-Only 架构",
+      "purpose": "用短序列解释训练时因果遮罩与推理时逐token追加的关系，并指出并行性各发生在哪个阶段。"
+    },
+    {
+      "id": "ch03-q20",
+      "type": "reflection",
+      "objectiveId": "ch03-o06",
+      "dimension": null,
+      "level": "reflection",
+      "difficulty": "hard",
+      "section": "3.3.2 模型幻觉",
+      "purpose": "为一个知识问答场景提出幻觉验证方案，区分采样稳定、外部事实核对和用户可见的不确定性。"
+    }
+  ],
+  "notes": "覆盖架构、交互、选型和局限；不以当前模型排行榜、价格或参数传闻出题。完整Transformer张量推导仅部分覆盖，不将本测评等同实现能力认证。 本蓝图依据本地课件预先设计；后续题干、选项、答案与逐项引文仍须独立审核，蓝图不代表测评内容已审核或代码已运行。"
+}
