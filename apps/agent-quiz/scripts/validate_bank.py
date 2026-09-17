@@ -9,6 +9,13 @@ def norm(s):
     # Formatting characters and whitespace do not change the quoted passage.
     return re.sub(r'[\s*`]+','',s)
 
+def contains_private_path(value):
+    """Reject workstation paths without echoing the sensitive value in errors."""
+    if isinstance(value,dict): return any(contains_private_path(v) for v in value.values())
+    if isinstance(value,list): return any(contains_private_path(v) for v in value)
+    return isinstance(value,str) and bool(re.search(
+        r'/Users/[\w.-]+/|/private/(?:tmp|var)/|[A-Za-z]:[\\/]Users[\\/][\w.-]+[\\/]|AGENT_QUIZ_REPO=',value))
+
 def source_sections(text):
     headers=[]; offset=0; fence=None
     for line in text.splitlines(keepends=True):
@@ -30,6 +37,7 @@ def check(chapter,source_root):
     errors=[]
     def need(ok,msg):
         if not ok:errors.append(msg)
+    need(not contains_private_path(chapter),'Private workstation path or local environment command in public chapter data')
     n=chapter['id']; qs=chapter['questions']; bp=chapter['blueprint']
     src=source_root/chapter['source']['path']; text=src.read_text()
     need(hashlib.sha256(src.read_bytes()).hexdigest()==chapter['source']['sha256'],'Source SHA256 mismatch')

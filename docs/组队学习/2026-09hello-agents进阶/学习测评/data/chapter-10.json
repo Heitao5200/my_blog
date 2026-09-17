@@ -285,7 +285,7 @@
       "按锁定课件逐题审核20题及原蓝图purpose，核对全部选项解释与思考答案；属于代理语义编辑和机械来源校验，不是人工测评效度验证或协议运行证明。",
       "重写q02三层分工、q04发现调用顺序、q08委托路径、q09能力发现、q10能力预算负载筛选、q17注册发现路由更新、q18发布材料与可用性边界；q19/q20改为自然语言职责/契约及验证设计。保留NotebookLM来源与题目ID和配额。",
       "q07定义已目视核对本地docs/images/10-figures/10-table-7.png；证据保留10.3.1连续正文与原图引用，解析明确表10.7为图片。未将图中文字伪装成Markdown正文引文。",
-      "全部引文连续且位于所标小节；思考题为无分值自查。AGENT_QUIZ_REPO=/Users/heitao/Colab/my_blog python3 apps/agent-quiz/scripts/validate_bank.py --chapters 10通过，20题0errors。"
+      "已通过题库结构、题型配额、原文连续性及小节归属校验。"
     ]
   },
   "questions": [
