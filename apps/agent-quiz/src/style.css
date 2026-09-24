@@ -857,6 +857,20 @@ textarea {
   color: #476443;
   margin: 0 4px;
 }
+.reflection-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border: 1px solid var(--border);
+  background: var(--paper);
+  border-radius: 5px;
+  padding: 14px 20px;
+  margin-bottom: 28px;
+  font-size: 12px;
+  color: #7a8370;
+}
 .diagnosis-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

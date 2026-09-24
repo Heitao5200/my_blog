@@ -336,6 +336,20 @@ export default function App() {
       }
     });
   }
+  function continueReflection() {
+    if (!active || !chapter) return;
+    const reflectionQ =
+      chapter.questions.find(
+        (q) => q.type === "reflection" && !active.answers[q.id],
+      ) || chapter.questions.find((q) => q.type === "reflection");
+    if (!reflectionQ) return;
+    put({
+      ...active,
+      index: active.questionIds.indexOf(reflectionQ.id),
+      activeStartedAt: Date.now(),
+    });
+    go("quiz");
+  }
   function exportMarkdown() {
     if (!chapter || !active) return;
     const url = URL.createObjectURL(
@@ -394,6 +408,10 @@ export default function App() {
         (b.completedAt || "").localeCompare(a.completedAt || ""),
       )[0];
   const prior = prev && chapter ? diagnose(chapter, prev) : null;
+  const objectiveCount =
+    chapter?.questions.filter((q) => q.type !== "reflection").length ?? 0;
+  const reflectionCount =
+    chapter?.questions.filter((q) => q.type === "reflection").length ?? 0;
   const picker = (
     <label className="chapter-picker">
       选择章节{" "}
@@ -585,7 +603,7 @@ export default function App() {
                         <div className="card-bottom">
                           <span>
                             {c.status === "ready"
-                              ? `${c.questionCount} 道题`
+                              ? "18 道客观题 + 2 道思考题"
                               : "尚未开放"}
                           </span>
                           {c.status === "ready" && (
@@ -660,6 +678,8 @@ export default function App() {
                     ))}
                   </div>
                   <p className="small">
+                    客观题 {objectiveCount} 道 · 思考题 {reflectionCount} 道
+                    <br />
                     提交后答案锁定。
                     <br />
                     先检验自己，再阅读依据。
@@ -852,12 +872,13 @@ export default function App() {
                         disabled={busy}
                         onClick={next}
                       >
-                        {active.index + 1 === active.questionIds.length ||
-                        (chapter &&
-                          completeObjectives(chapter, active) &&
-                          q.type !== "reflection")
+                        {active.index + 1 === active.questionIds.length
                           ? "查看学习诊断"
-                          : "下一题"}{" "}
+                          : chapter &&
+                              completeObjectives(chapter, active) &&
+                              q.type !== "reflection"
+                            ? `查看诊断（另有 ${reflectionCount} 道思考题）`
+                            : "下一题"}{" "}
                         →
                       </button>
                     ) : (
@@ -926,6 +947,16 @@ export default function App() {
                   思考题 <b>不计分</b>
                 </span>
               </div>
+              {reflectionCount > 0 && (
+                <div className="reflection-hint">
+                  <span>
+                    另有 {reflectionCount} 道思考题，不计分，可继续自评或补充。
+                  </span>
+                  <button className="button" onClick={continueReflection}>
+                    继续思考与自评 →
+                  </button>
+                </div>
+              )}
               <div className="diagnosis-grid">
                 <section className="paper-panel">
                   <h2>五维知识画像</h2>
@@ -1142,22 +1173,7 @@ export default function App() {
                     ))}
                   <button
                     className="button"
-                    onClick={() => {
-                      const reflectionQ =
-                        chapter.questions.find(
-                          (q) =>
-                            q.type === "reflection" && !active.answers[q.id],
-                        ) ||
-                        chapter.questions.find((q) => q.type === "reflection");
-                      if (reflectionQ) {
-                        put({
-                          ...active,
-                          index: active.questionIds.indexOf(reflectionQ.id),
-                          activeStartedAt: Date.now(),
-                        });
-                        go("quiz");
-                      }
-                    }}
+                    onClick={continueReflection}
                   >
                     继续思考与自评 →
                   </button>

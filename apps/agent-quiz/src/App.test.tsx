@@ -88,7 +88,7 @@ describe("local learning flow", () => {
       ).toBe(true);
       await user.click(
         screen.getByRole("button", {
-          name: i === 17 ? "查看学习诊断 →" : "下一题 →",
+          name: i === 17 ? /查看诊断/ : "下一题 →",
         }),
       );
     }
@@ -98,7 +98,13 @@ describe("local learning flow", () => {
     expect(Object.keys(saved.answers)).toHaveLength(18);
     expect(saved.answers[chapter.questions[0].id].confidence).toBeNull();
     expect(screen.getByRole("heading", { name: "知识点证据" })).toBeTruthy();
-    await user.click(screen.getByRole("button", { name: "继续思考与自评 →" }));
+    // 结果页顶部与底部各有一个思考题入口，避免用户遗漏
+    expect(
+      screen.getAllByRole("button", { name: "继续思考与自评 →" }),
+    ).toHaveLength(2);
+    await user.click(
+      screen.getAllByRole("button", { name: "继续思考与自评 →" })[0],
+    );
     await screen.findByRole("heading", { name: chapter.questions[18].stem });
     await user.click(screen.getByRole("button", { name: "暂时跳过" }));
     await screen.findByRole("heading", { name: chapter.questions[19].stem });
